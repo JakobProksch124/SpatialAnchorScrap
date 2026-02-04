@@ -12,11 +12,13 @@ public class PathGenerator : MonoBehaviour
     
     LineRenderer _lineRenderer;
 
-    bool _pathing;
+    bool _pathing = true;
     
     void Start()
     {
         _lineRenderer = GetComponent<LineRenderer>();
+        _lineRenderer.alignment = LineAlignment.View;
+        _lineRenderer.useWorldSpace = true;
     }
 
     void Update()

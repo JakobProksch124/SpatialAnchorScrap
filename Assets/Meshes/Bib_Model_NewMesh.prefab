@@ -2708,7 +2708,7 @@ GameObject:
   - component: {fileID: 3103572488037237033}
   - component: {fileID: 6866109243538756495}
   - component: {fileID: 593722303556831063}
-  - component: {fileID: 107796091322664708}
+  - component: {fileID: 2701887732669691298}
   m_Layer: 0
   m_Name: Bib_Model_NewMesh
   m_TagString: Untagged
@@ -2814,7 +2814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 8399379732825461140}
   subdivisions: 10
---- !u!120 &107796091322664708
+--- !u!120 &2701887732669691298
 LineRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
@@ -2838,7 +2838,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: -6464417851464995564, guid: a5d9854bd64ad9343b4c644391191cc1, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2859,9 +2859,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -2869,8 +2867,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
+        time: 0.02772522
+        value: 0.10000038
         inSlope: 0
         outSlope: 0
         tangentMode: 0

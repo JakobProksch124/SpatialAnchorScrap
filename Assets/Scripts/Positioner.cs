@@ -55,12 +55,10 @@ public class Positioner : MonoBehaviour
 
             // Movement in x and z direction (horizontal / left and right)
             var moveValue = _moveAction.action.ReadValue<Vector2>();
-        Debug.Log("Move: " + moveValue);
         _objectToPosition.transform.localPosition += new Vector3(moveValue.x * positionSpeed, 0, moveValue.y * positionSpeed);
 
             // Rotation
             var turnValue = _turnAction.action.ReadValue<Vector2>();
-        Debug.Log("Turn: " + turnValue);
         float rotAmount = turnValue.x * positionSpeed * 10f;
             Quaternion deltaRot = Quaternion.identity;
 

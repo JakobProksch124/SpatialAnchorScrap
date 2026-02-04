@@ -987,8 +987,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6513638395473454496}
   - component: {fileID: 590577315409303714}
-  - component: {fileID: 8914359370694124232}
   - component: {fileID: 7507650633028084256}
+  - component: {fileID: 8653409476053225000}
   m_Layer: 0
   m_Name: G64_Model
   m_TagString: Untagged
@@ -1071,7 +1071,21 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: c9daec0a9cbfd9641b157e66671ff51e, type: 2}
   m_BuildHeightMesh: 0
---- !u!120 &8914359370694124232
+--- !u!114 &7507650633028084256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252451672500658893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d5f956da48fff64cbdf9eee8d9122b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 4107922603660936031}
+  subdivisions: 10
+--- !u!120 &8653409476053225000
 LineRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
@@ -1095,7 +1109,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: -6464417851464995564, guid: a5d9854bd64ad9343b4c644391191cc1, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1116,9 +1130,7 @@ LineRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -1126,8 +1138,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
+        time: 0.02772522
+        value: 0.10000038
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1178,20 +1190,6 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &7507650633028084256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3252451672500658893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d5f956da48fff64cbdf9eee8d9122b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 4107922603660936031}
-  subdivisions: 10
 --- !u!1 &3468695192290503011
 GameObject:
   m_ObjectHideFlags: 0
