@@ -3461,6 +3461,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1517329049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &534232696
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 534232698}
+  - component: {fileID: 534232697}
+  m_Layer: 0
+  m_Name: G64 TC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &534232697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534232696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9593bdf5521317545b44bc406d2a6822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorChildName: labAnchor
+  vrRoomTitle: 'IDUX working place: The Bridge'
+  entryDescription: 'You can enter VR to take a look inside the driving simulator
+    laboratory. '
+  exitDescription: 'Return to Augmented Reality mode '
+  navigationDestination: Library
+  vrRoomPrefab: {fileID: 0}
+  vrSceneName: Bridge Replica
+  primaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  entryLabel: VR
+  entryButtonText: Enter VR
+  exitButtonText: Back to AR
+  enableKeyboardShortcuts: 1
+--- !u!4 &534232698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534232696}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.954838, y: -2.2365608, z: 8.857254}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &545050341
 GameObject:
   m_ObjectHideFlags: 0
@@ -10935,7 +10992,7 @@ GameObject:
   - component: {fileID: 1974116777}
   - component: {fileID: 1974116776}
   m_Layer: 0
-  m_Name: TCTestGO
+  m_Name: Bib TC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10954,16 +11011,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchorChildName: bridgeAnchor
-  vrRoomTitle: "Office \xBBThe Bridge\xAB"
-  entryDescription: PLACEHOLDER TEXT
-  exitDescription: PLACEHOLDER TEXT
-  navigationDestination: '[LOCATION]'
+  vrRoomTitle: 'IDUX working place: The Bridge'
+  entryDescription: Take a look inside the working place of the IDUX group.
+  exitDescription: 'Return to the bulletin board. '
+  navigationDestination: Cafeteria
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Bridge Replica
   primaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
   entryButtonText: Enter VR
-  exitButtonText: Enter AR
+  exitButtonText: Back to AR
   enableKeyboardShortcuts: 1
 --- !u!4 &1974116777
 Transform:
@@ -12138,3 +12195,4 @@ SceneRoots:
   - {fileID: 1017443867}
   - {fileID: 726576628}
   - {fileID: 1974116777}
+  - {fileID: 534232698}
