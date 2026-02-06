@@ -40,13 +40,13 @@ public class PathGenerator : MonoBehaviour
             var path = new NavMeshPath();
 
             if (NavMesh.CalculatePath(start.position, target.position, NavMesh.AllAreas, path))
-                Debug.Log("[PathGenerator] Path found");
-            else
-                Debug.Log("[PathGenerator] No path found");
+                //Debug.Log("[PathGenerator] Path found");
+            /*else
+                //Debug.Log("[PathGenerator] No path found");
             if (!target)
-                Debug.Log("[PathGenerator] No target exists");
+                //Debug.Log("[PathGenerator] No target exists");
 
-                _lineRenderer.positionCount = path.corners.Length;
+                _lineRenderer.positionCount = path.corners.Length;*/
 
             DrawCentripetalCurve(path.corners);
         } else

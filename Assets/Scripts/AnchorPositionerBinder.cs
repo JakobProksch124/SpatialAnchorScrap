@@ -2,12 +2,25 @@ using UnityEngine;
 using Meta.XR.BuildingBlocks;
 using System.Collections.Generic;
 
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
 public class AnchorPositionerBinder : MonoBehaviour
 {
     [SerializeField] private Positioner positioner;
 
     private SpatialAnchorCoreBuildingBlock _core;
+
     [SerializeField] public GameObject _objectToPlace;
+
+    [SerializeField] private TextAsset anchorJsonTemplate;
+
+    private string RuntimeJsonPath =>
+        Path.Combine(
+            Application.persistentDataPath,
+            anchorJsonTemplate.name + ".json"
+        );
 
     private void Awake()
     {
@@ -36,8 +49,33 @@ public class AnchorPositionerBinder : MonoBehaviour
         OVRSpatialAnchor anchor,
         OVRSpatialAnchor.OperationResult result)
     {
-        if (result != OVRSpatialAnchor.OperationResult.Success)
+        /*if (result != OVRSpatialAnchor.OperationResult.Success)
+            Debug.LogError("Anchor creation failed");
             return;
+
+        while (!anchor.Created)
+            await Task.Yield();
+
+        bool saved = await anchor.SaveAnchorAsync();
+        if (!saved)
+        {
+            Debug.LogError("Anchor konnte nicht gespeichert werden");
+            return;
+        }
+
+        AnchorData data = new AnchorData
+        {
+            uuid = anchor.Uuid.ToString()
+        };
+
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(RuntimeJsonPath, json);
+        Debug.Log($"Anchor gespeichert: {data.uuid}");
+        Debug.Log($"JSON geschrieben nach: {RuntimeJsonPath}");*/
+
+        Debug.Log(anchor);
+        Debug.Log(anchor.transform);
+        Debug.Log(anchor.Uuid);
 
         Bind(anchor);
     }
@@ -61,4 +99,10 @@ public class AnchorPositionerBinder : MonoBehaviour
         positioner.SetObjectToPosition(instance);
     }
 
+}
+
+[System.Serializable]
+public class AnchorData
+{
+    public string uuid;
 }
