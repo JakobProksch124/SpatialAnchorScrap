@@ -145,26 +145,42 @@ public class Building_TransitionCues : MonoBehaviour
         // Priority 1: Load scene additively
         if (!string.IsNullOrEmpty(vrSceneName))
         {
+            Debug.Log("Variant 1");
+
             var operation = SceneManager.LoadSceneAsync(vrSceneName, LoadSceneMode.Additive);
             yield return operation;
 
             // Store reference to unload later (scene root objects)
             Scene loadedScene = SceneManager.GetSceneByName(vrSceneName);
-            if (loadedScene.IsValid())
+
+            // New way
+            GameObject bridgeRoot = loadedScene.GetRootGameObjects()[0];
+            Transform userSpawnPoint = bridgeRoot.transform.Find("UserSpawnPoint");
+            Vector3 userPos = mainCamera.transform.position;
+            if (userSpawnPoint != null)
+            {
+                bridgeRoot.transform.position = userPos - userSpawnPoint.localPosition;
+                bridgeRoot.transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
+            }
+
+            // Old way
+            /*if (loadedScene.IsValid())
             {
                 // Create container to track the loaded scene
                 vrRoom = new GameObject($"VRRoom_SceneMarker_{vrSceneName}");
-            }
+            }*/
         }
         // Priority 2: Instantiate prefab
         else if (vrRoomPrefab != null)
         {
+            Debug.Log("Variant 2");
             vrRoom = Instantiate(vrRoomPrefab, Vector3.zero, Quaternion.identity);
             vrRoom.name = $"VRRoom_{vrRoomPrefab.name}";
         }
         // Fallback: Create basic white room
         else
         {
+            Debug.Log("Variant 3");
             CreateWhiteRoom();
         }
     }

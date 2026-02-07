@@ -149,6 +149,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RightHand",
+                    "type": "Button",
+                    "id": "ad8667dd-bd10-4798-84ed-ac795d249d5b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -611,6 +620,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "RightStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ef5361e-2fab-43d7-811e-170f89082fc4",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
