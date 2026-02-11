@@ -103,7 +103,7 @@ public class Building_TransitionCues : MonoBehaviour
     {
         TransitionCueConfig entryCueConfig = TransitionCueConfig.CreateVRConfig(
             parent: anchorTransform,
-            onInteract: () => EnterVR()
+            onInteract: () => StartCoroutine(EnterVR())
         );
         entryCueConfig.label = entryLabel;
         entryCueConfig.primaryColor = primaryColor;
@@ -125,16 +125,17 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Disable PathGenerator rendering while in VR
         DisablePathGenerator();
-
+        Debug.Log("find ur own path ");
         // Fade transition
         yield return StartCoroutine(TransitionEffects.Instance.FadeToVRWithTitle(
             vrRoomTitle,
             Color.black,
             2.0f
         ));
-
+        Debug.Log("starting vr room coroutine 1");
         // Load the VR room
         yield return StartCoroutine(LoadVRRoom());
+        Debug.Log("initializing vr room coroutine 2");
 
         // Create exit cue
         CreateExitCue();

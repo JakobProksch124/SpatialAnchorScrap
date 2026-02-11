@@ -1,6 +1,7 @@
-using UnityEngine;
+using Oculus.Interaction;
+using Oculus.Interaction.Surfaces;
 using TMPro;
-using System;
+using UnityEngine;
 
 // Factory class for creating transition cues
 public static class TransitionCueFactory
@@ -23,6 +24,15 @@ public static class TransitionCueFactory
         root.transform.localPosition = Vector3.zero;
         root.transform.localRotation = Quaternion.identity;
         root.transform.localScale = Vector3.one * config.globalScale;
+        //root.AddComponent<Canvas>();
+        //GameObject pokeInteractable = new GameObject("PokeInteractionHolder");
+        //pokeInteractable.AddComponent<PointableCanvas>();
+        //pokeInteractable.AddComponent<PokeInteractable>();
+
+
+        //GameObject rayInteractable = new GameObject("RayInteractionHolder");
+        //rayInteractable.AddComponent<PointableCanvas>();
+        //rayInteractable.AddComponent<RayInteractable>();
 
         // === Small Panel ===
         GameObject smallPanel = CreateSmallPanel(config);
@@ -37,6 +47,8 @@ public static class TransitionCueFactory
         GameObject button = CreateButton(config);
         button.transform.SetParent(root.transform, false);
         button.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
+
+        AddIsdkSelectToInvoke(button, config);
 
         // === Expansion Controller ===
         TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
@@ -53,6 +65,63 @@ public static class TransitionCueFactory
         AddAmbientAudio(root, config);
 
         return root;
+    }
+
+    private static void AddIsdkSelectToInvoke(GameObject button, TransitionCueConfig config)
+    {
+        // Collider (falls dein RoundedCubeModel keinen hat)
+        Collider col = button.GetComponent<Collider>();
+        if (col == null) col = button.AddComponent<BoxCollider>();
+
+        // Surface (macht den Collider als ISurface nutzbar)
+        var surface = button.GetComponent<ColliderSurface>();
+        if (surface == null) surface = button.AddComponent<ColliderSurface>();
+        surface.InjectAllColliderSurface(col);
+
+        // RayInteractable (für Ray/Pointer-Select; funktioniert i.d.R. auch mit Controller-Ray)
+        var ray = button.GetComponent<RayInteractable>();
+        if (ray == null) ray = button.AddComponent<RayInteractable>();
+        ray.InjectAllRayInteractable(surface);
+
+        ray.WhenStateChanged += state =>
+        {
+            if (state.NewState == InteractableState.Select)
+            {
+                Debug.Log("[TransitionCue] Button selected");
+                config?.onInteract?.Invoke();
+            }
+        };
+        // PokeInteractable (für Ray/Pointer-Select; funktioniert i.d.R. auch mit Controller-Ray)
+        /*var poke = button.GetComponent<PokeInteractable>();
+        if (poke == null) poke = button.AddComponent<PokeInteractable>();
+        poke.InjectAllPokeInteractable((ISurfacePatch)surface);
+
+        poke.WhenStateChanged += state =>
+        {
+            Debug.Log("state changed to:");
+            Debug.Log(state.NewState);
+            if (state.NewState == InteractableState.Select)
+            {
+                Debug.Log("[TransitionCue] Button selected");
+                config?.onInteract?.Invoke();
+            }
+        };*/
+
+    }
+
+    private static System.Collections.IEnumerator BindNextFrame(InteractableUnityEventWrapper events, TransitionCueConfig config)
+    {
+        //yield return null; // 1 Frame warten
+        yield return new WaitForSeconds(5f);
+        /*if (events == null || events.WhenSelect == null)
+        {
+            Debug.LogError("[ISDK] Wrapper/WhenSelect not initialized yet.");
+            yield break;
+        }*/
+
+        events.WhenSelect.AddListener(() => config?.onInteract?.Invoke());
+        Debug.Log("select state of transition cue: ");
+        Debug.Log(events.WhenSelect != null);
     }
 
     // Creates the small panel with label text and glowing border
@@ -257,6 +326,7 @@ public static class TransitionCueFactory
     // Creates the interactive button below the expanded panel
     private static GameObject CreateButton(TransitionCueConfig config)
     {
+        
         // Use rounded cube model for aesthetic rounded edges
         GameObject button = CreateRoundedCube();
         button.name = "InteractionButton";
