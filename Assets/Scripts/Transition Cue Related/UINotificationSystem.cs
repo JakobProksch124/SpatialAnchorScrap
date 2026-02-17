@@ -105,7 +105,7 @@ public class UINotificationSystem : MonoBehaviour
         private Transform cameraTransform;
         private float distance;
         private float verticalOffset;
-        private float smoothSpeed = 8f; // How quickly the panel follows head movement
+        private float smoothSpeed = 1f; // How quickly the panel follows head movement
 
         public void Initialize(Transform camTransform, float dist, float vertOffset)
         {
@@ -266,20 +266,23 @@ public class UINotificationSystem : MonoBehaviour
         {
             GameObject textObj = new GameObject("PanelText");
             textObj.transform.SetParent(panel.transform, false);
-            textObj.transform.localPosition = new Vector3(0, 0, depth / 2 + 0.01f);
+
+            // Adjust z-ordering
+            TransitionCueConfig demoConfig = new TransitionCueConfig();
+            textObj.transform.localPosition = new Vector3(0, 0, demoConfig.smallPanelDepth / 2 + demoConfig.textZOffset);
 
             TextMeshPro textMesh = textObj.AddComponent<TextMeshPro>();
             textMesh.text = text;
             textMesh.fontSize = descriptionFontSize * generalFontSizeFactor; // Use same font size as TransitionCue description
             textMesh.fontStyle = FontStyles.Bold;
             textMesh.alignment = TextAlignmentOptions.Center;
-            textMesh.color = Color.white;
+            textMesh.color = Color.black;
             textMesh.rectTransform.sizeDelta = new Vector2(size.x * 0.9f, size.y * 0.8f);
         }
 
         // Add glowing border effect (same as TransitionCues)
         GlowingBorderEffect glowEffect = panel.AddComponent<GlowingBorderEffect>();
-        glowEffect.Initialize(color, 0.6f, 1.5f, true);
+        glowEffect.Initialize(color, 0.6f, 1.5f, false);
 
         return panel;
     }

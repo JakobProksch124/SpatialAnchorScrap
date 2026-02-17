@@ -50,6 +50,7 @@ public class Building_TransitionCues : MonoBehaviour
     private MonoBehaviour pathGenerator;
     private LineRenderer[] pathLineRenderers;
     private Scene loadedScene;
+    private ArrivalCue arrivalCue;
 
     void Start()
     {
@@ -75,6 +76,13 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Create entry cue
         CreateEntryCue(entryAnchor);
+
+        // Spawn arrival cue (Premise: ArrivalCue component is present on this GameObject)
+        arrivalCue = GetComponent<ArrivalCue>();
+        if (arrivalCue != null)
+        {
+            arrivalCue.SpawnArrivalCue();
+        }
     }
 
     void Update()
@@ -126,6 +134,12 @@ public class Building_TransitionCues : MonoBehaviour
         if (entryCue != null)
         {
             entryCue.SetActive(false);
+        }
+
+        // Hide arrival cue while in VR
+        if (arrivalCue != null)
+        {
+            arrivalCue.HideArrivalCue();
         }
 
         // Disable PathGenerator rendering while in VR
@@ -263,6 +277,12 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Re-enable PathGenerator
         EnablePathGenerator();
+
+        // Re-spawn arrival cue
+        if (arrivalCue != null)
+        {
+            arrivalCue.SpawnArrivalCue();
+        }
     }
 
     IEnumerator UnloadVRRoom()

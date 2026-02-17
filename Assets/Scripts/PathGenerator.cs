@@ -9,16 +9,42 @@ public class PathGenerator : MonoBehaviour
     [SerializeField] Transform target;
     
     [SerializeField] int subdivisions = 10;
-    
+
+    [Header("Line Appearance")]
+    [Tooltip("Material for the line. Keep its base color white if you want the color below to control the tint cleanly.")]
+    [SerializeField] Material lineMaterial;
+    [Tooltip("Color applied to the line (multiplied with the material's color)")]
+    [SerializeField] Color lineColor = Color.cyan;
+
     LineRenderer _lineRenderer;
 
     bool _pathing = true;
-    
+
     void Start()
     {
         _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.alignment = LineAlignment.View;
         _lineRenderer.useWorldSpace = true;
+
+        // Apply material if assigned
+        if (lineMaterial != null)
+        {
+            _lineRenderer.material = lineMaterial;
+        }
+
+        // Apply color via gradient (more reliable than startColor/endColor)
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(lineColor, 0f), new GradientColorKey(lineColor, 1f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(lineColor.a, 0f), new GradientAlphaKey(lineColor.a, 1f) }
+        );
+        _lineRenderer.colorGradient = gradient;
+
+        // Also set material color so it doesn't multiply with a non-white tint
+        if (_lineRenderer.material != null)
+        {
+            _lineRenderer.material.color = Color.white;
+        }
     }
 
     void Update()
