@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &252090608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 252090609}
+  m_Layer: 0
+  m_Name: exitAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &252090609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252090608}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.99999094, z: -0, w: 0.004250417}
+  m_LocalPosition: {x: -35.068, y: 47.592, z: 87.273}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2791002190499651139}
+  m_LocalEulerAnglesHint: {x: 0, y: -179.513, z: 0}
 --- !u!108 &520179408 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 1544153045285326762, guid: 8b0e96312ecb1544da66a0563e522115, type: 3}
@@ -178,9 +209,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6702684344527339914, guid: 8b0e96312ecb1544da66a0563e522115, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 252090609}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b0e96312ecb1544da66a0563e522115, type: 3}
+--- !u!4 &2791002190499651139 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6702684344527339914, guid: 8b0e96312ecb1544da66a0563e522115, type: 3}
+  m_PrefabInstance: {fileID: 2791002190499651138}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
