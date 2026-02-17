@@ -10,6 +10,10 @@ public class UINotificationSystem : MonoBehaviour
 {
     private static UINotificationSystem instance;
 
+    // === MODE TOGGLE ===
+    // Set to true for canvas overlay, false for old 3D head-locked panel
+    private bool useCanvasMode = true;
+
     // === CUSTOMIZABLE DESIGN PARAMETERS ===
 
     // Colors (matching expandedPanel from TransitionCueConfig)
@@ -40,8 +44,93 @@ public class UINotificationSystem : MonoBehaviour
         }
     }
 
-    // Swipes panel from top of viewport; Uses head-locked 3D panel with rounded cube
+    // Routes to canvas or 3D panel based on useCanvasMode flag
     public IEnumerator ShowNavigationContinued(string destination, float swipeSpeed = 1.0f, float displayDuration = 3.0f, float yOffset = -50f)
+    {
+        if (useCanvasMode)
+            yield return StartCoroutine(ShowNavigationContinued_Canvas(destination, displayDuration));
+        else
+            yield return StartCoroutine(ShowNavigationContinued_3DPanel(destination, swipeSpeed, displayDuration, yOffset));
+    }
+
+    // === CANVAS-BASED OVERLAY (new) ===
+    // Displays centered text on a screen-space canvas that fades in, holds, then fades out
+    private IEnumerator ShowNavigationContinued_Canvas(string destination, float displayDuration)
+    {
+        // Create overlay canvas (same pattern as TransitionEffects.FadeToVRWithTitle)
+        GameObject canvasObj = new GameObject("NotificationCanvas");
+        Canvas canvas = canvasObj.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 1000;
+        canvasObj.AddComponent<CanvasScaler>();
+        canvasObj.AddComponent<GraphicRaycaster>();
+
+        // Semi-transparent background bar behind the text (not fullscreen)
+        GameObject bgPanel = new GameObject("BackgroundBar");
+        bgPanel.transform.SetParent(canvasObj.transform, false);
+        Image bgImage = bgPanel.AddComponent<Image>();
+        bgImage.color = new Color(0f, 0f, 0f, 0f); // starts transparent, will fade in
+        RectTransform bgRect = bgPanel.GetComponent<RectTransform>();
+        bgRect.anchorMin = new Vector2(0.5f, 0.5f);
+        bgRect.anchorMax = new Vector2(0.5f, 0.5f);
+        bgRect.sizeDelta = new Vector2(800, 70);
+        bgRect.anchoredPosition = Vector2.zero;
+
+        // Notification text centered in viewport
+        GameObject textObj = new GameObject("NotificationText");
+        textObj.transform.SetParent(canvasObj.transform, false);
+        TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
+        text.text = $"Navigation to {destination} continued";
+        text.fontSize = 36;
+        text.fontStyle = FontStyles.Bold;
+        text.alignment = TextAlignmentOptions.Center;
+        text.color = new Color(1f, 1f, 1f, 0f); // starts transparent
+
+        RectTransform textRect = textObj.GetComponent<RectTransform>();
+        textRect.anchorMin = new Vector2(0.5f, 0.5f);
+        textRect.anchorMax = new Vector2(0.5f, 0.5f);
+        textRect.sizeDelta = new Vector2(800, 70);
+        textRect.anchoredPosition = Vector2.zero;
+
+        // Fade in
+        float fadeInDuration = 0.4f;
+        float elapsed = 0f;
+        float bgTargetAlpha = 0.35f;
+
+        while (elapsed < fadeInDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / fadeInDuration);
+            text.color = new Color(1f, 1f, 1f, t);
+            bgImage.color = new Color(0f, 0f, 0f, t * bgTargetAlpha);
+            yield return null;
+        }
+
+        text.color = Color.white;
+        bgImage.color = new Color(0f, 0f, 0f, bgTargetAlpha);
+
+        // Hold
+        yield return new WaitForSeconds(displayDuration);
+
+        // Fade out
+        float fadeOutDuration = 0.5f;
+        elapsed = 0f;
+
+        while (elapsed < fadeOutDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / fadeOutDuration);
+            text.color = new Color(1f, 1f, 1f, 1f - t);
+            bgImage.color = new Color(0f, 0f, 0f, bgTargetAlpha * (1f - t));
+            yield return null;
+        }
+
+        Destroy(canvasObj);
+    }
+
+    // === 3D HEAD-LOCKED PANEL (old) ===
+    // Swipes panel from top of viewport; Uses head-locked 3D panel with rounded cube
+    private IEnumerator ShowNavigationContinued_3DPanel(string destination, float swipeSpeed = 1.0f, float displayDuration = 3.0f, float yOffset = -50f)
     {
         Camera mainCam = Camera.main;
         if (mainCam == null) yield break;

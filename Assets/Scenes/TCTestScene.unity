@@ -568,7 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
-  vrSceneName: Bridge Replica
+  vrSceneName: 
   navigationDestination: TestLocation
   vrRoomTitle: My Virtual Room Test
   entryAnchorName: entryAnchor
