@@ -20,7 +20,7 @@ public class ArrivalCue : MonoBehaviour
 
     [Header("Despawn")]
     [Tooltip("Seconds after arrival before the cue despawns")]
-    public float despawnAfter = 3.5f;
+    public float despawnAfter = 2f;
 
     [Header("Appearance")]
     [Tooltip("Vertical offset of the floating text above the cylinder (meters)")]
@@ -316,7 +316,7 @@ public class ArrivalCue : MonoBehaviour
         //   - Color sweep (cylinder radial + text color in sync)
         //   - Border pulse (spike then decay)
         //   - Scale pop (up then back down)
-        float phase1Duration = 1.2f;
+        float phase1Duration = 2.5f;
         float phase1Timer = 0f;
 
         Vector3 originalScale = cueInstance.transform.localScale;
@@ -394,7 +394,7 @@ public class ArrivalCue : MonoBehaviour
 
         // === Phase 2: Despawn ===
         // Flows directly from scale pop into shrink & fade 
-        float despawnDuration = despawnAfter; //* 0.3f; 
+        float despawnDuration = despawnAfter * 0.3f; 
 
         float despawnTimer = 0f;
         Vector3 textStartPos = floatingText.transform.localPosition;
