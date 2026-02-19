@@ -409,6 +409,39 @@ public static class TransitionCueFactory
         return mat;
     }
 
+    private static Material CreateFrostedGlassMaterialAlternative(Color color, float alpha)
+    {
+        var baseMat = Resources.Load<Material>("FrostedGlass_Base");
+
+        Material mat = null;
+        if (baseMat != null)
+        {
+            mat = UnityEngine.Object.Instantiate(baseMat);
+        }
+        else
+        {
+            // Fallback: direkt Shader benutzen (damit kein Hard-Fail)
+            var shader = Shader.Find("Custom/FrostedGlassURP");
+            if (shader == null)
+            {
+                Debug.LogError("[TransitionCueFactory] Custom/FrostedGlassURP shader not found (compile error or not created).");
+                return new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            }
+            mat = new Material(shader);
+        }
+
+        if (mat.HasProperty("_Tint")) mat.SetColor("_Tint", color);
+        if (mat.HasProperty("_Alpha")) mat.SetFloat("_Alpha", alpha);
+
+        if (mat.HasProperty("_Distortion")) mat.SetFloat("_Distortion", 0.6f);
+        if (mat.HasProperty("_BlurRadius")) mat.SetFloat("_BlurRadius", 1.0f);
+
+        var bump = Resources.Load<Texture2D>("FrostedGlass_NoiseNormal");
+        if (bump != null && mat.HasProperty("_BumpMap")) mat.SetTexture("_BumpMap", bump);
+
+        return mat;
+    }
+
     // === Helper Methods ===
 
     // Loads and instantiates the RoundedCubeModel from Assets folder

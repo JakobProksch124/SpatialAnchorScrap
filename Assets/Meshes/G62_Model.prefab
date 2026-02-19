@@ -2709,6 +2709,7 @@ GameObject:
   - component: {fileID: 5562755962786962879}
   - component: {fileID: 3472152932765331077}
   - component: {fileID: 6988882163090347986}
+  - component: {fileID: 1711222506703205419}
   m_Layer: 0
   m_Name: G62_Model
   m_TagString: Untagged
@@ -2914,3 +2915,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 201232923736230356}
   subdivisions: 10
+  lineMaterial: {fileID: 0}
+  lineColor: {r: 0, g: 1, b: 1, a: 1}
+--- !u!114 &1711222506703205419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8747340395005793950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075c2d71926ea834e8277e9fcca9e255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetName: G62Target
+  locationName: Go here
+  arrivalDistance: 5
+  gazeThreshold: 0.7
+  despawnAfter: 3.5
+  textOffset: 0.25
+  cylinderRadius: 0.1
+  cylinderDepth: 0.05
+  textFontSize: 1.84
+  cylinderSegments: 64
+  glowIntensity: 0.8
+  enableTurnTowardsUser: 1
+  turnMaxAngle: 12.5
+  turnRotationSpeed: 2
+  turnTriggerDistance: 6
+  message: Check Companion!

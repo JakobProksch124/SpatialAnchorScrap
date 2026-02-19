@@ -13,14 +13,14 @@ public class ArrivalCue : MonoBehaviour
 
     [Header("Proximity")]
     [Tooltip("Distance (meters) at which arrival is triggered (requires distance + gaze)")]
-    public float arrivalDistance = 1.5f;
+    public float arrivalDistance = 5f;
 
     [Tooltip("Required dot product of camera forward vs cue direction to trigger (0-1, higher = more precise gaze needed)")]
     public float gazeThreshold = 0.7f;
 
     [Header("Despawn")]
     [Tooltip("Seconds after arrival before the cue despawns")]
-    public float despawnAfter = 2f;
+    public float despawnAfter = 3.5f;
 
     [Header("Appearance")]
     [Tooltip("Vertical offset of the floating text above the cylinder (meters)")]
@@ -55,6 +55,8 @@ public class ArrivalCue : MonoBehaviour
     [Tooltip("Distance at which rotation starts (meters). 0 = always active")]
     public float turnTriggerDistance = 6f;
 
+    public string message = "Check Companion!";
+
     // --- Runtime state ---
     private GameObject cueInstance;
     private GameObject cylinderPivotRef;
@@ -65,6 +67,10 @@ public class ArrivalCue : MonoBehaviour
     private Material cylinderMaterial;
     private Transform playerTransform;
     private bool hasArrived = false;
+
+    // --- Checkmark icon ---
+    private GameObject checkmarkRef;
+    private Material checkmarkMaterialRef;
 
     // --- PathGenerator references ---
     private MonoBehaviour pathGenerator;
@@ -130,6 +136,7 @@ public class ArrivalCue : MonoBehaviour
         cueInstance = new GameObject($"ArrivalCue_{locationName}");
         cueInstance.transform.SetParent(target, false);
         cueInstance.transform.localPosition = Vector3.zero;
+        cueInstance.transform.position += new Vector3(0f, 1f, 0f);
         cueInstance.transform.localRotation = Quaternion.identity;
 
         // === Cylinder ===
@@ -175,6 +182,43 @@ public class ArrivalCue : MonoBehaviour
         borderRef = border;
         borderMaterialRef = borderMat;
 
+        // === Checkmark icon (hidden until arrival) ===
+        Texture2D checkmarkTexture = Resources.Load<Texture2D>("CheckmarkIcon");
+        if (checkmarkTexture != null)
+        {
+            GameObject checkmarkQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            checkmarkQuad.name = "CheckmarkIcon";
+            checkmarkQuad.transform.SetParent(cylinderPivot.transform, false);
+
+            // Position just above the cylinder's top face; rotate quad to lie flat (face +Y in pivot space)
+            checkmarkQuad.transform.localPosition = new Vector3(0f, cylinderDepth / 2f + 0.005f, 0f);
+            checkmarkQuad.transform.localRotation = Quaternion.Euler(90f, 0f, 180f);
+
+            // Scale to fit inside the cylinder (slightly smaller than diameter)
+            float iconSize = cylinderRadius * 1.2f;
+            checkmarkQuad.transform.localScale = new Vector3(iconSize, iconSize, 1f);
+
+            // Remove collider
+            Collider checkCollider = checkmarkQuad.GetComponent<Collider>();
+            if (checkCollider != null) Destroy(checkCollider);
+
+            // Unlit transparent material — starts fully invisible (alpha 0)
+            Material checkMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+            checkMat.SetTexture("_BaseMap", checkmarkTexture);
+            checkMat.SetColor("_BaseColor", new Color(1f, 1f, 1f, 0f));
+            checkMat.SetFloat("_Surface", 1); // Transparent
+            checkMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+            checkMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+            checkMat.SetInt("_ZWrite", 0);
+            checkMat.renderQueue = 3200; // Above cylinder (3000) and text (3100)
+            checkMat.SetOverrideTag("RenderType", "Transparent");
+            checkMat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+
+            checkmarkQuad.GetComponent<Renderer>().material = checkMat;
+            checkmarkRef = checkmarkQuad;
+            checkmarkMaterialRef = checkMat;
+        }
+
         // === Floating text above cylinder ===
         GameObject textObj = new GameObject("LocationText");
         textObj.transform.SetParent(cueInstance.transform, false);
@@ -211,13 +255,20 @@ public class ArrivalCue : MonoBehaviour
     private bool ShouldTriggerArrival()
     {
         float distance = Vector3.Distance(cueInstance.transform.position, playerTransform.position);
+        Debug.Log("distance between: " + distance);
+        Debug.Log("threshold: " + arrivalDistance);
+        float diff = arrivalDistance - distance;
+        Debug.Log("difference: " + diff);
         if (distance > arrivalDistance)
             return false;
-
-        // Gaze check
-        Vector3 toCue = (cueInstance.transform.position - playerTransform.position).normalized;
-        float dot = Vector3.Dot(playerTransform.forward, toCue);
-        return dot >= gazeThreshold;
+        else
+        {
+            Debug.Log("TRIGGER");
+            // Gaze check
+            Vector3 toCue = (cueInstance.transform.position - playerTransform.position).normalized;
+            float dot = Vector3.Dot(playerTransform.forward, toCue);
+            return dot >= gazeThreshold;
+        }
     }
 
     // Cubic ease-in: slow start, accelerates (t^3)
@@ -238,7 +289,7 @@ public class ArrivalCue : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         // Change text immediately
-        floatingText.text = "Arrived!";
+        floatingText.text = message;
 
         // === Precompute sweep data ===
         MeshFilter mf = cylinderRenderer.GetComponent<MeshFilter>();
@@ -309,7 +360,15 @@ public class ArrivalCue : MonoBehaviour
                 borderMaterialRef.SetColor("_EmissionColor", arrivedBorderColor * currentIntensity);
             }
 
-            // Scale pop 
+            // Checkmark fade-in (synced with color sweep)
+            if (checkmarkMaterialRef != null)
+            {
+                Color iconColor = checkmarkMaterialRef.GetColor("_BaseColor");
+                iconColor.a = EaseOutCubic(tCubic);
+                checkmarkMaterialRef.SetColor("_BaseColor", iconColor);
+            }
+
+            // Scale pop
             if (cueInstance != null)
             {
                 if (t < popPeakT)
@@ -335,7 +394,7 @@ public class ArrivalCue : MonoBehaviour
 
         // === Phase 2: Despawn ===
         // Flows directly from scale pop into shrink & fade 
-        float despawnDuration = despawnAfter * 0.3f; 
+        float despawnDuration = despawnAfter; //* 0.3f; 
 
         float despawnTimer = 0f;
         Vector3 textStartPos = floatingText.transform.localPosition;
@@ -381,6 +440,14 @@ public class ArrivalCue : MonoBehaviour
                 bc.a = Mathf.Lerp(1f, 0f, eased);
                 borderMaterialRef.SetColor("_BaseColor", bc);
                 borderMaterialRef.SetColor("_EmissionColor", arrivedBorderColor * normalIntensity * (1f - eased));
+            }
+
+            // Checkmark fade
+            if (checkmarkMaterialRef != null)
+            {
+                Color iconColor = checkmarkMaterialRef.GetColor("_BaseColor");
+                iconColor.a = Mathf.Lerp(1f, 0f, eased);
+                checkmarkMaterialRef.SetColor("_BaseColor", iconColor);
             }
 
             yield return null;

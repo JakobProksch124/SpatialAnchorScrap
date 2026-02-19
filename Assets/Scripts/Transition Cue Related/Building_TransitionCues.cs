@@ -28,6 +28,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private Texture2D entryScreenshotDisplayed;
     [SerializeField] private string entryDescription = "Enter this virtual space.";
     [SerializeField] private string entryButtonText = "Enter VR";
+    [SerializeField] private bool entryAlwaysExpand = false;
 
     [Header("Exit Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -37,6 +38,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private Texture2D exitScreenshotDisplayed;
     [SerializeField] private string exitDescription = "Return to Augmented Reality mode.";
     [SerializeField] private string exitButtonText = "Enter AR";
+    [SerializeField] private bool exitAlwaysExpand = false;
 
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
@@ -49,8 +51,10 @@ public class Building_TransitionCues : MonoBehaviour
     private Camera mainCamera;
     private MonoBehaviour pathGenerator;
     private LineRenderer[] pathLineRenderers;
-    private Scene loadedScene;
+    private Scene loadedVRScene;
     private ArrivalCue arrivalCue;
+    private bool userInVRRoom = false;
+    GameObject overlay = null;
 
     void Start()
     {
@@ -96,13 +100,15 @@ public class Building_TransitionCues : MonoBehaviour
             {
                 Debug.Log($"[Building_TransitionCues] T or P key pressed on {gameObject.name}");
 
-                if (vrRoom == null)
+                if (!userInVRRoom)
                 {
                     StartCoroutine(EnterVR());
+                    userInVRRoom = !userInVRRoom;
                 }
                 else
                 {
                     StartCoroutine(ExitVR());
+                    userInVRRoom = !userInVRRoom;
                 }
             }
         }
@@ -144,16 +150,28 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Disable PathGenerator rendering while in VR
         DisablePathGenerator();
-        Debug.Log("find ur own path ");
+        Debug.Log("Path Gen disabled");
+
+        GameObject overlay = null;
+
         // Fade transition
-        yield return StartCoroutine(TransitionEffects.Instance.FadeToVRWithTitle(
-            vrRoomTitle,
-            Color.black,
-            2.0f
+        yield return StartCoroutine(TransitionEffects.Instance.FadeToBlackWithTitle(
+            roomTitle: vrRoomTitle,
+            fadeColor: Color.black,
+            fadeDuration: 0.5f,
+            titleHoldSeconds: 1.0f,            // entspricht grob deinem bisherigen displayDuration
+            onOverlayReady: go => overlay = go
         ));
         Debug.Log("starting vr room coroutine 1");
         // Load the VR room
         yield return StartCoroutine(LoadVRRoom());
+        yield return null;
+
+        yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
+            overlayCanvas: overlay,
+            fadeColor: Color.black,
+            fadeDuration: 0.5f
+        ));
         Debug.Log("initializing vr room coroutine 2");
 
         // Create exit cue
@@ -171,21 +189,44 @@ public class Building_TransitionCues : MonoBehaviour
             yield return operation;
 
             // Store reference to unload later (scene root objects)
-            loadedScene = SceneManager.GetSceneByName(vrSceneName);
+            loadedVRScene = SceneManager.GetSceneByName(vrSceneName);
+            yield return null; // safety wait
 
             // New way
-            GameObject bridgeRoot = loadedScene.GetRootGameObjects()[0];
+            // Important: First rotation, then translation
+            // We use this formula for the rotation angle: angle = atan2( dot(up, cross(a, b)), dot(a, b) )
+            GameObject bridgeRoot = loadedVRScene.GetRootGameObjects()[0];
             Transform userSpawnPoint = bridgeRoot.transform.Find("UserSpawnPoint");
             Vector3 userPos = mainCamera.transform.position;
+
             if (userSpawnPoint != null)
             {
-                bridgeRoot.transform.position = userPos - userSpawnPoint.localPosition;
-                bridgeRoot.transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
+                Vector3 spawnPointFwd = userSpawnPoint.forward;
+                Vector3 userFwd = mainCamera.transform.forward;
+
+                // Projection onto a plane orthogonal to up (XZ plane)
+                Vector3 up = Vector3.up;
+                spawnPointFwd = Vector3.ProjectOnPlane(spawnPointFwd, up).normalized;
+                userFwd = Vector3.ProjectOnPlane(userFwd, up).normalized;
+
+                // signed angle (atan2 form)
+                float sin = Vector3.Dot(up, Vector3.Cross(spawnPointFwd, userFwd));
+                float cos = Vector3.Dot(spawnPointFwd, userFwd);
+                float angleRad = Mathf.Atan2(sin, cos);
+                float angleDeg = angleRad * Mathf.Rad2Deg;
+
+                // Rotate root around world up
+                bridgeRoot.transform.RotateAround(userSpawnPoint.position, up, angleDeg);
+
+                Vector3 delta = mainCamera.transform.position - userSpawnPoint.position;
+                bridgeRoot.transform.position += delta;
+
+                vrRoom = bridgeRoot;
             }
 
-            if (loadedScene.isLoaded)
+            if (loadedVRScene.isLoaded)
             {
-                GameObject targetObject = FindDeepChildInScene(loadedScene, exitAnchorName);
+                GameObject targetObject = FindDeepChildInScene(loadedVRScene, exitAnchorName);
                 if (targetObject != null)
                 {
                     CreateExitCue(targetObject.transform);
@@ -293,16 +334,16 @@ public class Building_TransitionCues : MonoBehaviour
             Scene scene = SceneManager.GetSceneByName(vrSceneName);
             if (scene.IsValid() && scene.isLoaded)
             {
-                yield return SceneManager.UnloadSceneAsync(vrSceneName);
+                yield return SceneManager.UnloadSceneAsync(loadedVRScene);
             }
         }
 
         // Destroy the room object (prefab instance or white room or scene marker)
-        if (vrRoom != null)
+        /*if (vrRoom != null)
         {
             Destroy(vrRoom);
             vrRoom = null;
-        }
+        }*/
     }
 
     void DisablePathGenerator()

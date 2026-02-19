@@ -1,4 +1,4 @@
-using TMPro;
+/*using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -230,4 +230,4 @@ public class G64_TransitionCues : MonoBehaviour
         wall.GetComponent<Renderer>().material.color = color;
     }
 }
-    
+    */

@@ -540,13 +540,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1534862038131940171}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.12, y: 0.209, z: 70.56}
+  m_LocalRotation: {x: -0, y: 0.9999558, z: -0, w: 0.009406124}
+  m_LocalPosition: {x: 2.12, y: 0.17699999, z: 70.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6513638395473454496}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 178.922, z: 0}
 --- !u!1 &1563891390130885263
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,6 +990,7 @@ GameObject:
   - component: {fileID: 7507650633028084256}
   - component: {fileID: 8653409476053225000}
   - component: {fileID: 1236620202402443077}
+  - component: {fileID: 7287314359623195551}
   m_Layer: 0
   m_Name: G64_Model
   m_TagString: Untagged
@@ -1087,6 +1088,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 4107922603660936031}
   subdivisions: 10
+  lineMaterial: {fileID: 0}
+  lineColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!120 &8653409476053225000
 LineRenderer:
   serializedVersion: 2
@@ -1204,19 +1207,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9593bdf5521317545b44bc406d2a6822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anchorChildName: labAnchor
-  vrRoomTitle: 'IDUX working place: The Bridge'
-  entryDescription: 'You can enter VR to take a look inside the driving simulator
-    laboratory. '
-  exitDescription: 'Return to Augmented Reality mode '
-  navigationDestination: Library
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Bridge Replica
-  primaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  navigationDestination: Lecture
+  vrRoomTitle: The Driving Simulator Lab
+  entryAnchorName: entryAnchor
+  entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
+  entryScreenshotDisplayed: {fileID: 2800000, guid: 5ee3e9c43f1cf8548b1cd2947a323acc, type: 3}
+  entryDescription: 'You can enter VR to take a look inside the driving simulator
+    laboratory. '
   entryButtonText: Enter VR
+  exitAnchorName: exitAnchor
+  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitLabel: AR
+  exitScreenshotDisplayed: {fileID: 2800000, guid: 1864828496f3da745bfef650d0c445cb, type: 3}
+  exitDescription: 'Return to the floor of the building. '
   exitButtonText: Back to AR
   enableKeyboardShortcuts: 1
+--- !u!114 &7287314359623195551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252451672500658893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075c2d71926ea834e8277e9fcca9e255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetName: G64Target
+  locationName: Lecture room
+  arrivalDistance: 5
+  gazeThreshold: 0.7
+  despawnAfter: 3.5
+  textOffset: 0.25
+  cylinderRadius: 0.1
+  cylinderDepth: 0.05
+  textFontSize: 1.84
+  cylinderSegments: 64
+  glowIntensity: 0.8
+  enableTurnTowardsUser: 1
+  turnMaxAngle: 12.5
+  turnRotationSpeed: 2
+  turnTriggerDistance: 6
+  message: Attend lecture!
 --- !u!1 &3468695192290503011
 GameObject:
   m_ObjectHideFlags: 0
@@ -2259,7 +2295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4993667396061305196}
   m_Layer: 0
-  m_Name: labAnchor
+  m_Name: entryAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2273,13 +2309,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7146633422438791428}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9897584, z: -0, w: 0.14275286}
-  m_LocalPosition: {x: 1.362, y: 0.29, z: 4.564}
+  m_LocalRotation: {x: -0, y: -0.63665885, z: -0, w: 0.7711456}
+  m_LocalPosition: {x: 3.511, y: 1.075, z: 51.101}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6513638395473454496}
-  m_LocalEulerAnglesHint: {x: 0, y: -163.586, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -79.086, z: 0}
 --- !u!1 &7371921210935262145
 GameObject:
   m_ObjectHideFlags: 0

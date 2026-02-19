@@ -348,7 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RequiresOpaqueTextureOption: 1
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -568,7 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
-  vrSceneName: 
+  vrSceneName: Bridge Replica
   navigationDestination: TestLocation
   vrRoomTitle: My Virtual Room Test
   entryAnchorName: entryAnchor
@@ -577,12 +577,14 @@ MonoBehaviour:
   entryScreenshotDisplayed: {fileID: 2800000, guid: 136f6216cd61353438e4e53696a8d5e4, type: 3}
   entryDescription: Enter this test virtual space.
   entryButtonText: Test VR
+  entryAlwaysExpand: 0
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
   exitScreenshotDisplayed: {fileID: 2800000, guid: a2c5804303e00544d97f3f18bf5108cf, type: 3}
   exitDescription: Return to AR testing mode.
   exitButtonText: Back to AR
+  exitAlwaysExpand: 0
   enableKeyboardShortcuts: 1
 --- !u!114 &1589841417
 MonoBehaviour:
@@ -751,9 +753,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetName: pathTarget
   locationName: Library
-  arrivalDistance: 1
+  arrivalDistance: 5
   gazeThreshold: 0.7
-  despawnAfter: 2
+  despawnAfter: 3.5
   textOffset: 0.25
   cylinderRadius: 0.1
   cylinderDepth: 0.05
@@ -764,6 +766,7 @@ MonoBehaviour:
   turnMaxAngle: 12.5
   turnRotationSpeed: 2
   turnTriggerDistance: 6
+  message: Check Companion!
 --- !u!1 &1689140667
 GameObject:
   m_ObjectHideFlags: 0
