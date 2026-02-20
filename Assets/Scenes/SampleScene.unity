@@ -1954,8 +1954,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positioner: {fileID: 330585551}
-  _objectToPlace: {fileID: 3252451672500658893, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-  anchorJsonTemplate: {fileID: 4900000, guid: 5ba6b16f75a842d4488b86b55e6ab4f0, type: 3}
+  _objectToPlace: {fileID: 1384505585074534098, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+  offsetJsonTemplate: {fileID: 4900000, guid: 5ba6b16f75a842d4488b86b55e6ab4f0, type: 3}
 --- !u!114 &330585551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1976,7 +1976,9 @@ MonoBehaviour:
   cameraTransform: {fileID: 330585546}
   _moveAction: {fileID: -6466034804778379739, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _turnAction: {fileID: -3655558797359205420, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _saveOffsetAction: {fileID: 1552678192067858859, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _objectToPosition: {fileID: 0}
+  offsetJsonTemplate: {fileID: 4900000, guid: 5ba6b16f75a842d4488b86b55e6ab4f0, type: 3}
 --- !u!1 &342275732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2972,7 +2974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RequiresOpaqueTextureOption: 1
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -11625,7 +11627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1974116776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11638,17 +11640,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9593bdf5521317545b44bc406d2a6822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anchorChildName: bridgeAnchor
-  vrRoomTitle: 'IDUX working place: The Bridge'
-  entryDescription: Take a look inside the working place of the IDUX group.
-  exitDescription: 'Return to the bulletin board. '
-  navigationDestination: Cafeteria
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Bridge Replica
-  primaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  navigationDestination: Cafeteria
+  vrRoomTitle: 'IDUX working place: The Bridge'
+  entryAnchorName: entryAnchor
+  entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
+  entryScreenshotDisplayed: {fileID: 0}
+  entryDescription: Take a look inside the working place of the IDUX group.
   entryButtonText: Enter VR
+  entryAlwaysExpand: 0
+  exitAnchorName: exitAnchor
+  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitLabel: AR
+  exitScreenshotDisplayed: {fileID: 0}
+  exitDescription: 'Return to the bulletin board. '
   exitButtonText: Back to AR
+  exitAlwaysExpand: 0
   enableKeyboardShortcuts: 1
 --- !u!4 &1974116777
 Transform:

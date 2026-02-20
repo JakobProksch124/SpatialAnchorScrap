@@ -14,13 +14,13 @@ public class AnchorPositionerBinder : MonoBehaviour
 
     [SerializeField] public GameObject _objectToPlace;
 
-    [SerializeField] private TextAsset anchorJsonTemplate;
+/*    [SerializeField] private TextAsset offsetJsonTemplate;
 
     private string RuntimeJsonPath =>
         Path.Combine(
             Application.persistentDataPath,
-            anchorJsonTemplate.name + ".json"
-        );
+            offsetJsonTemplate.name + ".json"
+        );*/
 
     private void Awake()
     {
@@ -54,16 +54,19 @@ public class AnchorPositionerBinder : MonoBehaviour
             return;
 
         while (!anchor.Created)
-            await Task.Yield();
+            await Task.Yield();*/
 
-        bool saved = await anchor.SaveAnchorAsync();
+     /*   bool saved = await anchor.SaveAnchorAsync();
         if (!saved)
         {
             Debug.LogError("Anchor konnte nicht gespeichert werden");
             return;
-        }
+        } else
+        {
+            Debug.LogError("Anchor saved!!!");
+        }*/
 
-        AnchorData data = new AnchorData
+        /*AnchorData data = new AnchorData
         {
             uuid = anchor.Uuid.ToString()
         };
@@ -72,6 +75,7 @@ public class AnchorPositionerBinder : MonoBehaviour
         File.WriteAllText(RuntimeJsonPath, json);
         Debug.Log($"Anchor gespeichert: {data.uuid}");
         Debug.Log($"JSON geschrieben nach: {RuntimeJsonPath}");*/
+
 
         Debug.Log(anchor);
         Debug.Log(anchor.transform);
@@ -99,10 +103,4 @@ public class AnchorPositionerBinder : MonoBehaviour
         positioner.SetObjectToPosition(instance);
     }
 
-}
-
-[System.Serializable]
-public class AnchorData
-{
-    public string uuid;
 }
