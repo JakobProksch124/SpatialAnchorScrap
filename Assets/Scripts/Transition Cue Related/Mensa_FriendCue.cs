@@ -111,7 +111,7 @@ public class Mensa_FriendCue : MonoBehaviour
         entryCueConfig.expandedDescription = entryDescription;
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
-        entryCueConfig.alwaysExpanded = true;
+        entryCueConfig.alwaysExpanded = entryAlwaysExpand;
 
         entryCue = TransitionCueFactory.CreateFrostedTransitionCue(entryCueConfig);
     }

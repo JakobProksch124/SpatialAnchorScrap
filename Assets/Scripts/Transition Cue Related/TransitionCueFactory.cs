@@ -409,7 +409,7 @@ public static class TransitionCueFactory
         return mat;
     }
 
-    private static Material CreateFrostedGlassMaterialAlternative(Color color, float alpha)
+    /*private static Material CreateFrostedGlassMaterialAlternative(Color color, float alpha)
     {
         var baseMat = Resources.Load<Material>("FrostedGlass_Base");
 
@@ -440,7 +440,7 @@ public static class TransitionCueFactory
         if (bump != null && mat.HasProperty("_BumpMap")) mat.SetTexture("_BumpMap", bump);
 
         return mat;
-    }
+    }*/
 
     // === Helper Methods ===
 
