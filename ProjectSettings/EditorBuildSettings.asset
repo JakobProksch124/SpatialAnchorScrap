@@ -9,14 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Environments/Laboratory/Scenes/Laboratory.unity
+    guid: 4d6153b38ebe4904b8973f167624c021
+  - enabled: 1
     path: Assets/Environments/Bridge/Bridge.unity
-    guid: b0073f7a51534864dac46cba70657065
+    guid: 3fbe3a9481c2ebd41aeec619375a9e88
   - enabled: 1
     path: Assets/Environments/Lecture/Lecture.unity
     guid: 5a8bf64fc90d5734aa101725c60953b7
-  - enabled: 1
-    path: Assets/Environments/Laboratory/Scenes/Laboratory.unity
-    guid: 4d6153b38ebe4904b8973f167624c021
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 52e0b280efb9a504194c3d1c13991962, type: 2}

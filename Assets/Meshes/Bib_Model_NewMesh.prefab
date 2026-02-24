@@ -3111,7 +3111,7 @@ MonoBehaviour:
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
-  entryScreenshotDisplayed: {fileID: 2800000, guid: ebb5d4752cacf5b4c8c99b73bdf27906, type: 3}
+  entryScreenshotDisplayed: {fileID: 2800000, guid: 28dbfffbf5dce51408ebbe435af27513, type: 3}
   entryDescription: Take a look inside the room where new interaction techniques
     are developed.
   entryButtonText: Enter VR

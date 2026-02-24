@@ -568,13 +568,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
-  vrSceneName: Laboratory
+  vrSceneName: Lecture
   navigationDestination: TestLocation
   vrRoomTitle: My Virtual Room Test
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
-  entryScreenshotDisplayed: {fileID: 2800000, guid: 136f6216cd61353438e4e53696a8d5e4, type: 3}
+  entryScreenshotDisplayed: {fileID: 2800000, guid: 28dbfffbf5dce51408ebbe435af27513, type: 3}
   entryDescription: Enter this test virtual space.
   entryButtonText: Test VR
   entryAlwaysExpand: 0

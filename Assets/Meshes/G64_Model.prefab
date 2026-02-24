@@ -1210,13 +1210,12 @@ MonoBehaviour:
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Laboratory
   navigationDestination: Lecture
-  vrRoomTitle: The Driving Simulator Lab
+  vrRoomTitle: The Lab
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
-  entryScreenshotDisplayed: {fileID: 2800000, guid: 5ee3e9c43f1cf8548b1cd2947a323acc, type: 3}
-  entryDescription: 'You can enter VR to take a look inside the driving simulator
-    laboratory. '
+  entryScreenshotDisplayed: {fileID: 2800000, guid: 2648a0f314811a949ba9cf297b5f9bdb, type: 3}
+  entryDescription: 'You can enter VR to take a look inside one of our laboratories. '
   entryButtonText: Enter VR
   entryAlwaysExpand: 0
   exitAnchorName: exitAnchor
