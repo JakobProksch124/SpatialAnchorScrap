@@ -72,7 +72,7 @@ public class TransitionEffects : MonoBehaviour
         GameObject fadeCanvas = new GameObject("FadeCanvas");
         Canvas canvas = fadeCanvas.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 1000;
+        canvas.sortingOrder = 1000; 
         fadeCanvas.AddComponent<CanvasScaler>();
         fadeCanvas.AddComponent<GraphicRaycaster>();
 

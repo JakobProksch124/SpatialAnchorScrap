@@ -1208,7 +1208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
-  vrSceneName: Bridge Replica
+  vrSceneName: Laboratory
   navigationDestination: Lecture
   vrRoomTitle: The Driving Simulator Lab
   entryAnchorName: entryAnchor

@@ -35,6 +35,8 @@ public class Positioner : MonoBehaviour
     float OffsetRotY = 0f;
     float OffsetRotZ = 0f;
 
+    public GameObject PlacedObject => _objectToPosition;
+
     private string RuntimeJsonPath =>
         Path.Combine(
             Application.persistentDataPath,

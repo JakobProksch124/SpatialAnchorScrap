@@ -35,7 +35,6 @@ public class Mensa_FriendCue : MonoBehaviour
     private Scene loadedVRScene;
     private ArrivalCue arrivalCue;
     private bool userInVRRoom = false;
-    GameObject overlay = null;
 
     void Start()
     {

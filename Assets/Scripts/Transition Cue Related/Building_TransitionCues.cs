@@ -5,6 +5,7 @@ using System.Collections;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 // Place script directly on the Building Prefab Root
 public class Building_TransitionCues : MonoBehaviour
@@ -16,6 +17,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string vrSceneName;
     [Tooltip("Destination shown in the navigation notification after returning to AR")]
     [SerializeField] private string navigationDestination = "Next Location";
+    private Positioner positioner;
 
     [Header("Entry Cue Infos")]
     [Tooltip("Title shown during the VR transition fade")]
@@ -69,6 +71,8 @@ public class Building_TransitionCues : MonoBehaviour
                 break;
             }
         }
+
+        positioner = FindAnyObjectByType<Positioner>();
 
         // Find anchor point in this building
         entryAnchor = transform.Find(entryAnchorName);
@@ -148,6 +152,10 @@ public class Building_TransitionCues : MonoBehaviour
             arrivalCue.HideArrivalCue();
         }
 
+        // Hide instantiated building model in order to avoid visual overlaps
+        SetPlacedBuildingVisible(false);
+        Debug.Log("Building now invisible");
+
         // Disable PathGenerator rendering while in VR
         DisablePathGenerator();
         Debug.Log("Path Gen disabled");
@@ -159,7 +167,7 @@ public class Building_TransitionCues : MonoBehaviour
             roomTitle: vrRoomTitle,
             fadeColor: Color.black,
             fadeDuration: 0.5f,
-            titleHoldSeconds: 1.0f,            // entspricht grob deinem bisherigen displayDuration
+            titleHoldSeconds: 1.0f,           
             onOverlayReady: go => overlay = go
         ));
         Debug.Log("starting vr room coroutine 1");
@@ -176,6 +184,19 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Create exit cue
         // CreateExitCue(); // THIS WAS THE OLD CALL; NOW HAPPENS INSIDE LOADVRROOM()
+    }
+
+    void SetPlacedBuildingVisible(bool visible)
+    {
+        if (positioner == null)
+            positioner = FindAnyObjectByType<Positioner>();
+
+        if (positioner == null || positioner.PlacedObject == null)
+            return;
+
+        var renderers = positioner.PlacedObject.GetComponentsInChildren<Renderer>(true);
+        foreach (var r in renderers)
+            if (r) r.enabled = visible;
     }
 
     IEnumerator LoadVRRoom()
@@ -226,10 +247,14 @@ public class Building_TransitionCues : MonoBehaviour
 
             if (loadedVRScene.isLoaded)
             {
-                GameObject targetObject = FindDeepChildInScene(loadedVRScene, exitAnchorName);
-                if (targetObject != null)
+                var targets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
+
+                if (targets.Count > 0)
                 {
-                    CreateExitCue(targetObject.transform);
+                    foreach (var go in targets)
+                    {
+                        CreateExitCue(go.transform);
+                    }
                 }
                 else
                 {
@@ -237,13 +262,13 @@ public class Building_TransitionCues : MonoBehaviour
                 }
             }
 
-                // Old way
-                /*if (loadedScene.IsValid())
-                {
-                    // Create container to track the loaded scene
-                    vrRoom = new GameObject($"VRRoom_SceneMarker_{vrSceneName}");
-                }*/
-            }
+            // Old way
+            /*if (loadedScene.IsValid())
+            {
+                // Create container to track the loaded scene
+                vrRoom = new GameObject($"VRRoom_SceneMarker_{vrSceneName}");
+            }*/
+        }
         // Priority 2: Instantiate prefab
         else if (vrRoomPrefab != null)
         {
@@ -258,6 +283,22 @@ public class Building_TransitionCues : MonoBehaviour
             CreateWhiteRoom();
             CreateExitCue(entryAnchor.transform); // Testwise
         }
+    }
+
+    List<GameObject> FindDeepChildrenInScene(Scene scene, string name)
+    {
+        var results = new List<GameObject>();
+
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            Transform[] allChildren = root.GetComponentsInChildren<Transform>(true);
+            foreach (Transform child in allChildren)
+            {
+                if (child.name == name)
+                    results.Add(child.gameObject);
+            }
+        }
+        return results;
     }
 
     void CreateExitCue(Transform exitAnchor)
@@ -305,6 +346,8 @@ public class Building_TransitionCues : MonoBehaviour
             }
             Destroy(exitCue);
         }
+
+        SetPlacedBuildingVisible(true);
 
         // Re-enable entry cue
         if (entryCue != null)

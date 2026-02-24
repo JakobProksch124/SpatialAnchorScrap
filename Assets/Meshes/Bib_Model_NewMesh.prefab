@@ -3105,7 +3105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
-  vrSceneName: Bridge Replica
+  vrSceneName: Bridge
   navigationDestination: Cafeteria
   vrRoomTitle: 'IDUX working place: The Bridge'
   entryAnchorName: entryAnchor
