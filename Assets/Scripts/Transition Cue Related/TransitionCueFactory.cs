@@ -285,10 +285,18 @@ public static class TransitionCueFactory
         }
 
         Renderer renderer = imageQuad.GetComponent<Renderer>();
-        Material imageMat = new Material(Shader.Find("Custom/HorizontalFadeImage"));
-        imageMat.mainTexture = config.screenshotTexture;
-        imageMat.SetFloat("_FadeEdgeStart", 0.15f);
-        imageMat.SetColor("_Color", Color.white);
+        Material imageMat;
+        if (config.leadsToAR)
+        {
+            imageMat = CreateFrostedGlassMaterial(Color.clear, 0f);
+        }
+        else
+        {
+            imageMat = new Material(Shader.Find("Custom/HorizontalFadeImage"));
+            imageMat.mainTexture = config.screenshotTexture;
+            imageMat.SetFloat("_FadeEdgeStart", 0.15f);
+            imageMat.SetColor("_Color", Color.white);
+        }
         imageMat.renderQueue = 3100; // Higher than panel's 3000 to render on top
         renderer.material = imageMat;
 

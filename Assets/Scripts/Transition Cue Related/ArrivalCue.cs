@@ -255,10 +255,7 @@ public class ArrivalCue : MonoBehaviour
     private bool ShouldTriggerArrival()
     {
         float distance = Vector3.Distance(cueInstance.transform.position, playerTransform.position);
-        Debug.Log("distance between: " + distance);
-        Debug.Log("threshold: " + arrivalDistance);
         float diff = arrivalDistance - distance;
-        Debug.Log("difference: " + diff);
         if (distance > arrivalDistance)
             return false;
         else

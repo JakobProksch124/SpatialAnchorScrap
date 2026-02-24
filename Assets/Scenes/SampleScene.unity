@@ -11552,6 +11552,7 @@ MonoBehaviour:
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Bridge Replica
   navigationDestination: Cafeteria
+  ExtraARContent: {fileID: 0}
   vrRoomTitle: 'IDUX working place: The Bridge'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -11567,6 +11568,7 @@ MonoBehaviour:
   exitDescription: 'Return to the bulletin board. '
   exitButtonText: Back to AR
   exitAlwaysExpand: 0
+  leadsToAR: 0
   enableKeyboardShortcuts: 1
 --- !u!4 &1974116777
 Transform:

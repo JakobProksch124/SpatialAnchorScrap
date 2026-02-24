@@ -24,6 +24,8 @@ public class TransitionCueConfig
     // Action to invoke when the button is interacted with
     public Action onInteract;
 
+    // decides if transition leads to AR
+    public bool leadsToAR = false;
 
     // === Expansion Behavior ===
 

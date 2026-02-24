@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 // Place script directly on the Building Prefab Root
 public class Building_TransitionCues : MonoBehaviour
@@ -18,6 +19,7 @@ public class Building_TransitionCues : MonoBehaviour
     [Tooltip("Destination shown in the navigation notification after returning to AR")]
     [SerializeField] private string navigationDestination = "Next Location";
     private Positioner positioner;
+    [SerializeField] private GameObject ExtraARContent;
 
     [Header("Entry Cue Infos")]
     [Tooltip("Title shown during the VR transition fade")]
@@ -41,6 +43,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string exitDescription = "Return to Augmented Reality mode.";
     [SerializeField] private string exitButtonText = "Enter AR";
     [SerializeField] private bool exitAlwaysExpand = false;
+    [SerializeField] private bool leadsToAR = false;
 
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
@@ -146,6 +149,11 @@ public class Building_TransitionCues : MonoBehaviour
             entryCue.SetActive(false);
         }
 
+        if (ExtraARContent !=null)
+        {
+            ExtraARContent.SetActive(false);
+        }
+
         // Hide arrival cue while in VR
         if (arrivalCue != null)
         {
@@ -218,7 +226,9 @@ public class Building_TransitionCues : MonoBehaviour
             // We use this formula for the rotation angle: angle = atan2( dot(up, cross(a, b)), dot(a, b) )
             GameObject bridgeRoot = loadedVRScene.GetRootGameObjects()[0];
             Transform userSpawnPoint = bridgeRoot.transform.Find("UserSpawnPoint");
+
             Vector3 userPos = mainCamera.transform.position;
+            //userSpawnPoint.position = new Vector3(userSpawnPoint.position.x,userPos.y, userSpawnPoint.position.z); 
 
             if (userSpawnPoint != null)
             {
@@ -239,7 +249,48 @@ public class Building_TransitionCues : MonoBehaviour
                 // Rotate root around world up
                 bridgeRoot.transform.RotateAround(userSpawnPoint.position, up, angleDeg);
 
+
+                // Get real floor from positioned building model
+                float realFloorY = 0f;
+
+                // Ray straight down from camera
+                Ray ray = new Ray(mainCamera.transform.position, Vector3.down);
+                RaycastHit hit;
+
+                // Optional: LayerMask falls VR-Rig Ray stoppt
+                int layerMask = LayerMask.GetMask("Floor");
+
+                if (Physics.Raycast(ray, out hit, 20f, layerMask))
+                {
+                    if (hit.collider.CompareTag("Floor"))
+                    {
+                        realFloorY = hit.point.y;
+                        Debug.Log("Floor detected at: " + realFloorY);
+
+                        // Debug visualization
+                        Debug.DrawLine(ray.origin, hit.point, Color.green, 5f);
+                    }
+                    else
+                    {
+                        Debug.Log("none floor objected detected at: " + hit.point.y);
+                    }
+
+                    
+                }
+                else
+                {
+                    Debug.LogWarning("No floor detected below camera!");
+                }
+
+                // VR scene floor
+                float vrFloorY = userSpawnPoint.position.y;
+
+                // Horizontal alignment (camera to spawn point)
                 Vector3 delta = mainCamera.transform.position - userSpawnPoint.position;
+
+                // Overwrite vertical alignment using building floor
+                delta.y = realFloorY - vrFloorY;
+
                 bridgeRoot.transform.position += delta;
 
                 vrRoom = bridgeRoot;
@@ -319,6 +370,10 @@ public class Building_TransitionCues : MonoBehaviour
         exitCueConfig.expandedDescription = exitDescription;
         exitCueConfig.buttonText = exitButtonText;
         exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
+        if (leadsToAR)
+        {
+            exitCueConfig.leadsToAR = true;
+        }
 
         // (Effectively not used if alwaysExpanded)
         exitCueConfig.label = exitLabel;
@@ -358,7 +413,11 @@ public class Building_TransitionCues : MonoBehaviour
         {
             CreateEntryCue(entryAnchor);
         }
+        if (ExtraARContent != null)
+        {
 
+            ExtraARContent.SetActive(true);
+        }
         // Re-enable PathGenerator
         EnablePathGenerator();
 

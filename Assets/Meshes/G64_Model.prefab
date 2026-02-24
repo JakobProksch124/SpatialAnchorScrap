@@ -1210,6 +1210,7 @@ MonoBehaviour:
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Laboratory
   navigationDestination: Lecture
+  ExtraARContent: {fileID: 0}
   vrRoomTitle: The Lab
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -1225,6 +1226,7 @@ MonoBehaviour:
   exitDescription: 'Return to the floor of the building. '
   exitButtonText: Back to AR
   exitAlwaysExpand: 0
+  leadsToAR: 1
   enableKeyboardShortcuts: 1
 --- !u!114 &7287314359623195551
 MonoBehaviour:
@@ -1953,9 +1955,10 @@ GameObject:
   - component: {fileID: 5048267917700442660}
   - component: {fileID: 7225923202461613707}
   - component: {fileID: 444797620689371135}
-  m_Layer: 0
-  m_Name: Cube.003
-  m_TagString: Untagged
+  - component: {fileID: 5073682047903859341}
+  m_Layer: 6
+  m_Name: Floor
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2028,6 +2031,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5073682047903859341
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6418777804148048188}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.15283386, y: 0.4250332, z: 0.005241733}
+  m_Center: {x: 0.013839612, y: -0.20251654, z: 0.0073791198}
 --- !u!1 &6696410872217039163
 GameObject:
   m_ObjectHideFlags: 0
