@@ -568,7 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
-  vrSceneName: Lecture
+  vrSceneName: Laboratory
   navigationDestination: TestLocation
   vrRoomTitle: My Virtual Room Test
   entryAnchorName: entryAnchor
