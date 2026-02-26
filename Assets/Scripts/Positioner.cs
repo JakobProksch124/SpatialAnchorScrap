@@ -3,21 +3,26 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.IO;
+using System.Collections.Generic;
 
 public class Positioner : MonoBehaviour
 {
     // Offset Text Element
-    [SerializeField] TMP_Text alignmentText;
+    [SerializeField] TMP_Text offsetText;
+
+    [SerializeField] TMP_Text vrConsoleText;
 
     [SerializeField] float positionSpeed = 0.03f;
 
     // Used for changing y-level
     [SerializeField] InputActionReference ascendButton;
     [SerializeField] InputActionReference descendButton;
+    [SerializeField] InputActionReference devButton;
 
     // Used to change rotation mode (between x, y, and z rotation)
     [SerializeField] InputActionReference triggerLeft;
     private bool _triggerLeftWasPressed = false;
+    private bool _devButtonWasPressed = false;
     private enum RotAxis { X, Y, Z }
     private RotAxis _currentAxis = RotAxis.Y;
     private Transform cameraTransform;
@@ -28,12 +33,17 @@ public class Positioner : MonoBehaviour
 
     [SerializeField] public GameObject _objectToPosition;
     [SerializeField] private TextAsset offsetJsonTemplate;
-    float OffsetX = 0f;
-    float OffsetY = 0f;
-    float OffsetZ = 0f;
-    float OffsetRotX = 0f;
-    float OffsetRotY = 0f;
-    float OffsetRotZ = 0f;
+    public float OffsetX = 0f;
+    public float OffsetY = 0f;
+    public float OffsetZ = 0f;
+    public float OffsetRotX = 0f;
+    public float OffsetRotY = 0f;
+    public float OffsetRotZ = 0f;
+    public bool inDevMode = true;
+    //public Quaternion OffsetRotQuaternion;
+
+    [SerializeField] Material occluderMat;
+    [SerializeField] Material transparencyMat;
 
     public GameObject PlacedObject => _objectToPosition;
 
@@ -42,6 +52,94 @@ public class Positioner : MonoBehaviour
             Application.persistentDataPath,
             offsetJsonTemplate.name + ".json"
         );
+
+    void ChooseVisualMode()
+    {
+        bool isPressed = devButton.action.IsPressed();
+        if (_devButtonWasPressed && !isPressed)
+        {
+            inDevMode = !inDevMode;
+
+            AdjustVisuals();
+        }
+        _devButtonWasPressed = isPressed;
+    }
+
+    void AdjustVisuals()
+    {
+        offsetText.gameObject.SetActive(inDevMode);
+        vrConsoleText.gameObject.SetActive(inDevMode);
+
+        Material targetMat;
+        if (inDevMode)
+        {
+            targetMat = transparencyMat;
+        } else
+        {
+            targetMat = occluderMat;
+        }
+
+        // We exclude the building roots since they contain the line renderer for the arrow drawn, as well as all cues objects
+        ApplyMaterialToChildren(_objectToPosition, targetMat, new List<string> { "Bib_Model_NewMesh", "G62_Model", "G64_Model", "Mensa_Model", }, new List<string> {"ArrivalCue", "TransitionCue", "VirtualFood_Pancake" });
+    }
+
+    public void ApplyMaterialToChildren(
+        GameObject root,
+        Material newMaterial,
+        List<string> singleTargetsToExclude,
+        List<string> groupTargetsToExclude
+    )
+    {
+        if (root == null || newMaterial == null)
+            return;
+
+        Renderer[] renderers = root.GetComponentsInChildren<Renderer>(true);
+
+        foreach (Renderer rend in renderers)
+        {
+            GameObject current = rend.gameObject;
+
+            if (singleTargetsToExclude != null)
+            {
+                foreach (string excludedName in singleTargetsToExclude)
+                {
+                    if (current.name.StartsWith(excludedName))
+                    {
+                        goto SkipRenderer;
+                    }
+                }
+            }
+
+            if (groupTargetsToExclude != null)
+            {
+                Transform t = current.transform;
+
+                while (t != null && t != root.transform.parent)
+                {
+                    foreach (string excludedRoot in groupTargetsToExclude)
+                    {
+                        if (t.gameObject.name.StartsWith(excludedRoot))
+                        {
+                            goto SkipRenderer;
+                        }
+                    }
+
+                    t = t.parent;
+                }
+            }
+
+            Material[] mats = new Material[rend.materials.Length];
+            for (int i = 0; i < mats.Length; i++)
+            {
+                mats[i] = newMaterial;
+            }
+
+            rend.materials = mats;
+
+        SkipRenderer:
+            continue;
+        }
+    }
 
     void OnEnable()
     {
@@ -70,6 +168,13 @@ public class Positioner : MonoBehaviour
 
     void Update()
     {
+        // Checks if it should swap to dev mode or user mode
+        ChooseVisualMode();
+
+        // if in user mode, don't allow changes to objecttoposition
+        if (!inDevMode)
+            return;
+        
         if (_objectToPosition == null)
             return;
 
@@ -117,21 +222,29 @@ public class Positioner : MonoBehaviour
 
         // Update Offset Text
         Vector3 p = _objectToPosition.transform.localPosition;
-        Vector3 r = _objectToPosition.transform.localEulerAngles;
+        Vector3 r = _objectToPosition.transform.localRotation.eulerAngles;
+
+        // PREPARE FOR SAVING INTERNALLY
         OffsetX = Mathf.Round(p.x * 100) / 100;
         OffsetY = Mathf.Round(p.y * 100) / 100;
         OffsetZ = Mathf.Round(p.z * 100) / 100;
+
         OffsetRotX = Mathf.Round(r.x * 100) / 100;
         OffsetRotY = Mathf.Round(r.y * 100) / 100;
         OffsetRotZ = Mathf.Round(r.z * 100) / 100;
-        /*alignmentText.text =
-                $"X: {OffsetX}; " +
-                $"Y: {OffsetY}; " +
-                $"Z: {OffsetZ}\n" +
-                $"RotX: {OffsetRotX}; " +
-                $"RotY: {OffsetRotY}; " +
-                $"RotZ: {OffsetRotZ}\n" +
-                $"Aktive Rot-Achse: {_currentAxis}";*/
+
+        if (offsetText != null)
+        {
+            offsetText.text =
+                    $"X: {OffsetX}; " +
+                    $"Y: {OffsetY}; " +
+                    $"Z: {OffsetZ}\n" +
+                    //$"RotQuaternion: {OffsetRotQuaternion}\n" +
+                    $"RotX: {OffsetRotX}; " +
+                    $"RotY: {OffsetRotY}; " +
+                    $"RotZ: {OffsetRotZ}\n" + 
+                    $"Aktive Rot-Achse: {_currentAxis}";
+        }
     }
 
     void SaveOffsetToJson()
@@ -144,6 +257,7 @@ public class Positioner : MonoBehaviour
             SavedOffsetRotX = OffsetRotX.ToString(),
             SavedOffsetRotY = OffsetRotY.ToString(),
             SavedOffsetRotZ = OffsetRotZ.ToString()
+            //SavedOffsetRotQuaternion = OffsetRotQuaternion.ToString()
         };
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(RuntimeJsonPath, json);
@@ -189,9 +303,10 @@ public class Positioner : MonoBehaviour
         float.TryParse(data.SavedOffsetRotY, out OffsetRotY);
         float.TryParse(data.SavedOffsetRotZ, out OffsetRotZ);
 
+
         // Werte direkt anwenden
-        _objectToPosition.transform.localPosition += new Vector3(OffsetX, OffsetY, OffsetZ);
-        _objectToPosition.transform.localRotation *= Quaternion.Euler(OffsetRotX, OffsetRotY, OffsetRotZ);
+        _objectToPosition.transform.localPosition = new Vector3(OffsetX, OffsetY, OffsetZ);
+        _objectToPosition.transform.localRotation = Quaternion.Euler(OffsetRotX, OffsetRotY, OffsetRotZ);
 
         Debug.Log("Offset aus JSON geladen und angewendet.");
     }
@@ -206,4 +321,5 @@ public class OffsetData
     public string SavedOffsetRotX;
     public string SavedOffsetRotY;
     public string SavedOffsetRotZ;
+    //public string SavedOffsetRotQuaternion;
 }

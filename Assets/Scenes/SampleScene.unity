@@ -1861,16 +1861,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5475d2fb1682049a0c1d15ff967215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alignmentText: {fileID: 1276836535}
+  offsetText: {fileID: 1276836535}
+  vrConsoleText: {fileID: 754921086}
   positionSpeed: 0.03
   ascendButton: {fileID: -4022060916381164570, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   descendButton: {fileID: 3609823731942455608, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  devButton: {fileID: -3042148573974080136, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   triggerLeft: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _moveAction: {fileID: -6466034804778379739, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _turnAction: {fileID: -3655558797359205420, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _saveOffsetAction: {fileID: 3672006832179021560, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _objectToPosition: {fileID: 0}
   offsetJsonTemplate: {fileID: 4900000, guid: 5ba6b16f75a842d4488b86b55e6ab4f0, type: 3}
+  OffsetX: 0
+  OffsetY: 0
+  OffsetZ: 0
+  OffsetRotX: 0
+  OffsetRotY: 0
+  OffsetRotZ: 0
+  inDevMode: 1
+  occluderMat: {fileID: 2100000, guid: a2dbbbd26ee4c1b429fa90e125314135, type: 2}
+  transparencyMat: {fileID: 2100000, guid: f4e61db57faef1e4d996125006c70f63, type: 2}
 --- !u!1 &342275732
 GameObject:
   m_ObjectHideFlags: 0
@@ -6064,12 +6075,12 @@ GameObject:
   - component: {fileID: 1017443864}
   - component: {fileID: 1017443868}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: OffsetCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1017443864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7693,7 +7704,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -11779,7 +11791,7 @@ GameObject:
   - component: {fileID: 2039154852}
   - component: {fileID: 2039154851}
   m_Layer: 5
-  m_Name: Canvas (1)
+  m_Name: VRConsoleCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
