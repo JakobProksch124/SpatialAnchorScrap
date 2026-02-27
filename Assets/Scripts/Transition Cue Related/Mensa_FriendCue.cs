@@ -35,6 +35,10 @@ public class Mensa_FriendCue : MonoBehaviour
     private Scene loadedVRScene;
     private ArrivalCue arrivalCue;
     private bool userInVRRoom = false;
+    public GameObject FoodA;
+    public GameObject FoodB;
+    public GameObject FoodC;
+    public GameObject FoodButtonCanvas;
 
     void Start()
     {
@@ -60,16 +64,9 @@ public class Mensa_FriendCue : MonoBehaviour
             entryAnchor = transform;
         }
 
-        // Create entry cue
-        CreateEntryCue(entryAnchor);
-
-        // Spawn arrival cue (Premise: ArrivalCue component is present on this GameObject)
-        arrivalCue = GetComponent<ArrivalCue>();
-        if (arrivalCue != null)
-        {
-            arrivalCue.SpawnArrivalCue();
-        }
+        
     }
+
 
     void Update()
     {
@@ -93,6 +90,27 @@ public class Mensa_FriendCue : MonoBehaviour
                     userInVRRoom = !userInVRRoom;
                 }
             }
+        }
+    }
+
+    public void showEntryCue()
+    {
+        // Create entry cue
+        CreateEntryCue(entryAnchor);
+        if(FoodA!=null)
+        FoodA.SetActive(false);
+        if (FoodB != null)
+            FoodB.SetActive(false);
+        if (FoodC != null)
+            FoodC.SetActive(false);
+        if (FoodButtonCanvas != null)
+            FoodButtonCanvas.SetActive(false);
+
+        // Spawn arrival cue (Premise: ArrivalCue component is present on this GameObject)
+        arrivalCue = GetComponent<ArrivalCue>();
+        if (arrivalCue != null)
+        {
+            arrivalCue.SpawnArrivalCue();
         }
     }
 

@@ -78,10 +78,21 @@ public static class TransitionCueFactory
         if (surface == null) surface = button.AddComponent<ColliderSurface>();
         surface.InjectAllColliderSurface(col);
 
+        /*// Surface Patch (needed for ISurfacePatch)
+        var surfacePatch = button.GetComponent<ColliderSurfacePatch>();
+        if (surfacePatch == null)
+            surfacePatch = button.AddComponent<ColliderSurfacePatch>();
+
+        surfacePatch.InjectAllColliderSurfacePatch(surface);*/
+
         // RayInteractable (für Ray/Pointer-Select; funktioniert i.d.R. auch mit Controller-Ray)
         var ray = button.GetComponent<RayInteractable>();
         if (ray == null) ray = button.AddComponent<RayInteractable>();
         ray.InjectAllRayInteractable(surface);
+
+        /*var poke = button.GetComponent<PokeInteractable>();
+        if (poke == null) poke = button.AddComponent<PokeInteractable>();
+        poke.InjectAllPokeInteractable(surface as ISurfacePatch);*/
 
         ray.WhenStateChanged += state =>
         {
@@ -94,12 +105,10 @@ public static class TransitionCueFactory
         // PokeInteractable (für Ray/Pointer-Select; funktioniert i.d.R. auch mit Controller-Ray)
         /*var poke = button.GetComponent<PokeInteractable>();
         if (poke == null) poke = button.AddComponent<PokeInteractable>();
-        poke.InjectAllPokeInteractable((ISurfacePatch)surface);
+        poke.InjectAllPokeInteractable((ISurfacePatch)surface);*/
 
-        poke.WhenStateChanged += state =>
+        /*poke.WhenStateChanged += state =>
         {
-            Debug.Log("state changed to:");
-            Debug.Log(state.NewState);
             if (state.NewState == InteractableState.Select)
             {
                 Debug.Log("[TransitionCue] Button selected");
