@@ -167,31 +167,24 @@ public class Mensa_FriendCue : MonoBehaviour
 
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
     {
-        // Base
-        TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateVRConfig(
-            parent: entryArrivalAnchor,
-            onInteract: () => entryArrivalCue.SetActive(false)
-        );
         if (!entryIsBland)
         {
+            // Base
+            TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateVRConfig(
+                parent: entryArrivalAnchor,
+                onInteract: () => entryArrivalCue.SetActive(false)
+            );
             // Details
             entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
             entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
             entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;
             entryArrivalCueConfig.alwaysExpanded = entryArrivalAlwaysExpand;
+            entryArrivalCueConfig.buttonText = entryArrivalButtonText;
+            entryArrivalCueConfig.label = entryArrivalLabel;
+
+            entryArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(entryArrivalCueConfig);
 
         }
-        else
-        {
-            // Details
-            entryArrivalCueConfig.primaryColor = Color.black;
-            entryArrivalCueConfig.expandedDescription = entryLabel;
-            entryArrivalCueConfig.alwaysExpanded = true;
-
-        }
-        entryArrivalCueConfig.buttonText = entryArrivalButtonText;
-        entryArrivalCueConfig.label = entryArrivalLabel;
-        entryArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(entryArrivalCueConfig);
     }
 
     public void StartNavigationToFriends()

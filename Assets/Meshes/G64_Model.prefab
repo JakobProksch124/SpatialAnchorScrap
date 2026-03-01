@@ -1124,7 +1124,7 @@ MonoBehaviour:
   lineMaterial: {fileID: -2050348263459485335, guid: 383423bb23c7d0f4b9a2e5410857279c, type: 3}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
   arrowHeadPrefab: {fileID: 1726558722844320687, guid: 02b572ad676079746bf5ad12944d8be5, type: 3}
-  arrowSpacing: 0.75
+  arrowSpacing: 2
   arrowYOffset: 0.02
 --- !u!120 &8653409476053225000
 LineRenderer:

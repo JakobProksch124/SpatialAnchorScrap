@@ -473,105 +473,82 @@ public class Building_TransitionCues : MonoBehaviour
 
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
     {
-        // Base
-        TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: entryArrivalAnchor,
-            onInteract: () =>
-            {
-                entryArrivalCue.SetActive(false);
-            }
-        );
+        
         if (!entryArrivalIsBland)
         {
-             // Details
+            // Base
+            TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateARConfig(
+                parent: entryArrivalAnchor,
+                onInteract: () =>
+                {
+                    entryArrivalCue.SetActive(false);
+                }
+            );
+            // Details
             entryArrivalCueConfig.alwaysExpanded = entryArrivalAlwaysExpand;
             entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
             entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
             entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;
+            // (Effectively not used if alwaysExpanded)
+            entryArrivalCueConfig.label = entryArrivalLabel;
+            entryArrivalCueConfig.buttonText = entryArrivalButtonText;
 
+            entryArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(entryArrivalCueConfig);
         }
-        else
-        {
-            // Details
-            entryArrivalCueConfig.alwaysExpanded = true;
-            entryArrivalCueConfig.primaryColor = Color.black;
-            entryArrivalCueConfig.expandedDescription = entryArrivalLabel;
-        }
-
-        // (Effectively not used if alwaysExpanded)
-        entryArrivalCueConfig.label = entryArrivalLabel;
-        entryArrivalCueConfig.buttonText = entryArrivalButtonText;
-        entryArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(entryArrivalCueConfig);
     }
+
 
     void CreateExitArrivalCue(Transform exitArrivalAnchor)
     {
-        // Base
-        TransitionCueConfig exitArrivalCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: exitArrivalAnchor,
-            onInteract: () =>
-            {
-                exitArrivalCue.SetActive(false);
-            }
-        );
+        
 
         if (!exitArrivalIsBland)
-        {
+        {// Base
+            TransitionCueConfig exitArrivalCueConfig = TransitionCueConfig.CreateARConfig(
+                parent: exitArrivalAnchor,
+                onInteract: () =>
+                {
+                    exitArrivalCue.SetActive(false);
+                }
+            );
             // Details
             exitArrivalCueConfig.alwaysExpanded = exitArrivalAlwaysExpand;
             exitArrivalCueConfig.primaryColor = exitArrivalPrimaryColor;
             exitArrivalCueConfig.expandedDescription = exitArrivalDescription;
             exitArrivalCueConfig.screenshotTexture = exitArrivalScreenshotDisplayed;
+            // (Effectively not used if alwaysExpanded)
+            exitArrivalCueConfig.buttonText = exitArrivalButtonText;
+            exitArrivalCueConfig.label = exitArrivalLabel;
+
+            exitArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(exitArrivalCueConfig);
 
         }
-        else
-        {
-
-            // Details
-            exitArrivalCueConfig.alwaysExpanded = true;
-            exitArrivalCueConfig.primaryColor = Color.black;
-            exitArrivalCueConfig.expandedDescription = exitArrivalLabel;
-
-        }
-        // (Effectively not used if alwaysExpanded)
-        exitArrivalCueConfig.buttonText = exitArrivalButtonText;
-        exitArrivalCueConfig.label = exitArrivalLabel;
-        exitArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(exitArrivalCueConfig);
     }
 
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
-        // Base
-        TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: StartArrivalAnchor,
-            onInteract: () =>
-            {
-                startArrivalCue.SetActive(false);
-            }
-        );
+        
         if (!startArrivalIsBland)
-        {
+        {// Base
+            TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
+                parent: StartArrivalAnchor,
+                onInteract: () =>
+                {
+                    startArrivalCue.SetActive(false);
+                }
+            );
             // Details
             StartArrivalCueConfig.alwaysExpanded = startArrivalAlwaysExpand;
             StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
             StartArrivalCueConfig.expandedDescription = startArrivalDescription;
             StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
-
-        }
-        else
-        {
-            // Details
-            StartArrivalCueConfig.alwaysExpanded = true;
-            StartArrivalCueConfig.primaryColor = Color.black;
-            StartArrivalCueConfig.expandedDescription = startArrivalLabel;
-
-        }
             // (Effectively not used if alwaysExpanded)
             StartArrivalCueConfig.label = startArrivalLabel;
-        StartArrivalCueConfig.buttonText = startArrivalButtonText;
+            StartArrivalCueConfig.buttonText = startArrivalButtonText;
 
-        startArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(StartArrivalCueConfig);
+            startArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(StartArrivalCueConfig);
+        }
     }
 
     IEnumerator ExitVR()
