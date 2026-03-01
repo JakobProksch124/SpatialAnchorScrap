@@ -996,6 +996,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2143684148458385820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5523330152956660132}
+  m_Layer: 0
+  m_Name: startArrivalAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5523330152956660132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143684148458385820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.99144495, z: -0, w: -0.13052607}
+  m_LocalPosition: {x: -6.3, y: 1.36, z: 0.504}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3103572488037237033}
+  m_LocalEulerAnglesHint: {x: 0, y: 195, z: 0}
 --- !u!1 &2572559178809489459
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,7 +1310,7 @@ Transform:
   m_GameObject: {fileID: 3641902640010914150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.71, y: 1.343, z: -53.53}
+  m_LocalPosition: {x: 47.71, y: 1.5, z: -53.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2511,6 +2542,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5786398210772707861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6927189847978222905}
+  m_Layer: 0
+  m_Name: exitArrivalAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6927189847978222905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5786398210772707861}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.96440643, z: -0, w: 0.26442447}
+  m_LocalPosition: {x: 6.756, y: 1.5, z: 11.019}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3103572488037237033}
+  m_LocalEulerAnglesHint: {x: 0, y: 149.334, z: 0}
 --- !u!1 &5842855415925930109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2536,7 +2598,7 @@ Transform:
   m_GameObject: {fileID: 5842855415925930109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.96440643, z: -0, w: 0.26442447}
-  m_LocalPosition: {x: 6.756, y: 1.36, z: 11.019}
+  m_LocalPosition: {x: 6.756, y: 1.5, z: 11.019}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2922,6 +2984,8 @@ Transform:
   m_Children:
   - {fileID: 8399379732825461140}
   - {fileID: 4394912394980126459}
+  - {fileID: 6927189847978222905}
+  - {fileID: 5523330152956660132}
   - {fileID: 5766467032572312129}
   - {fileID: 3415287475774320337}
   - {fileID: 8551819065727756276}
@@ -3009,6 +3073,9 @@ MonoBehaviour:
   subdivisions: 10
   lineMaterial: {fileID: 0}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
+  arrowHeadPrefab: {fileID: 1726558722844320687, guid: 02b572ad676079746bf5ad12944d8be5, type: 3}
+  arrowSpacing: 0.75
+  arrowYOffset: 0.02
 --- !u!120 &2701887732669691298
 LineRenderer:
   serializedVersion: 2
@@ -3130,6 +3197,14 @@ MonoBehaviour:
   vrSceneName: Bridge
   navigationDestination: Cafeteria
   ExtraARContent: {fileID: 7689347614445365849}
+  startArrivalAnchorName: startArrivalAnchor
+  startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  startArrivalLabel: AR
+  startArrivalScreenshotDisplayed: {fileID: 0}
+  startArrivalDescription: Welcome to AR Navigation!
+  startArrivalButtonText: X
+  startArrivalAlwaysExpand: 0
+  startArrivalIsBland: 0
   vrRoomTitle: 'IDUX working place: The Bridge'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -3139,14 +3214,32 @@ MonoBehaviour:
     are developed.
   entryButtonText: Enter VR
   entryAlwaysExpand: 1
+  entryIsBland: 0
+  entryArrivalAnchorName: entryArrivalAnchor
+  entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  entryArrivalLabel: VR
+  entryArrivalScreenshotDisplayed: {fileID: 0}
+  entryArrivalDescription: Welcome to VR!
+  entryArrivalButtonText: X
+  entryArrivalAlwaysExpand: 0
+  entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
-  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitLabel: AR
   exitScreenshotDisplayed: {fileID: 2800000, guid: 86c07c3e16a31d748990d9d057d2dd8e, type: 3}
   exitDescription: Return to the interactive pinboard.
   exitButtonText: Back to AR
   exitAlwaysExpand: 1
   leadsToAR: 1
+  exitIsBland: 0
+  exitArrivalAnchorName: exitArrivalAnchor
+  exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitArrivalLabel: AR
+  exitArrivalScreenshotDisplayed: {fileID: 0}
+  exitArrivalDescription: Welcome back to AR vavigation!
+  exitArrivalButtonText: X
+  exitArrivalAlwaysExpand: 0
+  exitArrivalIsBland: 0
   enableKeyboardShortcuts: 1
 --- !u!114 &3805502901795510387
 MonoBehaviour:

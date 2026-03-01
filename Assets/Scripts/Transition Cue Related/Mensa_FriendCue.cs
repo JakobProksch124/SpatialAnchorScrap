@@ -14,20 +14,35 @@ public class Mensa_FriendCue : MonoBehaviour
 
     [SerializeField] private string entryAnchorName = "entryAnchor";
     [SerializeField] private Color entryPrimaryColor = new Color(0.3f, 0.4f, 0.8f);
-    [SerializeField] private string entryLabel = "VR";
+    [SerializeField] private string entryLabel = "AR";
     [Tooltip("Optional: The image shown inside the transition cue")]
     [SerializeField] private Texture2D entryScreenshotDisplayed;
-    [SerializeField] private string entryDescription = "Enter this virtual space.";
-    [SerializeField] private string entryButtonText = "Enter VR";
+    [SerializeField] private string entryDescription = "Start navigation to friends";
+    [SerializeField] private string entryButtonText = "Start navigation";
     [SerializeField] private bool entryAlwaysExpand = true;
+    [SerializeField] private bool entryIsBland = true;
+
+    [SerializeField] private string entryArrivalAnchorName = "entryArrivalAnchor";
+    [SerializeField] private Color entryArrivalPrimaryColor = new Color(0.3f, 0.4f, 0.8f);
+    [SerializeField] private string entryArrivalLabel = "AR";
+    [Tooltip("Optional: The image shown inside the transition cue")]
+    [SerializeField] private Texture2D entryArrivalScreenshotDisplayed;
+    [SerializeField] private string entryArrivalDescription = "Started navigation";
+    [SerializeField] private string entryArrivalButtonText = "X";
+    [SerializeField] private bool entryArrivalAlwaysExpand = true;
+    [SerializeField] private bool entryArrivalIsBland = true;
+
+
 
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
 
     // Internal references
-    private Transform entryAnchor;
+    private Transform entryAnchor; 
+    private Transform entryArrivalAnchor;
     private GameObject vrRoom;
-    private GameObject entryCue;
+    private GameObject entryCue; 
+    private GameObject entryArrivalCue;
     private GameObject exitCue;
     private Camera mainCamera;
     private MonoBehaviour pathGenerator;
@@ -63,8 +78,15 @@ public class Mensa_FriendCue : MonoBehaviour
             Debug.LogWarning($"[Building_TransitionCues] Anchor '{entryAnchorName}' not found. Using this transform.");
             entryAnchor = transform;
         }
+        // Find arrival anchor point in this building
+        entryArrivalAnchor = transform.Find(entryAnchorName);
+        if (entryArrivalAnchor == null)
+        {
+            Debug.LogWarning($"[Building_TransitionCues] Anchor '{entryArrivalAnchorName}' not found. Using this transform.");
+            entryArrivalAnchor = transform;
+        }
 
-        
+
     }
 
 
@@ -97,7 +119,7 @@ public class Mensa_FriendCue : MonoBehaviour
     {
         // Create entry cue
         CreateEntryCue(entryAnchor);
-        if(FoodA!=null)
+        if (FoodA!=null)
         FoodA.SetActive(false);
         if (FoodB != null)
             FoodB.SetActive(false);
@@ -121,20 +143,63 @@ public class Mensa_FriendCue : MonoBehaviour
             parent: entryAnchor,
             onInteract: () => StartNavigationToFriends()
         );
+        if (!entryIsBland)
+        {
+            // Details
+            entryCueConfig.primaryColor = entryPrimaryColor;
+            entryCueConfig.expandedDescription = entryDescription;
+            entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
+            entryCueConfig.alwaysExpanded = entryAlwaysExpand;
 
-        // Details
-        entryCueConfig.primaryColor = entryPrimaryColor;
-        entryCueConfig.label = entryLabel;
-        entryCueConfig.expandedDescription = entryDescription;
+        }
+        else
+        {
+            // Details
+            entryCueConfig.primaryColor = Color.black;
+            entryCueConfig.expandedDescription = entryLabel;
+            entryCueConfig.alwaysExpanded = true;
+
+        }
         entryCueConfig.buttonText = entryButtonText;
-        entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
-        entryCueConfig.alwaysExpanded = entryAlwaysExpand;
-
+        entryCueConfig.label = entryLabel;
         entryCue = TransitionCueFactory.CreateFrostedTransitionCue(entryCueConfig);
+    }
+
+    void CreateEntryArrivalCue(Transform entryArrivalAnchor)
+    {
+        // Base
+        TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateVRConfig(
+            parent: entryArrivalAnchor,
+            onInteract: () => entryArrivalCue.SetActive(false)
+        );
+        if (!entryIsBland)
+        {
+            // Details
+            entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
+            entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
+            entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;
+            entryArrivalCueConfig.alwaysExpanded = entryArrivalAlwaysExpand;
+
+        }
+        else
+        {
+            // Details
+            entryArrivalCueConfig.primaryColor = Color.black;
+            entryArrivalCueConfig.expandedDescription = entryLabel;
+            entryArrivalCueConfig.alwaysExpanded = true;
+
+        }
+        entryArrivalCueConfig.buttonText = entryArrivalButtonText;
+        entryArrivalCueConfig.label = entryArrivalLabel;
+        entryArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(entryArrivalCueConfig);
     }
 
     public void StartNavigationToFriends()
     {
+        //Hide entry cue
+        entryCue.SetActive(false);
+        // Create entry arrival cue
+        CreateEntryArrivalCue(entryArrivalAnchor);
         EnablePathGenerator();
     }
 

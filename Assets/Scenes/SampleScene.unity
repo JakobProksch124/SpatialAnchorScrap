@@ -1848,7 +1848,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positioner: {fileID: 330585551}
-  _objectToPlace: {fileID: 1384505585074534098, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+  _objectToPlace: {fileID: 3252451672500658893, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
+  SpatialAnchorLoadBuildingBlock: {fileID: 270298901}
+  firstAnchorFound: 0
 --- !u!114 &330585551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1879,7 +1881,7 @@ MonoBehaviour:
   OffsetRotX: 0
   OffsetRotY: 0
   OffsetRotZ: 0
-  inDevMode: 1
+  inDevMode: 0
   occluderMat: {fileID: 2100000, guid: a2dbbbd26ee4c1b429fa90e125314135, type: 2}
   transparencyMat: {fileID: 2100000, guid: f4e61db57faef1e4d996125006c70f63, type: 2}
 --- !u!1 &342275732
@@ -11565,6 +11567,14 @@ MonoBehaviour:
   vrSceneName: Bridge Replica
   navigationDestination: Cafeteria
   ExtraARContent: {fileID: 0}
+  startArrivalAnchorName: startArrivalAnchor
+  startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  startArrivalLabel: VR
+  startArrivalScreenshotDisplayed: {fileID: 0}
+  startArrivalDescription: Welcome to VR!
+  startArrivalButtonText: X
+  startArrivalAlwaysExpand: 0
+  startArrivalIsBland: 0
   vrRoomTitle: 'IDUX working place: The Bridge'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -11573,6 +11583,15 @@ MonoBehaviour:
   entryDescription: Take a look inside the working place of the IDUX group.
   entryButtonText: Enter VR
   entryAlwaysExpand: 0
+  entryIsBland: 0
+  entryArrivalAnchorName: entryArrivalAnchor
+  entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  entryArrivalLabel: VR
+  entryArrivalScreenshotDisplayed: {fileID: 0}
+  entryArrivalDescription: Welcome to VR!
+  entryArrivalButtonText: X
+  entryArrivalAlwaysExpand: 0
+  entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
@@ -11581,6 +11600,15 @@ MonoBehaviour:
   exitButtonText: Back to AR
   exitAlwaysExpand: 0
   leadsToAR: 0
+  exitIsBland: 0
+  exitArrivalAnchorName: exitArrivalAnchor
+  exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitArrivalLabel: AR
+  exitArrivalScreenshotDisplayed: {fileID: 0}
+  exitArrivalDescription: Welcome back to AR!
+  exitArrivalButtonText: X
+  exitArrivalAlwaysExpand: 0
+  exitArrivalIsBland: 0
   enableKeyboardShortcuts: 1
 --- !u!4 &1974116777
 Transform:

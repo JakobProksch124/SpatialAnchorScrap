@@ -719,6 +719,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2336229803862393193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3510438844174324208}
+  m_Layer: 0
+  m_Name: exitArrivalAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3510438844174324208
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2336229803862393193}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.76604444, z: 0, w: 0.64278764}
+  m_LocalPosition: {x: -0.2, y: 1.5, z: 52}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6513638395473454496}
+  m_LocalEulerAnglesHint: {x: 0, y: 100, z: 0}
 --- !u!1 &2833207482006198499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,6 +1043,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4993667396061305196}
+  - {fileID: 3510438844174324208}
+  - {fileID: 6594754565762670036}
   - {fileID: 4107922603660936031}
   - {fileID: 716283814189532078}
   - {fileID: 5346190959016642581}
@@ -1090,6 +1123,9 @@ MonoBehaviour:
   subdivisions: 10
   lineMaterial: {fileID: -2050348263459485335, guid: 383423bb23c7d0f4b9a2e5410857279c, type: 3}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
+  arrowHeadPrefab: {fileID: 1726558722844320687, guid: 02b572ad676079746bf5ad12944d8be5, type: 3}
+  arrowSpacing: 0.75
+  arrowYOffset: 0.02
 --- !u!120 &8653409476053225000
 LineRenderer:
   serializedVersion: 2
@@ -1211,6 +1247,14 @@ MonoBehaviour:
   vrSceneName: Laboratory
   navigationDestination: Lecture
   ExtraARContent: {fileID: 0}
+  startArrivalAnchorName: startArrivalAnchor
+  startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  startArrivalLabel: AR
+  startArrivalScreenshotDisplayed: {fileID: 0}
+  startArrivalDescription: Welcome to AR Navigation!
+  startArrivalButtonText: X
+  startArrivalAlwaysExpand: 0
+  startArrivalIsBland: 1
   vrRoomTitle: The Lab
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -1219,14 +1263,32 @@ MonoBehaviour:
   entryDescription: 'You can enter VR to take a look inside one of our laboratories. '
   entryButtonText: Enter VR
   entryAlwaysExpand: 0
+  entryIsBland: 0
+  entryArrivalAnchorName: entryArrivalAnchor
+  entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  entryArrivalLabel: VR
+  entryArrivalScreenshotDisplayed: {fileID: 0}
+  entryArrivalDescription: Welcome to VR!
+  entryArrivalButtonText: X
+  entryArrivalAlwaysExpand: 0
+  entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
-  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitLabel: AR
   exitScreenshotDisplayed: {fileID: 2800000, guid: 1864828496f3da745bfef650d0c445cb, type: 3}
   exitDescription: 'Return to the floor of the building. '
   exitButtonText: Back to AR
   exitAlwaysExpand: 0
   leadsToAR: 1
+  exitIsBland: 1
+  exitArrivalAnchorName: exitArrivalAnchor
+  exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitArrivalLabel: AR
+  exitArrivalScreenshotDisplayed: {fileID: 0}
+  exitArrivalDescription: Welcome back to AR navigation!
+  exitArrivalButtonText: X
+  exitArrivalAlwaysExpand: 0
+  exitArrivalIsBland: 1
   enableKeyboardShortcuts: 1
 --- !u!114 &7287314359623195551
 MonoBehaviour:
@@ -2079,7 +2141,7 @@ Transform:
   m_GameObject: {fileID: 6696410872217039163}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 2.8128383, y: 1.1148504, z: 49.10631}
+  m_LocalPosition: {x: 2.8128383, y: 1.1148504, z: 48.509}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2334,13 +2396,44 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7146633422438791428}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.63665885, z: -0, w: 0.7711456}
-  m_LocalPosition: {x: 3.511, y: 1.3, z: 51.101}
+  m_LocalRotation: {x: 0, y: -0.6427876, z: 0, w: 0.7660445}
+  m_LocalPosition: {x: 3.5, y: 1.5, z: 51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6513638395473454496}
-  m_LocalEulerAnglesHint: {x: 0, y: -79.086, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -80, z: 0}
+--- !u!1 &7235860175906673358
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6594754565762670036}
+  m_Layer: 0
+  m_Name: startArrivalAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6594754565762670036
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7235860175906673358}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.9238796, z: -0, w: -0.38268325}
+  m_LocalPosition: {x: 1.586, y: 1.5, z: 5.096}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6513638395473454496}
+  m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
 --- !u!1 &7371921210935262145
 GameObject:
   m_ObjectHideFlags: 0

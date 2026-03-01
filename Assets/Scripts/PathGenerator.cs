@@ -16,9 +16,19 @@ public class PathGenerator : MonoBehaviour
     [Tooltip("Color applied to the line (multiplied with the material's color)")]
     [SerializeField] Color lineColor = Color.cyan;
 
+    [Header("Arrow Settings")]
+    [SerializeField] GameObject arrowHeadPrefab;
+    [SerializeField] float arrowSpacing = 2f;      // distance between arrows in meters
+    [SerializeField] float arrowYOffset = 0.02f;      // lift arrows slightly above ground
+
+    private List<GameObject> _spawnedArrows = new List<GameObject>();
+
     LineRenderer _lineRenderer;
 
     bool _pathing = true;
+
+
+
 
     void Start()
     {
@@ -116,7 +126,10 @@ public class PathGenerator : MonoBehaviour
 
         _lineRenderer.positionCount = smoothPoints.Count;
         _lineRenderer.SetPositions(smoothPoints.ToArray());
+        PlaceArrowsAlongPath(smoothPoints);
     }
+
+
 
     static float GetT(float t, Vector3 p0, Vector3 p1)
     {
@@ -124,5 +137,61 @@ public class PathGenerator : MonoBehaviour
         if (distance < 1e-5f)
             distance = 1e-5f;
         return Mathf.Pow(distance, 0.5f) + t;
+    }
+
+    void PlaceArrowsAlongPath(List<Vector3> pathPoints)
+    {
+        if (arrowHeadPrefab == null || pathPoints.Count < 2)
+            return;
+
+        ClearArrows();
+
+        float accumulatedDistance = 0f;
+        float nextArrowDistance = arrowSpacing;
+
+        for (int i = 1; i < pathPoints.Count; i++)
+        {
+            Vector3 prev = pathPoints[i - 1];
+            Vector3 current = pathPoints[i];
+
+            float segmentDistance = Vector3.Distance(prev, current);
+
+            while (accumulatedDistance + segmentDistance >= nextArrowDistance)
+            {
+                float remaining = nextArrowDistance - accumulatedDistance;
+                float t = remaining / segmentDistance;
+
+                Vector3 position = Vector3.Lerp(prev, current, t);
+                Vector3 direction = (current - prev).normalized;
+
+                position.y += arrowYOffset;
+
+                GameObject arrow = Instantiate(
+                    arrowHeadPrefab,
+                    position,
+                    Quaternion.LookRotation(direction)
+                );
+
+                _spawnedArrows.Add(arrow);
+
+                nextArrowDistance += arrowSpacing;
+            }
+
+            accumulatedDistance += segmentDistance;
+        }
+    }
+
+    public void ClearArrows()
+    {
+        if (_spawnedArrows == null)
+            return;
+
+        foreach (var arrow in _spawnedArrows)
+        {
+            if (arrow != null)
+                Destroy(arrow);
+        }
+
+        _spawnedArrows.Clear();
     }
 }

@@ -39,7 +39,7 @@ public class Positioner : MonoBehaviour
     public float OffsetRotX = 0f;
     public float OffsetRotY = 0f;
     public float OffsetRotZ = 0f;
-    public bool inDevMode = true;
+    public bool inDevMode = false;
     //public Quaternion OffsetRotQuaternion;
 
     [SerializeField] Material occluderMat;
@@ -164,6 +164,7 @@ public class Positioner : MonoBehaviour
     void Start()
     {
         cameraTransform = Camera.main.transform;
+        AdjustVisuals();
     }
 
     void Update()
@@ -278,6 +279,7 @@ public class Positioner : MonoBehaviour
     public void SetObjectToPosition(GameObject obj)
     {
         _objectToPosition = obj;
+        AdjustVisuals();
         Debug.Log("[Positioner] _objectToPosition set");
 
         if (!File.Exists(RuntimeJsonPath))

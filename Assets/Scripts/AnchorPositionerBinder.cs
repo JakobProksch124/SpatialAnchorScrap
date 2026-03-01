@@ -1,6 +1,7 @@
 using UnityEngine;
 using Meta.XR.BuildingBlocks;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 
 public class AnchorPositionerBinder : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class AnchorPositionerBinder : MonoBehaviour
 
     private SpatialAnchorCoreBuildingBlock _core;
     [SerializeField] public GameObject _objectToPlace;
-
+    [SerializeField] public SpatialAnchorLoaderBuildingBlock SpatialAnchorLoadBuildingBlock;
+    public bool firstAnchorFound = false;
     private void Awake()
     {
         _core = FindAnyObjectByType<SpatialAnchorCoreBuildingBlock>();
@@ -22,6 +24,22 @@ public class AnchorPositionerBinder : MonoBehaviour
 
         _core.OnAnchorCreateCompleted.AddListener(OnAnchorCreated);
         _core.OnAnchorsLoadCompleted.AddListener(OnAnchorsLoaded);
+    }
+
+    private void Update()
+    {
+        if (!this.firstAnchorFound)
+        {
+            Debug.Log("First Anchor Not Found Yet");
+            if(SpatialAnchorLoadBuildingBlock != null)
+            {
+                SpatialAnchorLoadBuildingBlock.LoadAnchorsFromDefaultLocalStorage();
+            }
+            else
+            {
+                Debug.Log("can not automatically load anchor bcs SpatialAnchorLoadBuildingBlock reference is not AudioSettings");
+            }
+        }
     }
 
     private void OnDestroy()
@@ -39,6 +57,7 @@ public class AnchorPositionerBinder : MonoBehaviour
         if (result != OVRSpatialAnchor.OperationResult.Success)
             return;
 
+        this.firstAnchorFound = true;
         Bind(anchor);
     }
 
@@ -48,6 +67,7 @@ public class AnchorPositionerBinder : MonoBehaviour
             return;
 
         // Only the last loaded anchor (your requirement)
+        this.firstAnchorFound = true;
         Bind(anchors[^1]);
     }
 
