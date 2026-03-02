@@ -209,6 +209,7 @@ public class Building_TransitionCues : MonoBehaviour
             entryCueConfig.alwaysExpanded = true;
             entryCueConfig.primaryColor = Color.black;
             entryCueConfig.expandedDescription = entryLabel;
+            entryCueConfig.isBland = entryIsBland;
         }
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
@@ -355,8 +356,6 @@ public class Building_TransitionCues : MonoBehaviour
                     {
                         Debug.Log("none floor objected detected at: " + hit.point.y);
                     }
-
-                    
                 }
                 else
                 {
@@ -430,7 +429,58 @@ public class Building_TransitionCues : MonoBehaviour
         }
     }
 
-    
+    void RepositionVRFloorAfterTeleport()
+    {
+        if (vrRoom == null || !userInVRRoom)
+            return;
+
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        // Ray straight down from the camera
+        Ray ray = new Ray(mainCamera.transform.position, Vector3.down);
+        RaycastHit hit;
+
+        int layerMask = LayerMask.GetMask("Floor");
+        float maxDistance = 20f;
+
+        if (Physics.Raycast(ray, out hit, maxDistance, layerMask))
+        {
+            if (hit.collider.CompareTag("Floor"))
+            {
+                float realFloorY = hit.point.y;
+
+                // Current player/world Y (camera rig root, not headset local offset)
+                Transform rigRoot = mainCamera.transform.parent;
+                if (rigRoot == null)
+                    return;
+
+                float currentRigY = rigRoot.position.y;
+
+                // Calculate vertical difference
+                float deltaY = realFloorY - currentRigY;
+
+                // Apply only vertical correction to VR room
+                Vector3 newPos = vrRoom.transform.position;
+                newPos.y += deltaY;
+                vrRoom.transform.position = newPos;
+
+                Physics.SyncTransforms();
+
+                Debug.Log($"[VR] Floor corrected by {deltaY} meters.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("[VR] No floor detected after teleport!");
+        }
+    }
+
+    public void OnTeleportFinished()
+    {
+        RepositionVRFloorAfterTeleport();
+    }
+
     List<GameObject> FindDeepChildrenInScene(Scene scene, string name)
     {
         var results = new List<GameObject>();
@@ -472,6 +522,7 @@ public class Building_TransitionCues : MonoBehaviour
             exitCueConfig.alwaysExpanded = true;
             exitCueConfig.primaryColor = Color.black;
             exitCueConfig.expandedDescription = exitLabel;
+            exitCueConfig.isBland = exitIsBland;
 
         }
         if (leadsToAR)

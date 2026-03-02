@@ -23,6 +23,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Environments/Lecture/Lecture 1.unity
     guid: a51a969c5a9d29944b3abace8e581df2
+  - enabled: 0
+    path: Assets/Scenes/TCTestScene.unity
+    guid: 29366bf0b2681024f9d55d964ff24629
+  - enabled: 0
+    path: Assets/Environments/Bridge Old/Bridge Old.unity
+    guid: b0073f7a51534864dac46cba70657065
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 52e0b280efb9a504194c3d1c13991962, type: 2}

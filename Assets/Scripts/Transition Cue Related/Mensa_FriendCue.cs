@@ -8,6 +8,17 @@ public class Mensa_FriendCue : MonoBehaviour
     [Tooltip("Destination shown in the navigation notification after returning to AR")]
     [SerializeField] private string navigationDestination = "Next Location";
 
+    [Header("Start Arrival Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string startArrivalAnchorName = "startArrivalAnchor";
+    [SerializeField] private Color startArrivalPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string startArrivalLabel = "VR";
+    [SerializeField] private Texture2D startArrivalScreenshotDisplayed;
+    [SerializeField] private string startArrivalDescription = "Welcome to the VR lecture!";
+    [SerializeField] private string startArrivalButtonText = "Start Video";
+    [SerializeField] private bool startArrivalAlwaysExpand = false;
+    [SerializeField] private bool startArrivalIsBland = false;
+
     [SerializeField] private string entryAnchorName = "entryAnchor";
     [SerializeField] private Color entryPrimaryColor = new Color(0.3f, 0.4f, 0.8f);
     [SerializeField] private string entryLabel = "AR";
@@ -36,9 +47,11 @@ public class Mensa_FriendCue : MonoBehaviour
     // Internal references
     private Transform entryAnchor; 
     private Transform entryArrivalAnchor;
+    private Transform startArrivalAnchor;
     private GameObject vrRoom;
     private GameObject entryCue; 
     private GameObject entryArrivalCue;
+    private GameObject startArrivalCue;
     private GameObject exitCue;
     private Camera mainCamera;
     private MonoBehaviour pathGenerator;
@@ -85,6 +98,27 @@ public class Mensa_FriendCue : MonoBehaviour
 
     }
 
+    void CreateStartArrivalCue(Transform StartArrivalAnchor)
+    {
+        if (!startArrivalIsBland)
+        {
+            TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
+                parent: StartArrivalAnchor,
+                onInteract: () =>
+                {
+                    startArrivalCue.SetActive(false);
+                }
+            );
+            StartArrivalCueConfig.alwaysExpanded = startArrivalAlwaysExpand;
+            StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
+            StartArrivalCueConfig.expandedDescription = startArrivalDescription;
+            StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
+            StartArrivalCueConfig.label = startArrivalLabel;
+            StartArrivalCueConfig.buttonText = startArrivalButtonText;
+
+            startArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(StartArrivalCueConfig);
+        }
+    }
 
     void Update()
     {
@@ -154,6 +188,7 @@ public class Mensa_FriendCue : MonoBehaviour
             entryCueConfig.primaryColor = Color.black;
             entryCueConfig.expandedDescription = entryLabel;
             entryCueConfig.alwaysExpanded = true;
+            entryCueConfig.isBland = entryIsBland;
 
         }
         entryCueConfig.buttonText = entryButtonText;

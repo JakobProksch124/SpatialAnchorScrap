@@ -27,6 +27,9 @@ public class TransitionCueConfig
     // decides if transition leads to AR
     public bool leadsToAR = false;
 
+    //decides if transition cue is blunt
+    public bool isBland = false;
+
     // === Expansion Behavior ===
 
     // If true, the panel starts and stays in expanded state. If false, expands on proximity + gaze

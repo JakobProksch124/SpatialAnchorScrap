@@ -202,8 +202,28 @@ public static class TransitionCueFactory
         {
             renderer = expandedPanel.GetComponentInChildren<Renderer>();
         }
-        Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
-        renderer.material = frostedMat;
+
+        // Content (Screenshot or 3D Object)
+        float contentBottomY = 0f; // Y-position of the bottom of the content
+        if (!config.isBland)
+        {
+            Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
+            renderer.material = frostedMat;
+
+            if (config.screenshotTexture != null)
+            {
+                contentBottomY = CreateScreenshotDisplay(expandedPanel.transform, config);
+            }
+            else if (config.contentObject != null)
+            {
+                contentBottomY = Create3DObjectDisplay(expandedPanel.transform, config);
+            }
+            else
+            {
+                // No content, center the description text
+                contentBottomY = config.expandedPanelHeight * 0.1f;
+            }
+        }
 
         // XR Interaction for Expanded Panel
         /*XRSimpleInteractable expandedInteractable = expandedPanel.AddComponent<XRSimpleInteractable>();
@@ -212,22 +232,9 @@ public static class TransitionCueFactory
             expandedInteractable.selectEntered.AddListener((args) => config.onInteract());
         }*/
 
-        // Content (Screenshot or 3D Object)
-        float contentBottomY = 0f; // Y-position of the bottom of the content
 
-        if (config.screenshotTexture != null)
-        {
-            contentBottomY = CreateScreenshotDisplay(expandedPanel.transform, config);
-        }
-        else if (config.contentObject != null)
-        {
-            contentBottomY = Create3DObjectDisplay(expandedPanel.transform, config);
-        }
-        else
-        {
-            // No content, center the description text
-            contentBottomY = config.expandedPanelHeight * 0.1f;
-        }
+        
+        
 
         // Description Text
         GameObject descObj = new GameObject("DescriptionText");

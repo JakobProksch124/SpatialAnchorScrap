@@ -2941,6 +2941,8 @@ MonoBehaviour:
   _objectToPlace: {fileID: 7355581936147766005, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
   SpatialAnchorLoadBuildingBlock: {fileID: 2024517657}
   firstAnchorFound: 0
+  SpatialAnchorSpawner: {fileID: 0}
+  joystickController: {fileID: 0}
 --- !u!114 &474745955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5330,7 +5332,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
+  m_RequiresOpaqueTextureOption: 1
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -6396,21 +6398,20 @@ MonoBehaviour:
   - Title: Spawn spatial anchor
     Button: 1
     ButtonMode: 0
-    InputActionReference: {fileID: 0}
+    InputActionReference: {fileID: -5833943181037098365, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     CallbackWithContext:
       m_PersistentCalls:
         m_Calls: []
     Callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2024517658}
-          m_TargetAssemblyTypeName: Meta.XR.BuildingBlocks.SpatialAnchorSpawnerBuildingBlock,
-            Meta.XR.BuildingBlocks
-          m_MethodName: SpawnSpatialAnchor
-          m_Mode: 0
+        - m_Target: {fileID: 474745954}
+          m_TargetAssemblyTypeName: AnchorPositionerBinder, Assembly-CSharp
+          m_MethodName: createFirstAnchor
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 

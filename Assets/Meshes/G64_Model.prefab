@@ -1123,8 +1123,8 @@ MonoBehaviour:
   subdivisions: 10
   lineMaterial: {fileID: -2050348263459485335, guid: 383423bb23c7d0f4b9a2e5410857279c, type: 3}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
-  arrowHeadPrefab: {fileID: 1726558722844320687, guid: 02b572ad676079746bf5ad12944d8be5, type: 3}
-  arrowSpacing: 2
+  arrowHeadPrefab: {fileID: 919132149155446097, guid: ebd94da4f40c945eca86377eff304c28, type: 3}
+  arrowSpacing: 6
   arrowYOffset: 0.02
 --- !u!120 &8653409476053225000
 LineRenderer:
@@ -1252,7 +1252,7 @@ MonoBehaviour:
   startArrivalLabel: AR
   startArrivalScreenshotDisplayed: {fileID: 0}
   startArrivalDescription: Welcome to AR Navigation!
-  startArrivalButtonText: X
+  startArrivalButtonText: Close
   startArrivalAlwaysExpand: 0
   startArrivalIsBland: 1
   vrRoomTitle: The Lab
@@ -1269,7 +1269,7 @@ MonoBehaviour:
   entryArrivalLabel: VR
   entryArrivalScreenshotDisplayed: {fileID: 0}
   entryArrivalDescription: Welcome to VR!
-  entryArrivalButtonText: X
+  entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 0
   entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
@@ -1286,7 +1286,7 @@ MonoBehaviour:
   exitArrivalLabel: AR
   exitArrivalScreenshotDisplayed: {fileID: 0}
   exitArrivalDescription: Welcome back to AR navigation!
-  exitArrivalButtonText: X
+  exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
   exitArrivalIsBland: 1
   enableKeyboardShortcuts: 1

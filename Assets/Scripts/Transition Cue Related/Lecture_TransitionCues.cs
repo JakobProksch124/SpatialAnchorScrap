@@ -11,6 +11,8 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private float exitCueDelay = 30f;
 
+
+
     [Header("Start Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
     [SerializeField] private string startArrivalAnchorName = "startArrivalAnchor";
@@ -21,6 +23,8 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private string startArrivalButtonText = "Start Video";
     [SerializeField] private bool startArrivalAlwaysExpand = false;
     [SerializeField] private bool startArrivalIsBland = false;
+    [Tooltip("only used, when start arrival cue is set to blunt")]
+    [SerializeField] private float videoStartDelay = 3f;
 
     [Header("VRExit Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -82,7 +86,12 @@ public class Lecture_TransitionCues : MonoBehaviour
 
             startArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(StartArrivalCueConfig);
         }
+        else
+        {
+            Invoke(nameof(videoPlayer.Play), videoStartDelay);
+        }
     }
+
     void SpawnExitCue()
     {
         CreateExitCue(exitAnchor);
@@ -115,6 +124,7 @@ public class Lecture_TransitionCues : MonoBehaviour
             exitCueConfig.alwaysExpanded = true;
             exitCueConfig.primaryColor = Color.black;
             exitCueConfig.expandedDescription = exitLabel;
+            exitCueConfig.isBland = exitIsBland;
 
         }
         exitCueConfig.label = exitLabel;

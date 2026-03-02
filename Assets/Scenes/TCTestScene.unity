@@ -485,7 +485,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705586194}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1015295539
+--- !u!1001 &1019878942
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -493,55 +493,55 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1384505585074534098, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
-      propertyPath: m_Name
-      value: Mensa_Model
-      objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 39.60942
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.25
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 8.182934
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9641781
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.26525596
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 30.764
       objectReference: {fileID: 0}
-    - target: {fileID: 3088886841078431567, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7355581936147766005, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
+      propertyPath: m_Name
+      value: Bib_Model_NewMesh
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
 --- !u!1 &1370208899
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,6 +628,14 @@ MonoBehaviour:
   vrSceneName: Bridge
   navigationDestination: TestLocation
   ExtraARContent: {fileID: 0}
+  startArrivalAnchorName: startArrivalAnchor
+  startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  startArrivalLabel: VR
+  startArrivalScreenshotDisplayed: {fileID: 0}
+  startArrivalDescription: Welcome to VR!
+  startArrivalButtonText: X
+  startArrivalAlwaysExpand: 0
+  startArrivalIsBland: 1
   vrRoomTitle: My Virtual Room Test
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -636,6 +644,15 @@ MonoBehaviour:
   entryDescription: Enter this test virtual space.
   entryButtonText: Test VR
   entryAlwaysExpand: 0
+  entryIsBland: 1
+  entryArrivalAnchorName: entryArrivalAnchor
+  entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  entryArrivalLabel: VR
+  entryArrivalScreenshotDisplayed: {fileID: 0}
+  entryArrivalDescription: Welcome to VR!
+  entryArrivalButtonText: X
+  entryArrivalAlwaysExpand: 0
+  entryArrivalIsBland: 1
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
@@ -644,6 +661,15 @@ MonoBehaviour:
   exitButtonText: Back to AR
   exitAlwaysExpand: 0
   leadsToAR: 0
+  exitIsBland: 1
+  exitArrivalAnchorName: exitArrivalAnchor
+  exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitArrivalLabel: AR
+  exitArrivalScreenshotDisplayed: {fileID: 0}
+  exitArrivalDescription: Welcome back to AR!
+  exitArrivalButtonText: X
+  exitArrivalAlwaysExpand: 0
+  exitArrivalIsBland: 1
   enableKeyboardShortcuts: 1
 --- !u!114 &1589841417
 MonoBehaviour:
@@ -798,6 +824,7 @@ MonoBehaviour:
   subdivisions: 10
   lineMaterial: {fileID: 0}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
+  arrowHeadPrefab: {fileID: 5401700411737038029, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
 --- !u!114 &1589841420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -974,4 +1001,4 @@ SceneRoots:
   - {fileID: 67777459}
   - {fileID: 1819211665}
   - {fileID: 1589841415}
-  - {fileID: 1015295539}
+  - {fileID: 1019878942}

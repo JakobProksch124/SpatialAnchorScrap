@@ -18,8 +18,8 @@ public class PathGenerator : MonoBehaviour
 
     [Header("Arrow Settings")]
     [SerializeField] GameObject arrowHeadPrefab;
-    [SerializeField] float arrowSpacing = 2f;      // distance between arrows in meters
-    [SerializeField] float arrowYOffset = 0.02f;      // lift arrows slightly above ground
+    private float arrowSpacing = 6f;      // distance between arrows in meters
+    float arrowYOffset = 0.02f;      // lift arrows slightly above ground
 
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
@@ -169,7 +169,7 @@ public class PathGenerator : MonoBehaviour
                 GameObject arrow = Instantiate(
                     arrowHeadPrefab,
                     position,
-                    Quaternion.LookRotation(direction)
+                    Quaternion.LookRotation(direction) * Quaternion.Euler(-90f, -90f, 0)
                 );
 
                 _spawnedArrows.Add(arrow);

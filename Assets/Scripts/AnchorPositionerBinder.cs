@@ -11,6 +11,11 @@ public class AnchorPositionerBinder : MonoBehaviour
     [SerializeField] public GameObject _objectToPlace;
     [SerializeField] public SpatialAnchorLoaderBuildingBlock SpatialAnchorLoadBuildingBlock;
     public bool firstAnchorFound = false;
+    public SpatialAnchorSpawnerBuildingBlock SpatialAnchorSpawner;
+
+    public GameObject joystickController;
+
+
     private void Awake()
     {
         _core = FindAnyObjectByType<SpatialAnchorCoreBuildingBlock>();
@@ -26,18 +31,19 @@ public class AnchorPositionerBinder : MonoBehaviour
         _core.OnAnchorsLoadCompleted.AddListener(OnAnchorsLoaded);
     }
 
+
     private void Update()
     {
         if (!this.firstAnchorFound)
         {
-            Debug.Log("First Anchor Not Found Yet");
+            //Debug.Log("First Anchor Not Found Yet");
             if(SpatialAnchorLoadBuildingBlock != null)
             {
                 SpatialAnchorLoadBuildingBlock.LoadAnchorsFromDefaultLocalStorage();
             }
             else
             {
-                Debug.Log("can not automatically load anchor bcs SpatialAnchorLoadBuildingBlock reference is not AudioSettings");
+                Debug.Log("can not automatically load anchor bcs SpatialAnchorLoadBuildingBlock reference is not set");
             }
         }
     }
@@ -66,7 +72,7 @@ public class AnchorPositionerBinder : MonoBehaviour
         if (anchors == null || anchors.Count == 0)
             return;
 
-        // Only the last loaded anchor (your requirement)
+        // Only the last loaded anchor
         this.firstAnchorFound = true;
         Bind(anchors[^1]);
     }
@@ -79,6 +85,23 @@ public class AnchorPositionerBinder : MonoBehaviour
         Debug.Log("binding anchor root");
         GameObject instance = Instantiate(_objectToPlace, anchor.transform);
         positioner.SetObjectToPosition(instance);
+    }
+
+    public void createFirstAnchor()
+    {
+        if (!firstAnchorFound)
+        {
+            Debug.Log("Spawning first anchor");
+            if (this.joystickController !=null)
+            {
+
+                SpatialAnchorSpawner.SpawnSpatialAnchor(joystickController.transform.position, joystickController.transform.rotation);
+            }
+            else
+            {
+                Debug.Log("[AnchorPositionerBinder] No controller reference set.");
+            }
+        }
     }
 
 }
