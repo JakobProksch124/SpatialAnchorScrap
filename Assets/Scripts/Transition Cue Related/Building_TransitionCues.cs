@@ -106,6 +106,7 @@ public class Building_TransitionCues : MonoBehaviour
     {
         mainCamera = Camera.main;
 
+
         // Find PathGenerator component
         foreach (PathGenerator component in GetComponents<PathGenerator>())
         {
@@ -151,7 +152,17 @@ public class Building_TransitionCues : MonoBehaviour
             LeaveHMDCue.SpawnArrivalCue();
         }
     }
+    public void RegisterTeleportRedirects()
+    {
+        ARTeleportRedirect[] redirects = FindObjectsByType<ARTeleportRedirect>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None);
 
+        foreach (var redirect in redirects)
+        {
+            redirect.SetBuildingTransitionCues(this);
+        }
+    }
     void Update()
     {
         if (!enableKeyboardShortcuts) return;
@@ -290,6 +301,7 @@ public class Building_TransitionCues : MonoBehaviour
             loadedVRScene = SceneManager.GetSceneByName(vrSceneName);
             yield return null; // safety wait
 
+
             // New way
             // Important: First rotation, then translation
             // We use this formula for the rotation angle: angle = atan2( dot(up, cross(a, b)), dot(a, b) )
@@ -418,6 +430,7 @@ public class Building_TransitionCues : MonoBehaviour
         }
     }
 
+    
     List<GameObject> FindDeepChildrenInScene(Scene scene, string name)
     {
         var results = new List<GameObject>();
@@ -716,5 +729,21 @@ public class Building_TransitionCues : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void MoveVRRoomToHit(Vector3 hitPoint)
+    {
+        if (vrRoom == null) return;
+
+        // Player feet position (OVRCameraRig root position)
+        Vector3 playerFeet = Camera.main.transform.parent.position;
+
+        // Calculate horizontal offset
+        Vector3 offset = playerFeet - hitPoint;
+        offset.y = 0f; // Keep real world Y stable
+
+        vrRoom.transform.position += offset;
+
+        Physics.SyncTransforms();
     }
 }

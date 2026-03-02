@@ -1,10 +1,6 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 // Place script directly on the Building Prefab Root
 public class Mensa_FriendCue : MonoBehaviour
