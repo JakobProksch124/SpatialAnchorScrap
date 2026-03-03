@@ -1,6 +1,7 @@
+using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 // Place script directly on the Building Prefab Root
 public class Mensa_FriendCue : MonoBehaviour
@@ -52,7 +53,6 @@ public class Mensa_FriendCue : MonoBehaviour
     private GameObject entryCue; 
     private GameObject entryArrivalCue;
     private GameObject startArrivalCue;
-    private GameObject exitCue;
     private Camera mainCamera;
     private MonoBehaviour pathGenerator;
     private LineRenderer[] pathLineRenderers;
@@ -80,22 +80,41 @@ public class Mensa_FriendCue : MonoBehaviour
 
         DisablePathGenerator();
 
+        // Find start arrival anchor point in this building
+        startArrivalAnchor = transform.Find(startArrivalAnchorName);
+        if (startArrivalAnchor == null)
+        {
+            UnityEngine.Debug.LogWarning($"[Building_TransitionCues] Anchor '{startArrivalAnchorName}' not found. Using this transform.");
+            startArrivalAnchor = transform;
+        }
+        else
+        {
+            UnityEngine.Debug.Log("start arrival anchor set!");
+        }
         // Find anchor point in this building
         entryAnchor = transform.Find(entryAnchorName);
         if (entryAnchor == null)
         {
-            Debug.LogWarning($"[Building_TransitionCues] Anchor '{entryAnchorName}' not found. Using this transform.");
+            UnityEngine.Debug.LogWarning($"[Building_TransitionCues] Anchor '{entryAnchorName}' not found. Using this transform.");
             entryAnchor = transform;
         }
+        else
+        {
+            UnityEngine.Debug.Log("entry anchor set!");
+        }
         // Find arrival anchor point in this building
-        entryArrivalAnchor = transform.Find(entryAnchorName);
+        entryArrivalAnchor = transform.Find(entryArrivalAnchorName);
         if (entryArrivalAnchor == null)
         {
-            Debug.LogWarning($"[Building_TransitionCues] Anchor '{entryArrivalAnchorName}' not found. Using this transform.");
+            UnityEngine.Debug.LogWarning($"[Building_TransitionCues] Anchor '{entryArrivalAnchorName}' not found. Using this transform.");
             entryArrivalAnchor = transform;
         }
+        else
+        {
+            UnityEngine.Debug.Log("entry arrival anchor set!");
+        }
 
-
+        CreateStartArrivalCue(startArrivalAnchor);
     }
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
@@ -117,6 +136,7 @@ public class Mensa_FriendCue : MonoBehaviour
             StartArrivalCueConfig.buttonText = startArrivalButtonText;
 
             startArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(StartArrivalCueConfig);
+            UnityEngine.Debug.Log("start arrival cue created!");
         }
     }
 
@@ -129,7 +149,7 @@ public class Mensa_FriendCue : MonoBehaviour
         {
             if (Keyboard.current.pKey.wasPressedThisFrame || Keyboard.current.tKey.wasPressedThisFrame)
             {
-                Debug.Log($"[Building_TransitionCues] T or P key pressed on {gameObject.name}");
+                UnityEngine.Debug.Log($"[Building_TransitionCues] T or P key pressed on {gameObject.name}");
 
                 if (!userInVRRoom)
                 {
@@ -147,6 +167,7 @@ public class Mensa_FriendCue : MonoBehaviour
 
     public void showEntryCue()
     {
+        UnityEngine.Debug.Log("Food Button Pressed!");
         // Create entry cue
         CreateEntryCue(entryAnchor);
         if (FoodA!=null)
@@ -163,13 +184,14 @@ public class Mensa_FriendCue : MonoBehaviour
         if (arrivalCue != null)
         {
             arrivalCue.SpawnArrivalCue();
+            UnityEngine.Debug.Log("Spawned LeaveHMD cue!");
         }
     }
 
     void CreateEntryCue(Transform entryAnchor)
     {
         // Base
-        TransitionCueConfig entryCueConfig = TransitionCueConfig.CreateVRConfig(
+        TransitionCueConfig entryCueConfig = TransitionCueConfig.CreateARConfig(
             parent: entryAnchor,
             onInteract: () => StartNavigationToFriends()
         );
@@ -194,6 +216,7 @@ public class Mensa_FriendCue : MonoBehaviour
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
         entryCue = TransitionCueFactory.CreateFrostedTransitionCue(entryCueConfig);
+        UnityEngine.Debug.Log("Entry Cue created!");
     }
 
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
@@ -201,7 +224,7 @@ public class Mensa_FriendCue : MonoBehaviour
         if (!entryIsBland)
         {
             // Base
-            TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateVRConfig(
+            TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: entryArrivalAnchor,
                 onInteract: () => entryArrivalCue.SetActive(false)
             );
@@ -221,7 +244,8 @@ public class Mensa_FriendCue : MonoBehaviour
     public void StartNavigationToFriends()
     {
         //Hide entry cue
-        entryCue.SetActive(false);
+        if(entryCue!=null)
+            entryCue.SetActive(false);
         // Create entry arrival cue
         CreateEntryArrivalCue(entryArrivalAnchor);
         EnablePathGenerator();
@@ -260,13 +284,19 @@ public class Mensa_FriendCue : MonoBehaviour
                     }
                 }
             }
-
-            StartCoroutine(UINotificationSystem.Instance.ShowNavigationContinued(
+            if (UINotificationSystem.Instance != null)
+            {
+                StartCoroutine(UINotificationSystem.Instance.ShowNavigationContinued(
                 destination: navigationDestination,
                 swipeSpeed: 2.0f,
                 displayDuration: 3.0f,
                 yOffset: -50f
             ));
+            }
+            else
+            {
+                UnityEngine.Debug.LogError("UINotificationSystem.Instance is NULL!");
+            }
         }
     }
 
