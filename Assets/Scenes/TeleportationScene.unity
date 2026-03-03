@@ -2938,11 +2938,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positioner: {fileID: 474745955}
-  _objectToPlace: {fileID: 3252451672500658893, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
+  _objectToPlace: {fileID: 1384505585074534098, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
   SpatialAnchorLoadBuildingBlock: {fileID: 2024517657}
   firstAnchorFound: 0
   SpatialAnchorSpawner: {fileID: 2024517658}
-  joystickController: {fileID: 2126697942}
+  joystickController: {fileID: 454890881}
 --- !u!114 &474745955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12514,6 +12514,6 @@ SceneRoots:
   - {fileID: 2024517660}
   - {fileID: 475754742}
   - {fileID: 1619548034}
-  - {fileID: 474745957}
   - {fileID: 1860271614}
   - {fileID: 954010725}
+  - {fileID: 474745957}
