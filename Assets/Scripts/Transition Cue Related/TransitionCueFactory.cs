@@ -24,16 +24,7 @@ public static class TransitionCueFactory
         root.transform.localPosition = Vector3.zero;
         root.transform.localRotation = Quaternion.identity;
         root.transform.localScale = Vector3.one * config.globalScale;
-        //root.AddComponent<Canvas>();
-        //GameObject pokeInteractable = new GameObject("PokeInteractionHolder");
-        //pokeInteractable.AddComponent<PointableCanvas>();
-        //pokeInteractable.AddComponent<PokeInteractable>();
-
-
-        //GameObject rayInteractable = new GameObject("RayInteractionHolder");
-        //rayInteractable.AddComponent<PointableCanvas>();
-        //rayInteractable.AddComponent<RayInteractable>();
-
+       
         // === Small Panel ===
         GameObject smallPanel = CreateSmallPanel(config);
         smallPanel.transform.SetParent(root.transform, false);
@@ -78,21 +69,10 @@ public static class TransitionCueFactory
         if (surface == null) surface = button.AddComponent<ColliderSurface>();
         surface.InjectAllColliderSurface(col);
 
-        /*// Surface Patch (needed for ISurfacePatch)
-        var surfacePatch = button.GetComponent<ColliderSurfacePatch>();
-        if (surfacePatch == null)
-            surfacePatch = button.AddComponent<ColliderSurfacePatch>();
-
-        surfacePatch.InjectAllColliderSurfacePatch(surface);*/
-
         // RayInteractable (für Ray/Pointer-Select; funktioniert i.d.R. auch mit Controller-Ray)
         var ray = button.GetComponent<RayInteractable>();
         if (ray == null) ray = button.AddComponent<RayInteractable>();
         ray.InjectAllRayInteractable(surface);
-
-        /*var poke = button.GetComponent<PokeInteractable>();
-        if (poke == null) poke = button.AddComponent<PokeInteractable>();
-        poke.InjectAllPokeInteractable(surface as ISurfacePatch);*/
 
         ray.WhenStateChanged += state =>
         {
@@ -102,31 +82,11 @@ public static class TransitionCueFactory
                 config?.onInteract?.Invoke();
             }
         };
-        // PokeInteractable (für Ray/Pointer-Select; funktioniert i.d.R. auch mit Controller-Ray)
-        /*var poke = button.GetComponent<PokeInteractable>();
-        if (poke == null) poke = button.AddComponent<PokeInteractable>();
-        poke.InjectAllPokeInteractable((ISurfacePatch)surface);*/
-
-        /*poke.WhenStateChanged += state =>
-        {
-            if (state.NewState == InteractableState.Select)
-            {
-                Debug.Log("[TransitionCue] Button selected");
-                config?.onInteract?.Invoke();
-            }
-        };*/
-
     }
 
     private static System.Collections.IEnumerator BindNextFrame(InteractableUnityEventWrapper events, TransitionCueConfig config)
     {
-        //yield return null; // 1 Frame warten
         yield return new WaitForSeconds(5f);
-        /*if (events == null || events.WhenSelect == null)
-        {
-            Debug.LogError("[ISDK] Wrapper/WhenSelect not initialized yet.");
-            yield break;
-        }*/
 
         events.WhenSelect.AddListener(() => config?.onInteract?.Invoke());
         Debug.Log("select state of transition cue: ");
@@ -224,17 +184,6 @@ public static class TransitionCueFactory
                 contentBottomY = config.expandedPanelHeight * 0.1f;
             }
         }
-
-        // XR Interaction for Expanded Panel
-        /*XRSimpleInteractable expandedInteractable = expandedPanel.AddComponent<XRSimpleInteractable>();
-        if (config.onInteract != null)
-        {
-            expandedInteractable.selectEntered.AddListener((args) => config.onInteract());
-        }*/
-
-
-        
-        
 
         // Description Text
         GameObject descObj = new GameObject("DescriptionText");
@@ -387,17 +336,6 @@ public static class TransitionCueFactory
         // Fix vertical compression caused by parent rotation: Scale Y by factor ~5 to compensate
         textObj.transform.localScale = new Vector3(1f, 5f, 1f);
 
-        // === XR Interaction ===
-        /*XRSimpleInteractable interactable = button.AddComponent<XRSimpleInteractable>();
-        if (config.onInteract != null)
-        {
-            interactable.selectEntered.AddListener((args) => config.onInteract());
-        }*/
-
-        // === Hover Effect ===
-        /*ButtonHoverEffect hoverEffect = button.AddComponent<ButtonHoverEffect>();
-        hoverEffect.Initialize(config.primaryColor, config.buttonHoverBrightness);*/
-
         return button;
     }
 
@@ -432,39 +370,6 @@ public static class TransitionCueFactory
 
         return mat;
     }
-
-    /*private static Material CreateFrostedGlassMaterialAlternative(Color color, float alpha)
-    {
-        var baseMat = Resources.Load<Material>("FrostedGlass_Base");
-
-        Material mat = null;
-        if (baseMat != null)
-        {
-            mat = UnityEngine.Object.Instantiate(baseMat);
-        }
-        else
-        {
-            // Fallback: direkt Shader benutzen (damit kein Hard-Fail)
-            var shader = Shader.Find("Custom/FrostedGlassURP");
-            if (shader == null)
-            {
-                Debug.LogError("[TransitionCueFactory] Custom/FrostedGlassURP shader not found (compile error or not created).");
-                return new Material(Shader.Find("Universal Render Pipeline/Lit"));
-            }
-            mat = new Material(shader);
-        }
-
-        if (mat.HasProperty("_Tint")) mat.SetColor("_Tint", color);
-        if (mat.HasProperty("_Alpha")) mat.SetFloat("_Alpha", alpha);
-
-        if (mat.HasProperty("_Distortion")) mat.SetFloat("_Distortion", 0.6f);
-        if (mat.HasProperty("_BlurRadius")) mat.SetFloat("_BlurRadius", 1.0f);
-
-        var bump = Resources.Load<Texture2D>("FrostedGlass_NoiseNormal");
-        if (bump != null && mat.HasProperty("_BumpMap")) mat.SetTexture("_BumpMap", bump);
-
-        return mat;
-    }*/
 
     // === Helper Methods ===
 

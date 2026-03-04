@@ -7,8 +7,9 @@ public class PathGenerator : MonoBehaviour
 {
     Transform start;
     [SerializeField] Transform target;
-    
     [SerializeField] int subdivisions = 10;
+    bool _pathing = true;
+    LineRenderer _lineRenderer;
 
     [Header("Line Appearance")]
     [Tooltip("Material for the line. Keep its base color white if you want the color below to control the tint cleanly.")]
@@ -18,17 +19,9 @@ public class PathGenerator : MonoBehaviour
 
     [Header("Arrow Settings")]
     [SerializeField] GameObject arrowHeadPrefab;
-    private float arrowSpacing = 6f;      // distance between arrows in meters
+    private float arrowSpacing = 6f; // distance between arrows in meters
     float arrowYOffset = 0.02f;      // lift arrows slightly above ground
-
     private List<GameObject> _spawnedArrows = new List<GameObject>();
-
-    LineRenderer _lineRenderer;
-
-    bool _pathing = true;
-
-
-
 
     void Start()
     {
@@ -128,8 +121,6 @@ public class PathGenerator : MonoBehaviour
         _lineRenderer.SetPositions(smoothPoints.ToArray());
         PlaceArrowsAlongPath(smoothPoints);
     }
-
-
 
     static float GetT(float t, Vector3 p0, Vector3 p1)
     {

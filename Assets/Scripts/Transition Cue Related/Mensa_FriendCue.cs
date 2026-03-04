@@ -40,8 +40,6 @@ public class Mensa_FriendCue : MonoBehaviour
     [SerializeField] private bool entryArrivalAlwaysExpand = true;
     [SerializeField] private bool entryArrivalIsBland = true;
 
-
-
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
 
@@ -91,6 +89,7 @@ public class Mensa_FriendCue : MonoBehaviour
         {
             UnityEngine.Debug.Log("start arrival anchor set!");
         }
+
         // Find anchor point in this building
         entryAnchor = transform.Find(entryAnchorName);
         if (entryAnchor == null)
@@ -102,6 +101,7 @@ public class Mensa_FriendCue : MonoBehaviour
         {
             UnityEngine.Debug.Log("entry anchor set!");
         }
+
         // Find arrival anchor point in this building
         entryArrivalAnchor = transform.Find(entryArrivalAnchorName);
         if (entryArrivalAnchor == null)
@@ -128,6 +128,7 @@ public class Mensa_FriendCue : MonoBehaviour
                     startArrivalCue.SetActive(false);
                 }
             );
+
             StartArrivalCueConfig.alwaysExpanded = startArrivalAlwaysExpand;
             StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
             StartArrivalCueConfig.expandedDescription = startArrivalDescription;
@@ -195,6 +196,7 @@ public class Mensa_FriendCue : MonoBehaviour
             parent: entryAnchor,
             onInteract: () => StartNavigationToFriends()
         );
+
         if (!entryIsBland)
         {
             // Details
@@ -213,6 +215,7 @@ public class Mensa_FriendCue : MonoBehaviour
             entryCueConfig.isBland = entryIsBland;
 
         }
+
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
         entryCue = TransitionCueFactory.CreateFrostedTransitionCue(entryCueConfig);
@@ -228,6 +231,7 @@ public class Mensa_FriendCue : MonoBehaviour
                 parent: entryArrivalAnchor,
                 onInteract: () => entryArrivalCue.SetActive(false)
             );
+
             // Details
             entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
             entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
@@ -237,15 +241,15 @@ public class Mensa_FriendCue : MonoBehaviour
             entryArrivalCueConfig.label = entryArrivalLabel;
 
             entryArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(entryArrivalCueConfig);
-
         }
     }
 
     public void StartNavigationToFriends()
     {
-        //Hide entry cue
+        // Hide entry cue
         if(entryCue!=null)
             entryCue.SetActive(false);
+
         // Create entry arrival cue
         CreateEntryArrivalCue(entryArrivalAnchor);
         EnablePathGenerator();
@@ -287,11 +291,11 @@ public class Mensa_FriendCue : MonoBehaviour
             if (UINotificationSystem.Instance != null)
             {
                 StartCoroutine(UINotificationSystem.Instance.ShowNavigationContinued(
-                destination: navigationDestination,
-                swipeSpeed: 2.0f,
-                displayDuration: 3.0f,
-                yOffset: -50f
-            ));
+                    destination: navigationDestination,
+                    swipeSpeed: 2.0f,
+                    displayDuration: 3.0f,
+                    yOffset: -50f
+                ));
             }
             else
             {

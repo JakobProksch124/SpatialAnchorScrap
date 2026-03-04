@@ -7,12 +7,9 @@ using System.Collections.Generic;
 
 public class Positioner : MonoBehaviour
 {
-    // Offset Text Element
+    // Debug text elements for showing the current Offset and console output
     [SerializeField] TMP_Text offsetText;
-
     [SerializeField] TMP_Text vrConsoleText;
-
-    [SerializeField] float positionSpeed = 0.03f;
 
     // Used for changing y-level
     [SerializeField] InputActionReference ascendButton;
@@ -20,17 +17,20 @@ public class Positioner : MonoBehaviour
     [SerializeField] InputActionReference devButton;
 
     // Used to change rotation mode (between x, y, and z rotation)
-    [SerializeField] InputActionReference triggerLeft;
+    [SerializeField] float positionSpeed = 0.03f;
     private bool _triggerLeftWasPressed = false;
     private bool _devButtonWasPressed = false;
     private enum RotAxis { X, Y, Z }
     private RotAxis _currentAxis = RotAxis.Y;
     private Transform cameraTransform;
+    public bool inDevMode = false;
 
+    [SerializeField] InputActionReference triggerLeft; // Used for toggling dev mode
     [SerializeField] InputActionReference _moveAction;
     [SerializeField] InputActionReference _turnAction;
     [SerializeField] InputActionReference _saveOffsetAction;
 
+    // Used for bringing the relevant 3D model to its correct position
     [SerializeField] public GameObject _objectToPosition;
     [SerializeField] private TextAsset offsetJsonTemplate;
     public float OffsetX = 0f;
@@ -39,20 +39,20 @@ public class Positioner : MonoBehaviour
     public float OffsetRotX = 0f;
     public float OffsetRotY = 0f;
     public float OffsetRotZ = 0f;
-    public bool inDevMode = false;
-    //public Quaternion OffsetRotQuaternion;
 
+    // Materials used for dev mode
     [SerializeField] Material occluderMat;
     [SerializeField] Material transparencyMat;
-
     public GameObject PlacedObject => _objectToPosition;
 
+    // Place where json containing translation and rotation info is stored
     private string RuntimeJsonPath =>
         Path.Combine(
             Application.persistentDataPath,
             offsetJsonTemplate.name + ".json"
         );
 
+    // Determines the current mode of the application (dev mode shows more visual information)
     void ChooseVisualMode()
     {
         bool isPressed = devButton.action.IsPressed();
@@ -65,6 +65,7 @@ public class Positioner : MonoBehaviour
         _devButtonWasPressed = isPressed;
     }
 
+    // Blends in extra-information (visually)
     void AdjustVisuals()
     {
         offsetText.gameObject.SetActive(inDevMode);
@@ -172,7 +173,7 @@ public class Positioner : MonoBehaviour
         // Checks if it should swap to dev mode or user mode
         ChooseVisualMode();
 
-        // if in user mode, don't allow changes to objecttoposition
+        // If in user mode, don't allow changes to objecttoposition
         if (!inDevMode)
             return;
         
@@ -225,7 +226,7 @@ public class Positioner : MonoBehaviour
         Vector3 p = _objectToPosition.transform.localPosition;
         Vector3 r = _objectToPosition.transform.localRotation.eulerAngles;
 
-        // PREPARE FOR SAVING INTERNALLY
+        // Prepare for saving internally
         OffsetX = Mathf.Round(p.x * 100) / 100;
         OffsetY = Mathf.Round(p.y * 100) / 100;
         OffsetZ = Mathf.Round(p.z * 100) / 100;
@@ -240,7 +241,6 @@ public class Positioner : MonoBehaviour
                     $"X: {OffsetX}; " +
                     $"Y: {OffsetY}; " +
                     $"Z: {OffsetZ}\n" +
-                    //$"RotQuaternion: {OffsetRotQuaternion}\n" +
                     $"RotX: {OffsetRotX}; " +
                     $"RotY: {OffsetRotY}; " +
                     $"RotZ: {OffsetRotZ}\n" + 
@@ -258,7 +258,6 @@ public class Positioner : MonoBehaviour
             SavedOffsetRotX = OffsetRotX.ToString(),
             SavedOffsetRotY = OffsetRotY.ToString(),
             SavedOffsetRotZ = OffsetRotZ.ToString()
-            //SavedOffsetRotQuaternion = OffsetRotQuaternion.ToString()
         };
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(RuntimeJsonPath, json);
@@ -304,7 +303,6 @@ public class Positioner : MonoBehaviour
         float.TryParse(data.SavedOffsetRotX, out OffsetRotX);
         float.TryParse(data.SavedOffsetRotY, out OffsetRotY);
         float.TryParse(data.SavedOffsetRotZ, out OffsetRotZ);
-
 
         // Werte direkt anwenden
         _objectToPosition.transform.localPosition = new Vector3(OffsetX, OffsetY, OffsetZ);

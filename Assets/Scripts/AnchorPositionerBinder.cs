@@ -6,15 +6,15 @@ using JetBrains.Annotations;
 public class AnchorPositionerBinder : MonoBehaviour
 {
     [SerializeField] private Positioner positioner;
-
-    private SpatialAnchorCoreBuildingBlock _core;
     [SerializeField] public GameObject _objectToPlace;
+
+    // Relevant building blocks for anchor spawning
+    private SpatialAnchorCoreBuildingBlock _core;
     [SerializeField] public SpatialAnchorLoaderBuildingBlock SpatialAnchorLoadBuildingBlock;
-    public bool firstAnchorFound = false;
     public SpatialAnchorSpawnerBuildingBlock SpatialAnchorSpawner;
+    public bool firstAnchorFound = false;
 
     public GameObject joystickController;
-
 
     private void Awake()
     {
@@ -30,7 +30,6 @@ public class AnchorPositionerBinder : MonoBehaviour
         _core.OnAnchorCreateCompleted.AddListener(OnAnchorCreated);
         _core.OnAnchorsLoadCompleted.AddListener(OnAnchorsLoaded);
     }
-
 
     private void Update()
     {
@@ -103,5 +102,4 @@ public class AnchorPositionerBinder : MonoBehaviour
             }
         }
     }
-
 }
