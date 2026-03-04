@@ -3,9 +3,8 @@ using UnityEngine;
 // Spawns a burst of subtle floating particles around the camera for magical transition effects
 public static class TransitionParticleEffect
 {
-    public static void Spawn(Color color, float duration = 4f, float radius = 1.5f, int particleCount = 80)
+    public static void Spawn(Camera cam, Color color, float duration = 4f, float radius = 1.5f, int particleCount = 300)
     {
-        Camera cam = Camera.main;
         if (cam == null) return;
 
         GameObject particleObj = new GameObject("TransitionParticles");
@@ -81,6 +80,14 @@ public static class TransitionParticleEffect
         Shader particleShader = Shader.Find("Universal Render Pipeline/Particles/Unlit");
         if (particleShader == null)
             particleShader = Shader.Find("Particles/Standard Unlit");
+        if (particleShader == null)
+            particleShader = Shader.Find("Sprites/Default");
+        if (particleShader == null)
+        {
+            Debug.LogWarning("[TransitionParticleEffect] No suitable shader found. Skipping particles.");
+            Object.Destroy(particleObj);
+            return;
+        }
 
         Material particleMat = new Material(particleShader);
         particleMat.SetColor("_BaseColor", Color.white);

@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class ArrivalCue : MonoBehaviour
 {
+    [Header("Leave HMD Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string leaveHMDAnchorName = "leaveHMDAnchor";
+    [SerializeField] private Color leaveHMDPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string leaveHMDLabel = "R";
+    [SerializeField] private Texture2D leaveHMDScreenshotDisplayed;
+    [SerializeField] private string leaveHMDDescription = "Take off the headmounted display";
+    [SerializeField] private string leaveHMDButtonText = "";
+    [SerializeField] private bool leaveHMDAlwaysExpand = false;
+    [SerializeField] private bool leaveHMDIsBland = false;
+
+    private GameObject leaveHMDCue;
+    private Transform leaveHMDAnchor;
+
+
     [Header("Target & Location")]
     [Tooltip("Name of a child GameObject under this root object where the arrival cue will be placed")]
     public string targetName;
@@ -80,6 +95,9 @@ public class ArrivalCue : MonoBehaviour
     private static readonly Color ArrivedColor = new Color(0.15f, 0.65f, 0.15f);  // green
     private static readonly Color BorderColor = new Color(0.88f, 0.88f, 0.88f);  // slightly lighter grey
 
+
+
+
     void Start()
     {
         Camera mainCam = Camera.main;
@@ -97,6 +115,15 @@ public class ArrivalCue : MonoBehaviour
                 break;
             }
         }
+
+        // Find leaveHMD anchor point in this building
+        leaveHMDAnchor = transform.Find(leaveHMDAnchorName);
+        if (leaveHMDAnchor == null)
+        {
+            Debug.LogWarning($"[Building_TransitionCues] Anchor '{leaveHMDAnchorName}' not found. Using this transform.");
+            leaveHMDAnchor = transform;
+        }
+
     }
 
     void Update()
@@ -391,7 +418,7 @@ public class ArrivalCue : MonoBehaviour
 
         // === Phase 2: Despawn ===
         // Flows directly from scale pop into shrink & fade 
-        float despawnDuration = despawnAfter * 0.3f; 
+        float despawnDuration = despawnAfter * 0.3f;
 
         float despawnTimer = 0f;
         Vector3 textStartPos = floatingText.transform.localPosition;
@@ -449,6 +476,8 @@ public class ArrivalCue : MonoBehaviour
 
             yield return null;
         }
+
+        CreateLeaveHMDCue(leaveHMDAnchor);
 
         // Destroy
         if (cueInstance != null)
@@ -678,4 +707,42 @@ public class ArrivalCue : MonoBehaviour
 
         return mat;
     }
+
+    
+    // CUE INFO:
+    // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
+    void CreateLeaveHMDCue(Transform leaveHMDAnchor)
+    {
+        // Base (Same basic configuration for enhanced as well as minimal cues
+        TransitionCueConfig leaveHMDCueConfig = TransitionCueConfig.CreateARConfig(
+            parent: leaveHMDAnchor,
+            onInteract: () =>
+            {
+            }
+        );
+
+        if (!leaveHMDIsBland)
+        {
+            // Details for enhanced cues
+            leaveHMDCueConfig.alwaysExpanded = leaveHMDAlwaysExpand;
+            leaveHMDCueConfig.primaryColor = leaveHMDPrimaryColor;
+            leaveHMDCueConfig.expandedDescription = leaveHMDDescription;
+            leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
+        }
+        else
+        {
+            // Details for minimal cue
+            leaveHMDCueConfig.isBland = leaveHMDIsBland;
+            leaveHMDCueConfig.alwaysExpanded = false;
+            leaveHMDCueConfig.primaryColor = Color.black;
+            leaveHMDCueConfig.expandedDescription = leaveHMDLabel;
+        }
+
+        // (Effectively not used if alwaysExpanded)
+        leaveHMDCueConfig.label = leaveHMDLabel;
+        leaveHMDCueConfig.buttonText = leaveHMDButtonText;
+        leaveHMDCue = TransitionCueFactory.CreateCue(leaveHMDCueConfig);
+    }
+
+
 }

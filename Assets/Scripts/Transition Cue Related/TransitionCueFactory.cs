@@ -80,11 +80,15 @@ public static class TransitionCueFactory
                 rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
             }
 
-            // === Ambient Audio ===
-            AddAmbientAudio(root, config);
+            if (!config.isArrival)
+            {
+                // === Ambient Audio ===
+                AddAmbientAudio(root, config);
+
+            }
 
             return root;
-        } 
+        }
         else
         {
             // Minimal cue design
@@ -213,7 +217,15 @@ public static class TransitionCueFactory
         // Use rounded cube model for aesthetic rounded edges
         GameObject expandedPanel = CreateRoundedCube();
         expandedPanel.name = "ExpandedPanel";
-        expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth, config.expandedPanelHeight, config.expandedPanelDepth);
+        if (config.leadsToAR)
+        {
+            expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth*2, config.expandedPanelHeight*4, config.expandedPanelDepth);
+        }
+        else
+        {
+            Debug.Log("Cues does not lead to ar");
+            expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth, config.expandedPanelHeight, config.expandedPanelDepth);
+        }
 
         // Frosted glass look (use expandedPanelColor instead of primaryColor)
         Renderer renderer = expandedPanel.GetComponent<Renderer>();
@@ -224,16 +236,24 @@ public static class TransitionCueFactory
 
         // Content (Screenshot or 3D Object)
         float contentBottomY = 0f; // Y-position of the bottom of the content
-        if (!config.isBland)
+        if (!config.isBland )
         {
-            Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
-            renderer.material = frostedMat;
-
+            if (config.isTransparent)
+            {
+                Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
+                renderer.material = frostedMat;
+            }
+            else
+            {
+                Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 1f);
+                renderer.material = frostedMat;
+            }
+           
             if (config.screenshotTexture != null)
             {
                 contentBottomY = CreateScreenshotDisplay(expandedPanel.transform, config);
             }
-            else if (config.contentObject != null)
+            else if (config.contentObject != null )
             {
                 contentBottomY = Create3DObjectDisplay(expandedPanel.transform, config);
             }
@@ -244,8 +264,8 @@ public static class TransitionCueFactory
             }
         }
 
-        // Description Text
-        GameObject descObj = new GameObject("DescriptionText");
+            // Description Text
+            GameObject descObj = new GameObject("DescriptionText");
         descObj.transform.SetParent(expandedPanel.transform, false);
 
         float descTextOffset = (config.expandedPanelDepth / 2) + config.textZOffset;
@@ -370,11 +390,19 @@ public static class TransitionCueFactory
         {
             renderer = button.GetComponentInChildren<Renderer>();
         }
-        Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
-        renderer.material = buttonMat;
+        if (config.isTransparent)
+        {
+            Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
+            renderer.material = buttonMat;
+        }
+        else
+        {
+            Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, 1f);
+            renderer.material = buttonMat;
+        }
 
-        // === Button Text ===
-        GameObject textObj = new GameObject("ButtonText");
+            // === Button Text ===
+            GameObject textObj = new GameObject("ButtonText");
         textObj.transform.SetParent(button.transform, false);
         // Position text clearly in front of the button (negative Z for cube forward face)
         float buttonTextOffset = (config.buttonDepth / 2) + config.textZOffset;

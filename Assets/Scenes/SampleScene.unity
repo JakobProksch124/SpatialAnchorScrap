@@ -2075,7 +2075,9 @@ MonoBehaviour:
   positioner: {fileID: 330585551}
   _objectToPlace: {fileID: 7355581936147766005, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
   SpatialAnchorLoadBuildingBlock: {fileID: 270298901}
+  SpatialAnchorSpawner: {fileID: 0}
   firstAnchorFound: 0
+  joystickController: {fileID: 0}
 --- !u!114 &330585551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2090,10 +2092,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offsetText: {fileID: 1276836535}
   vrConsoleText: {fileID: 754921086}
-  positionSpeed: 0.03
   ascendButton: {fileID: -4022060916381164570, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   descendButton: {fileID: 3609823731942455608, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   devButton: {fileID: -3042148573974080136, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  positionSpeed: 0.03
+  inDevMode: 0
   triggerLeft: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _moveAction: {fileID: -6466034804778379739, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _turnAction: {fileID: -3655558797359205420, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -2106,7 +2109,6 @@ MonoBehaviour:
   OffsetRotX: 0
   OffsetRotY: 0
   OffsetRotZ: 0
-  inDevMode: 0
   occluderMat: {fileID: 2100000, guid: a2dbbbd26ee4c1b429fa90e125314135, type: 2}
   transparencyMat: {fileID: 2100000, guid: f4e61db57faef1e4d996125006c70f63, type: 2}
 --- !u!1 &342275732
@@ -12278,6 +12280,9 @@ MonoBehaviour:
   exitArrivalButtonText: X
   exitArrivalAlwaysExpand: 0
   exitArrivalIsBland: 0
+  enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  particleDuration: 4
   enableKeyboardShortcuts: 1
 --- !u!4 &1974116777
 Transform:

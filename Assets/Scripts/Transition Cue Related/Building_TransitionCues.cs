@@ -271,24 +271,23 @@ public class Building_TransitionCues : MonoBehaviour
         yield return StartCoroutine(TransitionEffects.Instance.FadeToBlackWithTitle(
             roomTitle: vrRoomTitle,
             fadeColor: entryPrimaryColor,
-            fadeDuration: 0.5f,
+            fadeDuration: 1f,
             titleHoldSeconds: 1.0f,           
             onOverlayReady: go => overlay = go
         ));
 
         Debug.Log("starting vr room coroutine 1");
-        
+
         // Load the VR room
         yield return StartCoroutine(LoadVRRoom());
         yield return null;
 
-        // XX hier einfach black mit blue austauschen
         yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
             overlayCanvas: overlay,
-            fadeColor: Color.black,
-            fadeDuration: 0.5f
+            fadeColor: entryPrimaryColor,
+            fadeDuration: 2f
         ));
-        TransitionParticleEffect.Spawn(enterVRParticleColor, particleDuration * 2);
+        TransitionParticleEffect.Spawn(mainCamera, enterVRParticleColor, particleDuration * 2);
     }
 
     void SetPlacedBuildingVisible(bool visible)
@@ -555,7 +554,9 @@ public class Building_TransitionCues : MonoBehaviour
             );
 
             // Details
-            entryArrivalCueConfig.alwaysExpanded = entryArrivalAlwaysExpand;
+            entryArrivalCueConfig.isArrival = true;
+            entryArrivalCueConfig.isTransparent = false;
+            entryArrivalCueConfig.alwaysExpanded = true;
             entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
             entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
             entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;
@@ -581,10 +582,11 @@ public class Building_TransitionCues : MonoBehaviour
                 {
                     exitArrivalCue.SetActive(false);
                 }
-            );
+            ); 
 
             // Details
-            exitArrivalCueConfig.alwaysExpanded = exitArrivalAlwaysExpand;
+            exitArrivalCueConfig.isArrival = true;
+            exitArrivalCueConfig.alwaysExpanded = true;
             exitArrivalCueConfig.primaryColor = exitArrivalPrimaryColor;
             exitArrivalCueConfig.expandedDescription = exitArrivalDescription;
             exitArrivalCueConfig.screenshotTexture = exitArrivalScreenshotDisplayed;
@@ -614,7 +616,8 @@ public class Building_TransitionCues : MonoBehaviour
             );
 
             // Details
-            StartArrivalCueConfig.alwaysExpanded = startArrivalAlwaysExpand;
+            StartArrivalCueConfig.isArrival = true;
+            StartArrivalCueConfig.alwaysExpanded = true;
             StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
             StartArrivalCueConfig.expandedDescription = startArrivalDescription;
             StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
@@ -632,13 +635,12 @@ public class Building_TransitionCues : MonoBehaviour
         Debug.Log($"[Building_TransitionCues] Exiting VR, returning to AR");
 
         // Fade out
-        // XX hier diese Methode so anpassen, dass orangene Partikel erscheinen
-        yield return StartCoroutine(TransitionEffects.Instance.FadeToAR(1.5f, vrRoom));
+        yield return StartCoroutine(TransitionEffects.Instance.FadeToAR(3f, vrRoom));
 
         // Unload VR room
         yield return StartCoroutine(UnloadVRRoom());
 
-        TransitionParticleEffect.Spawn(exitVRParticleColor, particleDuration);
+        TransitionParticleEffect.Spawn(mainCamera, exitVRParticleColor, particleDuration);
 
         // Destroy exit cue
         if (exitCue != null)

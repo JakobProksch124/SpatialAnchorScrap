@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using System.Collections;
 
 public class Lecture_TransitionCues : MonoBehaviour
 {
@@ -9,8 +10,15 @@ public class Lecture_TransitionCues : MonoBehaviour
 
     [Header("General Infos")]
     [SerializeField] private VideoPlayer videoPlayer;
-    [SerializeField] private float exitCueDelay = 30f;
+    [SerializeField] private float exitCueDelay = 20f;
 
+    [Header("Root containing Phase1 - Phase6")]
+    public Transform objectsToSpawn;
+
+    [Header("Delay between phases")]
+    public float delayBetweenPhases = 2f;
+    [Header("Fade Settings")]
+    [SerializeField] private float fadeDuration = 1.5f;
 
 
     [Header("Start Arrival Cue Infos")]
@@ -50,7 +58,11 @@ public class Lecture_TransitionCues : MonoBehaviour
 
         if (exitAnchor == null)
             Debug.LogError($"Exit Anchor '{exitAnchorName}' not found!");
-        CreateStartArrivalCue(startArrivalAnchor);
+
+        HideAllChildren();
+
+        // Start the sequence
+        StartCoroutine(SpawnPhases());
     }
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
@@ -77,7 +89,9 @@ public class Lecture_TransitionCues : MonoBehaviour
 
                 }
             );
-            StartArrivalCueConfig.alwaysExpanded = startArrivalAlwaysExpand;
+            StartArrivalCueConfig.isArrival = true;
+            StartArrivalCueConfig.isTransparent = false;
+            StartArrivalCueConfig.alwaysExpanded = true;
             StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
             StartArrivalCueConfig.expandedDescription = startArrivalDescription;
             StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
@@ -118,17 +132,121 @@ public class Lecture_TransitionCues : MonoBehaviour
             exitCueConfig.primaryColor = exitPrimaryColor;
             exitCueConfig.expandedDescription = exitDescription;
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
+            exitCueConfig.label = exitLabel;
+            exitCueConfig.buttonText = exitButtonText;
+            exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
         }
-        else
-        {
-            exitCueConfig.alwaysExpanded = true;
-            exitCueConfig.primaryColor = Color.black;
-            exitCueConfig.expandedDescription = exitLabel;
-            exitCueConfig.isBland = exitIsBland;
-
-        }
-        exitCueConfig.label = exitLabel;
-        exitCueConfig.buttonText = exitButtonText;
-        exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
     }
+
+    void HideAllChildren()
+    {
+        foreach (Transform phase in objectsToSpawn)
+        {
+            phase.gameObject.SetActive(false);
+        }
+    }
+
+    IEnumerator SpawnPhases()
+    {
+            Transform phase = objectsToSpawn.GetChild(0);
+
+            // Prepare alpha BEFORE enabling
+            SetPhaseAlpha(phase, 0f);
+        if(phase != null)
+        {
+
+            phase.gameObject.SetActive(true);
+
+            yield return StartCoroutine(FadeInPhase(phase));
+        }
+
+
+        Transform phase2 = objectsToSpawn.GetChild(1);
+        phase2.gameObject.SetActive(true);
+        if(phase2 != null)
+        {
+
+        foreach (Transform child in phase2)
+        {
+            child.gameObject.SetActive(true);
+            }
+        }
+        CreateStartArrivalCue(startArrivalAnchor);
+    }
+
+    void SetPhaseAlpha(Transform phase, float alpha)
+    {
+        Renderer[] renderers = phase.GetComponentsInChildren<Renderer>(true);
+
+        foreach (Renderer r in renderers)
+        {
+            foreach (Material mat in r.materials)
+            {
+                if (mat.HasProperty("_Color"))
+                {
+                    Color c = mat.color;
+                    c.a = alpha;
+                    mat.color = c;
+                }
+            }
+        }
+    }
+
+
+    IEnumerator FadeInPhase(Transform phase)
+    {
+        Renderer[] renderers = phase.GetComponentsInChildren<Renderer>(true);
+
+        float time = 0f;
+
+        // Set all materials to transparent and alpha = 0
+        foreach (Renderer r in renderers)
+        {
+            foreach (Material mat in r.materials)
+            {
+                if (mat.HasProperty("_Color"))
+                {
+                    Color c = mat.color;
+                    c.a = 0f;
+                    mat.color = c;
+                }
+            }
+        }
+
+        while (time < fadeDuration)
+        {
+            float alpha = time / fadeDuration;
+
+            foreach (Renderer r in renderers)
+            {
+                foreach (Material mat in r.materials)
+                {
+                    if (mat.HasProperty("_Color"))
+                    {
+                        Color c = mat.color;
+                        c.a = alpha;
+                        mat.color = c;
+                    }
+                }
+            }
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure fully visible
+        foreach (Renderer r in renderers)
+        {
+            foreach (Material mat in r.materials)
+            {
+                if (mat.HasProperty("_Color"))
+                {
+                    Color c = mat.color;
+                    c.a = 1f;
+                    mat.color = c;
+                }
+            }
+        }
+    }
+
 }

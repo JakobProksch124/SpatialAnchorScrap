@@ -156,8 +156,8 @@ public class Mensa_FriendCue : MonoBehaviour
                     startArrivalCue.SetActive(false);
                 }
             );
-
-            StartArrivalCueConfig.alwaysExpanded = startArrivalAlwaysExpand;
+            StartArrivalCueConfig.isArrival = true;
+            StartArrivalCueConfig.alwaysExpanded = true;
             StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
             StartArrivalCueConfig.expandedDescription = startArrivalDescription;
             StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
@@ -281,10 +281,11 @@ public class Mensa_FriendCue : MonoBehaviour
             );
 
             // Details
+            entryArrivalCueConfig.isArrival = true;
             entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
             entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
             entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;
-            entryArrivalCueConfig.alwaysExpanded = entryArrivalAlwaysExpand;
+            entryArrivalCueConfig.alwaysExpanded = true;
             entryArrivalCueConfig.buttonText = entryArrivalButtonText;
             entryArrivalCueConfig.label = entryArrivalLabel;
 

@@ -32,7 +32,7 @@ public class TransitionEffects : MonoBehaviour
         if (m.HasProperty(BaseColorId)) { pid = BaseColorId; return true; }
         if (m.HasProperty(ColorId)) { pid = ColorId; return true; }
         pid = -1;
-        return false;
+        return false; 
     }
 
     private static void SetMatAlpha(Material m, float a)
@@ -260,27 +260,5 @@ public class TransitionEffects : MonoBehaviour
                 m.SetColor(pid, c);
             }
         }
-    }
-
-    public IEnumerator LoadSceneOneByOne(string roomTitle, float fadeDuration, float titleHoldSeconds, System.Action<GameObject> onOverlayReady)
-    {
-        
-
-        float elapsed = 0f;
-
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / fadeDuration);
-            yield return null;
-        }
-
-
-        // Give caller access to overlay canvas to keep it alive while loading
-        //onOverlayReady?.Invoke(overlay.canvasGO);
-
-        // optional: title holds while already black
-        if (titleHoldSeconds > 0f)
-            yield return new WaitForSeconds(titleHoldSeconds);
     }
 }

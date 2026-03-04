@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 716283814189532078}
   - component: {fileID: 7520639217931368594}
   - component: {fileID: 4888159566734130333}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -743,13 +743,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2336229803862393193}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.76604444, z: 0, w: 0.64278764}
-  m_LocalPosition: {x: -0.2, y: 1.5, z: 52}
+  m_LocalRotation: {x: -0, y: 0.96186537, z: -0, w: 0.27352354}
+  m_LocalPosition: {x: 1.404, y: 1.402, z: 53.073}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6513638395473454496}
-  m_LocalEulerAnglesHint: {x: 0, y: 100, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 148.252, z: 0}
 --- !u!1 &2833207482006198499
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,7 +847,7 @@ GameObject:
   - component: {fileID: 5346190959016642581}
   - component: {fileID: 3094655828613814231}
   - component: {fileID: 3966588195288831782}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1046,6 +1046,7 @@ Transform:
   - {fileID: 3510438844174324208}
   - {fileID: 6594754565762670036}
   - {fileID: 4107922603660936031}
+  - {fileID: 1722697222347679900}
   - {fileID: 716283814189532078}
   - {fileID: 5346190959016642581}
   - {fileID: 8473735840900314027}
@@ -1094,7 +1095,7 @@ MonoBehaviour:
   m_Center: {x: 1.0137844, y: -0.026503325, z: 41.322395}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 87
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -1105,7 +1106,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: c9daec0a9cbfd9641b157e66671ff51e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 28ee0c3b778c4634484368c2b771cbbc, type: 2}
   m_BuildHeightMesh: 0
 --- !u!114 &7507650633028084256
 MonoBehaviour:
@@ -1124,8 +1125,6 @@ MonoBehaviour:
   lineMaterial: {fileID: -2050348263459485335, guid: 383423bb23c7d0f4b9a2e5410857279c, type: 3}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
   arrowHeadPrefab: {fileID: 919132149155446097, guid: ebd94da4f40c945eca86377eff304c28, type: 3}
-  arrowSpacing: 6
-  arrowYOffset: 0.02
 --- !u!120 &8653409476053225000
 LineRenderer:
   serializedVersion: 2
@@ -1254,7 +1253,7 @@ MonoBehaviour:
   startArrivalDescription: Welcome to AR Navigation!
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 0
-  startArrivalIsBland: 1
+  startArrivalIsBland: 0
   vrRoomTitle: The Lab
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -1278,9 +1277,9 @@ MonoBehaviour:
   exitScreenshotDisplayed: {fileID: 2800000, guid: 1864828496f3da745bfef650d0c445cb, type: 3}
   exitDescription: 'Return to the floor of the building. '
   exitButtonText: Back to AR
-  exitAlwaysExpand: 0
+  exitAlwaysExpand: 1
   leadsToAR: 1
-  exitIsBland: 1
+  exitIsBland: 0
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: AR
@@ -1288,7 +1287,10 @@ MonoBehaviour:
   exitArrivalDescription: Welcome back to AR navigation!
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
-  exitArrivalIsBland: 1
+  exitArrivalIsBland: 0
+  enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  particleDuration: 4
   enableKeyboardShortcuts: 1
 --- !u!114 &7287314359623195551
 MonoBehaviour:
@@ -1302,6 +1304,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075c2d71926ea834e8277e9fcca9e255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leaveHMDAnchorName: LeaveHMDAnchor
+  leaveHMDPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  leaveHMDLabel: R
+  leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
+  leaveHMDDescription: Take the headmounted display off
+  leaveHMDButtonText: 
+  leaveHMDAlwaysExpand: 0
+  leaveHMDIsBland: 0
   targetName: G64Target
   locationName: Lecture room
   arrivalDistance: 5
@@ -1920,6 +1930,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6293553528201546962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1722697222347679900}
+  m_Layer: 0
+  m_Name: LeaveHMDAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1722697222347679900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6293553528201546962}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.9999558, z: -0, w: 0.009406124}
+  m_LocalPosition: {x: 2.12, y: 1.5, z: 70.56}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6513638395473454496}
+  m_LocalEulerAnglesHint: {x: 0, y: 178.922, z: 0}
 --- !u!1 &6371981857432045837
 GameObject:
   m_ObjectHideFlags: 0
@@ -2397,7 +2438,7 @@ Transform:
   m_GameObject: {fileID: 7146633422438791428}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.6427876, z: 0, w: 0.7660445}
-  m_LocalPosition: {x: 3.5, y: 1.5, z: 51}
+  m_LocalPosition: {x: 3.422, y: 1.5, z: 50.556}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2428,7 +2469,7 @@ Transform:
   m_GameObject: {fileID: 7235860175906673358}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.9238796, z: -0, w: -0.38268325}
-  m_LocalPosition: {x: 1.586, y: 1.5, z: 5.096}
+  m_LocalPosition: {x: 1.531, y: 1.5, z: 5.151}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

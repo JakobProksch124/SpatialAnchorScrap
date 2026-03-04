@@ -27,6 +27,12 @@ public class TransitionCueConfig
     // decides if transition leads to AR
     public bool leadsToAR = false;
 
+    // decides if transition leads to AR
+    public bool isArrival = false;
+
+    // decides if transition leads to AR
+    public bool isTransparent = true;
+
     //decides if transition cue is blunt
     public bool isBland = false;
 
@@ -155,7 +161,7 @@ public class TransitionCueConfig
     public bool enableTurnTowardsUser = true;
 
     // Maximum rotation angle toward user (degrees)
-    public float turnMaxAngle = 15f;
+    public float turnMaxAngle = 20f;
 
     // Distance at which rotation starts (meters) (Set to 0 for always active)
     public float turnTriggerDistance = 6f;
@@ -182,7 +188,7 @@ public class TransitionCueConfig
     public AudioClip ambientSound = Resources.Load<AudioClip>("TransitionCueAmbient");
 
     // Volume of the ambient sound (0-1)
-    public float ambientVolume = 0.005f;
+    public float ambientVolume = 0.02f;
 
     // Whether the ambient sound should loop continuously
     public bool ambientLoop = true;

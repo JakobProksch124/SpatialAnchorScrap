@@ -1020,13 +1020,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2143684148458385820}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.99144495, z: -0, w: -0.13052607}
-  m_LocalPosition: {x: -6.3, y: 1.36, z: 0.504}
+  m_LocalRotation: {x: -0, y: 0.86853653, z: -0, w: -0.49562517}
+  m_LocalPosition: {x: -4.956, y: 1.36, z: -0.007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3103572488037237033}
-  m_LocalEulerAnglesHint: {x: 0, y: 195, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 239.422, z: 0}
 --- !u!1 &2572559178809489459
 GameObject:
   m_ObjectHideFlags: 0
@@ -1660,6 +1660,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4591330178760192977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2770275863037366065}
+  m_Layer: 0
+  m_Name: LeaveHMDAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2770275863037366065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591330178760192977}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 47.71, y: 2, z: -53.53}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3103572488037237033}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4667001656336557592
 GameObject:
   m_ObjectHideFlags: 0
@@ -2566,13 +2597,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5786398210772707861}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.96440643, z: -0, w: 0.26442447}
-  m_LocalPosition: {x: 6.839, y: 1.5, z: 10.882}
+  m_LocalRotation: {x: -0, y: 0.28680015, z: -0, w: -0.95799047}
+  m_LocalPosition: {x: 8.331, y: 1.5, z: 8.417}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3103572488037237033}
-  m_LocalEulerAnglesHint: {x: 0, y: 149.334, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 326.667, z: 0}
 --- !u!1 &5842855415925930109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,6 +3014,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8399379732825461140}
+  - {fileID: 2770275863037366065}
   - {fileID: 4394912394980126459}
   - {fileID: 6927189847978222905}
   - {fileID: 5523330152956660132}
@@ -3041,12 +3073,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SerializedVersion: 0
   m_AgentTypeID: 0
-  m_CollectObjects: 0
+  m_CollectObjects: 1
   m_Size: {x: 76.78795, y: 3.2558594, z: 81.07368}
   m_Center: {x: 18.857697, y: -0.1490143, z: -22.202473}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 87
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -3213,10 +3245,10 @@ MonoBehaviour:
   entryDescription: Take a look inside the room where new interaction techniques
     are developed.
   entryButtonText: Enter VR
-  entryAlwaysExpand: 1
+  entryAlwaysExpand: 0
   entryIsBland: 0
   entryArrivalAnchorName: entryArrivalAnchor
-  entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: VR
   entryArrivalScreenshotDisplayed: {fileID: 0}
   entryArrivalDescription: Welcome to VR!
@@ -3224,7 +3256,7 @@ MonoBehaviour:
   entryArrivalAlwaysExpand: 0
   entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
-  exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
+  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
   exitScreenshotDisplayed: {fileID: 2800000, guid: 86c07c3e16a31d748990d9d057d2dd8e, type: 3}
   exitDescription: Return to the interactive pinboard.
@@ -3240,6 +3272,9 @@ MonoBehaviour:
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
   exitArrivalIsBland: 0
+  enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  particleDuration: 4
   enableKeyboardShortcuts: 1
 --- !u!114 &3805502901795510387
 MonoBehaviour:
@@ -3253,6 +3288,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 075c2d71926ea834e8277e9fcca9e255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leaveHMDAnchorName: LeaveHMDAnchor
+  leaveHMDPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  leaveHMDLabel: R
+  leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
+  leaveHMDDescription: Take the headmounted display off
+  leaveHMDButtonText: 
+  leaveHMDAlwaysExpand: 1
+  leaveHMDIsBland: 0
   targetName: BibTarget
   locationName: Go here
   arrivalDistance: 5
@@ -3956,15 +3999,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4737049358520452727, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 33.811
+      value: 33.771
       objectReference: {fileID: 0}
     - target: {fileID: 4737049358520452727, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.618
+      value: 1.696
       objectReference: {fileID: 0}
     - target: {fileID: 4737049358520452727, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.378
+      value: -23.309
       objectReference: {fileID: 0}
     - target: {fileID: 4737049358520452727, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3998,6 +4041,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arrow_3D_Icon_03 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5401700411737038029, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5905993274526891288, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -4030,15 +4077,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4737049358520452727, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 34.148
+      value: 34.108
       objectReference: {fileID: 0}
     - target: {fileID: 4737049358520452727, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.618
+      value: 1.696
       objectReference: {fileID: 0}
     - target: {fileID: 4737049358520452727, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.176
+      value: -23.107
       objectReference: {fileID: 0}
     - target: {fileID: 4737049358520452727, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4071,6 +4118,10 @@ PrefabInstance:
     - target: {fileID: 5401700411737038029, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: m_Name
       value: Arrow_3D_Icon_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401700411737038029, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5905993274526891288, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
