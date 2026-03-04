@@ -240,6 +240,68 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &99268669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 99268670}
+  m_Layer: 0
+  m_Name: startArrivalAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &99268670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99268669}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.27, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1589841415}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &307938336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 307938337}
+  m_Layer: 0
+  m_Name: exitArrivalAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &307938337
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307938336}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.93, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1589841415}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &637477723
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,6 +613,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1370208900}
+  - {fileID: 99268670}
+  - {fileID: 307938337}
   - {fileID: 1689140668}
   - {fileID: 705586195}
   m_Father: {fileID: 0}
@@ -578,7 +642,7 @@ MonoBehaviour:
   startArrivalDescription: Welcome to VR!
   startArrivalButtonText: X
   startArrivalAlwaysExpand: 0
-  startArrivalIsBland: 1
+  startArrivalIsBland: 0
   vrRoomTitle: My Virtual Room Test
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -587,7 +651,7 @@ MonoBehaviour:
   entryDescription: Enter this test virtual space.
   entryButtonText: Test VR
   entryAlwaysExpand: 0
-  entryIsBland: 1
+  entryIsBland: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryArrivalLabel: VR
@@ -595,7 +659,7 @@ MonoBehaviour:
   entryArrivalDescription: Welcome to VR!
   entryArrivalButtonText: X
   entryArrivalAlwaysExpand: 0
-  entryArrivalIsBland: 1
+  entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
@@ -604,7 +668,7 @@ MonoBehaviour:
   exitButtonText: Back to AR
   exitAlwaysExpand: 0
   leadsToAR: 0
-  exitIsBland: 1
+  exitIsBland: 0
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: AR
@@ -612,7 +676,10 @@ MonoBehaviour:
   exitArrivalDescription: Welcome back to AR!
   exitArrivalButtonText: X
   exitArrivalAlwaysExpand: 0
-  exitArrivalIsBland: 1
+  exitArrivalIsBland: 0
+  enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  particleDuration: 2
   enableKeyboardShortcuts: 1
 --- !u!114 &1589841417
 MonoBehaviour:

@@ -57,10 +57,26 @@ public class Mensa_FriendCue : MonoBehaviour
     private Scene loadedVRScene;
     private ArrivalCue arrivalCue;
     private bool userInVRRoom = false;
+
     public GameObject FoodA;
     public GameObject FoodB;
     public GameObject FoodC;
     public GameObject FoodButtonCanvas;
+
+    [SerializeField] private string foodButtonAnchor1Name = "foodButtonAnchor1";
+    [SerializeField] private string foodButtonAnchor2Name = "foodButtonAnchor2";
+    [SerializeField] private string foodButtonAnchor3Name = "foodButtonAnchor3";
+    [SerializeField] private Color foodButtonColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string foodButton1Text = "Pick pancakes";
+    [SerializeField] private string foodButton2Text = "Pick pie";
+    [SerializeField] private string foodButton3Text = "Pick omelet";
+    [SerializeField] private bool foodButtonsTurnToUser = false;
+    private Transform foodButtonAnchor1;
+    private Transform foodButtonAnchor2;
+    private Transform foodButtonAnchor3;
+    private GameObject foodButton1;
+    private GameObject foodButton2;
+    private GameObject foodButton3;
 
     void Start()
     {
@@ -115,6 +131,18 @@ public class Mensa_FriendCue : MonoBehaviour
         }
 
         CreateStartArrivalCue(startArrivalAnchor);
+
+        // Create styled food buttons at anchor positions
+        foodButtonAnchor1 = transform.Find(foodButtonAnchor1Name);
+        foodButtonAnchor2 = transform.Find(foodButtonAnchor2Name);
+        foodButtonAnchor3 = transform.Find(foodButtonAnchor3Name);
+
+        if (foodButtonAnchor1 != null)
+            foodButton1 = CreateFoodButton(foodButtonAnchor1, foodButton1Text);
+        if (foodButtonAnchor2 != null)
+            foodButton2 = CreateFoodButton(foodButtonAnchor2, foodButton2Text);
+        if (foodButtonAnchor3 != null)
+            foodButton3 = CreateFoodButton(foodButtonAnchor3, foodButton3Text);
     }
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
@@ -136,7 +164,7 @@ public class Mensa_FriendCue : MonoBehaviour
             StartArrivalCueConfig.label = startArrivalLabel;
             StartArrivalCueConfig.buttonText = startArrivalButtonText;
 
-            startArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(StartArrivalCueConfig);
+            startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
             UnityEngine.Debug.Log("start arrival cue created!");
         }
     }
@@ -169,16 +197,22 @@ public class Mensa_FriendCue : MonoBehaviour
     public void showEntryCue()
     {
         UnityEngine.Debug.Log("Food Button Pressed!");
-        // Create entry cue
         CreateEntryCue(entryAnchor);
+
         if (FoodA!=null)
-        FoodA.SetActive(false);
+            FoodA.SetActive(false);
+
         if (FoodB != null)
             FoodB.SetActive(false);
+
         if (FoodC != null)
             FoodC.SetActive(false);
-        if (FoodButtonCanvas != null)
-            FoodButtonCanvas.SetActive(false);
+
+        /*if (FoodButtonCanvas != null)
+            FoodButtonCanvas.SetActive(false);*/
+        if (foodButton1 != null) Destroy(foodButton1);
+        if (foodButton2 != null) Destroy(foodButton2);
+        if (foodButton3 != null) Destroy(foodButton3);
 
         // Spawn arrival cue (Premise: ArrivalCue component is present on this GameObject)
         arrivalCue = GetComponent<ArrivalCue>();
@@ -187,6 +221,20 @@ public class Mensa_FriendCue : MonoBehaviour
             arrivalCue.SpawnArrivalCue();
             UnityEngine.Debug.Log("Spawned LeaveHMD cue!");
         }
+    }
+
+    // Helper function for creating a button below the mensa meal
+    private GameObject CreateFoodButton(Transform anchor, string text)
+    {
+        TransitionCueConfig btnConfig = new TransitionCueConfig
+        {
+            parent = anchor,
+            primaryColor = foodButtonColor,
+            buttonText = text,
+            onInteract = () => showEntryCue(),
+            enableTurnTowardsUser = foodButtonsTurnToUser
+        };
+        return TransitionCueFactory.CreateStandaloneButton(btnConfig);
     }
 
     void CreateEntryCue(Transform entryAnchor)
@@ -218,7 +266,7 @@ public class Mensa_FriendCue : MonoBehaviour
 
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
-        entryCue = TransitionCueFactory.CreateFrostedTransitionCue(entryCueConfig);
+        entryCue = TransitionCueFactory.CreateCue(entryCueConfig);
         UnityEngine.Debug.Log("Entry Cue created!");
     }
 
@@ -240,7 +288,7 @@ public class Mensa_FriendCue : MonoBehaviour
             entryArrivalCueConfig.buttonText = entryArrivalButtonText;
             entryArrivalCueConfig.label = entryArrivalLabel;
 
-            entryArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(entryArrivalCueConfig);
+            entryArrivalCue = TransitionCueFactory.CreateCue(entryArrivalCueConfig);
         }
     }
 

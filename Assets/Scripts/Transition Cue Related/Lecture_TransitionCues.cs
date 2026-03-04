@@ -84,7 +84,7 @@ public class Lecture_TransitionCues : MonoBehaviour
             StartArrivalCueConfig.label = startArrivalLabel;
             StartArrivalCueConfig.buttonText = startArrivalButtonText;
 
-            startArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(StartArrivalCueConfig);
+            startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
         }
         else
         {
@@ -129,6 +129,6 @@ public class Lecture_TransitionCues : MonoBehaviour
         }
         exitCueConfig.label = exitLabel;
         exitCueConfig.buttonText = exitButtonText;
-        exitCue = TransitionCueFactory.CreateFrostedTransitionCue(exitCueConfig);
+        exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
     }
 }

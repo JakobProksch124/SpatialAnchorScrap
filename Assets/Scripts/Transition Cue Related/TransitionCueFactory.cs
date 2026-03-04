@@ -2,11 +2,12 @@ using Oculus.Interaction;
 using Oculus.Interaction.Surfaces;
 using TMPro;
 using UnityEngine;
+using System;
 
 // Factory class for creating transition cues
 public static class TransitionCueFactory
 {
-    // Creates a transition cue with expandable panel design
+    // Creates a cue with expandable panel design or a minimal cue
     //
     // Design includes:
     // - Small panel with glowing border and breathing animation
@@ -15,61 +16,108 @@ public static class TransitionCueFactory
     // - All panels rotate toward user within constraints
     //
     // config: Configuration object with all customization parameters
-    // Returns: Root GameObject of the transition cue
-    public static GameObject CreateFrostedTransitionCue(TransitionCueConfig config)
+    // Returns: Root GameObject of the cue
+    public static GameObject CreateCue(TransitionCueConfig config)
     {
-        // === Root Container ===
-        GameObject root = new GameObject($"TransitionCue_{config.label}");
-        root.transform.SetParent(config.parent, false);
-        root.transform.localPosition = Vector3.zero;
-        root.transform.localRotation = Quaternion.identity;
-        root.transform.localScale = Vector3.one * config.globalScale;
-       
-        // === Small Panel ===
-        GameObject smallPanel = CreateSmallPanel(config);
-        smallPanel.transform.SetParent(root.transform, false);
-
-        // === Expanded Panel ===
-        GameObject expandedPanel = CreateExpandedPanel(config);
-        expandedPanel.transform.SetParent(root.transform, false);
-        expandedPanel.transform.localPosition = Vector3.zero;
-
-        // === Button ===
-        GameObject button = CreateButton(config);
-        button.transform.SetParent(root.transform, false);
-        button.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
-
-        AddIsdkSelectToInvoke(button, config);
-
-        // === Expansion Controller ===
-        TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
-        expander.Initialize(config, smallPanel, expandedPanel, button);
-
-        // === Rotation Effect ===
-        if (config.enableTurnTowardsUser)
+        if (!config.isBland)
         {
-            TurnTowardsUser rotateToUser = root.AddComponent<TurnTowardsUser>();
-            rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
+            // Normal, enhanced cue design
+
+            // === Root Container ===
+            GameObject root = new GameObject($"TransitionCue_{config.label}");
+            root.transform.SetParent(config.parent, false);
+            root.transform.localPosition = Vector3.zero;
+            root.transform.localRotation = Quaternion.identity;
+            root.transform.localScale = Vector3.one * config.globalScale;
+
+            // === Small Panel ===
+            GameObject smallPanel = CreateSmallPanel(config);
+            smallPanel.transform.SetParent(root.transform, false);
+
+            // === Expanded Panel ===
+            GameObject expandedPanel = CreateExpandedPanel(config);
+            expandedPanel.transform.SetParent(root.transform, false);
+            expandedPanel.transform.localPosition = Vector3.zero;
+
+            // === Button Container ===
+            GameObject buttonContainer = new GameObject("ButtonContainer");
+            buttonContainer.transform.SetParent(root.transform, false);
+            buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
+
+            // === Action Button ===
+            GameObject button = CreateButton(config);
+            button.transform.SetParent(buttonContainer.transform, false);
+            AddIsdkSelectToInvoke(button, config);
+
+            // === Close Button (only for collapsible cues) ===
+            GameObject closeButton = null;
+            if (!config.alwaysExpanded)
+            {
+                float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
+                button.transform.localPosition = new Vector3(actionButtonX, 0, 0);
+
+                closeButton = CreateCloseButton(config);
+                float closeButtonX = -(config.buttonWidth + config.buttonSpacing) / 2f;
+                closeButton.transform.SetParent(buttonContainer.transform, false);
+                closeButton.transform.localPosition = new Vector3(closeButtonX, 0, 0);
+            }
+
+            // === Expansion Controller ===
+            TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
+            expander.Initialize(config, smallPanel, expandedPanel, buttonContainer);
+
+            // Wire close button to dismiss the expanded panel
+            if (closeButton != null)
+            {
+                AddIsdkSelectToInvoke(closeButton, () => expander.DismissToSmall());
+            }
+
+            // === Rotation Effect ===
+            if (config.enableTurnTowardsUser)
+            {
+                TurnTowardsUser rotateToUser = root.AddComponent<TurnTowardsUser>();
+                rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
+            }
+
+            // === Ambient Audio ===
+            AddAmbientAudio(root, config);
+
+            return root;
+        } 
+        else
+        {
+            // Minimal cue design
+
+            // === Root Container ===
+            GameObject root = new GameObject($"MinimalCue_{config.label}");
+            root.transform.SetParent(config.parent, false);
+            root.transform.localPosition = Vector3.zero;
+            root.transform.localRotation = Quaternion.identity;
+            root.transform.localScale = Vector3.one * config.globalScale;
+
+            // === Small Panel ===
+            GameObject smallPanel = CreateSmallPanel(config);
+            smallPanel.transform.SetParent(root.transform, false);
+            AddIsdkSelectToInvoke(smallPanel, config);
+
+            return root;
         }
-
-        // === Ambient Audio ===
-        AddAmbientAudio(root, config);
-
-        return root;
     }
 
     private static void AddIsdkSelectToInvoke(GameObject button, TransitionCueConfig config)
     {
-        // Collider (falls dein RoundedCubeModel keinen hat)
+        AddIsdkSelectToInvoke(button, () => config?.onInteract?.Invoke());
+    }
+
+    private static void AddIsdkSelectToInvoke(GameObject button, Action action)
+    {
         Collider col = button.GetComponent<Collider>();
         if (col == null) col = button.AddComponent<BoxCollider>();
 
-        // Surface (macht den Collider als ISurface nutzbar)
         var surface = button.GetComponent<ColliderSurface>();
         if (surface == null) surface = button.AddComponent<ColliderSurface>();
         surface.InjectAllColliderSurface(col);
 
-        // RayInteractable (für Ray/Pointer-Select; funktioniert i.d.R. auch mit Controller-Ray)
         var ray = button.GetComponent<RayInteractable>();
         if (ray == null) ray = button.AddComponent<RayInteractable>();
         ray.InjectAllRayInteractable(surface);
@@ -78,8 +126,8 @@ public static class TransitionCueFactory
         {
             if (state.NewState == InteractableState.Select)
             {
-                Debug.Log("[TransitionCue] Button selected");
-                config?.onInteract?.Invoke();
+                Debug.Log("[TransitionCueFactory] Button selected");
+                action?.Invoke();
             }
         };
     }
@@ -108,8 +156,18 @@ public static class TransitionCueFactory
         {
             renderer = smallPanel.GetComponentInChildren<Renderer>();
         }
-        Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
-        renderer.material = frostedMat;
+
+        // Set the right material / optic, based on type of cue (Enhanced vs. Minimal)
+        if (!config.isBland)
+        {
+            Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
+            renderer.material = frostedMat;
+        } 
+        else
+        {
+            Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, 1);
+            renderer.material = frostedMat;
+        }
 
         // Remove default collider (we'll add XR interaction to button only)
         Collider collider = smallPanel.GetComponent<Collider>();
@@ -337,6 +395,69 @@ public static class TransitionCueFactory
         textObj.transform.localScale = new Vector3(1f, 5f, 1f);
 
         return button;
+    }
+
+    // Creates the close button with an X icon
+    private static GameObject CreateCloseButton(TransitionCueConfig config)
+    {
+        GameObject closeButton = CreateRoundedCube();
+        closeButton.name = "CloseButton";
+        closeButton.transform.localScale = new Vector3(config.closeButtonSize, config.buttonHeight, config.buttonDepth);
+
+        Renderer renderer = closeButton.GetComponent<Renderer>();
+        if (renderer == null)
+            renderer = closeButton.GetComponentInChildren<Renderer>();
+        Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
+        renderer.material = buttonMat;
+
+        CreateXIcon(closeButton.transform, config);
+
+        return closeButton;
+    }
+
+    // Creates two crossed lines forming an X icon on the front face of the parent
+    private static void CreateXIcon(Transform parent, TransitionCueConfig config)
+    {
+        float zOffset = (config.buttonDepth / 2) + config.textZOffset;
+        float lineLength = 0.6f;
+        float lineThickness = 0.06f;
+
+        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        lineMat.SetColor("_BaseColor", Color.white);
+        lineMat.renderQueue = 3100;
+
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject line = GameObject.CreatePrimitive(PrimitiveType.Quad);
+            line.name = i == 0 ? "XLine1" : "XLine2";
+            line.transform.SetParent(parent, false);
+            line.transform.localPosition = new Vector3(0, 0, zOffset);
+            float angle = i == 0 ? 45f : -45f;
+            line.transform.localRotation = Quaternion.Euler(0, 180, angle);
+            line.transform.localScale = new Vector3(lineLength, lineThickness, 1f);
+
+            Collider col = line.GetComponent<Collider>();
+            if (col != null) UnityEngine.Object.Destroy(col);
+
+            line.GetComponent<Renderer>().material = lineMat;
+        }
+    }
+
+    // Creates a standalone interactive button in the same visual style as cue action buttons (for the mensa)
+    public static GameObject CreateStandaloneButton(TransitionCueConfig config)
+    {
+        GameObject root = new GameObject($"StandaloneButton_{config.buttonText}");
+        root.transform.SetParent(config.parent, false);
+        root.transform.localPosition = Vector3.zero;
+        root.transform.localRotation = Quaternion.identity;
+        root.transform.localScale = Vector3.one * config.globalScale;
+
+        GameObject button = CreateButton(config);
+        button.transform.SetParent(root.transform, false);
+
+        AddIsdkSelectToInvoke(button, config);
+
+        return root;
     }
 
     // Creates a frosted glass material with transparency

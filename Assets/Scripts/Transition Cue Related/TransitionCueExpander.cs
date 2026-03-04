@@ -13,6 +13,7 @@ public class TransitionCueExpander : MonoBehaviour
 
     // === State ===
     private bool isExpanded = false;
+    private bool dismissedByUser = false;
     private float currentExpansionT = 0f; // 0 = collapsed, 1 = expanded
 
     // === Audio Fade State ===
@@ -101,8 +102,14 @@ public class TransitionCueExpander : MonoBehaviour
         // Check if should be expanded based on proximity and gaze
         bool shouldExpand = ShouldExpand();
 
+        // Clear dismiss flag when user leaves trigger zone
+        if (dismissedByUser && !shouldExpand)
+        {
+            dismissedByUser = false;
+        }
+
         // Update target state
-        if (shouldExpand && !isExpanded)
+        if (shouldExpand && !isExpanded && !dismissedByUser)
         {
             isExpanded = true;
             smallPanel.SetActive(false); 
@@ -186,6 +193,9 @@ public class TransitionCueExpander : MonoBehaviour
     // Forces the panel to expand or collapse, regardless of proximity/gaze
     public void ForceExpand(bool expand)
     {
+        if (expand)
+            dismissedByUser = false;
+
         isExpanded = expand;
         if (expand)
         {
@@ -202,6 +212,20 @@ public class TransitionCueExpander : MonoBehaviour
             buttonPanel.SetActive(false);
 
             PlayTransitionSound(config.shrinkSound, config.transitionSoundVolume);
+        }
+    }
+
+    // Collapses the panel back to small state and prevents re-expansion until user leaves trigger zone
+    public void DismissToSmall()
+    {
+        dismissedByUser = true;
+        isExpanded = false;
+
+        PlayTransitionSound(config.shrinkSound, config.transitionSoundVolume);
+
+        if (audioSource != null && config.stopSoundWhenExpanded)
+        {
+            targetVolume = config.ambientVolume;
         }
     }
 
