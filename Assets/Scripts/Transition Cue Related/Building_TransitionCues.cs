@@ -80,6 +80,11 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private bool exitArrivalAlwaysExpand = false;
     [SerializeField] private bool exitArrivalIsBland = false;
 
+    [Header("Transition Particles")]
+    [SerializeField] private Color enterVRParticleColor = new Color(0.3f, 0.4f, 0.8f);
+    [SerializeField] private Color exitVRParticleColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private float particleDuration = 4f;
+
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
 
@@ -221,7 +226,7 @@ public class Building_TransitionCues : MonoBehaviour
 
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
-        entryCue = TransitionCueFactory.CreateFrostedTransitionCue(entryCueConfig);
+        entryCue = TransitionCueFactory.CreateCue(entryCueConfig);
     }
 
     IEnumerator EnterVR()
@@ -265,7 +270,7 @@ public class Building_TransitionCues : MonoBehaviour
         // Fade transition
         yield return StartCoroutine(TransitionEffects.Instance.FadeToBlackWithTitle(
             roomTitle: vrRoomTitle,
-            fadeColor: Color.black,
+            fadeColor: entryPrimaryColor,
             fadeDuration: 0.5f,
             titleHoldSeconds: 1.0f,           
             onOverlayReady: go => overlay = go
@@ -283,10 +288,7 @@ public class Building_TransitionCues : MonoBehaviour
             fadeColor: Color.black,
             fadeDuration: 0.5f
         ));
-        Debug.Log("initializing vr room coroutine 2");
-
-        // Create exit cue
-        // CreateExitCue(); // THIS WAS THE OLD CALL; NOW HAPPENS INSIDE LOADVRROOM()
+        TransitionParticleEffect.Spawn(enterVRParticleColor, particleDuration * 2);
     }
 
     void SetPlacedBuildingVisible(bool visible)
@@ -498,9 +500,11 @@ public class Building_TransitionCues : MonoBehaviour
         return results;
     }
 
+    // CUE INFO:
+    // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateExitCue(Transform exitAnchor)
     {
-        // Base
+        // Base (Same basic configuration for enhanced as well as minimal cues
         TransitionCueConfig exitCueConfig = TransitionCueConfig.CreateARConfig(
             parent: exitAnchor,
             onInteract: () =>
@@ -511,7 +515,7 @@ public class Building_TransitionCues : MonoBehaviour
         
         if (!exitIsBland)
         {
-            // Details
+            // Details for enhanced cues
             exitCueConfig.alwaysExpanded = exitAlwaysExpand;
             exitCueConfig.primaryColor = exitPrimaryColor;
             exitCueConfig.expandedDescription = exitDescription;
@@ -519,25 +523,24 @@ public class Building_TransitionCues : MonoBehaviour
         }
         else
         {
-            // Details
-            exitCueConfig.alwaysExpanded = true;
+            // Details for minimal cue
+            exitCueConfig.isBland = exitIsBland;
+            exitCueConfig.alwaysExpanded = false;
             exitCueConfig.primaryColor = Color.black;
             exitCueConfig.expandedDescription = exitLabel;
-            exitCueConfig.isBland = exitIsBland;
-
         }
 
         if (leadsToAR)
-        {
             exitCueConfig.leadsToAR = true;
-        }
 
         // (Effectively not used if alwaysExpanded)
         exitCueConfig.label = exitLabel;
         exitCueConfig.buttonText = exitButtonText;
-        exitCue = TransitionCueFactory.CreateFrostedTransitionCue(exitCueConfig);
+        exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
     }
 
+    // CUE INFO:
+    // This cue spawns in front of the user when he freshly entered a vr room and gives him some info or instructions about what he can explore
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
     {
         if (!entryArrivalIsBland)
@@ -561,10 +564,12 @@ public class Building_TransitionCues : MonoBehaviour
             entryArrivalCueConfig.label = entryArrivalLabel;
             entryArrivalCueConfig.buttonText = entryArrivalButtonText;
 
-            entryArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(entryArrivalCueConfig);
+            entryArrivalCue = TransitionCueFactory.CreateCue(entryArrivalCueConfig);
         }
     }
-
+     
+    // CUE INFO:
+    // This cue spawns when the user exited vr, lands in ar, and conforms him with a successful landing and info about where he went off
     void CreateExitArrivalCue(Transform exitArrivalAnchor)
     {
         if (!exitArrivalIsBland)
@@ -588,11 +593,13 @@ public class Building_TransitionCues : MonoBehaviour
             exitArrivalCueConfig.buttonText = exitArrivalButtonText;
             exitArrivalCueConfig.label = exitArrivalLabel;
 
-            exitArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(exitArrivalCueConfig);
+            exitArrivalCue = TransitionCueFactory.CreateCue(exitArrivalCueConfig);
         }
     }
 
-
+    // CUE INFO:
+    // This cue spawns in the face of the user when starting a new application that has this script (i.e., G64 or Bib),
+    // confronting them with orders to follow the arrow
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
         if (!startArrivalIsBland)
@@ -616,7 +623,7 @@ public class Building_TransitionCues : MonoBehaviour
             StartArrivalCueConfig.label = startArrivalLabel;
             StartArrivalCueConfig.buttonText = startArrivalButtonText;
 
-            startArrivalCue = TransitionCueFactory.CreateFrostedTransitionCue(StartArrivalCueConfig);
+            startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
         }
     }
 
@@ -630,6 +637,8 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Unload VR room
         yield return StartCoroutine(UnloadVRRoom());
+
+        TransitionParticleEffect.Spawn(exitVRParticleColor, particleDuration);
 
         // Destroy exit cue
         if (exitCue != null)

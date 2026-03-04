@@ -849,6 +849,9 @@ Transform:
   - {fileID: 4498905363078469255}
   - {fileID: 501118575598877898}
   - {fileID: 984907115099969544}
+  - {fileID: 5315427403777061630}
+  - {fileID: 6866184526284535856}
+  - {fileID: 859283880252081436}
   - {fileID: 3560702723994853201}
   - {fileID: 5311411359133995971}
   - {fileID: 271719143001321546}
@@ -1136,6 +1139,14 @@ MonoBehaviour:
   FoodB: {fileID: 673769595211578928}
   FoodC: {fileID: 146075194449533682}
   FoodButtonCanvas: {fileID: 5665507784772159981}
+  foodButtonAnchor1Name: foodButtonAnchor1
+  foodButtonAnchor2Name: foodButtonAnchor2
+  foodButtonAnchor3Name: foodButtonAnchor3
+  foodButtonColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  foodButton1Text: Food A
+  foodButton2Text: Food B
+  foodButton3Text: Food C
+  foodButtonsTurnToUser: 1
 --- !u!114 &2927803090132555605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2501,6 +2512,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3019022210633704016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6866184526284535856}
+  m_Layer: 0
+  m_Name: foodButtonAnchor2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6866184526284535856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3019022210633704016}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.99999803, z: -0, w: -0.0019951172}
+  m_LocalPosition: {x: 2.463, y: 0.665, z: 0.727}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3088886841078431567}
+  m_LocalEulerAnglesHint: {x: 0, y: 180.229, z: 0}
 --- !u!1 &3032284759428734755
 GameObject:
   m_ObjectHideFlags: 0
@@ -2763,6 +2805,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3072286891372202210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5315427403777061630}
+  m_Layer: 0
+  m_Name: foodButtonAnchor1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5315427403777061630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3072286891372202210}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.99999803, z: -0, w: -0.0019951172}
+  m_LocalPosition: {x: 1.744, y: 0.665, z: 0.73}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3088886841078431567}
+  m_LocalEulerAnglesHint: {x: 0, y: 180.229, z: 0}
 --- !u!1 &3512255760676146432
 GameObject:
   m_ObjectHideFlags: 0
@@ -6576,7 +6649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3560702723994853201
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6925,6 +6998,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5790319005870247958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 859283880252081436}
+  m_Layer: 0
+  m_Name: foodButtonAnchor3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &859283880252081436
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5790319005870247958}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.99999803, z: -0, w: -0.0019951172}
+  m_LocalPosition: {x: 3.151, y: 0.665, z: 0.724}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3088886841078431567}
+  m_LocalEulerAnglesHint: {x: 0, y: 180.229, z: 0}
 --- !u!1 &5816375938039425714
 GameObject:
   m_ObjectHideFlags: 0

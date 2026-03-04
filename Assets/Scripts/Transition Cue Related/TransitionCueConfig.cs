@@ -115,6 +115,12 @@ public class TransitionCueConfig
     // Border color for small panel (if null, uses primaryColor)
     public Color? smallPanelBorderColor = null;
 
+    // Horizontal spacing between action button and close button (meters)
+    public float buttonSpacing = 0.02f;
+
+    // Size of the square close button (meters)
+    public float closeButtonSize = 0.1f;
+
 
     // === Button ===
 
@@ -149,7 +155,7 @@ public class TransitionCueConfig
     public bool enableTurnTowardsUser = true;
 
     // Maximum rotation angle toward user (degrees)
-    public float turnMaxAngle = 12.5f;
+    public float turnMaxAngle = 15f;
 
     // Distance at which rotation starts (meters) (Set to 0 for always active)
     public float turnTriggerDistance = 6f;
