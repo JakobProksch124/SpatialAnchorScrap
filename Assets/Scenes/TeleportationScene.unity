@@ -2938,10 +2938,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positioner: {fileID: 474745955}
-  _objectToPlace: {fileID: 1384505585074534098, guid: 422da4ce5b97b6f4d89700faa25a2f6d, type: 3}
+  _objectToPlace: {fileID: 3252451672500658893, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
   SpatialAnchorLoadBuildingBlock: {fileID: 2024517657}
-  firstAnchorFound: 0
   SpatialAnchorSpawner: {fileID: 2024517658}
+  firstAnchorFound: 0
   joystickController: {fileID: 454890881}
 --- !u!114 &474745955
 MonoBehaviour:
@@ -2957,10 +2957,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offsetText: {fileID: 505335694}
   vrConsoleText: {fileID: 2099031856}
-  positionSpeed: 0.03
   ascendButton: {fileID: -4022060916381164570, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   descendButton: {fileID: 3609823731942455608, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   devButton: {fileID: -3042148573974080136, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  positionSpeed: 0.03
+  inDevMode: 0
   triggerLeft: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _moveAction: {fileID: -6466034804778379739, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _turnAction: {fileID: -3655558797359205420, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -2973,7 +2974,6 @@ MonoBehaviour:
   OffsetRotX: 0
   OffsetRotY: 0
   OffsetRotZ: 0
-  inDevMode: 0
   occluderMat: {fileID: 2100000, guid: a2dbbbd26ee4c1b429fa90e125314135, type: 2}
   transparencyMat: {fileID: 2100000, guid: f4e61db57faef1e4d996125006c70f63, type: 2}
 --- !u!114 &474745956

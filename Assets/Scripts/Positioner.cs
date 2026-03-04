@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
+using Oculus.Platform;
+using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class Positioner : MonoBehaviour
 {
@@ -48,7 +51,7 @@ public class Positioner : MonoBehaviour
     // Place where json containing translation and rotation info is stored
     private string RuntimeJsonPath =>
         Path.Combine(
-            Application.persistentDataPath,
+            UnityEngine.Application.persistentDataPath,
             offsetJsonTemplate.name + ".json"
         );
 
@@ -177,8 +180,12 @@ public class Positioner : MonoBehaviour
         if (!inDevMode)
             return;
         
-        if (_objectToPosition == null)
-            return;
+        if (_objectToPosition == null) { 
+            string trackingInfo = GetTrackingDebugInfo();
+
+        offsetText.text = trackingInfo;
+        return;
+        }
 
         if (_moveAction == null || _turnAction == null)
             return;
@@ -309,6 +316,26 @@ public class Positioner : MonoBehaviour
         _objectToPosition.transform.localRotation = Quaternion.Euler(OffsetRotX, OffsetRotY, OffsetRotZ);
 
         Debug.Log("Offset aus JSON geladen und angewendet.");
+    }
+
+    private string GetTrackingDebugInfo()
+    {
+        UnityEngine.XR.InputDevice hmd =
+            UnityEngine.XR.InputDevices.GetDeviceAtXRNode(UnityEngine.XR.XRNode.Head);
+
+        if (!hmd.isValid)
+            return "HMD Device: INVALID";
+
+        bool isTracked = false;
+        hmd.TryGetFeatureValue(UnityEngine.XR.CommonUsages.isTracked, out isTracked);
+
+        Vector3 pos;
+        bool hasPosition =
+            hmd.TryGetFeatureValue(UnityEngine.XR.CommonUsages.devicePosition, out pos);
+
+        return $"HMD Valid: {hmd.isValid}\n" +
+               $"Pose Tracked: {isTracked}\n" +
+               $"Has Position Data: {hasPosition}";
     }
 }
 

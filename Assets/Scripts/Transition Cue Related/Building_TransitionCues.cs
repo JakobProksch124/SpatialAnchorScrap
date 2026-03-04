@@ -261,6 +261,7 @@ public class Building_TransitionCues : MonoBehaviour
 
         GameObject overlay = null;
 
+        // XX hier einfach black mit blue austauschen
         // Fade transition
         yield return StartCoroutine(TransitionEffects.Instance.FadeToBlackWithTitle(
             roomTitle: vrRoomTitle,
@@ -276,6 +277,7 @@ public class Building_TransitionCues : MonoBehaviour
         yield return StartCoroutine(LoadVRRoom());
         yield return null;
 
+        // XX hier einfach black mit blue austauschen
         yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
             overlayCanvas: overlay,
             fadeColor: Color.black,
@@ -623,6 +625,7 @@ public class Building_TransitionCues : MonoBehaviour
         Debug.Log($"[Building_TransitionCues] Exiting VR, returning to AR");
 
         // Fade out
+        // XX hier diese Methode so anpassen, dass orangene Partikel erscheinen
         yield return StartCoroutine(TransitionEffects.Instance.FadeToAR(1.5f, vrRoom));
 
         // Unload VR room

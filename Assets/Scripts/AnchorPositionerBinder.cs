@@ -15,6 +15,8 @@ public class AnchorPositionerBinder : MonoBehaviour
     public bool firstAnchorFound = false;
 
     public GameObject joystickController;
+    private float _loadInterval = 5f;
+    private float _loadTimer = 0f;
 
     private void Awake()
     {
@@ -33,10 +35,14 @@ public class AnchorPositionerBinder : MonoBehaviour
 
     private void Update()
     {
-        if (!this.firstAnchorFound)
+        if (this.firstAnchorFound)
+            return;
+        _loadTimer += Time.deltaTime;
+        if (_loadTimer >= _loadInterval)
         {
+            _loadTimer = 0f;
             //Debug.Log("First Anchor Not Found Yet");
-            if(SpatialAnchorLoadBuildingBlock != null)
+            if (SpatialAnchorLoadBuildingBlock != null)
             {
                 SpatialAnchorLoadBuildingBlock.LoadAnchorsFromDefaultLocalStorage();
             }
