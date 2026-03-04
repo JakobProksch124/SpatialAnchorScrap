@@ -38,6 +38,7 @@ public static class TransitionCueFactory
             GameObject expandedPanel = CreateExpandedPanel(config);
             expandedPanel.transform.SetParent(root.transform, false);
             expandedPanel.transform.localPosition = Vector3.zero;
+            AddIsdkSelectToInvoke(expandedPanel, config)
 
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
