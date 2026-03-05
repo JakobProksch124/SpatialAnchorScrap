@@ -200,14 +200,22 @@ public class ArrivalCue : MonoBehaviour
 
         // Emissive border material (matches GlowingBorderEffect pattern)
         Material borderMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        borderMat.EnableKeyword("_EMISSION");
-        borderMat.SetColor("_BaseColor", BorderColor);
-        borderMat.SetColor("_EmissionColor", BorderColor * glowIntensity * 2f);
-        borderMat.SetFloat("_Surface", 1); // Transparent
-        borderMat.SetFloat("_Smoothness", 0.9f);
-        border.GetComponent<Renderer>().material = borderMat;
-        borderRef = border;
-        borderMaterialRef = borderMat;
+        if (borderMat == null)
+        {
+            UnityEngine.Debug.Log("borderMat is null; arrival cue is broken");
+        }
+        else
+        {
+            borderMat.EnableKeyword("_EMISSION");
+            borderMat.SetColor("_BaseColor", BorderColor);
+            borderMat.SetColor("_EmissionColor", BorderColor * glowIntensity * 2f);
+            borderMat.SetFloat("_Surface", 1); // Transparent
+            borderMat.SetFloat("_Smoothness", 0.9f);
+            border.GetComponent<Renderer>().material = borderMat;
+            borderRef = border;
+            borderMaterialRef = borderMat;
+
+        }
 
         // === Checkmark icon (hidden until arrival) ===
         Texture2D checkmarkTexture = Resources.Load<Texture2D>("CheckmarkIcon");
@@ -230,20 +238,28 @@ public class ArrivalCue : MonoBehaviour
             if (checkCollider != null) Destroy(checkCollider);
 
             // Unlit transparent material — starts fully invisible (alpha 0)
-            Material checkMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-            checkMat.SetTexture("_BaseMap", checkmarkTexture);
-            checkMat.SetColor("_BaseColor", new Color(1f, 1f, 1f, 0f));
-            checkMat.SetFloat("_Surface", 1); // Transparent
-            checkMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            checkMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            checkMat.SetInt("_ZWrite", 0);
-            checkMat.renderQueue = 3200; // Above cylinder (3000) and text (3100)
-            checkMat.SetOverrideTag("RenderType", "Transparent");
-            checkMat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
 
-            checkmarkQuad.GetComponent<Renderer>().material = checkMat;
-            checkmarkRef = checkmarkQuad;
-            checkmarkMaterialRef = checkMat;
+            //Material checkMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+            /*if (checkMat != null)
+            {
+                checkMat.SetTexture("_BaseMap", checkmarkTexture);
+                checkMat.SetColor("_BaseColor", new Color(1f, 1f, 1f, 0f));
+                checkMat.SetFloat("_Surface", 1); // Transparent
+                checkMat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                checkMat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                checkMat.SetInt("_ZWrite", 0);
+                checkMat.renderQueue = 3200; // Above cylinder (3000) and text (3100)
+                checkMat.SetOverrideTag("RenderType", "Transparent");
+                checkMat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+
+                checkmarkQuad.GetComponent<Renderer>().material = checkMat;
+                checkmarkRef = checkmarkQuad;
+                checkmarkMaterialRef = checkMat;
+            }
+            else
+            {
+                UnityEngine.Debug.Log("checkmat is null; arrival cue is broken");
+            }*/
         }
 
         // === Floating text above cylinder ===

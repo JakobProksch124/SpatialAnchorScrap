@@ -148,25 +148,35 @@ public class Lecture_TransitionCues : MonoBehaviour
 
     IEnumerator SpawnPhases()
     {
-            Transform phase = objectsToSpawn.GetChild(0);
+            Transform phase1 = objectsToSpawn.GetChild(0);
 
             // Prepare alpha BEFORE enabling
-            SetPhaseAlpha(phase, 0f);
-        if(phase != null)
+            SetPhaseAlpha(phase1, 0f);
+        if(phase1 != null)
         {
 
-            phase.gameObject.SetActive(true);
+            phase1.gameObject.SetActive(true);
 
-            yield return StartCoroutine(FadeInPhase(phase));
+            yield return StartCoroutine(FadeInPhase(phase1));
+        }
+        Transform phase2 = objectsToSpawn.GetChild(1);
+
+        // Prepare alpha BEFORE enabling
+        SetPhaseAlpha(phase2, 0f);
+        if (phase2 != null)
+        {
+
+            phase2.gameObject.SetActive(true);
+
+            yield return StartCoroutine(FadeInPhase(phase2));
         }
 
-
-        Transform phase2 = objectsToSpawn.GetChild(1);
-        phase2.gameObject.SetActive(true);
-        if(phase2 != null)
+        Transform phase3 = objectsToSpawn.GetChild(2);
+        phase3.gameObject.SetActive(true);
+        if(phase3 != null)
         {
 
-        foreach (Transform child in phase2)
+        foreach (Transform child in phase3)
         {
             child.gameObject.SetActive(true);
             }

@@ -29,26 +29,31 @@ public static class TransitionCueFactory
             root.transform.localPosition = Vector3.zero;
             root.transform.localRotation = Quaternion.identity;
             root.transform.localScale = Vector3.one * config.globalScale;
+            UnityEngine.Debug.Log("created cue root");
 
             // === Small Panel ===
             GameObject smallPanel = CreateSmallPanel(config);
             smallPanel.transform.SetParent(root.transform, false);
+            UnityEngine.Debug.Log("created small panel");
 
             // === Expanded Panel ===
             GameObject expandedPanel = CreateExpandedPanel(config);
             expandedPanel.transform.SetParent(root.transform, false);
             expandedPanel.transform.localPosition = Vector3.zero;
             AddIsdkSelectToInvoke(expandedPanel, config);
+            UnityEngine.Debug.Log("created expanded panel");
 
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
             buttonContainer.transform.SetParent(root.transform, false);
             buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
+            UnityEngine.Debug.Log("created button container");
 
             // === Action Button ===
             GameObject button = CreateButton(config);
             button.transform.SetParent(buttonContainer.transform, false);
             AddIsdkSelectToInvoke(button, config);
+            UnityEngine.Debug.Log("created button");
 
             // === Close Button (only for collapsible cues) ===
             GameObject closeButton = null;
@@ -62,6 +67,7 @@ public static class TransitionCueFactory
                 closeButton.transform.SetParent(buttonContainer.transform, false);
                 closeButton.transform.localPosition = new Vector3(closeButtonX, 0, 0);
             }
+            UnityEngine.Debug.Log("created close button");
 
             // === Expansion Controller ===
             TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
@@ -432,14 +438,40 @@ public static class TransitionCueFactory
         GameObject closeButton = CreateRoundedCube();
         closeButton.name = "CloseButton";
         closeButton.transform.localScale = new Vector3(config.closeButtonSize, config.buttonHeight, config.buttonDepth);
+        UnityEngine.Debug.Log("created rounded Cube");
 
         Renderer renderer = closeButton.GetComponent<Renderer>();
         if (renderer == null)
             renderer = closeButton.GetComponentInChildren<Renderer>();
         Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
-        renderer.material = buttonMat;
+        if (buttonMat != null)
+        {
+            renderer.material = buttonMat;
+        }
+        UnityEngine.Debug.Log("created frosted glass material");
 
-        CreateXIcon(closeButton.transform, config);
+        //CreateXIcon(closeButton.transform, config);// === Button Text ===
+        GameObject textObj = new GameObject("CloseButtonText");
+        textObj.transform.SetParent(closeButton.transform, false);
+        // Position text clearly in front of the button (negative Z for cube forward face)
+        float closeButtonTextOffset = (config.buttonDepth / 2) + config.textZOffset;
+        textObj.transform.localPosition = new Vector3(0, 0, closeButtonTextOffset);
+        textObj.transform.localRotation = Quaternion.Euler(0, 180, 0); // Rotate 180° around Y-axis (green axis)
+
+        TextMeshPro closeButtonText = textObj.AddComponent<TextMeshPro>();
+        closeButtonText.text = "X";
+        closeButtonText.fontSize = config.buttonFontSize * config.generalFontSizeFactor;
+        closeButtonText.fontStyle = FontStyles.Bold;
+        closeButtonText.alignment = TextAlignmentOptions.Center;
+        closeButtonText.color = Color.white;
+        closeButtonText.enableAutoSizing = false; // Prevent vertical squashing
+
+        // Apply custom font (bold variant)
+        ApplyCustomFont(closeButtonText, config, true);
+
+        // Fix vertical compression caused by parent rotation: Scale Y by factor ~5 to compensate
+        textObj.transform.localScale = new Vector3(1f, 5f, 1f);
+        UnityEngine.Debug.Log("created X text");
 
         return closeButton;
     }
@@ -450,8 +482,11 @@ public static class TransitionCueFactory
         float zOffset = (config.buttonDepth / 2) + config.textZOffset;
         float lineLength = 0.6f;
         float lineThickness = 0.06f;
-
+        UnityEngine.Debug.Log("creating line mat");
         Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        if (lineMat != null)
+        {
+            UnityEngine.Debug.Log("line mat is not null");
         lineMat.SetColor("_BaseColor", Color.white);
         lineMat.renderQueue = 3100;
 
@@ -469,6 +504,11 @@ public static class TransitionCueFactory
             if (col != null) UnityEngine.Object.Destroy(col);
 
             line.GetComponent<Renderer>().material = lineMat;
+        }
+        }
+        else
+        {
+            Debug.Log("LineMat is null; not generating X Icon");
         }
     }
 

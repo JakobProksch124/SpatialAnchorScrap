@@ -52,7 +52,7 @@ public class Mensa_FriendCue : MonoBehaviour
     private GameObject entryArrivalCue;
     private GameObject startArrivalCue;
     private Camera mainCamera;
-    private MonoBehaviour pathGenerator;
+    private PathGenerator pathGenerator;
     private LineRenderer[] pathLineRenderers;
     private Scene loadedVRScene;
     private ArrivalCue arrivalCue;
@@ -68,7 +68,7 @@ public class Mensa_FriendCue : MonoBehaviour
     [SerializeField] private string foodButtonAnchor3Name = "foodButtonAnchor3";
     [SerializeField] private Color foodButtonColor = new Color(0.8f, 0.4f, 0f);
     [SerializeField] private string foodButton1Text = "Pick pancakes";
-    [SerializeField] private string foodButton2Text = "Pick pie";
+    [SerializeField] private string foodButton2Text = "Pick sandwich";
     [SerializeField] private string foodButton3Text = "Pick omelet";
     [SerializeField] private bool foodButtonsTurnToUser = false;
     private Transform foodButtonAnchor1;
@@ -83,7 +83,7 @@ public class Mensa_FriendCue : MonoBehaviour
         mainCamera = Camera.main;
 
         // Find PathGenerator component
-        foreach (var component in GetComponents<MonoBehaviour>())
+        foreach (var component in GetComponents<PathGenerator>())
         {
             if (component.GetType().Name == "PathGenerator")
             {
@@ -197,7 +197,6 @@ public class Mensa_FriendCue : MonoBehaviour
     public void showEntryCue()
     {
         UnityEngine.Debug.Log("Food Button Pressed!");
-        CreateEntryCue(entryAnchor);
 
         if (FoodA!=null)
             FoodA.SetActive(false);
@@ -210,11 +209,21 @@ public class Mensa_FriendCue : MonoBehaviour
 
         /*if (FoodButtonCanvas != null)
             FoodButtonCanvas.SetActive(false);*/
-        if (foodButton1 != null) Destroy(foodButton1);
-        if (foodButton2 != null) Destroy(foodButton2);
-        if (foodButton3 != null) Destroy(foodButton3);
+        if (foodButton1 != null)
+        {
+            Destroy(foodButton1);
+        }
+        if (foodButton2 != null)
+        {
+            Destroy(foodButton2);
+        }
+        if (foodButton3 != null)
+        {
+            Destroy(foodButton3);
+        }
 
-        // Spawn arrival cue (Premise: ArrivalCue component is present on this GameObject)
+        CreateEntryCue(entryAnchor);
+        //Spawn arrival cue (Premise: ArrivalCue component is present on this GameObject)
         arrivalCue = GetComponent<ArrivalCue>();
         if (arrivalCue != null)
         {
@@ -242,12 +251,16 @@ public class Mensa_FriendCue : MonoBehaviour
         // Base
         TransitionCueConfig entryCueConfig = TransitionCueConfig.CreateARConfig(
             parent: entryAnchor,
-            onInteract: () => StartNavigationToFriends()
+            onInteract: () => {
+                StartNavigationToFriends();
+                entryCue.SetActive(false);
+            }
         );
 
         if (!entryIsBland)
         {
             // Details
+            UnityEngine.Debug.Log("setting cue details");
             entryCueConfig.primaryColor = entryPrimaryColor;
             entryCueConfig.expandedDescription = entryDescription;
             entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
@@ -257,6 +270,7 @@ public class Mensa_FriendCue : MonoBehaviour
         else
         {
             // Details
+            UnityEngine.Debug.Log("setting cue details");
             entryCueConfig.primaryColor = Color.black;
             entryCueConfig.expandedDescription = entryLabel;
             entryCueConfig.alwaysExpanded = true;
@@ -266,6 +280,7 @@ public class Mensa_FriendCue : MonoBehaviour
 
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
+        UnityEngine.Debug.Log("creating cue with factory");
         entryCue = TransitionCueFactory.CreateCue(entryCueConfig);
         UnityEngine.Debug.Log("Entry Cue created!");
     }
@@ -318,7 +333,9 @@ public class Mensa_FriendCue : MonoBehaviour
                     lineRenderer.enabled = false;
                 }
             }
+            pathGenerator.ClearArrows();
         }
+
     }
 
     void EnablePathGenerator()

@@ -1253,7 +1253,7 @@ MonoBehaviour:
   startArrivalDescription: Welcome to AR Navigation!
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 0
-  startArrivalIsBland: 0
+  startArrivalIsBland: 1
   vrRoomTitle: The Lab
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -1262,7 +1262,7 @@ MonoBehaviour:
   entryDescription: 'You can enter VR to take a look inside one of our laboratories. '
   entryButtonText: Enter VR
   entryAlwaysExpand: 0
-  entryIsBland: 0
+  entryIsBland: 1
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryArrivalLabel: VR
@@ -1270,7 +1270,7 @@ MonoBehaviour:
   entryArrivalDescription: Welcome to VR!
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 0
-  entryArrivalIsBland: 0
+  entryArrivalIsBland: 1
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitLabel: AR
@@ -1279,7 +1279,7 @@ MonoBehaviour:
   exitButtonText: Back to AR
   exitAlwaysExpand: 1
   leadsToAR: 1
-  exitIsBland: 0
+  exitIsBland: 1
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: AR
@@ -1287,7 +1287,7 @@ MonoBehaviour:
   exitArrivalDescription: Welcome back to AR navigation!
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
-  exitArrivalIsBland: 0
+  exitArrivalIsBland: 1
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4
@@ -1305,13 +1305,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leaveHMDAnchorName: LeaveHMDAnchor
-  leaveHMDPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
   leaveHMDLabel: R
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
   leaveHMDDescription: Take the headmounted display off
-  leaveHMDButtonText: 
-  leaveHMDAlwaysExpand: 0
-  leaveHMDIsBland: 0
+  leaveHMDButtonText: Leave AR
+  leaveHMDAlwaysExpand: 1
+  leaveHMDIsBland: 1
   targetName: G64Target
   locationName: Lecture room
   arrivalDistance: 5
