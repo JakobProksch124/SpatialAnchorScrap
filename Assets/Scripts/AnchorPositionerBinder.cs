@@ -69,6 +69,7 @@ public class AnchorPositionerBinder : MonoBehaviour
             return;
 
         this.firstAnchorFound = true;
+        Debug.Log("anchor created with id: " + anchor.Uuid);
         Bind(anchor);
     }
 
@@ -78,6 +79,11 @@ public class AnchorPositionerBinder : MonoBehaviour
             return;
 
         // Only the last loaded anchor
+        Debug.Log("loaded "+anchors.Count+" anchors");
+        for(int i=0; i<anchors.Count; i++)
+        {
+            Debug.Log("[looping through loaded anchors] anchor loaded with uuid: " + anchors[i].Uuid);
+        }
         this.firstAnchorFound = true;
         Bind(anchors[^1]);
     }

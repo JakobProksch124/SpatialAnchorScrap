@@ -5211,21 +5211,21 @@ MonoBehaviour:
   fadeDuration: 10
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  startArrivalLabel: VR
+  startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 0}
-  startArrivalDescription: Welcome to the VR lecture!
-  startArrivalButtonText: Start Video
+  startArrivalDescription: "Start dr\xFCcken, um das Video zu starten."
+  startArrivalButtonText: Start
   startArrivalAlwaysExpand: 1
-  startArrivalIsBland: 0
+  startArrivalIsBland: 1
   videoStartDelay: 3
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
-  exitLabel: Reality
+  exitLabel: 
   exitScreenshotDisplayed: {fileID: 0}
-  exitDescription: Your friends are waiting!
-  exitButtonText: Stop Video
+  exitDescription: "Peter m\xF6chte gehen. Zur Realit\xE4t zur\xFCckkehren?"
+  exitButtonText: VR verlassen
   exitAlwaysExpand: 1
-  exitIsBland: 0
+  exitIsBland: 1
   startArrivalAnchor: {fileID: 971701140}
   exitAnchor: {fileID: 640068989}
 --- !u!1 &1319152206

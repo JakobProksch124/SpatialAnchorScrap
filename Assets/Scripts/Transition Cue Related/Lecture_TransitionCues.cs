@@ -134,6 +134,7 @@ public class Lecture_TransitionCues : MonoBehaviour
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
             exitCueConfig.label = exitLabel;
             exitCueConfig.buttonText = exitButtonText;
+            exitCueConfig.leadsOutOfLecture = true;
             exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
         }
     }

@@ -1248,44 +1248,44 @@ MonoBehaviour:
   ExtraARContent: {fileID: 0}
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  startArrivalLabel: AR
-  startArrivalScreenshotDisplayed: {fileID: 0}
-  startArrivalDescription: Welcome to AR Navigation!
-  startArrivalButtonText: Close
+  startArrivalLabel: 
+  startArrivalScreenshotDisplayed: {fileID: 2800000, guid: b3787b0ced9983849b2d868418230c4c, type: 3}
+  startArrivalDescription: "Folge den Pfeilen zum H\xF6rsaal"
+  startArrivalButtonText: "Schlie\xDFen"
   startArrivalAlwaysExpand: 0
   startArrivalIsBland: 1
-  vrRoomTitle: The Lab
+  vrRoomTitle: Das Labor
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  entryLabel: VR
+  entryLabel: Wechsel zu VR
   entryScreenshotDisplayed: {fileID: 2800000, guid: 2648a0f314811a949ba9cf297b5f9bdb, type: 3}
-  entryDescription: 'You can enter VR to take a look inside one of our laboratories. '
-  entryButtonText: Enter VR
+  entryDescription: Neugierig aufs Labor? Erkunde es in VR.
+  entryButtonText: Zu VR wechseln
   entryAlwaysExpand: 0
   entryIsBland: 1
   entryArrivalAnchorName: entryArrivalAnchor
-  entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  entryArrivalLabel: VR
-  entryArrivalScreenshotDisplayed: {fileID: 0}
-  entryArrivalDescription: Welcome to VR!
-  entryArrivalButtonText: Close
+  entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
+  entryArrivalLabel: 
+  entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: b11969e0baebfef4f90df692410fcef7, type: 3}
+  entryArrivalDescription: Willkommen im Chemielabor. Teleportiere dich zum Erkunden.
+  entryArrivalButtonText: "Schlie\xDFen"
   entryArrivalAlwaysExpand: 0
   entryArrivalIsBland: 1
   exitAnchorName: exitAnchor
-  exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  exitLabel: AR
-  exitScreenshotDisplayed: {fileID: 2800000, guid: 1864828496f3da745bfef650d0c445cb, type: 3}
-  exitDescription: 'Return to the floor of the building. '
-  exitButtonText: Back to AR
+  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitLabel: Wechsel zu AR
+  exitScreenshotDisplayed: {fileID: 0}
+  exitDescription: "Deine Vorlesung beginnt bald. Zur AR-Navigation zur\xFCckkehren."
+  exitButtonText: Zu VR wechseln
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitIsBland: 1
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  exitArrivalLabel: AR
+  exitArrivalLabel: 
   exitArrivalScreenshotDisplayed: {fileID: 0}
-  exitArrivalDescription: Welcome back to AR navigation!
-  exitArrivalButtonText: Close
+  exitArrivalDescription: "Folge den Pfeilen zum H\xF6rsaal."
+  exitArrivalButtonText: "Schlie\xDFen"
   exitArrivalAlwaysExpand: 0
   exitArrivalIsBland: 1
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -1306,10 +1306,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveHMDAnchorName: LeaveHMDAnchor
   leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
-  leaveHMDLabel: R
+  leaveHMDLabel: 
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
-  leaveHMDDescription: Take the headmounted display off
-  leaveHMDButtonText: Leave AR
+  leaveHMDDescription: Ziel erreicht. Du kannst das Headset abnehmen.
+  leaveHMDButtonText: Verlasse AR
   leaveHMDAlwaysExpand: 1
   leaveHMDIsBland: 1
   targetName: G64Target

@@ -33,6 +33,10 @@ public class TransitionCueConfig
     // decides if transition leads to AR
     public bool isTransparent = true;
 
+    // decides if transition leads out of the lecture
+    public bool leadsOutOfLecture = false;
+    
+
     //decides if transition cue is blunt
     public bool isBland = false;
 

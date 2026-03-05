@@ -226,6 +226,9 @@ public static class TransitionCueFactory
         if (config.leadsToAR)
         {
             expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth*2, config.expandedPanelHeight*4, config.expandedPanelDepth);
+        }else if (config.leadsOutOfLecture)
+        {
+            expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth * 4, config.expandedPanelHeight * 2, config.expandedPanelDepth);
         }
         else
         {

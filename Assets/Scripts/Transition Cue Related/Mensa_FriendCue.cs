@@ -280,9 +280,7 @@ public class Mensa_FriendCue : MonoBehaviour
 
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
-        UnityEngine.Debug.Log("creating cue with factory");
         entryCue = TransitionCueFactory.CreateCue(entryCueConfig);
-        UnityEngine.Debug.Log("Entry Cue created!");
     }
 
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)

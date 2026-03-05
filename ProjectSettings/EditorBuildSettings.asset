@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Environments/Bridge/Bridge.unity
     guid: 3fbe3a9481c2ebd41aeec619375a9e88
   - enabled: 0
-    path: Assets/Environments/Lecture/Lecture.unity
+    path: Assets/Scenes/Lecture.unity
     guid: 5a8bf64fc90d5734aa101725c60953b7
   - enabled: 0
     path: Assets/Environments/Lecture/Lecture 1.unity
