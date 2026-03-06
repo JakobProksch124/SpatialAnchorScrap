@@ -96,8 +96,6 @@ public class ArrivalCue : MonoBehaviour
     private static readonly Color BorderColor = new Color(0.88f, 0.88f, 0.88f);  // slightly lighter grey
 
 
-
-
     void Start()
     {
         Camera mainCam = Camera.main;
@@ -239,8 +237,8 @@ public class ArrivalCue : MonoBehaviour
 
             // Unlit transparent material — starts fully invisible (alpha 0)
 
-            //Material checkMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-            /*if (checkMat != null)
+            Material checkMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            if (checkMat != null)
             {
                 checkMat.SetTexture("_BaseMap", checkmarkTexture);
                 checkMat.SetColor("_BaseColor", new Color(1f, 1f, 1f, 0f));
@@ -259,7 +257,7 @@ public class ArrivalCue : MonoBehaviour
             else
             {
                 UnityEngine.Debug.Log("checkmat is null; arrival cue is broken");
-            }*/
+            }
         }
 
         // === Floating text above cylinder ===

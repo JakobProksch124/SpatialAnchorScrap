@@ -21,7 +21,6 @@ public class AnchorPositionerBinder : MonoBehaviour
     private void Awake()
     {
         _core = FindAnyObjectByType<SpatialAnchorCoreBuildingBlock>();
-
         if (_core == null)
         {
             Debug.LogError("SpatialAnchorCoreBuildingBlock not found in scene.");
@@ -31,11 +30,12 @@ public class AnchorPositionerBinder : MonoBehaviour
 
         _core.OnAnchorCreateCompleted.AddListener(OnAnchorCreated);
         _core.OnAnchorsLoadCompleted.AddListener(OnAnchorsLoaded);
+        Debug.Log("Application Identifier: " + Application.identifier);
     }
 
     private void Update()
     {
-        if (this.firstAnchorFound)
+        /*if (this.firstAnchorFound)
             return;
         _loadTimer += Time.deltaTime;
         if (_loadTimer >= _loadInterval)
@@ -50,7 +50,7 @@ public class AnchorPositionerBinder : MonoBehaviour
             {
                 Debug.Log("can not automatically load anchor bcs SpatialAnchorLoadBuildingBlock reference is not set");
             }
-        }
+        }*/
     }
 
     private void OnDestroy()
@@ -67,7 +67,6 @@ public class AnchorPositionerBinder : MonoBehaviour
     {
         if (result != OVRSpatialAnchor.OperationResult.Success)
             return;
-
         this.firstAnchorFound = true;
         Debug.Log("anchor created with id: " + anchor.Uuid);
         Bind(anchor);

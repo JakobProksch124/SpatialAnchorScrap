@@ -102,7 +102,8 @@ public class Lecture_TransitionCues : MonoBehaviour
         }
         else
         {
-            Invoke(nameof(videoPlayer.Play), videoStartDelay);
+            videoPlayer.Play();
+         //   Invoke(nameof(videoPlayer.Play), videoStartDelay);
         }
     }
 

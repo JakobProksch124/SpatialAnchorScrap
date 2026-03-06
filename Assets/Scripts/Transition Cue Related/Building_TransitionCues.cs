@@ -453,7 +453,7 @@ public class Building_TransitionCues : MonoBehaviour
                 float realFloorY = hit.point.y;
 
                 // Current player/world Y (camera rig root, not headset local offset)
-                Transform rigRoot = mainCamera.transform.parent;
+                Transform rigRoot = vrRoom.transform.parent;
                 if (rigRoot == null)
                     return;
 

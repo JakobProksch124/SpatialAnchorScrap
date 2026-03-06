@@ -80,7 +80,7 @@ public static class TransitionCueFactory
             }
 
             // === Rotation Effect ===
-            if (config.enableTurnTowardsUser)
+            if (config.enableTurnTowardsUser && !config.leadsToAR)
             {
                 TurnTowardsUser rotateToUser = root.AddComponent<TurnTowardsUser>();
                 rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
@@ -159,7 +159,13 @@ public static class TransitionCueFactory
         GameObject smallPanel = CreateRoundedCube();
         smallPanel.name = "SmallPanel";
         smallPanel.transform.localRotation = Quaternion.identity; // No rotation needed for cube
-        smallPanel.transform.localScale = new Vector3(config.smallPanelSize, config.smallPanelSize, config.smallPanelDepth);
+        float widthMultiplier = 3.5f; // increase width (was effectively 1 before)
+
+        smallPanel.transform.localScale = new Vector3(
+            config.smallPanelSize * widthMultiplier,
+            config.smallPanelSize,
+            config.smallPanelDepth
+        );
 
         // Achieve a frosted glass effect/look
         Renderer renderer = smallPanel.GetComponent<Renderer>();
@@ -207,6 +213,15 @@ public static class TransitionCueFactory
         labelText.alignment = TextAlignmentOptions.Center;
         labelText.color = Color.white;
 
+        // --- IMPORTANT: compensate parent scaling so text size stays constant ---
+        Vector3 panelScale = smallPanel.transform.localScale;
+
+        labelObj.transform.localScale = new Vector3(
+    1f / widthMultiplier, // keeps original visual width
+    1f,
+    1f
+);
+
         // Apply custom font (bold variant)
         ApplyCustomFont(labelText, config, true);
 
@@ -245,6 +260,7 @@ public static class TransitionCueFactory
 
         // Content (Screenshot or 3D Object)
         float contentBottomY = 0f; // Y-position of the bottom of the content
+
         if (!config.isBland )
         {
             if (config.isTransparent)
@@ -453,8 +469,8 @@ public static class TransitionCueFactory
         }
         UnityEngine.Debug.Log("created frosted glass material");
 
-        //CreateXIcon(closeButton.transform, config);// === Button Text ===
-        GameObject textObj = new GameObject("CloseButtonText");
+        CreateXIcon(closeButton.transform, config);// === Button Text ===
+        /*GameObject textObj = new GameObject("CloseButtonText");
         textObj.transform.SetParent(closeButton.transform, false);
         // Position text clearly in front of the button (negative Z for cube forward face)
         float closeButtonTextOffset = (config.buttonDepth / 2) + config.textZOffset;
@@ -474,7 +490,7 @@ public static class TransitionCueFactory
 
         // Fix vertical compression caused by parent rotation: Scale Y by factor ~5 to compensate
         textObj.transform.localScale = new Vector3(1f, 5f, 1f);
-        UnityEngine.Debug.Log("created X text");
+        UnityEngine.Debug.Log("created X text");*/
 
         return closeButton;
     }
@@ -486,7 +502,7 @@ public static class TransitionCueFactory
         float lineLength = 0.6f;
         float lineThickness = 0.06f;
         UnityEngine.Debug.Log("creating line mat");
-        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         if (lineMat != null)
         {
             UnityEngine.Debug.Log("line mat is not null");

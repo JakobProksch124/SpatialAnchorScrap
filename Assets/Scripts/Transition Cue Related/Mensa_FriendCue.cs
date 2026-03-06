@@ -197,6 +197,9 @@ public class Mensa_FriendCue : MonoBehaviour
     public void showEntryCue()
     {
         UnityEngine.Debug.Log("Food Button Pressed!");
+        if (startArrivalCue !=null) {
+            startArrivalCue.SetActive(false);
+        }
 
         if (FoodA!=null)
             FoodA.SetActive(false);

@@ -36,7 +36,6 @@ public class TransitionCueConfig
     // decides if transition leads out of the lecture
     public bool leadsOutOfLecture = false;
     
-
     //decides if transition cue is blunt
     public bool isBland = false;
 
@@ -62,6 +61,7 @@ public class TransitionCueConfig
 
     // Depth/thickness of the small panel (in meters)
     public float smallPanelDepth = 0.02f;
+    
 
     // Font size for the label text on small panel
     public float labelFontSize = 0.35f;
