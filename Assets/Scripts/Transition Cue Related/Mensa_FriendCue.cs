@@ -325,6 +325,8 @@ public class Mensa_FriendCue : MonoBehaviour
         if (pathGenerator != null)
         {
             pathGenerator.enabled = false;
+            pathGenerator._pathing = false;
+            pathGenerator.ClearArrows();
 
             pathLineRenderers = pathGenerator.GetComponentsInChildren<LineRenderer>();
             foreach (var lineRenderer in pathLineRenderers)
@@ -334,7 +336,6 @@ public class Mensa_FriendCue : MonoBehaviour
                     lineRenderer.enabled = false;
                 }
             }
-            pathGenerator.ClearArrows();
         }
 
     }
@@ -344,6 +345,7 @@ public class Mensa_FriendCue : MonoBehaviour
         if (pathGenerator != null)
         {
             pathGenerator.enabled = true;
+            pathGenerator._pathing = true;
 
             if (pathLineRenderers != null)
             {

@@ -31,6 +31,9 @@ public class TransitionCueConfig
     public bool isArrival = false;
 
     // decides if transition leads to AR
+    public bool isLeaveCue = false; 
+
+    // decides if transition leads to AR
     public bool isTransparent = true;
 
     // decides if transition leads out of the lecture

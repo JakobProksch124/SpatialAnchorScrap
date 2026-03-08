@@ -42,7 +42,6 @@ public static class TransitionCueFactory
             expandedPanel.transform.localPosition = Vector3.zero;
             AddIsdkSelectToInvoke(expandedPanel, config);
             UnityEngine.Debug.Log("created expanded panel");
-
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
             buttonContainer.transform.SetParent(root.transform, false);
@@ -50,13 +49,15 @@ public static class TransitionCueFactory
             UnityEngine.Debug.Log("created button container");
 
             // === Action Button ===
-            GameObject button = CreateButton(config);
-            button.transform.SetParent(buttonContainer.transform, false);
-            AddIsdkSelectToInvoke(button, config);
-            UnityEngine.Debug.Log("created button");
-
             // === Close Button (only for collapsible cues) ===
             GameObject closeButton = null;
+            if (!config.isLeaveCue)
+            {
+                GameObject button = CreateButton(config);
+                button.transform.SetParent(buttonContainer.transform, false);
+                AddIsdkSelectToInvoke(button, config);
+                UnityEngine.Debug.Log("created button");
+
             if (!config.alwaysExpanded)
             {
                 float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
@@ -68,9 +69,14 @@ public static class TransitionCueFactory
                 closeButton.transform.localPosition = new Vector3(closeButtonX, 0, 0);
             }
             UnityEngine.Debug.Log("created close button");
+            }
+            else
+            {
 
-            // === Expansion Controller ===
-            TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
+            }
+
+                // === Expansion Controller ===
+                TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
             expander.Initialize(config, smallPanel, expandedPanel, buttonContainer);
 
             // Wire close button to dismiss the expanded panel

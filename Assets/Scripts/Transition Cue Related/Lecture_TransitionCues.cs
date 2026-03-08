@@ -10,6 +10,7 @@ public class Lecture_TransitionCues : MonoBehaviour
 
     [Header("General Infos")]
     [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private float startVideoDelay = 3f;
     [SerializeField] private float exitCueDelay = 20f;
 
     [Header("Root containing Phase1 - Phase6")]
@@ -59,10 +60,23 @@ public class Lecture_TransitionCues : MonoBehaviour
         if (exitAnchor == null)
             Debug.LogError($"Exit Anchor '{exitAnchorName}' not found!");
 
-        HideAllChildren();
 
         // Start the sequence
-        StartCoroutine(SpawnPhases());
+        if(!startArrivalIsBland)
+        {
+            HideAllChildren();
+            StartCoroutine(SpawnPhases());
+        }
+        else
+        {
+            Invoke(nameof(StartVideo), startVideoDelay);
+        }
+    }
+
+    void StartVideo()
+    {
+        videoPlayer.Play();
+
     }
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
@@ -85,6 +99,7 @@ public class Lecture_TransitionCues : MonoBehaviour
                     }
 
                     // Create Exit Cue after delay
+                    Debug.Log("invoked spawn exit cue");
                     Invoke(nameof(SpawnExitCue), exitCueDelay);
 
                 }
@@ -130,6 +145,7 @@ public class Lecture_TransitionCues : MonoBehaviour
         if (!exitIsBland)
         {
             exitCueConfig.alwaysExpanded = exitAlwaysExpand;
+            exitCueConfig.leadsToAR = true;
             exitCueConfig.primaryColor = exitPrimaryColor;
             exitCueConfig.expandedDescription = exitDescription;
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;

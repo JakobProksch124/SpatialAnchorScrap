@@ -8,7 +8,7 @@ public class PathGenerator : MonoBehaviour
     Transform start;
     [SerializeField] Transform target;
     [SerializeField] int subdivisions = 10;
-    bool _pathing = true;
+    public bool _pathing = true;
     LineRenderer _lineRenderer;
 
     [Header("Line Appearance")]

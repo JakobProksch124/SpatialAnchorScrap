@@ -132,7 +132,10 @@ public class ArrivalCue : MonoBehaviour
         if (ShouldTriggerArrival())
         {
             hasArrived = true;
+            if (!leaveHMDIsBland)
+            {
             StartCoroutine(OnArrivedSequence());
+            }
         }
     }
 
@@ -751,7 +754,7 @@ public class ArrivalCue : MonoBehaviour
             leaveHMDCueConfig.primaryColor = Color.black;
             leaveHMDCueConfig.expandedDescription = leaveHMDLabel;
         }
-
+        leaveHMDCueConfig.isLeaveCue = true;
         // (Effectively not used if alwaysExpanded)
         leaveHMDCueConfig.label = leaveHMDLabel;
         leaveHMDCueConfig.buttonText = leaveHMDButtonText;
