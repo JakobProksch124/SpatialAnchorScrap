@@ -29,24 +29,20 @@ public static class TransitionCueFactory
             root.transform.localPosition = Vector3.zero;
             root.transform.localRotation = Quaternion.identity;
             root.transform.localScale = Vector3.one * config.globalScale;
-            UnityEngine.Debug.Log("created cue root");
 
             // === Small Panel ===
             GameObject smallPanel = CreateSmallPanel(config);
             smallPanel.transform.SetParent(root.transform, false);
-            UnityEngine.Debug.Log("created small panel");
 
             // === Expanded Panel ===
             GameObject expandedPanel = CreateExpandedPanel(config);
             expandedPanel.transform.SetParent(root.transform, false);
             expandedPanel.transform.localPosition = Vector3.zero;
             AddIsdkSelectToInvoke(expandedPanel, config);
-            UnityEngine.Debug.Log("created expanded panel");
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
             buttonContainer.transform.SetParent(root.transform, false);
             buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
-            UnityEngine.Debug.Log("created button container");
 
             // === Action Button ===
             // === Close Button (only for collapsible cues) ===
@@ -56,25 +52,19 @@ public static class TransitionCueFactory
                 GameObject button = CreateButton(config);
                 button.transform.SetParent(buttonContainer.transform, false);
                 AddIsdkSelectToInvoke(button, config);
-                UnityEngine.Debug.Log("created button");
 
-            if (!config.alwaysExpanded)
-            {
-                float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
-                button.transform.localPosition = new Vector3(actionButtonX, 0, 0);
+                if (!config.alwaysExpanded)
+                {
+                    float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
+                    button.transform.localPosition = new Vector3(actionButtonX, 0, 0);
 
-                closeButton = CreateCloseButton(config);
-                float closeButtonX = -(config.buttonWidth + config.buttonSpacing) / 2f;
-                closeButton.transform.SetParent(buttonContainer.transform, false);
-                closeButton.transform.localPosition = new Vector3(closeButtonX, 0, 0);
+                    closeButton = CreateCloseButton(config);
+                    float closeButtonX = -(config.buttonWidth + config.buttonSpacing) / 2f;
+                    closeButton.transform.SetParent(buttonContainer.transform, false);
+                    closeButton.transform.localPosition = new Vector3(closeButtonX, 0, 0);
+                }
             }
-            UnityEngine.Debug.Log("created close button");
-            }
-            else
-            {
-
-            }
-
+            
                 // === Expansion Controller ===
                 TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
             expander.Initialize(config, smallPanel, expandedPanel, buttonContainer);
@@ -143,7 +133,6 @@ public static class TransitionCueFactory
         {
             if (state.NewState == InteractableState.Select)
             {
-                Debug.Log("[TransitionCueFactory] Button selected");
                 action?.Invoke();
             }
         };
@@ -154,8 +143,6 @@ public static class TransitionCueFactory
         yield return new WaitForSeconds(5f);
 
         events.WhenSelect.AddListener(() => config?.onInteract?.Invoke());
-        Debug.Log("select state of transition cue: ");
-        Debug.Log(events.WhenSelect != null);
     }
 
     // Creates the small panel with label text and glowing border
@@ -253,7 +240,6 @@ public static class TransitionCueFactory
         }
         else
         {
-            Debug.Log("Cues does not lead to ar");
             expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth, config.expandedPanelHeight, config.expandedPanelDepth);
         }
 
@@ -463,7 +449,6 @@ public static class TransitionCueFactory
         GameObject closeButton = CreateRoundedCube();
         closeButton.name = "CloseButton";
         closeButton.transform.localScale = new Vector3(config.closeButtonSize, config.buttonHeight, config.buttonDepth);
-        UnityEngine.Debug.Log("created rounded Cube");
 
         Renderer renderer = closeButton.GetComponent<Renderer>();
         if (renderer == null)
@@ -473,7 +458,6 @@ public static class TransitionCueFactory
         {
             renderer.material = buttonMat;
         }
-        UnityEngine.Debug.Log("created frosted glass material");
 
         CreateXIcon(closeButton.transform, config);// === Button Text ===
         /*GameObject textObj = new GameObject("CloseButtonText");
@@ -507,11 +491,9 @@ public static class TransitionCueFactory
         float zOffset = (config.buttonDepth / 2) + config.textZOffset;
         float lineLength = 0.6f;
         float lineThickness = 0.06f;
-        UnityEngine.Debug.Log("creating line mat");
         Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
         if (lineMat != null)
         {
-            UnityEngine.Debug.Log("line mat is not null");
         lineMat.SetColor("_BaseColor", Color.white);
         lineMat.renderQueue = 3100;
 
@@ -530,10 +512,6 @@ public static class TransitionCueFactory
 
             line.GetComponent<Renderer>().material = lineMat;
         }
-        }
-        else
-        {
-            Debug.Log("LineMat is null; not generating X Icon");
         }
     }
 
@@ -599,7 +577,6 @@ public static class TransitionCueFactory
         }
         else
         {
-            Debug.LogWarning("[TransitionCueFactory] RoundedCubeModel.fbx not found! Falling back to Cube primitive.");
             return GameObject.CreatePrimitive(PrimitiveType.Cube);
         }
     }
@@ -675,7 +652,6 @@ public static class TransitionCueFactory
 
             if (fontToUse == null)
             {
-                Debug.LogWarning($"[TransitionCueFactory] Font '{fontName}' not found in Resources. Using default TextMeshPro font.");
                 return; // Keep default font
             }
         }

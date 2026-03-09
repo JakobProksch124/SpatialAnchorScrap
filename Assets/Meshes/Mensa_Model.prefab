@@ -1014,6 +1014,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 5626388009519181172}
   subdivisions: 10
+  _pathing: 1
   lineMaterial: {fileID: 0}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
   arrowHeadPrefab: {fileID: 919132149155446097, guid: ebd94da4f40c945eca86377eff304c28, type: 3}
@@ -1138,6 +1139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navigationDestination: Friend Table
+  leaveHMDIsBland: 0
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
@@ -1163,6 +1165,7 @@ MonoBehaviour:
   entryArrivalAlwaysExpand: 1
   entryArrivalIsBland: 1
   enableKeyboardShortcuts: 0
+  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   FoodA: {fileID: 3585625922424050813}
   FoodB: {fileID: 6710811993430716004}
   FoodC: {fileID: 147486778050537594}
@@ -1194,7 +1197,6 @@ MonoBehaviour:
   leaveHMDDescription: Ziel erreicht. Du kannst das Headset abnehmen.
   leaveHMDButtonText: Verlasse AR
   leaveHMDAlwaysExpand: 1
-  leaveHMDIsBland: 0
   targetName: MensaTarget
   locationName: Deine Freunde
   arrivalDistance: 5

@@ -3112,8 +3112,13 @@ MonoBehaviour:
   maxRenderScale: 1
   _headPoseRelativeOffsetRotation: {x: 0, y: 0, z: 0}
   _headPoseRelativeOffsetTranslation: {x: 0, y: 0, z: 0}
-  profilerTcpPort: 32419
-  expandMixedRealityCapturePropertySheet: 1
+  enableCoreMetricsRelease: 0
+  enableCoreMetricsDevelopment: 1
+  coreMetricVisibility:
+    visibleMemoryMetricStats: 0
+    visibleMemoryMetricGraphs: 0
+    visibleRenderMetricStats: 0
+    visibleRenderMetricGraphs: 0
   enableMixedReality: 0
   compositionMethod: 0
   extraHiddenLayers:
@@ -5267,12 +5272,13 @@ MonoBehaviour:
   videoStartDelay: 3
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
-  exitLabel: 
+  exitLabel: Verlasse VR
   exitScreenshotDisplayed: {fileID: 0}
   exitDescription: "Peter m\xF6chte gehen. Zur Realit\xE4t zur\xFCckkehren?"
   exitButtonText: VR verlassen
   exitAlwaysExpand: 1
   exitIsBland: 0
+  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   startArrivalAnchor: {fileID: 971701140}
   exitAnchor: {fileID: 640068989}
 --- !u!1 &1319152206

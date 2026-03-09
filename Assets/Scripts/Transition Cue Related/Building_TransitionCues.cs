@@ -20,6 +20,9 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string navigationDestination = "Next Location";
     private Positioner positioner;
     [SerializeField] private GameObject ExtraARContent;
+    [SerializeField] private bool leaveHMDIsBland = false;
+
+    
 
     [Header("Start Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -87,6 +90,10 @@ public class Building_TransitionCues : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
+    [SerializeField] InputActionReference switchIsBlandButton;
+
+
+    private bool _switchIsBlandButtonWasPressed = false;
 
     // Internal references
     private Transform entryAnchor;
@@ -157,7 +164,7 @@ public class Building_TransitionCues : MonoBehaviour
         LeaveHMDCue = GetComponent<ArrivalCue>();
         if (LeaveHMDCue != null)
         {
-            LeaveHMDCue.SpawnArrivalCue();
+            LeaveHMDCue.SpawnArrivalCue(leaveHMDIsBland);
         }
     }
 
@@ -176,6 +183,7 @@ public class Building_TransitionCues : MonoBehaviour
 
     public void Update()
     {
+        CheckSwitchIsBland();
         if (!enableKeyboardShortcuts) return;
 
         // Keyboard shortcuts for testing (New Input System)
@@ -197,6 +205,17 @@ public class Building_TransitionCues : MonoBehaviour
                 }
             }
         }
+    }
+
+    void CheckSwitchIsBland()
+    {
+        bool isPressed = switchIsBlandButton.action.IsPressed();
+        if (_switchIsBlandButtonWasPressed && !isPressed)
+        {
+            SwitchIsBland();
+        }
+        _switchIsBlandButtonWasPressed = isPressed;
+
     }
 
     void CreateEntryCue(Transform entryAnchor)
@@ -682,7 +701,7 @@ public class Building_TransitionCues : MonoBehaviour
         // Re-spawn arrival cue
         if (LeaveHMDCue != null)
         {
-            LeaveHMDCue.SpawnArrivalCue();
+            LeaveHMDCue.SpawnArrivalCue(leaveHMDIsBland);
         }
     }
 
@@ -798,5 +817,18 @@ public class Building_TransitionCues : MonoBehaviour
         vrRoom.transform.position += offset;
 
         Physics.SyncTransforms();
+    }
+
+    public void SwitchIsBland()
+    {
+        entryArrivalIsBland = !entryArrivalIsBland;
+        entryIsBland = !entryIsBland;
+        exitArrivalIsBland = !exitArrivalIsBland;
+        exitIsBland = !exitIsBland;
+        startArrivalIsBland = !startArrivalIsBland;
+        if(LeaveHMDCue != null)
+        {
+            LeaveHMDCue.SwitchIsBland();
+        }
     }
 }

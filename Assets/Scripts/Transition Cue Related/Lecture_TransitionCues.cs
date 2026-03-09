@@ -45,6 +45,10 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private string exitButtonText = "Stop Video";
     [SerializeField] private bool exitAlwaysExpand = false;
     [SerializeField] private bool exitIsBland = false;
+    [SerializeField] InputActionReference switchIsBlandButton;
+
+
+    private bool _switchIsBlandButtonWasPressed = false;
 
 
     [SerializeField] private Transform startArrivalAnchor;
@@ -69,9 +73,15 @@ public class Lecture_TransitionCues : MonoBehaviour
         }
         else
         {
-            Invoke(nameof(StartVideo), startVideoDelay);
+            CreateStartArrivalCue(startArrivalAnchor);
         }
     }
+
+    void Update()
+    {
+        CheckSwitchIsBland();
+    }
+        
 
     void StartVideo()
     {
@@ -81,7 +91,6 @@ public class Lecture_TransitionCues : MonoBehaviour
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
-
         if (!startArrivalIsBland)
         {
             TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
@@ -117,13 +126,16 @@ public class Lecture_TransitionCues : MonoBehaviour
         }
         else
         {
-            videoPlayer.Play();
-         //   Invoke(nameof(videoPlayer.Play), videoStartDelay);
+            Invoke(nameof(StartVideo), startVideoDelay);
+            Debug.Log("invoked spawn exit cue");
+            Invoke(nameof(SpawnExitCue), exitCueDelay);
+            //   Invoke(nameof(videoPlayer.Play), videoStartDelay);
         }
     }
 
     void SpawnExitCue()
     {
+        Debug.Log("spawning Exit Cue");
         CreateExitCue(exitAnchor);
     }
 
@@ -277,4 +289,19 @@ public class Lecture_TransitionCues : MonoBehaviour
         }
     }
 
+    void CheckSwitchIsBland()
+    {
+        bool isPressed = switchIsBlandButton.action.IsPressed();
+        if (_switchIsBlandButtonWasPressed && !isPressed)
+        {
+            SwitchIsBland();
+        }
+        _switchIsBlandButtonWasPressed = isPressed;
+
+    }
+    void SwitchIsBland()
+    {
+        exitIsBland = !exitIsBland;
+        startArrivalIsBland = !startArrivalIsBland;
+    }
 }

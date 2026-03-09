@@ -1166,6 +1166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 4107922603660936031}
   subdivisions: 10
+  _pathing: 1
   lineMaterial: {fileID: -2050348263459485335, guid: 383423bb23c7d0f4b9a2e5410857279c, type: 3}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
   arrowHeadPrefab: {fileID: 919132149155446097, guid: ebd94da4f40c945eca86377eff304c28, type: 3}
@@ -1293,6 +1294,7 @@ MonoBehaviour:
   vrSceneName: Laboratory
   navigationDestination: Lecture
   ExtraARContent: {fileID: 0}
+  leaveHMDIsBland: 0
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
@@ -1339,6 +1341,7 @@ MonoBehaviour:
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4
   enableKeyboardShortcuts: 1
+  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &7287314359623195551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1358,7 +1361,6 @@ MonoBehaviour:
   leaveHMDDescription: Ziel erreicht. Du kannst das Headset abnehmen.
   leaveHMDButtonText: Verlasse AR
   leaveHMDAlwaysExpand: 1
-  leaveHMDIsBland: 0
   targetName: G64Target
   locationName: Vorlesungsraum
   arrivalDistance: 5

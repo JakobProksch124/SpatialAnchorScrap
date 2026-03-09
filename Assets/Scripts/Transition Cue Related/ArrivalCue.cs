@@ -13,7 +13,7 @@ public class ArrivalCue : MonoBehaviour
     [SerializeField] private string leaveHMDDescription = "Take off the headmounted display";
     [SerializeField] private string leaveHMDButtonText = "";
     [SerializeField] private bool leaveHMDAlwaysExpand = false;
-    [SerializeField] private bool leaveHMDIsBland = false;
+     private bool leaveHMDIsBland = false;
 
     private GameObject leaveHMDCue;
     private Transform leaveHMDAnchor;
@@ -140,8 +140,9 @@ public class ArrivalCue : MonoBehaviour
     }
 
     // Spawn the arrival cue at the target child location
-    public void SpawnArrivalCue()
+    public void SpawnArrivalCue(bool leaveHMDIsBland)
     {
+        this.leaveHMDIsBland = leaveHMDIsBland;
         // Clean up any existing cue
         if (cueInstance != null)
         {
@@ -761,5 +762,8 @@ public class ArrivalCue : MonoBehaviour
         leaveHMDCue = TransitionCueFactory.CreateCue(leaveHMDCueConfig);
     }
 
-
+    public void SwitchIsBland()
+    {
+        leaveHMDIsBland = !leaveHMDIsBland;
+    }
 }

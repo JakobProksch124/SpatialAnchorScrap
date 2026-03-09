@@ -8,6 +8,9 @@ public class Mensa_FriendCue : MonoBehaviour
 {
     [Tooltip("Destination shown in the navigation notification after returning to AR")]
     [SerializeField] private string navigationDestination = "Next Location";
+    [SerializeField] private bool leaveHMDIsBland = false;
+
+    
 
     [Header("Start Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -42,6 +45,10 @@ public class Mensa_FriendCue : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
+    [SerializeField] InputActionReference switchIsBlandButton;
+
+
+    private bool _switchIsBlandButtonWasPressed = false;
 
     // Internal references
     private Transform entryAnchor; 
@@ -131,6 +138,10 @@ public class Mensa_FriendCue : MonoBehaviour
         }
 
         CreateStartArrivalCue(startArrivalAnchor);
+    }
+
+    void ShowFood()
+    {
 
         // Create styled food buttons at anchor positions
         foodButtonAnchor1 = transform.Find(foodButtonAnchor1Name);
@@ -143,8 +154,18 @@ public class Mensa_FriendCue : MonoBehaviour
             foodButton2 = CreateFoodButton(foodButtonAnchor2, foodButton2Text);
         if (foodButtonAnchor3 != null)
             foodButton3 = CreateFoodButton(foodButtonAnchor3, foodButton3Text);
-    }
 
+
+        if (FoodA != null)
+            FoodA.SetActive(true);
+
+        if (FoodB != null)
+            FoodB.SetActive(true);
+
+        if (FoodC != null)
+            FoodC.SetActive(true);
+
+    }
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
         if (!startArrivalIsBland)
@@ -154,6 +175,7 @@ public class Mensa_FriendCue : MonoBehaviour
                 onInteract: () =>
                 {
                     startArrivalCue.SetActive(false);
+                    ShowFood();
                 }
             );
             StartArrivalCueConfig.isArrival = true;
@@ -167,10 +189,15 @@ public class Mensa_FriendCue : MonoBehaviour
             startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
             UnityEngine.Debug.Log("start arrival cue created!");
         }
+        else
+        {
+            ShowFood();
+        }
     }
 
     void Update()
     {
+        CheckSwitchIsBland();
         if (!enableKeyboardShortcuts) return;
 
         // Keyboard shortcuts for testing (New Input System)
@@ -192,6 +219,18 @@ public class Mensa_FriendCue : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    void CheckSwitchIsBland()
+    {
+        bool isPressed = switchIsBlandButton.action.IsPressed();
+        if (_switchIsBlandButtonWasPressed && !isPressed)
+        {
+            SwitchIsBland();
+        }
+        _switchIsBlandButtonWasPressed = isPressed;
+
     }
 
     public void showEntryCue()
@@ -230,7 +269,7 @@ public class Mensa_FriendCue : MonoBehaviour
         arrivalCue = GetComponent<ArrivalCue>();
         if (arrivalCue != null)
         {
-            arrivalCue.SpawnArrivalCue();
+            arrivalCue.SpawnArrivalCue(leaveHMDIsBland);
             UnityEngine.Debug.Log("Spawned LeaveHMD cue!");
         }
     }
@@ -386,4 +425,16 @@ public class Mensa_FriendCue : MonoBehaviour
         }
         return null;
     }
+
+    public void SwitchIsBland()
+    {
+        entryArrivalIsBland = !entryArrivalIsBland;
+        entryIsBland = !entryIsBland;
+        startArrivalIsBland = !startArrivalIsBland;
+        if (arrivalCue != null)
+        {
+            arrivalCue.SwitchIsBland();
+        }
+    }
+
 }

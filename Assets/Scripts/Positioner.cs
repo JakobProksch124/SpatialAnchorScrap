@@ -288,11 +288,11 @@ public class Positioner : MonoBehaviour
     {
         _objectToPosition = obj;
         AdjustVisuals();
-        Debug.Log("[Positioner] _objectToPosition set");
+        //Debug.Log("[Positioner] _objectToPosition set");
 
         if (!File.Exists(RuntimeJsonPath))
         {
-            Debug.LogWarning("Keine Offset-JSON gefunden.");
+            //Debug.LogWarning("Keine Offset-JSON gefunden.");
             return;
         }
 
@@ -301,7 +301,7 @@ public class Positioner : MonoBehaviour
 
         if (data == null)
         {
-            Debug.LogError("JSON konnte nicht geladen werden.");
+            //Debug.LogError("JSON konnte nicht geladen werden.");
             return;
         }
 
@@ -317,7 +317,7 @@ public class Positioner : MonoBehaviour
         _objectToPosition.transform.localPosition = new Vector3(OffsetX, OffsetY, OffsetZ);
         _objectToPosition.transform.localRotation = Quaternion.Euler(OffsetRotX, OffsetRotY, OffsetRotZ);
 
-        Debug.Log("Offset aus JSON geladen und angewendet.");
+        //Debug.Log("Offset aus JSON geladen und angewendet.");
     }
 
     private string GetTrackingDebugInfo()

@@ -66,7 +66,10 @@ public class AnchorPositionerBinder : MonoBehaviour
         OVRSpatialAnchor.OperationResult result)
     {
         if (result != OVRSpatialAnchor.OperationResult.Success)
+        {
+            Debug.Log("OnAnchorCreated: Not successful");
             return;
+        }
         this.firstAnchorFound = true;
         Debug.Log("anchor created with id: " + anchor.Uuid);
         Bind(anchor);
@@ -75,7 +78,10 @@ public class AnchorPositionerBinder : MonoBehaviour
     private void OnAnchorsLoaded(List<OVRSpatialAnchor> anchors)
     {
         if (anchors == null || anchors.Count == 0)
+        {
+            Debug.Log("(!) KEINE ANCHOR IN LISTE");
             return;
+        }
 
         // Only the last loaded anchor
         Debug.Log("loaded "+anchors.Count+" anchors");
@@ -92,9 +98,10 @@ public class AnchorPositionerBinder : MonoBehaviour
         if (anchor == null)
             return;
 
-        Debug.Log("binding anchor root");
         GameObject instance = Instantiate(_objectToPlace, anchor.transform);
+        Debug.Log("building instance created at " + anchor.transform.position);
         positioner.SetObjectToPosition(instance);
+        Debug.Log("building instance now got positioned at: " + instance.transform.position);
     }
 
     public void createFirstAnchor()
