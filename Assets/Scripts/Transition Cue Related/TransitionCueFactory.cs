@@ -306,8 +306,7 @@ public static class TransitionCueFactory
                 //contentBottomY = config.expandedPanelHeight * 0.1f;
 
 
-                noContentLayout = true;
-                contentBottomY = MakeExpandedPanelSmallerAndCenterDescription(expandedPanel.transform, config);
+                noContentLayout = true; 
             }
         }
 
@@ -350,6 +349,17 @@ public static class TransitionCueFactory
             descText.fontMaterial.renderQueue = 3100; // Higher than panel's 3000
         }
 
+        Vector2 preferredSize = descText.GetPreferredValues(descText.text, textWidth, Mathf.Infinity);
+        float textHeight = preferredSize.y;
+
+        if (noContentLayout)
+        {
+            MakeExpandedPanelSmallerAndCenterDescription(
+                expandedPanel.transform,
+                config,
+                textHeight
+            );
+        }
         // Compensate for parent scale squashing
         descObj.transform.localScale = new Vector3(1f / expandedPanel.transform.localScale.x, 1f / expandedPanel.transform.localScale.y, 1f);
 
@@ -359,10 +369,16 @@ public static class TransitionCueFactory
 
     // Makes the expanded panel smaller when there is no content
     // and returns a centered Y position for the description text
-    private static float MakeExpandedPanelSmallerAndCenterDescription(Transform expandedPanel, TransitionCueConfig config)
+    private static float MakeExpandedPanelSmallerAndCenterDescription(
+    Transform expandedPanel,
+    TransitionCueConfig config,
+    float textHeight)
     {
-        float newWidth = config.expandedPanelWidth * 1f;
-        float newHeight = config.expandedPanelHeight * 0.25f;
+        float verticalPadding = config.descriptionFontSize * 1.5f;
+
+        float newHeight = textHeight + verticalPadding;
+
+        float newWidth = config.expandedPanelWidth;
 
         expandedPanel.localScale = new Vector3(
             newWidth,
@@ -370,9 +386,7 @@ public static class TransitionCueFactory
             config.expandedPanelDepth
         );
 
-        // Center description text
-        //return config.contentDescriptionSpacing * 0.5f;
-        return 0f;
+        return 0f; // keep text centered
     }
 
     private static float CreateVideoDisplay(Transform parent, TransitionCueConfig config)
