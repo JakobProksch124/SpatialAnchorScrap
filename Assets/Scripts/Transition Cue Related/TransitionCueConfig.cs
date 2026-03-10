@@ -51,7 +51,7 @@ public class TransitionCueConfig
     public bool alwaysExpanded = false;
 
     // Distance from panel at which expansion can be triggered (in meters)
-    public float expansionTriggerDistance = 1.5f;
+    public float expansionTriggerDistance = 2f;
 
     // Required dot product of camera forward vs panel direction to trigger expansion (0-1, higher = more precise aim required)
     public float gazeThreshold = 0.7f;

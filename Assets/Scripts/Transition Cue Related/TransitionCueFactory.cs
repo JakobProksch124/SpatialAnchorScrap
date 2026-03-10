@@ -8,6 +8,7 @@ using UnityEngine.Video;
 // Factory class for creating transition cues
 public static class TransitionCueFactory
 {
+
     // Creates a cue with expandable panel design or a minimal cue
     //
     // Design includes:
@@ -30,6 +31,7 @@ public static class TransitionCueFactory
             root.transform.localPosition = Vector3.zero;
             root.transform.localRotation = Quaternion.identity;
             root.transform.localScale = Vector3.one * config.globalScale;
+            
 
             // === Small Panel ===
             GameObject smallPanel = CreateSmallPanel(config);
@@ -43,7 +45,9 @@ public static class TransitionCueFactory
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
             buttonContainer.transform.SetParent(root.transform, false);
-            buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
+            float actualPanelHeight = expandedPanel.transform.localScale.y;
+            buttonContainer.transform.localPosition = new Vector3(0, -(actualPanelHeight / 2 + config.buttonOffset), 0);
+            //buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
 
             // === Action Button ===
             // === Close Button (only for collapsible cues) ===
@@ -205,7 +209,8 @@ public static class TransitionCueFactory
         labelText.fontSize = config.labelFontSize * config.generalFontSizeFactor;
         labelText.fontStyle = FontStyles.Bold;
         labelText.alignment = TextAlignmentOptions.Center;
-        labelText.color = Color.white;
+            labelText.color = Color.white;
+        
 
         // --- IMPORTANT: compensate parent scaling so text size stays constant ---
         Vector3 panelScale = smallPanel.transform.localScale;
@@ -254,17 +259,33 @@ public static class TransitionCueFactory
         // Content (Screenshot or 3D Object)
         float contentBottomY = 0f; // Y-position of the bottom of the content
 
+        bool noContentLayout = false;
         if (!config.isBland )
         {
-            if (config.isTransparent)
+            if (config.isTransparent && !config.isLeaveCue)
             {
-                Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
-                renderer.material = frostedMat;
+                Material frostedMat;
+                frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
+                if(frostedMat != null)
+                {
+                    renderer.material = frostedMat;
+                }
             }
             else
             {
-                Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 1f);
-                renderer.material = frostedMat;
+                Material frostedMat;
+                if (config.isLeaveCue)
+                {
+                    frostedMat = CreateWhiteMaterial();
+                }
+                else
+                {
+                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 1f);
+                }
+                if(frostedMat != null)
+                {
+                    renderer.material = frostedMat;
+                }
             }
             if (config.videoClip != null)
             {
@@ -280,8 +301,13 @@ public static class TransitionCueFactory
             }
             else
             {
-                // No content, center the description text
-                contentBottomY = config.expandedPanelHeight * 0.1f;
+                // No content
+                //Make expanded panel smaller and center the description text
+                //contentBottomY = config.expandedPanelHeight * 0.1f;
+
+
+                noContentLayout = true;
+                contentBottomY = MakeExpandedPanelSmallerAndCenterDescription(expandedPanel.transform, config);
             }
         }
 
@@ -290,7 +316,12 @@ public static class TransitionCueFactory
         descObj.transform.SetParent(expandedPanel.transform, false);
 
         float descTextOffset = (config.expandedPanelDepth / 2) + config.textZOffset;
-        float descYPosition = contentBottomY - config.contentDescriptionSpacing;
+
+        float descYPosition = noContentLayout
+        ? contentBottomY
+        : contentBottomY - config.contentDescriptionSpacing;
+
+        //float descYPosition = contentBottomY - config.contentDescriptionSpacing;
         descObj.transform.localPosition = new Vector3(0, descYPosition, descTextOffset);
         descObj.transform.localRotation = Quaternion.Euler(0, 180, 0);
 
@@ -298,7 +329,14 @@ public static class TransitionCueFactory
         descText.text = config.expandedDescription;
         descText.fontSize = config.descriptionFontSize * config.generalFontSizeFactor;
         descText.alignment = TextAlignmentOptions.Center;
-        descText.color = Color.white;
+        if (config.isLeaveCue)
+        {
+            descText.color = Color.black;
+        }
+        else
+        {
+            descText.color = Color.white;
+        }
 
         ApplyCustomFont(descText, config, false);
 
@@ -316,6 +354,25 @@ public static class TransitionCueFactory
         descObj.transform.localScale = new Vector3(1f / expandedPanel.transform.localScale.x, 1f / expandedPanel.transform.localScale.y, 1f);
 
         return expandedPanel;
+    }
+
+
+    // Makes the expanded panel smaller when there is no content
+    // and returns a centered Y position for the description text
+    private static float MakeExpandedPanelSmallerAndCenterDescription(Transform expandedPanel, TransitionCueConfig config)
+    {
+        float newWidth = config.expandedPanelWidth * 1f;
+        float newHeight = config.expandedPanelHeight * 0.25f;
+
+        expandedPanel.localScale = new Vector3(
+            newWidth,
+            newHeight,
+            config.expandedPanelDepth
+        );
+
+        // Center description text
+        //return config.contentDescriptionSpacing * 0.5f;
+        return 0f;
     }
 
     private static float CreateVideoDisplay(Transform parent, TransitionCueConfig config)
@@ -523,7 +580,8 @@ public static class TransitionCueFactory
         Renderer renderer = closeButton.GetComponent<Renderer>();
         if (renderer == null)
             renderer = closeButton.GetComponentInChildren<Renderer>();
-        Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
+        //Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
+        Material buttonMat = CreateFrostedGlassMaterial(Color.grey, config.frostedGlassAlpha + 0.2f);
         if (buttonMat != null)
         {
             renderer.material = buttonMat;
@@ -600,6 +658,37 @@ public static class TransitionCueFactory
         AddIsdkSelectToInvoke(button, config);
 
         return root;
+    }
+
+
+    private static Material CreateWhiteMaterial()
+    {
+        Debug.Log("generating white color for expanded panel");
+        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+
+        // Set base color to completely white
+        Color whiteColor = new Color(1f, 1f, 1f, 1f);
+        mat.SetColor("_BaseColor", whiteColor);
+
+        // Set Surface Type to opaque
+        mat.SetFloat("_Surface", 0); // 0 = opaque
+
+        // Moderate smoothness for a clean white surface
+        mat.SetFloat("_Smoothness", 0.5f);
+        mat.SetFloat("_Metallic", 0f);
+
+        // Configure blending for opaque rendering
+        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        mat.SetInt("_ZWrite", 1); // Depth write enabled for opaque objects
+
+        // Set render queue for geometry
+        mat.renderQueue = 2000;
+
+        // Set render type
+        mat.SetOverrideTag("RenderType", "Opaque");
+
+        return mat;
     }
 
     // Creates a frosted glass material with transparency

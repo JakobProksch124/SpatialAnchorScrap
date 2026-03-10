@@ -32,7 +32,7 @@ public class ArrivalCue : MonoBehaviour
 
     [Header("Proximity")]
     [Tooltip("Distance (meters) at which arrival is triggered (requires distance + gaze)")]
-    public float arrivalDistance = 5f;
+    public float arrivalDistance = 3f;
 
     [Tooltip("Required dot product of camera forward vs cue direction to trigger (0-1, higher = more precise gaze needed)")]
     public float gazeThreshold = 0.7f;
