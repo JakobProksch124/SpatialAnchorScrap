@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-
+using UnityEngine.Video;
 // Configuration data for creating a transition cue;
 // Contains all customizable parameters with defaults
 // Comes with 3 default configs: CreateVRConfig, CreateARConfig, CreateRConfig
@@ -41,6 +41,9 @@ public class TransitionCueConfig
     
     //decides if transition cue is blunt
     public bool isBland = false;
+
+    //video clip object
+    public VideoClip videoClip;
 
     // === Expansion Behavior ===
 
@@ -110,6 +113,12 @@ public class TransitionCueConfig
 
     // Height of the screenshot display (in meters)
     public float screenshotHeight = 0.4f;
+
+    // Width of the video display (in meters)
+    public float videoWidth = 0.5f;
+
+    // Height of the video display (in meters)
+    public float videoHeight = 0.5f;
 
     // Spacing between screenshot/3D content and description text (in meters)
     public float contentDescriptionSpacing = 0.25f;

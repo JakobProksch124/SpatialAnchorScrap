@@ -1,6 +1,8 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Video;
+
 
 public class ArrivalCue : MonoBehaviour
 {
@@ -13,7 +15,9 @@ public class ArrivalCue : MonoBehaviour
     [SerializeField] private string leaveHMDDescription = "Take off the headmounted display";
     [SerializeField] private string leaveHMDButtonText = "";
     [SerializeField] private bool leaveHMDAlwaysExpand = false;
-     private bool leaveHMDIsBland = false;
+    [SerializeField] private VideoClip leaveHMDvideoClip;
+
+    private bool leaveHMDIsBland = false;
 
     private GameObject leaveHMDCue;
     private Transform leaveHMDAnchor;
@@ -135,6 +139,11 @@ public class ArrivalCue : MonoBehaviour
             if (!leaveHMDIsBland)
             {
             StartCoroutine(OnArrivedSequence());
+            }
+            else
+            {
+                HideArrivalCue();
+                CreateLeaveHMDCue(leaveHMDAnchor);
             }
         }
     }
@@ -746,6 +755,7 @@ public class ArrivalCue : MonoBehaviour
             leaveHMDCueConfig.primaryColor = leaveHMDPrimaryColor;
             leaveHMDCueConfig.expandedDescription = leaveHMDDescription;
             leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
+            leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
         }
         else
         {

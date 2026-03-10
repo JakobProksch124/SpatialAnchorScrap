@@ -3,6 +3,7 @@ using Oculus.Interaction.Surfaces;
 using TMPro;
 using UnityEngine;
 using System;
+using UnityEngine.Video;
 
 // Factory class for creating transition cues
 public static class TransitionCueFactory
@@ -265,8 +266,11 @@ public static class TransitionCueFactory
                 Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 1f);
                 renderer.material = frostedMat;
             }
-           
-            if (config.screenshotTexture != null)
+            if (config.videoClip != null)
+            {
+                contentBottomY = CreateVideoDisplay(expandedPanel.transform, config);
+            }
+            else if (config.screenshotTexture != null)
             {
                 contentBottomY = CreateScreenshotDisplay(expandedPanel.transform, config);
             }
@@ -312,6 +316,72 @@ public static class TransitionCueFactory
         descObj.transform.localScale = new Vector3(1f / expandedPanel.transform.localScale.x, 1f / expandedPanel.transform.localScale.y, 1f);
 
         return expandedPanel;
+    }
+
+    private static float CreateVideoDisplay(Transform parent, TransitionCueConfig config)
+    {
+        GameObject videoQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        videoQuad.name = "VideoDisplay";
+        videoQuad.transform.SetParent(parent, false);
+
+        float videoWidth = config.videoWidth;
+        float videoHeight = config.videoHeight;
+        videoQuad.transform.localScale = new Vector3(videoWidth, videoHeight, 1f);
+
+        float topOfPanel = config.expandedPanelHeight / 2;
+        float marginTopOffset = config.expandedPanelHeight * config.contentMarginTop;
+        float videoCenterY = topOfPanel - marginTopOffset - (videoHeight / 2);
+
+        // Same Z-offset logic as screenshot
+        videoQuad.transform.localPosition = new Vector3(
+            0,
+            videoCenterY,
+            config.expandedPanelDepth / 2 + config.textZOffset
+        );
+
+        videoQuad.transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+        // Prevent squashing from parent scale
+        videoQuad.transform.localScale = new Vector3(
+            videoWidth / parent.localScale.x,
+            videoHeight / parent.localScale.y,
+            1f
+        );
+
+        Collider collider = videoQuad.GetComponent<Collider>();
+        if (collider != null)
+        {
+            UnityEngine.Object.Destroy(collider);
+        }
+
+        Renderer renderer = videoQuad.GetComponent<Renderer>();
+
+        // Create render texture for video output
+        RenderTexture renderTexture = new RenderTexture(1024, 1024, 0);
+
+        // Setup video player
+        VideoPlayer videoPlayer = videoQuad.AddComponent<VideoPlayer>();
+        videoPlayer.playOnAwake = true;
+        videoPlayer.isLooping = true;
+        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        videoPlayer.targetTexture = renderTexture;
+        videoPlayer.source = VideoSource.VideoClip; // or VideoSource.VideoClip
+
+        if (config.videoClip != null)
+        {
+            videoPlayer.clip = config.videoClip;
+        }
+
+        Material videoMat = new Material(Shader.Find("Unlit/Texture"));
+        videoMat.mainTexture = renderTexture;
+        videoMat.renderQueue = 3100;
+
+        renderer.material = videoMat;
+
+        videoPlayer.Prepare();
+        videoPlayer.Play();
+
+        return videoCenterY - (videoHeight / 2);
     }
 
     private static float CreateScreenshotDisplay(Transform parent, TransitionCueConfig config)

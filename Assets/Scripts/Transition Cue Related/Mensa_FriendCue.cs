@@ -46,6 +46,7 @@ public class Mensa_FriendCue : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
     [SerializeField] InputActionReference switchIsBlandButton;
+    private Positioner positioner;
 
 
     private bool _switchIsBlandButtonWasPressed = false;
@@ -85,9 +86,15 @@ public class Mensa_FriendCue : MonoBehaviour
     private GameObject foodButton2;
     private GameObject foodButton3;
 
+    void Awake()
+    {
+        LoadBlandState();
+    }
+
     void Start()
     {
         mainCamera = Camera.main;
+        positioner = FindAnyObjectByType<Positioner>();
 
         // Find PathGenerator component
         foreach (var component in GetComponents<PathGenerator>())
@@ -197,7 +204,13 @@ public class Mensa_FriendCue : MonoBehaviour
 
     void Update()
     {
-        CheckSwitchIsBland();
+        if (positioner != null)
+        {
+            if (positioner.getDevMode())
+            {
+                CheckSwitchIsBland();
+            }
+        }
         if (!enableKeyboardShortcuts) return;
 
         // Keyboard shortcuts for testing (New Input System)
@@ -431,10 +444,40 @@ public class Mensa_FriendCue : MonoBehaviour
         entryArrivalIsBland = !entryArrivalIsBland;
         entryIsBland = !entryIsBland;
         startArrivalIsBland = !startArrivalIsBland;
+        leaveHMDIsBland = !leaveHMDIsBland;
+
+        if (!startArrivalIsBland)
+        {
+            UnityEngine.Debug.Log("active study: AB");
+        }
+        else
+        {
+            UnityEngine.Debug.Log("active study: BA");
+
+        }
+            SaveBlandState();
+
         if (arrivalCue != null)
         {
             arrivalCue.SwitchIsBland();
         }
     }
 
+    void SaveBlandState()
+    {
+        PlayerPrefs.SetInt("entryArrivalIsBland", entryArrivalIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("entryIsBland", entryIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("startArrivalIsBland", startArrivalIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("leaveHMDIsBland", leaveHMDIsBland ? 1 : 0);
+
+        PlayerPrefs.Save();
+    }
+
+    void LoadBlandState()
+    {
+        entryArrivalIsBland = PlayerPrefs.GetInt("entryArrivalIsBland", 0) == 1;
+        entryIsBland = PlayerPrefs.GetInt("entryIsBland", 0) == 1;
+        startArrivalIsBland = PlayerPrefs.GetInt("startArrivalIsBland", 0) == 1;
+        leaveHMDIsBland = PlayerPrefs.GetInt("leaveHMDIsBland", 0) == 1;
+    }
 }

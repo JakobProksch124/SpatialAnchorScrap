@@ -56,6 +56,11 @@ public class Lecture_TransitionCues : MonoBehaviour
     private GameObject exitCue;
     private GameObject startArrivalCue;
 
+    void Awake()
+    {
+        LoadBlandState();
+    }
+
     void Start()
     {
         if (startArrivalAnchor == null)
@@ -303,5 +308,24 @@ public class Lecture_TransitionCues : MonoBehaviour
     {
         exitIsBland = !exitIsBland;
         startArrivalIsBland = !startArrivalIsBland;
+        SaveBlandState();
     }
+
+    void SaveBlandState()
+    {
+        PlayerPrefs.SetInt("exitIsBland", exitIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("startArrivalIsBland", startArrivalIsBland ? 1 : 0);
+
+        PlayerPrefs.Save();
+    }
+
+    void LoadBlandState()
+    {
+        exitIsBland = PlayerPrefs.GetInt("exitIsBland", 0) == 1;
+        startArrivalIsBland = PlayerPrefs.GetInt("startArrivalIsBland", 0) == 1;
+    }
+
+
+
+
 }

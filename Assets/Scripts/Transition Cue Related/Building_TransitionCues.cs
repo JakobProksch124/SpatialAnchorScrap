@@ -21,8 +21,10 @@ public class Building_TransitionCues : MonoBehaviour
     private Positioner positioner;
     [SerializeField] private GameObject ExtraARContent;
     [SerializeField] private bool leaveHMDIsBland = false;
+    [SerializeField] private bool iMessageCueIsBland = false;
+    [SerializeField] private IMessageTransitionCue IMessageCueScript;
 
-    
+
 
     [Header("Start Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -71,6 +73,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private bool exitAlwaysExpand = false;
     [SerializeField] private bool leadsToAR = false;
     [SerializeField] private bool exitIsBland = false;
+    [SerializeField] private float exitCueDelay = 20f;
 
     [Header("VRExit Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -93,12 +96,14 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] InputActionReference switchIsBlandButton;
 
 
+
     private bool _switchIsBlandButtonWasPressed = false;
 
     // Internal references
     private Transform entryAnchor;
     private Transform exitArrivalAnchor;
     private Transform startArrivalAnchor;
+    private Transform exitCueAnchor;
     private GameObject vrRoom;
     private GameObject entryCue;
     private GameObject exitCue;
@@ -113,6 +118,11 @@ public class Building_TransitionCues : MonoBehaviour
     private ArrivalCue LeaveHMDCue;
     private bool userInVRRoom = false;
     GameObject overlay = null;
+
+    void Awake()
+    {
+        LoadBlandState();
+    }
 
     void Start()
     {
@@ -183,7 +193,13 @@ public class Building_TransitionCues : MonoBehaviour
 
     public void Update()
     {
-        CheckSwitchIsBland();
+        if (positioner != null)
+        {
+            if (positioner.getDevMode())
+            {
+                CheckSwitchIsBland();
+            }
+        }
         if (!enableKeyboardShortcuts) return;
 
         // Keyboard shortcuts for testing (New Input System)
@@ -306,7 +322,7 @@ public class Building_TransitionCues : MonoBehaviour
             fadeColor: entryPrimaryColor,
             fadeDuration: 2f
         ));
-        TransitionParticleEffect.Spawn(mainCamera, enterVRParticleColor, particleDuration * 2);
+        //TransitionParticleEffect.Spawn(mainCamera, enterVRParticleColor, particleDuration * 2);
     }
 
     void SetPlacedBuildingVisible(bool visible)
@@ -412,7 +428,8 @@ public class Building_TransitionCues : MonoBehaviour
                 {
                     foreach (var go in exitTargets)
                     {
-                        CreateExitCue(go.transform);
+                        exitCueAnchor = go.transform;
+                        Invoke(nameof(SpawnExitCue), exitCueDelay);
                     }
                 }
                 else
@@ -447,6 +464,14 @@ public class Building_TransitionCues : MonoBehaviour
             Debug.Log("Variant 3");
             CreateWhiteRoom();
             CreateExitCue(entryAnchor.transform); // Testwise
+        }
+    }
+
+    void SpawnExitCue()
+    {
+        if (exitCueAnchor != null)
+        {
+            CreateExitCue(exitCueAnchor);
         }
     }
 
@@ -659,7 +684,7 @@ public class Building_TransitionCues : MonoBehaviour
         // Unload VR room
         yield return StartCoroutine(UnloadVRRoom());
 
-        TransitionParticleEffect.Spawn(mainCamera, exitVRParticleColor, particleDuration);
+        //TransitionParticleEffect.Spawn(mainCamera, exitVRParticleColor, particleDuration);
 
         // Destroy exit cue
         if (exitCue != null)
@@ -826,9 +851,56 @@ public class Building_TransitionCues : MonoBehaviour
         exitArrivalIsBland = !exitArrivalIsBland;
         exitIsBland = !exitIsBland;
         startArrivalIsBland = !startArrivalIsBland;
-        if(LeaveHMDCue != null)
+        leaveHMDIsBland = !leaveHMDIsBland;
+        iMessageCueIsBland = !iMessageCueIsBland;
+
+        if (!startArrivalIsBland)
+        {
+            UnityEngine.Debug.Log("active study: AB");
+        }
+        else
+        {
+            UnityEngine.Debug.Log("active study: BA");
+
+        }
+        SaveBlandState();
+
+        if (LeaveHMDCue != null)
         {
             LeaveHMDCue.SwitchIsBland();
+        }
+
+        if(IMessageCueScript != null)
+        {
+            IMessageCueScript.SetIsBland(iMessageCueIsBland);
+        }
+    }
+
+    void SaveBlandState()
+    {
+        PlayerPrefs.SetInt("entryArrivalIsBland", entryArrivalIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("entryIsBland", entryIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("exitArrivalIsBland", exitArrivalIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("exitIsBland", exitIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("startArrivalIsBland", startArrivalIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("leaveHMDIsBland", leaveHMDIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("iMessageCueIsBland", iMessageCueIsBland ? 1 : 0);
+
+        PlayerPrefs.Save();
+    }
+
+    void LoadBlandState()
+    {
+        entryArrivalIsBland = PlayerPrefs.GetInt("entryArrivalIsBland", 0) == 1;
+        entryIsBland = PlayerPrefs.GetInt("entryIsBland", 0) == 1;
+        exitArrivalIsBland = PlayerPrefs.GetInt("exitArrivalIsBland", 0) == 1;
+        exitIsBland = PlayerPrefs.GetInt("exitIsBland", 0) == 1;
+        startArrivalIsBland = PlayerPrefs.GetInt("startArrivalIsBland", 0) == 1;
+        leaveHMDIsBland = PlayerPrefs.GetInt("leaveHMDIsBland", 0) == 1;
+        PlayerPrefs.SetInt("iMessageCueIsBland", iMessageCueIsBland ? 1 : 0);
+        if (IMessageCueScript != null)
+        {
+            IMessageCueScript.SetIsBland(iMessageCueIsBland);
         }
     }
 }

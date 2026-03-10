@@ -68,6 +68,11 @@ public class Positioner : MonoBehaviour
         _devButtonWasPressed = isPressed;
     }
 
+    public bool getDevMode()
+    {
+        return inDevMode;
+    }
+
     // Blends in extra-information (visually)
     void AdjustVisuals()
     {
@@ -84,7 +89,7 @@ public class Positioner : MonoBehaviour
         }
 
         // We exclude the building roots since they contain the line renderer for the arrow drawn, as well as all cues objects
-        ApplyMaterialToChildren(_objectToPosition, targetMat, new List<string> { "Bib_Model_NewMesh", "G62_Model", "G64_Model", "Mensa_Model", "Arrow_3D_Icon_03 (1)", "Arrow_3D_Icon_03" }, 
+        ApplyMaterialToChildren(_objectToPosition, targetMat, new List<string> { "Bib_Model_NewMesh", "G62_Model", "G64_Model", "Mensa_Model", "Arrow_3D_Icon_03 (1)", "Arrow_3D_Icon_03", "iMessageAnchor" }, 
             new List<string> { "ArrivalCue", "TransitionCue", "VirtualFood_Pancake", "FoodInteractionCanvas", "foodButtonAnchor1", "foodButtonAnchor2", "foodButtonAnchor3", "VirtualFood_Pizza", "VirtualFood_Sandwich", "MinimalCue_" });
 
     }
