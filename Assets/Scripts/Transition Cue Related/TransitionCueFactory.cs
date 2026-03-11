@@ -352,7 +352,7 @@ public static class TransitionCueFactory
         Vector2 preferredSize = descText.GetPreferredValues(descText.text, textWidth, Mathf.Infinity);
         float textHeight = preferredSize.y;
 
-        if (noContentLayout)
+        if (noContentLayout && !config.leadsToAR)
         {
             MakeExpandedPanelSmallerAndCenterDescription(
                 expandedPanel.transform,
