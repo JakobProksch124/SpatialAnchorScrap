@@ -51,7 +51,7 @@ public class TransitionCueConfig
     public bool alwaysExpanded = false;
 
     // Distance from panel at which expansion can be triggered (in meters)
-    public float expansionTriggerDistance = 2f;
+    public float expansionTriggerDistance = 3f;
 
     // Required dot product of camera forward vs panel direction to trigger expansion (0-1, higher = more precise aim required)
     public float gazeThreshold = 0.7f;
@@ -204,7 +204,7 @@ public class TransitionCueConfig
     public AudioClip ambientSound = Resources.Load<AudioClip>("TransitionCueAmbient");
 
     // Volume of the ambient sound (0-1)
-    public float ambientVolume = 0.02f;
+    public float ambientVolume = 0.1f;
 
     // Whether the ambient sound should loop continuously
     public bool ambientLoop = true;

@@ -38,15 +38,29 @@ public static class TransitionCueFactory
             smallPanel.transform.SetParent(root.transform, false);
 
             // === Expanded Panel ===
-            GameObject expandedPanel = CreateExpandedPanel(config);
+            float textBottomY;
+            GameObject expandedPanel = CreateExpandedPanel(config, out textBottomY);
             expandedPanel.transform.SetParent(root.transform, false);
             expandedPanel.transform.localPosition = Vector3.zero;
             AddIsdkSelectToInvoke(expandedPanel, config);
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
-            buttonContainer.transform.SetParent(root.transform, false);
-            float actualPanelHeight = expandedPanel.transform.localScale.y;
-            buttonContainer.transform.localPosition = new Vector3(0, -(actualPanelHeight / 2 + config.buttonOffset), 0);
+            buttonContainer.transform.SetParent(root.transform, false); 
+            
+            if (config.leadsToAR)
+            {
+                // Keep constant spacing relative to text
+                buttonContainer.transform.localPosition =
+                    new Vector3(0, textBottomY - config.buttonOffset, 0);
+            }
+            else
+            {
+                // Original behaviour (relative to panel)
+                float actualPanelHeight = expandedPanel.transform.localScale.y;
+
+                buttonContainer.transform.localPosition =
+                    new Vector3(0, -(actualPanelHeight / 2 + config.buttonOffset), 0);
+            }
             //buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
 
             // === Action Button ===
@@ -232,7 +246,7 @@ public static class TransitionCueFactory
     }
 
     // Creates the expanded panel with description and optional content
-    private static GameObject CreateExpandedPanel(TransitionCueConfig config)
+    private static GameObject CreateExpandedPanel(TransitionCueConfig config, out float textBottomY)
     {
         // Use rounded cube model for aesthetic rounded edges
         GameObject expandedPanel = CreateRoundedCube();
@@ -328,7 +342,7 @@ public static class TransitionCueFactory
         descText.text = config.expandedDescription;
         descText.fontSize = config.descriptionFontSize * config.generalFontSizeFactor;
         descText.alignment = TextAlignmentOptions.Center;
-        if (config.isLeaveCue)
+        if (config.isLeaveCue || config.leadsToAR)
         {
             descText.color = Color.black;
         }
@@ -351,6 +365,7 @@ public static class TransitionCueFactory
 
         Vector2 preferredSize = descText.GetPreferredValues(descText.text, textWidth, Mathf.Infinity);
         float textHeight = preferredSize.y;
+        textBottomY = descYPosition - textHeight / 2f;
 
         if (noContentLayout && !config.leadsToAR)
         {

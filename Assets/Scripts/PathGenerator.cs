@@ -62,7 +62,7 @@ public class PathGenerator : MonoBehaviour
         _pathing = true;
     }
     
-    void GetPath()
+    /*void GetPath()
     {
         if (start)
         {
@@ -70,20 +70,39 @@ public class PathGenerator : MonoBehaviour
 
             if (NavMesh.CalculatePath(start.position, target.position, NavMesh.AllAreas, path))
                 //Debug.Log("[PathGenerator] Path found");
-            /*else
+            *//*else
                 //Debug.Log("[PathGenerator] No path found");
             if (!target)
                 //Debug.Log("[PathGenerator] No target exists");
 
-                _lineRenderer.positionCount = path.corners.Length;*/
+                _lineRenderer.positionCount = path.corners.Length;*//*
 
             DrawCentripetalCurve(path.corners);
         } else
         {
             Debug.Log("[PathGenerator] No start exists");
         }
+    }*/
+
+    void GetPath()
+    {
+        if (start)
+        {
+            var path = new NavMeshPath();
+            if (NavMesh.CalculatePath(start.position, target.position, NavMesh.AllAreas, path))
+            {
+                StopAllCoroutines(); // Stop previous drawing
+                StartCoroutine(DrawCentripetalCurveCoroutine(path.corners));
+            }
+        }
+        else
+        {
+            Debug.Log("[PathGenerator] No start exists");
+        }
     }
-    
+
+
+
     void DrawCentripetalCurve(Vector3[] controlPoints)
     {
         if (controlPoints.Length < 2) return;
