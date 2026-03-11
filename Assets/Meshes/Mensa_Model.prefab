@@ -1010,7 +1010,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 5626388009519181172}
   subdivisions: 10
-  drawTimePerSegment: 0.5
   _pathing: 1
   lineMaterial: {fileID: 0}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
@@ -1171,7 +1170,7 @@ MonoBehaviour:
   foodButtonAnchor1Name: foodButtonAnchor1
   foodButtonAnchor2Name: foodButtonAnchor2
   foodButtonAnchor3Name: foodButtonAnchor3
-  foodButtonColor: {r: 0.9215687, g: 0.92549026, b: 0.909804, a: 1}
+  foodButtonColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   foodButton1Text: Pancakes
   foodButton2Text: Sandwich
   foodButton3Text: Pizza

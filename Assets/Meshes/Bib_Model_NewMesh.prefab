@@ -3540,7 +3540,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 8399379732825461140}
   subdivisions: 10
-  drawTimePerSegment: 0.5
   _pathing: 1
   lineMaterial: {fileID: 0}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
@@ -3884,7 +3883,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -32.06, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 3.8000004, y: 2.486}
+  m_AnchoredPosition: {x: 2, y: 2}
   m_SizeDelta: {x: 670, y: 874}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1689604504638578509
