@@ -118,6 +118,26 @@ public class Lecture_TransitionCues : MonoBehaviour
 
                 }
             );
+
+
+            StartArrivalCueConfig.onCollide = (collision) =>
+            {
+                startArrivalCue.SetActive(false);// Start Video
+                if (videoPlayer != null)
+                {
+                    videoPlayer.Play();
+                }
+                else
+                {
+                    Debug.LogWarning("VideoPlayer reference missing!");
+                }
+
+                // Create Exit Cue after delay
+                Debug.Log("invoked spawn exit cue");
+                Invoke(nameof(SpawnExitCue), exitCueDelay);
+            };
+
+
             StartArrivalCueConfig.isArrival = true;
             StartArrivalCueConfig.isTransparent = false;
             StartArrivalCueConfig.alwaysExpanded = true;
@@ -158,6 +178,16 @@ public class Lecture_TransitionCues : MonoBehaviour
             }
         }
     );
+
+        exitCueConfig.onCollide = (collision) =>
+        {
+            exitCue.SetActive(false);
+            // Pause Video
+            if (videoPlayer != null)
+            {
+                videoPlayer.Pause();
+            }
+        };
 
         if (!exitIsBland)
         {

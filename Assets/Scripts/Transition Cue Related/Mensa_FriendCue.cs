@@ -185,6 +185,13 @@ public class Mensa_FriendCue : MonoBehaviour
                     ShowFood();
                 }
             );
+
+            StartArrivalCueConfig.onCollide = (collision) =>
+            {
+                startArrivalCue.SetActive(false);
+                ShowFood();
+            };
+
             StartArrivalCueConfig.isArrival = true;
             StartArrivalCueConfig.alwaysExpanded = true;
             StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
@@ -195,6 +202,7 @@ public class Mensa_FriendCue : MonoBehaviour
 
             startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
             UnityEngine.Debug.Log("start arrival cue created!");
+
         }
         else
         {
@@ -312,6 +320,13 @@ public class Mensa_FriendCue : MonoBehaviour
             }
         );
 
+
+        entryCueConfig.onCollide = (collision) =>
+        {
+            StartNavigationToFriends();
+            entryCue.SetActive(false);
+        };
+
         if (!entryIsBland)
         {
             // Details
@@ -347,6 +362,12 @@ public class Mensa_FriendCue : MonoBehaviour
                 parent: entryArrivalAnchor,
                 onInteract: () => entryArrivalCue.SetActive(false)
             );
+
+
+            entryArrivalCueConfig.onCollide = (collision) =>
+            {
+                entryArrivalCue.SetActive(false);
+            };
 
             // Details
             entryArrivalCueConfig.isArrival = true;
@@ -397,6 +418,7 @@ public class Mensa_FriendCue : MonoBehaviour
         if (pathGenerator != null)
         {
             pathGenerator.enabled = true;
+            pathGenerator.firstDraw = true;
             pathGenerator._pathing = true;
 
             if (pathLineRenderers != null)

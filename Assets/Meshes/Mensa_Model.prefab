@@ -1010,10 +1010,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 5626388009519181172}
   subdivisions: 10
+  drawTimePerSegment: 0.5
   _pathing: 1
   lineMaterial: {fileID: 0}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
   arrowHeadPrefab: {fileID: 919132149155446097, guid: ebd94da4f40c945eca86377eff304c28, type: 3}
+  firstDraw: 1
 --- !u!120 &-3523847599181322964
 LineRenderer:
   serializedVersion: 3
@@ -1151,7 +1153,7 @@ MonoBehaviour:
   entryDescription: Zum Tisch von Peter navigieren?
   entryButtonText: Navigation starten
   entryAlwaysExpand: 0
-  entryIsBland: 1
+  entryIsBland: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryArrivalLabel: AR
@@ -1159,7 +1161,7 @@ MonoBehaviour:
   entryArrivalDescription: Folge der Route zu Peter.
   entryArrivalButtonText: "Schlie\xDFen"
   entryArrivalAlwaysExpand: 1
-  entryArrivalIsBland: 1
+  entryArrivalIsBland: 0
   enableKeyboardShortcuts: 0
   switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   FoodA: {fileID: 3585625922424050813}

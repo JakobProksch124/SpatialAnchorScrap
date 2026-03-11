@@ -41,8 +41,17 @@ public class IMessageTransitionCue : MonoBehaviour
             onInteract: () =>
              {
                 iMessageCue.SetActive(false);
-            }
+                 readNotificationPlayer.Play();
+             }
         );
+
+
+        iMessageCueConfig.onCollide = (collision) =>
+        {
+            iMessageCue.SetActive(false);
+            readNotificationPlayer.Play();
+        };
+
         iMessageCueConfig.alwaysExpanded = iMessageAlwaysExpand;
         iMessageCueConfig.isBland = iMessageIsBland;
         iMessageCueConfig.isArrival = true;
@@ -58,7 +67,6 @@ public class IMessageTransitionCue : MonoBehaviour
 
         if (!iMessageIsBland)
         {
-            Invoke(nameof(setCueInvisible), iMessageDisappearDelay);
             Invoke(nameof(readNotification), readNotificationDelay);
         }
         else

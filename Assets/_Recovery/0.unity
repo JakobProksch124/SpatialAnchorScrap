@@ -308,90 +308,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1589841415}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &464592833
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 736855086069876555, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 736855086069876555, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_UseGraphicAlpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1375795451873321079, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 20.73
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.3999101
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 30.52
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9641788
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.26525316
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 30.764
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5335109446091761436, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_Type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5335109446091761436, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 5335109446091761436, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7355581936147766005, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_Name
-      value: Bib_Model_NewMesh
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7369346597199337646, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-    - {fileID: 3989010183626042661, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-    - {fileID: 736855086069876555, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
 --- !u!1 &637477723
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +850,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1689140668}
   subdivisions: 10
-  drawTimePerSegment: 20
   _pathing: 1
   lineMaterial: {fileID: 0}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
@@ -1186,4 +1101,3 @@ SceneRoots:
   - {fileID: 1819211665}
   - {fileID: 1589841415}
   - {fileID: 1604063778}
-  - {fileID: 464592833}

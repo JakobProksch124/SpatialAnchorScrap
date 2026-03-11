@@ -84,8 +84,8 @@ public static class TransitionCueFactory
                 }
             }
             
-                // === Expansion Controller ===
-                TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
+            // === Expansion Controller ===
+            TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
             expander.Initialize(config, smallPanel, expandedPanel, buttonContainer);
 
             // Wire close button to dismiss the expanded panel
@@ -94,11 +94,21 @@ public static class TransitionCueFactory
                 AddIsdkSelectToInvoke(closeButton, () => expander.DismissToSmall());
             }
 
+            // add collision interaction
+            AddCollisionSupport(root, config);
+
             // === Rotation Effect ===
             if (config.enableTurnTowardsUser && !config.leadsToAR)
             {
                 TurnTowardsUser rotateToUser = root.AddComponent<TurnTowardsUser>();
                 rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
+            }
+
+            // === Arrival Welcome Animation ===
+            if (config.isArrival)
+            {
+                WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
+                welcome.Initialize(config.turnTriggerDistance);
             }
 
             if (!config.isArrival)
@@ -845,4 +855,54 @@ public static class TransitionCueFactory
         }
         textComponent.font = fontToUse;
     }
+
+    private static void AddCollisionSupport(GameObject root, TransitionCueConfig config)
+    {
+        if (config.onCollide == null)
+            return;
+
+        BoxCollider col = root.GetComponent<BoxCollider>();
+        if (col == null)
+        {
+            col = root.AddComponent<BoxCollider>();
+        }
+
+        // Use trigger for XR proximity detection
+        col.isTrigger = true;
+
+        // Match collider size to expanded panel dimensions
+        float width = config.expandedPanelWidth;
+        float height = config.expandedPanelHeight;
+        float depth = config.expandedPanelDepth;
+
+        if (config.leadsToAR)
+        {
+            width *= 2f;
+            height *= 4f;
+        }
+        else if (config.leadsOutOfLecture)
+        {
+            width *= 4f;
+            height *= 2f;
+        }
+
+        col.size = new Vector3(width, height, depth);
+
+        // Center collider on the panel
+        col.center = Vector3.zero;
+
+        Rigidbody rb = root.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = root.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
+
+        TransitionCueCollisionRelay relay = root.AddComponent<TransitionCueCollisionRelay>();
+        relay.Initialize(config.onCollide);
+    }
+
 }
+
+

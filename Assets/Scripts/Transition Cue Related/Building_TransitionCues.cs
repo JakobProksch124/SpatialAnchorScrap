@@ -243,6 +243,13 @@ public class Building_TransitionCues : MonoBehaviour
            onInteract: () => StartCoroutine(EnterVR())
         );
 
+
+        entryCueConfig.onCollide = (collision) =>
+        {
+            StartCoroutine(EnterVR());
+        };
+
+
         if (!entryIsBland) {
             // Details
             entryCueConfig.alwaysExpanded = entryAlwaysExpand;
@@ -555,7 +562,12 @@ public class Building_TransitionCues : MonoBehaviour
                 StartCoroutine(ExitVR());
             }
         );
-        
+
+        exitCueConfig.onCollide = (collision) =>
+        {
+            StartCoroutine(ExitVR());
+        };
+
         if (!exitIsBland)
         {
             // Details for enhanced cues
@@ -573,8 +585,8 @@ public class Building_TransitionCues : MonoBehaviour
             exitCueConfig.expandedDescription = exitLabel;
         }
 
-        if (leadsToAR)
-            exitCueConfig.leadsToAR = true;
+            exitCueConfig.leadsToAR = this.leadsToAR;
+        
 
         // (Effectively not used if alwaysExpanded)
         exitCueConfig.label = exitLabel;
@@ -596,7 +608,10 @@ public class Building_TransitionCues : MonoBehaviour
                     entryArrivalCue.SetActive(false);
                 }
             );
-
+            entryArrivalCueConfig.onCollide = (collision) =>
+            {
+                entryArrivalCue.SetActive(false);
+            };
             // Details
             entryArrivalCueConfig.isArrival = true;
             entryArrivalCueConfig.isTransparent = false;
@@ -626,7 +641,12 @@ public class Building_TransitionCues : MonoBehaviour
                 {
                     exitArrivalCue.SetActive(false);
                 }
-            ); 
+            );
+
+            exitArrivalCueConfig.onCollide = (collision) =>
+            {
+                exitArrivalCue.SetActive(false);
+            };
 
             // Details
             exitArrivalCueConfig.isArrival = true;
@@ -658,6 +678,11 @@ public class Building_TransitionCues : MonoBehaviour
                     startArrivalCue.SetActive(false);
                 }
             );
+
+            StartArrivalCueConfig.onCollide = (collision) =>
+            {
+                startArrivalCue.SetActive(false);
+            };
 
             // Details
             StartArrivalCueConfig.isArrival = true;
