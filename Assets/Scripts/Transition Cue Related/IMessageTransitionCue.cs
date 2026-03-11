@@ -41,7 +41,7 @@ public class IMessageTransitionCue : MonoBehaviour
             onInteract: () =>
              {
                 iMessageCue.SetActive(false);
-                 readNotificationPlayer.Play();
+                 readNotification();
              }
         );
 
@@ -49,7 +49,7 @@ public class IMessageTransitionCue : MonoBehaviour
         iMessageCueConfig.onCollide = (collision) =>
         {
             iMessageCue.SetActive(false);
-            readNotificationPlayer.Play();
+            readNotification();
         };
 
         iMessageCueConfig.alwaysExpanded = iMessageAlwaysExpand;
@@ -85,6 +85,7 @@ public class IMessageTransitionCue : MonoBehaviour
         if (willReadNotification)
         {
             readNotificationPlayer.Play();
+            this.willReadNotification = false;
         }
     }
 

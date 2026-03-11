@@ -207,7 +207,7 @@ public class TransitionCueConfig
     public AudioClip ambientSound = Resources.Load<AudioClip>("TransitionCueAmbient");
 
     // Volume of the ambient sound (0-1)
-    public float ambientVolume = 0.1f;
+    public float ambientVolume = 0.5f;
 
     // Whether the ambient sound should loop continuously
     public bool ambientLoop = true;
