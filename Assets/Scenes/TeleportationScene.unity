@@ -404,7 +404,7 @@ MonoBehaviour:
   ascendButton: {fileID: -4022060916381164570, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   descendButton: {fileID: 3609823731942455608, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   devButton: {fileID: -3042148573974080136, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  positionSpeed: 0.03
+  positionSpeed: 0.1
   inDevMode: 0
   triggerLeft: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _moveAction: {fileID: -6466034804778379739, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -885,6 +885,10 @@ PrefabInstance:
       propertyPath: _root
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1764316281676917516, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2336446269904782542, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
       propertyPath: _leftEyeAnchor
       value: 
@@ -897,6 +901,14 @@ PrefabInstance:
       propertyPath: _centerEyeCamera
       value: 
       objectReference: {fileID: 674729685}
+    - target: {fileID: 2442087286233739616, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2978571458893240916, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4148778239110795873, guid: 0a7d2469f24041c4284c66706f84c45e, type: 3}
       propertyPath: m_Name
       value: '[BuildingBlock] OVRInteractionComprehensive'
@@ -1016,7 +1028,7 @@ GameObject:
   - component: {fileID: 876383886}
   m_Layer: 0
   m_Name: RightHandOnControllerAnchor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1142,7 +1154,7 @@ GameObject:
   - component: {fileID: 1021647897}
   m_Layer: 0
   m_Name: RightControllerInHandAnchor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1337,7 +1349,7 @@ GameObject:
   - component: {fileID: 1161874986}
   m_Layer: 0
   m_Name: RightControllerAnchor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1773,7 +1785,7 @@ GameObject:
   - component: {fileID: 1819253086}
   m_Layer: 0
   m_Name: RightHandAnchor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2036,7 +2048,7 @@ GameObject:
   - component: {fileID: 1947318709}
   m_Layer: 0
   m_Name: RightHandAnchorDetached
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

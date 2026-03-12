@@ -3215,7 +3215,7 @@ Transform:
   m_GameObject: {fileID: 743563268}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.020303663, z: -0, w: 0.9997938}
-  m_LocalPosition: {x: 28.024, y: 3.307, z: 178.904}
+  m_LocalPosition: {x: 28.024, y: 3.545, z: 178.904}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5268,7 +5268,7 @@ MonoBehaviour:
   startArrivalDescription: "Start dr\xFCcken, um das Video zu starten."
   startArrivalButtonText: Start
   startArrivalAlwaysExpand: 1
-  startArrivalIsBland: 1
+  startArrivalIsBland: 0
   videoStartDelay: 3
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}

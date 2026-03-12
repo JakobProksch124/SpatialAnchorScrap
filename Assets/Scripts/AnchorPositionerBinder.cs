@@ -97,8 +97,10 @@ public class AnchorPositionerBinder : MonoBehaviour
     {
         if (anchor == null)
             return;
+        Transform buildingTransform = anchor.transform;
 
-        GameObject instance = Instantiate(_objectToPlace, anchor.transform);
+
+        GameObject instance = Instantiate(_objectToPlace, buildingTransform);
         Debug.Log("building instance created at " + anchor.transform.position);
         positioner.SetObjectToPosition(instance);
         Debug.Log("building instance now got positioned at: " + instance.transform.position);

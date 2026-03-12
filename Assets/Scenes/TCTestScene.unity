@@ -934,7 +934,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1689140668}
   subdivisions: 10
-  drawTimePerSegment: 20
   _pathing: 1
   lineMaterial: {fileID: 0}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
@@ -984,6 +983,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1236620202402443077, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
+      propertyPath: entryIsBland
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3252451672500658893, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
       propertyPath: m_Name
       value: G64_Model

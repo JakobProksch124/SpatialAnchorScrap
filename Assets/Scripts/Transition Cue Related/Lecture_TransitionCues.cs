@@ -273,36 +273,39 @@ public class Lecture_TransitionCues : MonoBehaviour
     IEnumerator FadeInPhase(Transform phase)
     {
         Renderer[] renderers = phase.GetComponentsInChildren<Renderer>(true);
-
         float time = 0f;
 
-        // Set all materials to transparent and alpha = 0
+        // --- BLOCK 1: START-ZUSTAND ---
         foreach (Renderer r in renderers)
         {
             foreach (Material mat in r.materials)
             {
-                if (mat.HasProperty("_Color"))
+                // CHANGE: "_Color" durch "_BaseColor" ersetzt (URP Standard)
+                if (mat.HasProperty("_BaseColor"))
                 {
-                    Color c = mat.color;
+                    Color c = mat.GetColor("_BaseColor");
                     c.a = 0f;
-                    mat.color = c;
+                    mat.SetColor("_BaseColor", c);
                 }
             }
         }
 
+        // --- BLOCK 2: DIE SCHLEIFE ---
         while (time < fadeDuration)
         {
-            float alpha = time / fadeDuration;
+            // CHANGE: Mathf.Clamp01 hinzugefügt, damit alpha nie > 1 wird
+            float alpha = Mathf.Clamp01(time / fadeDuration);
 
             foreach (Renderer r in renderers)
             {
                 foreach (Material mat in r.materials)
                 {
-                    if (mat.HasProperty("_Color"))
+                    // CHANGE: "_Color" durch "_BaseColor" ersetzt
+                    if (mat.HasProperty("_BaseColor"))
                     {
-                        Color c = mat.color;
+                        Color c = mat.GetColor("_BaseColor");
                         c.a = alpha;
-                        mat.color = c;
+                        mat.SetColor("_BaseColor", c);
                     }
                 }
             }
@@ -311,16 +314,25 @@ public class Lecture_TransitionCues : MonoBehaviour
             yield return null;
         }
 
-        // Ensure fully visible
+        // --- BLOCK 3: ABSCHLUSS (HIER LAG DER FEHLER) ---
         foreach (Renderer r in renderers)
         {
             foreach (Material mat in r.materials)
             {
-                if (mat.HasProperty("_Color"))
+                if (mat.HasProperty("_BaseColor"))
                 {
-                    Color c = mat.color;
+                    // NEU: Setzt das Material wieder auf "Opaque" (Undurchsichtig)
+                    // Ohne diese Zeilen bleibt das Objekt im Modus "Transparent",
+                    // was Schatten und Tiefendarstellung (ZWrite) ruiniert.
+                    mat.SetFloat("_Surface", 0); // 0 = Opaque Modus
+                    mat.SetInt("_ZWrite", 1);    // Schaltet Tiefenschreiben wieder ein
+                    mat.DisableKeyword("_SURFACE_TYPE_TRANSPARENT"); // Keyword deaktivieren
+                    mat.renderQueue = -1;        // Zurück in die Standard-Render-Reihenfolge
+
+                    // Sicherstellen, dass Alpha am Ende 1 ist
+                    Color c = mat.GetColor("_BaseColor");
                     c.a = 1f;
-                    mat.color = c;
+                    mat.SetColor("_BaseColor", c);
                 }
             }
         }

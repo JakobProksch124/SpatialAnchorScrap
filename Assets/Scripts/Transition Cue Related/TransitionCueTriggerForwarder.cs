@@ -4,13 +4,19 @@ public class TransitionCueTriggerForwarder : MonoBehaviour
 {
     private TransitionCueTriggerReceiver receiver;
 
-    public void Initialize(TransitionCueTriggerReceiver target)
+    public void Initialize(TransitionCueTriggerReceiver r)
     {
-        receiver = target;
+        receiver = r;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        receiver?.ReceiveTrigger(other);
+        if (other.transform.IsChildOf(receiver.transform))
+            return;
+
+        if (!other.CompareTag("Player"))
+            return;
+
+        receiver.ReceiveTrigger(other);
     }
 }

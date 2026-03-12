@@ -125,7 +125,6 @@ public static class TransitionCueFactory
         {
             // Minimal cue design
 
-            // === Root Container ===
             GameObject root = new GameObject($"MinimalCue_{config.label}");
             root.transform.SetParent(config.parent, false);
             root.transform.localPosition = Vector3.zero;
@@ -136,6 +135,9 @@ public static class TransitionCueFactory
             GameObject smallPanel = CreateSmallPanel(config);
             smallPanel.transform.SetParent(root.transform, false);
             AddIsdkSelectToInvoke(smallPanel, config);
+
+            // ADD THIS
+            AddCollisionSupport(root, smallPanel, null, null, config);
 
             return root;
         }
@@ -290,7 +292,15 @@ public static class TransitionCueFactory
             if (config.isTransparent && !config.isLeaveCue)
             {
                 Material frostedMat;
-                frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
+
+                if (config.leadsToAR)
+                {
+                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 0f);
+                }
+                else
+                {
+                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
+                }
                 if(frostedMat != null)
                 {
                     renderer.material = frostedMat;

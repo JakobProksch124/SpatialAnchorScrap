@@ -178,7 +178,7 @@ public class Building_TransitionCues : MonoBehaviour
         }
     }
 
-    public void RegisterTeleportRedirects()
+    /*public void RegisterTeleportRedirects()
     {
         ARTeleportRedirect[] redirects = FindObjectsByType<ARTeleportRedirect>(
             FindObjectsInactive.Include,
@@ -189,7 +189,7 @@ public class Building_TransitionCues : MonoBehaviour
         {
             redirect.SetBuildingTransitionCues(this);
         }
-    }
+    }*/
 
     public void Update()
     {
@@ -223,6 +223,53 @@ public class Building_TransitionCues : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        if (!userInVRRoom || vrRoom == null)
+            return;
+
+        AlignVRFloorToRealFloor();
+    }
+
+    void AlignVRFloorToRealFloor()
+    {
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        Vector3 origin = mainCamera.transform.position;
+
+        Ray ray = new Ray(origin, Vector3.down);
+        RaycastHit hit;
+
+        int floorMask = LayerMask.GetMask("Floor");
+
+        if (Physics.Raycast(ray, out hit, 20f, floorMask))
+        {
+            if (!hit.collider.CompareTag("Floor"))
+                return;
+
+            float realFloorY = hit.point.y;
+
+            // find VR scene floor reference
+            Transform spawn = vrRoom.transform.Find("UserSpawnPoint");
+            if (spawn == null)
+                return;
+
+            float vrFloorY = spawn.position.y;
+
+            float deltaY = realFloorY - vrFloorY;
+
+            if (Mathf.Abs(deltaY) < 0.001f)
+                return;
+
+            Vector3 pos = vrRoom.transform.position;
+            pos.y += deltaY;
+            vrRoom.transform.position = pos;
+
+            Physics.SyncTransforms();
+        }
+    }
+
     void CheckSwitchIsBland()
     {
         bool isPressed = switchIsBlandButton.action.IsPressed();
@@ -248,8 +295,6 @@ public class Building_TransitionCues : MonoBehaviour
         {
             StartCoroutine(EnterVR());
         };
-
-
         if (!entryIsBland) {
             // Details
             entryCueConfig.alwaysExpanded = entryAlwaysExpand;
@@ -329,7 +374,8 @@ public class Building_TransitionCues : MonoBehaviour
             fadeColor: entryPrimaryColor,
             fadeDuration: 2f
         ));
-        //TransitionParticleEffect.Spawn(mainCamera, enterVRParticleColor, particleDuration * 2);
+        TransitionParticleEffect.Spawn(mainCamera, enterVRParticleColor, particleDuration * 2);
+        userInVRRoom = true;
     }
 
     void SetPlacedBuildingVisible(bool visible)
@@ -482,57 +528,44 @@ public class Building_TransitionCues : MonoBehaviour
         }
     }
 
-    void RepositionVRFloorAfterTeleport()
+    /*void RepositionVRFloorAfterTeleport()
     {
-        if (vrRoom == null || !userInVRRoom)
+        if (vrRoom == null)
             return;
 
         if (mainCamera == null)
             mainCamera = Camera.main;
 
-        // Ray straight down from the camera
         Ray ray = new Ray(mainCamera.transform.position, Vector3.down);
         RaycastHit hit;
 
         int layerMask = LayerMask.GetMask("Floor");
-        float maxDistance = 20f;
 
-        if (Physics.Raycast(ray, out hit, maxDistance, layerMask))
+        if (Physics.Raycast(ray, out hit, 20f, layerMask))
         {
             if (hit.collider.CompareTag("Floor"))
             {
                 float realFloorY = hit.point.y;
+                float cameraY = mainCamera.transform.position.y;
 
-                // Current player/world Y (camera rig root, not headset local offset)
-                Transform rigRoot = vrRoom.transform.parent;
-                if (rigRoot == null)
-                    return;
+                float deltaY = realFloorY - cameraY;
 
-                float currentRigY = rigRoot.position.y;
-
-                // Calculate vertical difference
-                float deltaY = realFloorY - currentRigY;
-
-                // Apply only vertical correction to VR room
-                Vector3 newPos = vrRoom.transform.position;
-                newPos.y += deltaY;
-                vrRoom.transform.position = newPos;
+                Vector3 pos = vrRoom.transform.position;
+                pos.y += deltaY;
+                vrRoom.transform.position = pos;
 
                 Physics.SyncTransforms();
 
-                Debug.Log($"[VR] Floor corrected by {deltaY} meters.");
+                Debug.Log($"[VR] Floor corrected by {deltaY}");
             }
-        }
-        else
-        {
-            Debug.LogWarning("[VR] No floor detected after teleport!");
         }
     }
 
     public void OnTeleportFinished()
     {
+        Debug.Log("TELEPORT FINISHED CALLED AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         RepositionVRFloorAfterTeleport();
-    }
+    }*/
 
     List<GameObject> FindDeepChildrenInScene(Scene scene, string name)
     {
@@ -709,7 +742,7 @@ public class Building_TransitionCues : MonoBehaviour
         // Unload VR room
         yield return StartCoroutine(UnloadVRRoom());
 
-        //TransitionParticleEffect.Spawn(mainCamera, exitVRParticleColor, particleDuration);
+        TransitionParticleEffect.Spawn(mainCamera, exitVRParticleColor, particleDuration);
 
         // Destroy exit cue
         if (exitCue != null)
@@ -753,6 +786,8 @@ public class Building_TransitionCues : MonoBehaviour
         {
             LeaveHMDCue.SpawnArrivalCue(leaveHMDIsBland);
         }
+
+        userInVRRoom = false;
     }
 
     IEnumerator UnloadVRRoom()

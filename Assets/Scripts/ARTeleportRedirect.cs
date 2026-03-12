@@ -7,7 +7,7 @@ public class ARTeleportRedirect : MonoBehaviour
 
     private TeleportInteractor teleportInteractor;
 
-    private void Awake()
+    /*private void Awake()
     {
         teleportInteractor = GetComponent<TeleportInteractor>();
     }
@@ -26,17 +26,19 @@ public class ARTeleportRedirect : MonoBehaviour
 
     private void OnLocomotion(LocomotionEvent locomotionEvent)
     {
-        // Ignore invalid teleports
         if (locomotionEvent.Translation == LocomotionEvent.TranslationType.None)
             return;
 
         Vector3 hitPoint = locomotionEvent.Pose.position;
 
         building_TransitionCues.MoveVRRoomToHit(hitPoint);
+
+        // ADD THIS
+        building_TransitionCues.OnTeleportFinished();
     }
 
     public void SetBuildingTransitionCues(Building_TransitionCues building_TransitionCues)
     {
         this.building_TransitionCues = building_TransitionCues;
-    }
+    }*/
 }
