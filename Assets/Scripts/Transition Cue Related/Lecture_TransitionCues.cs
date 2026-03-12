@@ -69,15 +69,17 @@ public class Lecture_TransitionCues : MonoBehaviour
         if (exitAnchor == null)
             Debug.LogError($"Exit Anchor '{exitAnchorName}' not found!");
 
+        exitIsBland = true;
 
         // Start the sequence
-        if(!startArrivalIsBland)
+        if (!startArrivalIsBland)
         {
             HideAllChildren();
             StartCoroutine(SpawnPhases());
         }
         else
         {
+            Debug.Log("start arrival is bland");
             CreateStartArrivalCue(startArrivalAnchor);
         }
     }
@@ -120,7 +122,7 @@ public class Lecture_TransitionCues : MonoBehaviour
             );
 
 
-            StartArrivalCueConfig.onCollide = (collision) =>
+            StartArrivalCueConfig.onCollide = (other) =>
             {
                 startArrivalCue.SetActive(false);// Start Video
                 if (videoPlayer != null)
@@ -179,7 +181,7 @@ public class Lecture_TransitionCues : MonoBehaviour
         }
     );
 
-        exitCueConfig.onCollide = (collision) =>
+        exitCueConfig.onCollide = (other) =>
         {
             exitCue.SetActive(false);
             // Pause Video

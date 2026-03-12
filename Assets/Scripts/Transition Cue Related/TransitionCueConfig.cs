@@ -25,7 +25,7 @@ public class TransitionCueConfig
     public Action onInteract;
 
     // Action to invoke when collision with transition cue happens
-    public Action<Collision> onCollide;
+    public Action<Collider> onCollide;
 
     // decides if transition leads to AR
     public bool leadsToAR = false;
@@ -153,7 +153,7 @@ public class TransitionCueConfig
     public string buttonText = "Enter VR";
 
     // Width of the button (meters)
-    public float buttonWidth = 0.6f;
+    public float buttonWidth = 0.4f;
 
     // Height of the button (meters)
     public float buttonHeight = 0.1f;

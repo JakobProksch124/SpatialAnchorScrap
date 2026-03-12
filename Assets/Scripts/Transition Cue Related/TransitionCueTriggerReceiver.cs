@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class TransitionCueCollisionRelay : MonoBehaviour
+public class TransitionCueTriggerReceiver : MonoBehaviour
 {
     private Action<Collider> onTrigger;
     private bool hasTriggered = false;
@@ -11,7 +11,7 @@ public class TransitionCueCollisionRelay : MonoBehaviour
         onTrigger = callback;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void ReceiveTrigger(Collider other)
     {
         if (hasTriggered)
             return;

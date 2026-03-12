@@ -26,6 +26,8 @@ public class WelcomeAnimation : MonoBehaviour
 
     private List<Renderer> renderers = new List<Renderer>();
 
+    private Dictionary<Renderer, float> targetAlphas = new Dictionary<Renderer, float>();
+
     public void Initialize(float distance)
     {
         triggerDistance = distance;
@@ -62,6 +64,15 @@ public class WelcomeAnimation : MonoBehaviour
     void CollectRenderers()
     {
         renderers.AddRange(GetComponentsInChildren<Renderer>());
+
+        foreach (var r in renderers)
+        {
+            if (r.material.HasProperty("_BaseColor"))
+            {
+                float alpha = r.material.GetColor("_BaseColor").a;
+                targetAlphas[r] = alpha;
+            }
+        }
     }
 
     void SetOpacity(float value)
@@ -71,7 +82,7 @@ public class WelcomeAnimation : MonoBehaviour
             if (r.material.HasProperty("_BaseColor"))
             {
                 Color c = r.material.GetColor("_BaseColor");
-                c.a = value;
+                c.a = targetAlphas[r] * value;
                 r.material.SetColor("_BaseColor", c);
             }
         }

@@ -28,7 +28,7 @@ public class IMessageTransitionCue : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (hasTriggered) return;
-        Debug.Log("collision with player; creating i Message");
+
         hasTriggered = true;
         CreateIMessageArrivalCue(iMessageAnchor);
         
@@ -46,7 +46,7 @@ public class IMessageTransitionCue : MonoBehaviour
         );
 
 
-        iMessageCueConfig.onCollide = (collision) =>
+        iMessageCueConfig.onCollide = (other) =>
         {
             iMessageCue.SetActive(false);
             readNotification();

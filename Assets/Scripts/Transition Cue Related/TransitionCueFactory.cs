@@ -66,16 +66,17 @@ public static class TransitionCueFactory
             // === Action Button ===
             // === Close Button (only for collapsible cues) ===
             GameObject closeButton = null;
+            GameObject actionButton = null;
             if (!config.isLeaveCue)
             {
-                GameObject button = CreateButton(config);
-                button.transform.SetParent(buttonContainer.transform, false);
-                AddIsdkSelectToInvoke(button, config);
+                actionButton = CreateButton(config);
+                actionButton.transform.SetParent(buttonContainer.transform, false);
+                AddIsdkSelectToInvoke(actionButton, config);
 
                 if (!config.alwaysExpanded)
                 {
                     float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
-                    button.transform.localPosition = new Vector3(actionButtonX, 0, 0);
+                    actionButton.transform.localPosition = new Vector3(actionButtonX, 0, 0);
 
                     closeButton = CreateCloseButton(config);
                     float closeButtonX = -(config.buttonWidth + config.buttonSpacing) / 2f;
@@ -95,7 +96,7 @@ public static class TransitionCueFactory
             }
 
             // add collision interaction
-            AddCollisionSupport(root, config);
+            AddCollisionSupport(root, smallPanel, expandedPanel, actionButton, config);
 
             // === Rotation Effect ===
             if (config.enableTurnTowardsUser && !config.leadsToAR)
@@ -696,6 +697,20 @@ public static class TransitionCueFactory
 
         AddIsdkSelectToInvoke(button, config);
 
+        if (config.onCollide != null)
+        {
+            Rigidbody rb = root.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.useGravity = false;
+
+            TransitionCueTriggerReceiver receiver =
+                root.AddComponent<TransitionCueTriggerReceiver>();
+
+            receiver.Initialize(config.onCollide);
+
+            SetupPanelTrigger(button, receiver);
+        }
+
         return root;
     }
 
@@ -856,40 +871,15 @@ public static class TransitionCueFactory
         textComponent.font = fontToUse;
     }
 
-    private static void AddCollisionSupport(GameObject root, TransitionCueConfig config)
+    private static void AddCollisionSupport(
+    GameObject root,
+    GameObject smallPanel,
+    GameObject expandedPanel,
+    GameObject button,
+    TransitionCueConfig config)
     {
         if (config.onCollide == null)
             return;
-
-        BoxCollider col = root.GetComponent<BoxCollider>();
-        if (col == null)
-        {
-            col = root.AddComponent<BoxCollider>();
-        }
-
-        // Use trigger for XR proximity detection
-        col.isTrigger = true;
-
-        // Match collider size to expanded panel dimensions
-        float width = config.expandedPanelWidth;
-        float height = config.expandedPanelHeight;
-        float depth = config.expandedPanelDepth;
-
-        if (config.leadsToAR)
-        {
-            width *= 2f;
-            height *= 4f;
-        }
-        else if (config.leadsOutOfLecture)
-        {
-            width *= 4f;
-            height *= 2f;
-        }
-
-        col.size = new Vector3(width, height, depth);
-
-        // Center collider on the panel
-        col.center = Vector3.zero;
 
         Rigidbody rb = root.GetComponent<Rigidbody>();
         if (rb == null)
@@ -899,9 +889,34 @@ public static class TransitionCueFactory
             rb.useGravity = false;
         }
 
-        TransitionCueCollisionRelay relay = root.AddComponent<TransitionCueCollisionRelay>();
-        relay.Initialize(config.onCollide);
+        TransitionCueTriggerReceiver receiver =
+            root.AddComponent<TransitionCueTriggerReceiver>();
+
+        receiver.Initialize(config.onCollide);
+
+        SetupPanelTrigger(smallPanel, receiver);
+        SetupPanelTrigger(expandedPanel, receiver);
+
+        if (button != null)
+            SetupPanelTrigger(button, receiver);
     }
+
+    private static void SetupPanelTrigger(
+        GameObject panel,
+        TransitionCueTriggerReceiver receiver)
+    {
+        BoxCollider col = panel.GetComponent<BoxCollider>();
+        if (col == null)
+            col = panel.AddComponent<BoxCollider>();
+
+        col.isTrigger = true;
+
+        TransitionCueTriggerForwarder forwarder =
+            panel.AddComponent<TransitionCueTriggerForwarder>();
+
+        forwarder.Initialize(receiver);
+    }
+
 
 }
 

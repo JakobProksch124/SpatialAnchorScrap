@@ -186,7 +186,7 @@ public class Mensa_FriendCue : MonoBehaviour
                 }
             );
 
-            StartArrivalCueConfig.onCollide = (collision) =>
+            StartArrivalCueConfig.onCollide = (other) =>
             {
                 startArrivalCue.SetActive(false);
                 ShowFood();
@@ -304,8 +304,10 @@ public class Mensa_FriendCue : MonoBehaviour
             primaryColor = foodButtonColor,
             buttonText = text,
             onInteract = () => showEntryCue(),
+            onCollide = (other) => showEntryCue(),
             enableTurnTowardsUser = foodButtonsTurnToUser
         };
+
         return TransitionCueFactory.CreateStandaloneButton(btnConfig);
     }
 
@@ -321,7 +323,7 @@ public class Mensa_FriendCue : MonoBehaviour
         );
 
 
-        entryCueConfig.onCollide = (collision) =>
+        entryCueConfig.onCollide = (other) =>
         {
             StartNavigationToFriends();
             entryCue.SetActive(false);
@@ -364,7 +366,7 @@ public class Mensa_FriendCue : MonoBehaviour
             );
 
 
-            entryArrivalCueConfig.onCollide = (collision) =>
+            entryArrivalCueConfig.onCollide = (other) =>
             {
                 entryArrivalCue.SetActive(false);
             };
