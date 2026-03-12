@@ -34,6 +34,9 @@ public class TransitionCueConfig
     public bool isArrival = false;
 
     // decides if transition leads to AR
+    public bool isVoiceCue = false;
+
+    // decides if transition leads to AR
     public bool isLeaveCue = false; 
 
     // decides if transition leads to AR
@@ -135,7 +138,7 @@ public class TransitionCueConfig
     public bool useParallaxEffect = false;
 
     // Alpha value for frosted glass effect (0-1)
-    public float frostedGlassAlpha = 0.5f;
+    public float frostedGlassAlpha = 1f;
 
     // Border color for small panel (if null, uses primaryColor)
     public Color? smallPanelBorderColor = null;

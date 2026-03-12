@@ -297,6 +297,10 @@ public static class TransitionCueFactory
                 {
                     frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 0f);
                 }
+                else if (config.isVoiceCue)
+                {
+                    frostedMat = CreateBlueMaterial();
+                }
                 else
                 {
                     frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
@@ -312,6 +316,9 @@ public static class TransitionCueFactory
                 if (config.isLeaveCue)
                 {
                     frostedMat = CreateWhiteMaterial();
+                }else if (config.isVoiceCue)
+                {
+                    frostedMat = CreateBlueMaterial();
                 }
                 else
                 {
@@ -473,6 +480,13 @@ public static class TransitionCueFactory
         videoPlayer.renderMode = VideoRenderMode.RenderTexture;
         videoPlayer.targetTexture = renderTexture;
         videoPlayer.source = VideoSource.VideoClip; // or VideoSource.VideoClip
+        if (config.isVoiceCue)
+        {
+            videoPlayer.loopPointReached += (vp) =>
+            {
+                GameObject.Destroy(config.parent.gameObject);
+            };
+        }
 
         if (config.videoClip != null)
         {
@@ -669,7 +683,7 @@ public static class TransitionCueFactory
         float zOffset = (config.buttonDepth / 2) + config.textZOffset;
         float lineLength = 0.6f;
         float lineThickness = 0.06f;
-        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
         if (lineMat != null)
         {
         lineMat.SetColor("_BaseColor", Color.white);
@@ -755,11 +769,41 @@ public static class TransitionCueFactory
         return mat;
     }
 
+    private static Material CreateBlueMaterial()
+    {
+        Debug.Log("generating blue color for expanded panel");
+        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+
+        // Convert hex 4C66CC to RGB (0-1 range)
+        Color hexColor = new Color(0x4C / 255f, 0x66 / 255f, 0xCC / 255f, 1f);
+        mat.SetColor("_BaseColor", hexColor);
+
+        // Set Surface Type to opaque
+        mat.SetFloat("_Surface", 0); // 0 = opaque
+
+        // Moderate smoothness for a clean surface
+        mat.SetFloat("_Smoothness", 0.5f);
+        mat.SetFloat("_Metallic", 0f);
+
+        // Configure blending for opaque rendering
+        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        mat.SetInt("_ZWrite", 1); // Depth write enabled for opaque objects
+
+        // Set render queue for geometry
+        mat.renderQueue = 2000;
+
+        // Set render type
+        mat.SetOverrideTag("RenderType", "Opaque");
+
+        return mat;
+    }
+
     // Creates a frosted glass material with transparency
     // Uses URP/Lit shader with transparency and smoothness for a polished glass effect
     private static Material CreateFrostedGlassMaterial(Color color, float alpha)
     {
-        Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
 
         // Set base color with specified alpha for semi-transparency
         Color transparentColor = new Color(color.r, color.g, color.b, alpha);

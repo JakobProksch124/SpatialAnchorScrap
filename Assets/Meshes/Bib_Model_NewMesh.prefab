@@ -3036,6 +3036,14 @@ MonoBehaviour:
   readNotificationPlayer: {fileID: 2552885855734218671}
   iMessageDisappearDelay: 15
   readNotificationDelay: 15
+  visualVoiceAnchorName: visualVoiceAnchor
+  visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
+  visualVoiceLabel: 
+  visualVoiceDescription: Plakat in 5m links
+  visualVoiceButtonText: "Schlie\xDFen"
+  visualVoiceAlwaysExpand: 1
+  visualVoicevideoClip: {fileID: 32900000, guid: aff2f661bd4a4bb4bb5812998deeecbf, type: 3}
+  visualVoiceAnchor: {fileID: 1763627985666463064}
 --- !u!82 &2552885855734218671
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3410,6 +3418,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6697383392521726963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1763627985666463064}
+  m_Layer: 0
+  m_Name: visualVoiceAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1763627985666463064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6697383392521726963}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.88186646, z: -0, w: -0.47149932}
+  m_LocalPosition: {x: 2.518, y: 1.5, z: 5.95}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3103572488037237033}
+  m_LocalEulerAnglesHint: {x: 0, y: 236.263, z: 0}
 --- !u!1 &7355581936147766005
 GameObject:
   m_ObjectHideFlags: 0
@@ -3448,6 +3487,7 @@ Transform:
   - {fileID: 2770275863037366065}
   - {fileID: 4394912394980126459}
   - {fileID: 9120545726165354779}
+  - {fileID: 1763627985666463064}
   - {fileID: 6927189847978222905}
   - {fileID: 5523330152956660132}
   - {fileID: 5766467032572312129}

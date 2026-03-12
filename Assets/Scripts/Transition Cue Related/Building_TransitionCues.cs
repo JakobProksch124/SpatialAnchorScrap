@@ -389,6 +389,8 @@ public class Building_TransitionCues : MonoBehaviour
         var renderers = positioner.PlacedObject.GetComponentsInChildren<Renderer>(true);
         foreach (var r in renderers)
             if (r) r.enabled = visible;
+
+       
     }
 
     IEnumerator LoadVRRoom()
@@ -587,6 +589,20 @@ public class Building_TransitionCues : MonoBehaviour
     // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateExitCue(Transform exitAnchor)
     {
+
+        // --- New addition: search for doors and deactivate ---
+        GameObject doorL = GameObject.Find("Door_L");
+        GameObject doorR = GameObject.Find("Door_R");
+
+        if (doorL != null)
+            doorL.SetActive(false);
+        else
+            Debug.LogWarning("[Building_TransitionCues] Door_L not found in scene!");
+
+        if (doorR != null)
+            doorR.SetActive(false);
+        else
+            Debug.LogWarning("[Building_TransitionCues] Door_R not found in scene!");
         // Base (Same basic configuration for enhanced as well as minimal cues
         TransitionCueConfig exitCueConfig = TransitionCueConfig.CreateARConfig(
             parent: exitAnchor,
