@@ -1,6 +1,8 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Video;
+
 
 public class ArrivalCue : MonoBehaviour
 {
@@ -13,7 +15,9 @@ public class ArrivalCue : MonoBehaviour
     [SerializeField] private string leaveHMDDescription = "Take off the headmounted display";
     [SerializeField] private string leaveHMDButtonText = "";
     [SerializeField] private bool leaveHMDAlwaysExpand = false;
-    [SerializeField] private bool leaveHMDIsBland = false;
+    [SerializeField] private VideoClip leaveHMDvideoClip;
+
+    private bool leaveHMDIsBland = false;
 
     private GameObject leaveHMDCue;
     private Transform leaveHMDAnchor;
@@ -28,7 +32,7 @@ public class ArrivalCue : MonoBehaviour
 
     [Header("Proximity")]
     [Tooltip("Distance (meters) at which arrival is triggered (requires distance + gaze)")]
-    public float arrivalDistance = 5f;
+    public float arrivalDistance = 3f;
 
     [Tooltip("Required dot product of camera forward vs cue direction to trigger (0-1, higher = more precise gaze needed)")]
     public float gazeThreshold = 0.7f;
@@ -132,13 +136,22 @@ public class ArrivalCue : MonoBehaviour
         if (ShouldTriggerArrival())
         {
             hasArrived = true;
-            StartCoroutine(OnArrivedSequence());
+            if (!leaveHMDIsBland)
+            {
+                StartCoroutine(OnArrivedSequence());
+            }
+            else
+            {
+                HideArrivalCue();
+                CreateLeaveHMDCue(leaveHMDAnchor);
+            }
         }
     }
 
     // Spawn the arrival cue at the target child location
-    public void SpawnArrivalCue()
+    public void SpawnArrivalCue(bool leaveHMDIsBland)
     {
+        this.leaveHMDIsBland = leaveHMDIsBland;
         // Clean up any existing cue
         if (cueInstance != null)
         {
@@ -722,7 +735,7 @@ public class ArrivalCue : MonoBehaviour
         return mat;
     }
 
-    
+
     // CUE INFO:
     // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateLeaveHMDCue(Transform leaveHMDAnchor)
@@ -742,6 +755,7 @@ public class ArrivalCue : MonoBehaviour
             leaveHMDCueConfig.primaryColor = leaveHMDPrimaryColor;
             leaveHMDCueConfig.expandedDescription = leaveHMDDescription;
             leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
+            leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
         }
         else
         {
@@ -751,12 +765,15 @@ public class ArrivalCue : MonoBehaviour
             leaveHMDCueConfig.primaryColor = Color.black;
             leaveHMDCueConfig.expandedDescription = leaveHMDLabel;
         }
-
+        leaveHMDCueConfig.isLeaveCue = true;
         // (Effectively not used if alwaysExpanded)
         leaveHMDCueConfig.label = leaveHMDLabel;
         leaveHMDCueConfig.buttonText = leaveHMDButtonText;
         leaveHMDCue = TransitionCueFactory.CreateCue(leaveHMDCueConfig);
     }
 
-
+    public void SwitchIsBland()
+    {
+        leaveHMDIsBland = !leaveHMDIsBland;
+    }
 }

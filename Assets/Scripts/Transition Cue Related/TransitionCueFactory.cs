@@ -3,10 +3,12 @@ using Oculus.Interaction.Surfaces;
 using TMPro;
 using UnityEngine;
 using System;
+using UnityEngine.Video;
 
 // Factory class for creating transition cues
 public static class TransitionCueFactory
 {
+
     // Creates a cue with expandable panel design or a minimal cue
     //
     // Design includes:
@@ -29,45 +31,59 @@ public static class TransitionCueFactory
             root.transform.localPosition = Vector3.zero;
             root.transform.localRotation = Quaternion.identity;
             root.transform.localScale = Vector3.one * config.globalScale;
-            UnityEngine.Debug.Log("created cue root");
+
 
             // === Small Panel ===
             GameObject smallPanel = CreateSmallPanel(config);
             smallPanel.transform.SetParent(root.transform, false);
-            UnityEngine.Debug.Log("created small panel");
 
             // === Expanded Panel ===
-            GameObject expandedPanel = CreateExpandedPanel(config);
+            float textBottomY;
+            GameObject expandedPanel = CreateExpandedPanel(config, out textBottomY);
             expandedPanel.transform.SetParent(root.transform, false);
             expandedPanel.transform.localPosition = Vector3.zero;
             AddIsdkSelectToInvoke(expandedPanel, config);
-            UnityEngine.Debug.Log("created expanded panel");
-
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
             buttonContainer.transform.SetParent(root.transform, false);
-            buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
-            UnityEngine.Debug.Log("created button container");
+
+            if (config.leadsToAR)
+            {
+                // Keep constant spacing relative to text
+                buttonContainer.transform.localPosition =
+                    new Vector3(0, textBottomY - config.buttonOffset, 0);
+            }
+            else
+            {
+                // Original behaviour (relative to panel)
+                float actualPanelHeight = expandedPanel.transform.localScale.y;
+
+                buttonContainer.transform.localPosition =
+                    new Vector3(0, -(actualPanelHeight / 2 + config.buttonOffset), 0);
+            }
+            //buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
 
             // === Action Button ===
-            GameObject button = CreateButton(config);
-            button.transform.SetParent(buttonContainer.transform, false);
-            AddIsdkSelectToInvoke(button, config);
-            UnityEngine.Debug.Log("created button");
-
             // === Close Button (only for collapsible cues) ===
             GameObject closeButton = null;
-            if (!config.alwaysExpanded)
+            GameObject actionButton = null;
+            if (!config.isLeaveCue)
             {
-                float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
-                button.transform.localPosition = new Vector3(actionButtonX, 0, 0);
+                actionButton = CreateButton(config);
+                actionButton.transform.SetParent(buttonContainer.transform, false);
+                AddIsdkSelectToInvoke(actionButton, config);
 
-                closeButton = CreateCloseButton(config);
-                float closeButtonX = -(config.buttonWidth + config.buttonSpacing) / 2f;
-                closeButton.transform.SetParent(buttonContainer.transform, false);
-                closeButton.transform.localPosition = new Vector3(closeButtonX, 0, 0);
+                if (!config.alwaysExpanded)
+                {
+                    float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
+                    actionButton.transform.localPosition = new Vector3(actionButtonX, 0, 0);
+
+                    closeButton = CreateCloseButton(config);
+                    float closeButtonX = -(config.buttonWidth + config.buttonSpacing) / 2f;
+                    closeButton.transform.SetParent(buttonContainer.transform, false);
+                    closeButton.transform.localPosition = new Vector3(closeButtonX, 0, 0);
+                }
             }
-            UnityEngine.Debug.Log("created close button");
 
             // === Expansion Controller ===
             TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
@@ -79,11 +95,21 @@ public static class TransitionCueFactory
                 AddIsdkSelectToInvoke(closeButton, () => expander.DismissToSmall());
             }
 
+            // add collision interaction
+            AddCollisionSupport(root, smallPanel, expandedPanel, actionButton, config);
+
             // === Rotation Effect ===
             if (config.enableTurnTowardsUser && !config.leadsToAR)
             {
                 TurnTowardsUser rotateToUser = root.AddComponent<TurnTowardsUser>();
                 rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
+            }
+
+            // === Arrival Welcome Animation ===
+            if (config.isArrival)
+            {
+                WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
+                welcome.Initialize(config.turnTriggerDistance);
             }
 
             if (!config.isArrival)
@@ -99,7 +125,6 @@ public static class TransitionCueFactory
         {
             // Minimal cue design
 
-            // === Root Container ===
             GameObject root = new GameObject($"MinimalCue_{config.label}");
             root.transform.SetParent(config.parent, false);
             root.transform.localPosition = Vector3.zero;
@@ -110,6 +135,9 @@ public static class TransitionCueFactory
             GameObject smallPanel = CreateSmallPanel(config);
             smallPanel.transform.SetParent(root.transform, false);
             AddIsdkSelectToInvoke(smallPanel, config);
+
+            // ADD THIS
+            AddCollisionSupport(root, smallPanel, null, null, config);
 
             return root;
         }
@@ -137,7 +165,6 @@ public static class TransitionCueFactory
         {
             if (state.NewState == InteractableState.Select)
             {
-                Debug.Log("[TransitionCueFactory] Button selected");
                 action?.Invoke();
             }
         };
@@ -148,8 +175,6 @@ public static class TransitionCueFactory
         yield return new WaitForSeconds(5f);
 
         events.WhenSelect.AddListener(() => config?.onInteract?.Invoke());
-        Debug.Log("select state of transition cue: ");
-        Debug.Log(events.WhenSelect != null);
     }
 
     // Creates the small panel with label text and glowing border
@@ -179,7 +204,7 @@ public static class TransitionCueFactory
         {
             Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
             renderer.material = frostedMat;
-        } 
+        }
         else
         {
             Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, 1);
@@ -213,6 +238,7 @@ public static class TransitionCueFactory
         labelText.alignment = TextAlignmentOptions.Center;
         labelText.color = Color.white;
 
+
         // --- IMPORTANT: compensate parent scaling so text size stays constant ---
         Vector3 panelScale = smallPanel.transform.localScale;
 
@@ -233,21 +259,21 @@ public static class TransitionCueFactory
     }
 
     // Creates the expanded panel with description and optional content
-    private static GameObject CreateExpandedPanel(TransitionCueConfig config)
+    private static GameObject CreateExpandedPanel(TransitionCueConfig config, out float textBottomY)
     {
         // Use rounded cube model for aesthetic rounded edges
         GameObject expandedPanel = CreateRoundedCube();
         expandedPanel.name = "ExpandedPanel";
         if (config.leadsToAR)
         {
-            expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth*2, config.expandedPanelHeight*4, config.expandedPanelDepth);
-        }else if (config.leadsOutOfLecture)
+            expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth * 2, config.expandedPanelHeight * 4, config.expandedPanelDepth);
+        }
+        else if (config.leadsOutOfLecture)
         {
             expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth * 4, config.expandedPanelHeight * 2, config.expandedPanelDepth);
         }
         else
         {
-            Debug.Log("Cues does not lead to ar");
             expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth, config.expandedPanelHeight, config.expandedPanelDepth);
         }
 
@@ -261,40 +287,84 @@ public static class TransitionCueFactory
         // Content (Screenshot or 3D Object)
         float contentBottomY = 0f; // Y-position of the bottom of the content
 
-        if (!config.isBland )
+        bool noContentLayout = false;
+        if (!config.isBland)
         {
-            if (config.isTransparent)
+            if (config.isTransparent && !config.isLeaveCue)
             {
-                Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
-                renderer.material = frostedMat;
+                Material frostedMat;
+
+                if (config.leadsToAR)
+                {
+                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 0f);
+                }
+                else if (config.isVoiceCue)
+                {
+                    frostedMat = CreateBlueMaterial();
+                }
+                else
+                {
+                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
+                }
+                if (frostedMat != null)
+                {
+                    renderer.material = frostedMat;
+                }
             }
             else
             {
-                Material frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 1f);
-                renderer.material = frostedMat;
+                Material frostedMat;
+                if (config.isLeaveCue)
+                {
+                    frostedMat = CreateWhiteMaterial();
+                }
+                else if (config.isVoiceCue)
+                {
+                    frostedMat = CreateBlueMaterial();
+                }
+                else
+                {
+                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 1f);
+                }
+                if (frostedMat != null)
+                {
+                    renderer.material = frostedMat;
+                }
             }
-           
-            if (config.screenshotTexture != null)
+            if (config.videoClip != null)
+            {
+                contentBottomY = CreateVideoDisplay(expandedPanel.transform, config);
+            }
+            else if (config.screenshotTexture != null)
             {
                 contentBottomY = CreateScreenshotDisplay(expandedPanel.transform, config);
             }
-            else if (config.contentObject != null )
+            else if (config.contentObject != null)
             {
                 contentBottomY = Create3DObjectDisplay(expandedPanel.transform, config);
             }
             else
             {
-                // No content, center the description text
-                contentBottomY = config.expandedPanelHeight * 0.1f;
+                // No content
+                //Make expanded panel smaller and center the description text
+                //contentBottomY = config.expandedPanelHeight * 0.1f;
+
+
+                noContentLayout = true;
             }
         }
 
-            // Description Text
-            GameObject descObj = new GameObject("DescriptionText");
+        // Description Text
+        GameObject descObj = new GameObject("DescriptionText");
         descObj.transform.SetParent(expandedPanel.transform, false);
 
         float descTextOffset = (config.expandedPanelDepth / 2) + config.textZOffset;
-        float descYPosition = contentBottomY - config.contentDescriptionSpacing;
+
+        float descYPosition = noContentLayout
+        ? contentBottomY
+        : contentBottomY - config.contentDescriptionSpacing;
+
+        //float descYPosition = contentBottomY - config.contentDescriptionSpacing;
         descObj.transform.localPosition = new Vector3(0, descYPosition, descTextOffset);
         descObj.transform.localRotation = Quaternion.Euler(0, 180, 0);
 
@@ -302,7 +372,14 @@ public static class TransitionCueFactory
         descText.text = config.expandedDescription;
         descText.fontSize = config.descriptionFontSize * config.generalFontSizeFactor;
         descText.alignment = TextAlignmentOptions.Center;
-        descText.color = Color.white;
+        if (config.isLeaveCue || config.leadsToAR)
+        {
+            descText.color = Color.black;
+        }
+        else
+        {
+            descText.color = Color.white;
+        }
 
         ApplyCustomFont(descText, config, false);
 
@@ -316,10 +393,118 @@ public static class TransitionCueFactory
             descText.fontMaterial.renderQueue = 3100; // Higher than panel's 3000
         }
 
+        Vector2 preferredSize = descText.GetPreferredValues(descText.text, textWidth, Mathf.Infinity);
+        float textHeight = preferredSize.y;
+        textBottomY = descYPosition - textHeight / 2f;
+
+        if (noContentLayout && !config.leadsToAR)
+        {
+            MakeExpandedPanelSmallerAndCenterDescription(
+                expandedPanel.transform,
+                config,
+                textHeight
+            );
+        }
         // Compensate for parent scale squashing
         descObj.transform.localScale = new Vector3(1f / expandedPanel.transform.localScale.x, 1f / expandedPanel.transform.localScale.y, 1f);
 
         return expandedPanel;
+    }
+
+
+    // Makes the expanded panel smaller when there is no content
+    // and returns a centered Y position for the description text
+    private static float MakeExpandedPanelSmallerAndCenterDescription(
+    Transform expandedPanel,
+    TransitionCueConfig config,
+    float textHeight)
+    {
+        float verticalPadding = config.descriptionFontSize * 1.5f;
+
+        float newHeight = textHeight + verticalPadding;
+
+        float newWidth = config.expandedPanelWidth;
+
+        expandedPanel.localScale = new Vector3(
+            newWidth,
+            newHeight,
+            config.expandedPanelDepth
+        );
+
+        return 0f; // keep text centered
+    }
+
+    private static float CreateVideoDisplay(Transform parent, TransitionCueConfig config)
+    {
+        GameObject videoQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        videoQuad.name = "VideoDisplay";
+        videoQuad.transform.SetParent(parent, false);
+
+        float videoWidth = config.videoWidth;
+        float videoHeight = config.videoHeight;
+        videoQuad.transform.localScale = new Vector3(videoWidth, videoHeight, 1f);
+
+        float topOfPanel = config.expandedPanelHeight / 2;
+        float marginTopOffset = config.expandedPanelHeight * config.contentMarginTop;
+        float videoCenterY = topOfPanel - marginTopOffset - (videoHeight / 2);
+
+        // Same Z-offset logic as screenshot
+        videoQuad.transform.localPosition = new Vector3(
+            0,
+            videoCenterY,
+            config.expandedPanelDepth / 2 + config.textZOffset
+        );
+
+        videoQuad.transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+        // Prevent squashing from parent scale
+        videoQuad.transform.localScale = new Vector3(
+            videoWidth / parent.localScale.x,
+            videoHeight / parent.localScale.y,
+            1f
+        );
+
+        Collider collider = videoQuad.GetComponent<Collider>();
+        if (collider != null)
+        {
+            UnityEngine.Object.Destroy(collider);
+        }
+
+        Renderer renderer = videoQuad.GetComponent<Renderer>();
+
+        // Create render texture for video output
+        RenderTexture renderTexture = new RenderTexture(1024, 1024, 0);
+
+        // Setup video player
+        VideoPlayer videoPlayer = videoQuad.AddComponent<VideoPlayer>();
+        videoPlayer.playOnAwake = true;
+        videoPlayer.isLooping = true;
+        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        videoPlayer.targetTexture = renderTexture;
+        videoPlayer.source = VideoSource.VideoClip; // or VideoSource.VideoClip
+        if (config.isVoiceCue)
+        {
+            videoPlayer.loopPointReached += (vp) =>
+            {
+                GameObject.Destroy(config.parent.gameObject);
+            };
+        }
+
+        if (config.videoClip != null)
+        {
+            videoPlayer.clip = config.videoClip;
+        }
+
+        Material videoMat = new Material(Shader.Find("Unlit/Texture"));
+        videoMat.mainTexture = renderTexture;
+        videoMat.renderQueue = 3100;
+
+        renderer.material = videoMat;
+
+        videoPlayer.Prepare();
+        videoPlayer.Play();
+
+        return videoCenterY - (videoHeight / 2);
     }
 
     private static float CreateScreenshotDisplay(Transform parent, TransitionCueConfig config)
@@ -403,7 +588,7 @@ public static class TransitionCueFactory
     // Creates the interactive button below the expanded panel
     private static GameObject CreateButton(TransitionCueConfig config)
     {
-        
+
         // Use rounded cube model for aesthetic rounded edges
         GameObject button = CreateRoundedCube();
         button.name = "InteractionButton";
@@ -426,8 +611,8 @@ public static class TransitionCueFactory
             renderer.material = buttonMat;
         }
 
-            // === Button Text ===
-            GameObject textObj = new GameObject("ButtonText");
+        // === Button Text ===
+        GameObject textObj = new GameObject("ButtonText");
         textObj.transform.SetParent(button.transform, false);
         // Position text clearly in front of the button (negative Z for cube forward face)
         float buttonTextOffset = (config.buttonDepth / 2) + config.textZOffset;
@@ -457,17 +642,16 @@ public static class TransitionCueFactory
         GameObject closeButton = CreateRoundedCube();
         closeButton.name = "CloseButton";
         closeButton.transform.localScale = new Vector3(config.closeButtonSize, config.buttonHeight, config.buttonDepth);
-        UnityEngine.Debug.Log("created rounded Cube");
 
         Renderer renderer = closeButton.GetComponent<Renderer>();
         if (renderer == null)
             renderer = closeButton.GetComponentInChildren<Renderer>();
-        Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
+        //Material buttonMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
+        Material buttonMat = CreateFrostedGlassMaterial(Color.grey, config.frostedGlassAlpha + 0.2f);
         if (buttonMat != null)
         {
             renderer.material = buttonMat;
         }
-        UnityEngine.Debug.Log("created frosted glass material");
 
         CreateXIcon(closeButton.transform, config);// === Button Text ===
         /*GameObject textObj = new GameObject("CloseButtonText");
@@ -501,33 +685,27 @@ public static class TransitionCueFactory
         float zOffset = (config.buttonDepth / 2) + config.textZOffset;
         float lineLength = 0.6f;
         float lineThickness = 0.06f;
-        UnityEngine.Debug.Log("creating line mat");
-        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
         if (lineMat != null)
         {
-            UnityEngine.Debug.Log("line mat is not null");
-        lineMat.SetColor("_BaseColor", Color.white);
-        lineMat.renderQueue = 3100;
+            lineMat.SetColor("_BaseColor", Color.white);
+            lineMat.renderQueue = 3100;
 
-        for (int i = 0; i < 2; i++)
-        {
-            GameObject line = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            line.name = i == 0 ? "XLine1" : "XLine2";
-            line.transform.SetParent(parent, false);
-            line.transform.localPosition = new Vector3(0, 0, zOffset);
-            float angle = i == 0 ? 45f : -45f;
-            line.transform.localRotation = Quaternion.Euler(0, 180, angle);
-            line.transform.localScale = new Vector3(lineLength, lineThickness, 1f);
+            for (int i = 0; i < 2; i++)
+            {
+                GameObject line = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                line.name = i == 0 ? "XLine1" : "XLine2";
+                line.transform.SetParent(parent, false);
+                line.transform.localPosition = new Vector3(0, 0, zOffset);
+                float angle = i == 0 ? 45f : -45f;
+                line.transform.localRotation = Quaternion.Euler(0, 180, angle);
+                line.transform.localScale = new Vector3(lineLength, lineThickness, 1f);
 
-            Collider col = line.GetComponent<Collider>();
-            if (col != null) UnityEngine.Object.Destroy(col);
+                Collider col = line.GetComponent<Collider>();
+                if (col != null) UnityEngine.Object.Destroy(col);
 
-            line.GetComponent<Renderer>().material = lineMat;
-        }
-        }
-        else
-        {
-            Debug.Log("LineMat is null; not generating X Icon");
+                line.GetComponent<Renderer>().material = lineMat;
+            }
         }
     }
 
@@ -545,14 +723,89 @@ public static class TransitionCueFactory
 
         AddIsdkSelectToInvoke(button, config);
 
+        if (config.onCollide != null)
+        {
+            Rigidbody rb = root.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.useGravity = false;
+
+            TransitionCueTriggerReceiver receiver =
+                root.AddComponent<TransitionCueTriggerReceiver>();
+
+            receiver.Initialize(config.onCollide);
+
+            SetupPanelTrigger(button, receiver);
+        }
+
         return root;
+    }
+
+
+    private static Material CreateWhiteMaterial()
+    {
+        Debug.Log("generating white color for expanded panel");
+        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+
+        // Set base color to completely white
+        Color whiteColor = new Color(1f, 1f, 1f, 1f);
+        mat.SetColor("_BaseColor", whiteColor);
+
+        // Set Surface Type to opaque
+        mat.SetFloat("_Surface", 0); // 0 = opaque
+
+        // Moderate smoothness for a clean white surface
+        mat.SetFloat("_Smoothness", 0.5f);
+        mat.SetFloat("_Metallic", 0f);
+
+        // Configure blending for opaque rendering
+        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        mat.SetInt("_ZWrite", 1); // Depth write enabled for opaque objects
+
+        // Set render queue for geometry
+        mat.renderQueue = 2000;
+
+        // Set render type
+        mat.SetOverrideTag("RenderType", "Opaque");
+
+        return mat;
+    }
+
+    private static Material CreateBlueMaterial()
+    {
+        Debug.Log("generating blue color for expanded panel");
+        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+
+        // Convert hex 4C66CC to RGB (0-1 range)
+        Color hexColor = new Color(0x4C / 255f, 0x66 / 255f, 0xCC / 255f, 1f);
+        mat.SetColor("_BaseColor", hexColor);
+
+        // Set Surface Type to opaque
+        mat.SetFloat("_Surface", 0); // 0 = opaque
+
+        // Moderate smoothness for a clean surface
+        mat.SetFloat("_Smoothness", 0.5f);
+        mat.SetFloat("_Metallic", 0f);
+
+        // Configure blending for opaque rendering
+        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        mat.SetInt("_ZWrite", 1); // Depth write enabled for opaque objects
+
+        // Set render queue for geometry
+        mat.renderQueue = 2000;
+
+        // Set render type
+        mat.SetOverrideTag("RenderType", "Opaque");
+
+        return mat;
     }
 
     // Creates a frosted glass material with transparency
     // Uses URP/Lit shader with transparency and smoothness for a polished glass effect
     private static Material CreateFrostedGlassMaterial(Color color, float alpha)
     {
-        Material mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
 
         // Set base color with specified alpha for semi-transparency
         Color transparentColor = new Color(color.r, color.g, color.b, alpha);
@@ -593,7 +846,6 @@ public static class TransitionCueFactory
         }
         else
         {
-            Debug.LogWarning("[TransitionCueFactory] RoundedCubeModel.fbx not found! Falling back to Cube primitive.");
             return GameObject.CreatePrimitive(PrimitiveType.Cube);
         }
     }
@@ -669,10 +921,57 @@ public static class TransitionCueFactory
 
             if (fontToUse == null)
             {
-                Debug.LogWarning($"[TransitionCueFactory] Font '{fontName}' not found in Resources. Using default TextMeshPro font.");
                 return; // Keep default font
             }
         }
         textComponent.font = fontToUse;
     }
+
+    private static void AddCollisionSupport(
+    GameObject root,
+    GameObject smallPanel,
+    GameObject expandedPanel,
+    GameObject button,
+    TransitionCueConfig config)
+    {
+        if (config.onCollide == null)
+            return;
+
+        Rigidbody rb = root.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = root.AddComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.useGravity = false;
+        }
+
+        TransitionCueTriggerReceiver receiver =
+            root.AddComponent<TransitionCueTriggerReceiver>();
+
+        receiver.Initialize(config.onCollide);
+
+        SetupPanelTrigger(smallPanel, receiver);
+        SetupPanelTrigger(expandedPanel, receiver);
+
+        if (button != null)
+            SetupPanelTrigger(button, receiver);
+    }
+
+    private static void SetupPanelTrigger(
+        GameObject panel,
+        TransitionCueTriggerReceiver receiver)
+    {
+        BoxCollider col = panel.GetComponent<BoxCollider>();
+        if (col == null)
+            col = panel.AddComponent<BoxCollider>();
+
+        col.isTrigger = true;
+
+        TransitionCueTriggerForwarder forwarder =
+            panel.AddComponent<TransitionCueTriggerForwarder>();
+
+        forwarder.Initialize(receiver);
+    }
+
+
 }

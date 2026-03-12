@@ -71,7 +71,7 @@ public class FlyCameraControllerInputSystem : MonoBehaviour
         float speed = moveSpeed * (Keyboard.current.leftShiftKey.isPressed ? sprintMultiplier : 1f);
 
         float x = 0f;
-        float z = 0f; 
+        float z = 0f;
 
         if (Keyboard.current.aKey.isPressed) x -= 1f;
         if (Keyboard.current.dKey.isPressed) x += 1f;

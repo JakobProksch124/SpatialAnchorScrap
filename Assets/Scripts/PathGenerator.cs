@@ -8,7 +8,7 @@ public class PathGenerator : MonoBehaviour
     Transform start;
     [SerializeField] Transform target;
     [SerializeField] int subdivisions = 10;
-    bool _pathing = true;
+    public bool _pathing = true;
     LineRenderer _lineRenderer;
 
     [Header("Line Appearance")]
@@ -22,6 +22,11 @@ public class PathGenerator : MonoBehaviour
     private float arrowSpacing = 6f; // distance between arrows in meters
     float arrowYOffset = 0.02f;      // lift arrows slightly above ground
     private List<GameObject> _spawnedArrows = new List<GameObject>();
+
+    float updateThreshold = 1f; // only recalc if moved more than 1m
+    public bool firstDraw = true; // true until the line has been drawn once
+    bool isDrawingFirstTime = false;
+
 
     void Start()
     {
@@ -53,16 +58,18 @@ public class PathGenerator : MonoBehaviour
     void Update()
     {
         start = Camera.main.transform;
-        if (_pathing)
-            GetPath();
+        if (!_pathing || start == null || target == null)
+            return;
+
+        GetPath();
     }
-    
+
     public void StartPathing()
     {
         _pathing = true;
     }
-    
-    void GetPath()
+
+    /*void GetPath()
     {
         if (start)
         {
@@ -70,48 +77,74 @@ public class PathGenerator : MonoBehaviour
 
             if (NavMesh.CalculatePath(start.position, target.position, NavMesh.AllAreas, path))
                 //Debug.Log("[PathGenerator] Path found");
-            /*else
+            *//*else
                 //Debug.Log("[PathGenerator] No path found");
             if (!target)
                 //Debug.Log("[PathGenerator] No target exists");
 
-                _lineRenderer.positionCount = path.corners.Length;*/
+                _lineRenderer.positionCount = path.corners.Length;*//*
 
             DrawCentripetalCurve(path.corners);
         } else
         {
             Debug.Log("[PathGenerator] No start exists");
         }
+    }*/
+
+    void GetPath()
+    {
+        if (start)
+        {
+            var path = new NavMeshPath();
+            if (NavMesh.CalculatePath(start.position, target.position, NavMesh.AllAreas, path))
+            {
+                if (firstDraw)
+                {
+                    if (!isDrawingFirstTime)
+                    {
+                        StartCoroutine(DrawCentripetalCurveCoroutine(path.corners));
+                    }
+                }
+                else
+                {
+                    DrawCentripetalCurveInstant(path.corners);
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("[PathGenerator] No start exists");
+        }
     }
-    
-    void DrawCentripetalCurve(Vector3[] controlPoints)
+
+    void DrawCentripetalCurveInstant(Vector3[] controlPoints)
     {
         if (controlPoints.Length < 2) return;
 
-        var smoothPoints = new List<Vector3>();
+        List<Vector3> smoothPoints = new List<Vector3>();
 
-        for (var i = 0; i < controlPoints.Length - 1; i++)
+        for (int i = 0; i < controlPoints.Length - 1; i++)
         {
-            var p0 = i == 0 ? controlPoints[i] : controlPoints[i - 1];
-            var p1 = controlPoints[i];
-            var p2 = controlPoints[i + 1];
-            var p3 = i + 2 < controlPoints.Length ? controlPoints[i + 2] : controlPoints[i + 1];
+            Vector3 p0 = i == 0 ? controlPoints[i] : controlPoints[i - 1];
+            Vector3 p1 = controlPoints[i];
+            Vector3 p2 = controlPoints[i + 1];
+            Vector3 p3 = i + 2 < controlPoints.Length ? controlPoints[i + 2] : controlPoints[i + 1];
 
             const float t0 = 0.0f;
-            var t1 = GetT(t0, p0, p1);
-            var t2 = GetT(t1, p1, p2);
-            var t3 = GetT(t2, p2, p3);
+            float t1 = GetT(t0, p0, p1);
+            float t2 = GetT(t1, p1, p2);
+            float t3 = GetT(t2, p2, p3);
 
-            for (var t = t1; t < t2; t += (t2 - t1) / subdivisions)
+            for (float t = t1; t < t2; t += (t2 - t1) / subdivisions)
             {
-                var a1 = (t1 - t) / (t1 - t0) * p0 + (t - t0) / (t1 - t0) * p1;
-                var a2 = (t2 - t) / (t2 - t1) * p1 + (t - t1) / (t2 - t1) * p2;
-                var a3 = (t3 - t) / (t3 - t2) * p2 + (t - t2) / (t3 - t2) * p3;
+                Vector3 a1 = (t1 - t) / (t1 - t0) * p0 + (t - t0) / (t1 - t0) * p1;
+                Vector3 a2 = (t2 - t) / (t2 - t1) * p1 + (t - t1) / (t2 - t1) * p2;
+                Vector3 a3 = (t3 - t) / (t3 - t2) * p2 + (t - t2) / (t3 - t2) * p3;
 
-                var b1 = (t2 - t) / (t2 - t0) * a1 + (t - t0) / (t2 - t0) * a2;
-                var b2 = (t3 - t) / (t3 - t1) * a2 + (t - t1) / (t3 - t1) * a3;
+                Vector3 b1 = (t2 - t) / (t2 - t0) * a1 + (t - t0) / (t2 - t0) * a2;
+                Vector3 b2 = (t3 - t) / (t3 - t1) * a2 + (t - t1) / (t3 - t1) * a3;
 
-                var c = (t2 - t) / (t2 - t1) * b1 + (t - t1) / (t2 - t1) * b2;
+                Vector3 c = (t2 - t) / (t2 - t1) * b1 + (t - t1) / (t2 - t1) * b2;
 
                 smoothPoints.Add(c);
             }
@@ -119,7 +152,84 @@ public class PathGenerator : MonoBehaviour
 
         _lineRenderer.positionCount = smoothPoints.Count;
         _lineRenderer.SetPositions(smoothPoints.ToArray());
+
+        // Place arrows along full path
         PlaceArrowsAlongPath(smoothPoints);
+    }
+
+    IEnumerator DrawCentripetalCurveCoroutine(Vector3[] controlPoints)
+    {
+        isDrawingFirstTime = true;
+
+        if (controlPoints.Length < 2) yield break;
+
+        List<Vector3> smoothPoints = new List<Vector3>();
+        _lineRenderer.positionCount = 0;
+
+        ClearArrows(); // remove any previous arrows
+
+        float accumulatedDistance = 0f;
+        float nextArrowDistance = arrowSpacing;
+
+        for (int i = 0; i < controlPoints.Length - 1; i++)
+        {
+            Vector3 p0 = i == 0 ? controlPoints[i] : controlPoints[i - 1];
+            Vector3 p1 = controlPoints[i];
+            Vector3 p2 = controlPoints[i + 1];
+            Vector3 p3 = i + 2 < controlPoints.Length ? controlPoints[i + 2] : controlPoints[i + 1];
+
+            const float t0 = 0.0f;
+            float t1 = GetT(t0, p0, p1);
+            float t2 = GetT(t1, p1, p2);
+            float t3 = GetT(t2, p2, p3);
+
+            for (float t = t1; t < t2; t += (t2 - t1) / subdivisions)
+            {
+                Vector3 a1 = (t1 - t) / (t1 - t0) * p0 + (t - t0) / (t1 - t0) * p1;
+                Vector3 a2 = (t2 - t) / (t2 - t1) * p1 + (t - t1) / (t2 - t1) * p2;
+                Vector3 a3 = (t3 - t) / (t3 - t2) * p2 + (t - t2) / (t3 - t2) * p3;
+
+                Vector3 b1 = (t2 - t) / (t2 - t0) * a1 + (t - t0) / (t2 - t0) * a2;
+                Vector3 b2 = (t3 - t) / (t3 - t1) * a2 + (t - t1) / (t3 - t1) * a3;
+
+                Vector3 c = (t2 - t) / (t2 - t1) * b1 + (t - t1) / (t2 - t1) * b2;
+
+                smoothPoints.Add(c);
+                _lineRenderer.positionCount = smoothPoints.Count;
+                _lineRenderer.SetPositions(smoothPoints.ToArray());
+
+                // Arrow placement
+                if (arrowHeadPrefab != null && smoothPoints.Count > 1)
+                {
+                    Vector3 prev = smoothPoints[smoothPoints.Count - 2];
+                    Vector3 current = smoothPoints[smoothPoints.Count - 1];
+                    float segmentDistance = Vector3.Distance(prev, current);
+
+                    while (accumulatedDistance + segmentDistance >= nextArrowDistance)
+                    {
+                        float remaining = nextArrowDistance - accumulatedDistance;
+                        float tArrow = remaining / segmentDistance;
+                        Vector3 pos = Vector3.Lerp(prev, current, tArrow);
+                        Vector3 dir = (current - prev).normalized;
+                        pos.y += arrowYOffset;
+
+                        GameObject arrow = Instantiate(
+                            arrowHeadPrefab,
+                            pos,
+                            Quaternion.LookRotation(dir) * Quaternion.Euler(-90f, -90f, 0)
+                        );
+                        _spawnedArrows.Add(arrow);
+                        nextArrowDistance += arrowSpacing;
+                    }
+
+                    accumulatedDistance += segmentDistance;
+                }
+
+                yield return new WaitForSeconds(0.1f); // wait a frame to animate drawing
+            }
+        }
+        isDrawingFirstTime = false;
+        firstDraw = false;
     }
 
     static float GetT(float t, Vector3 p0, Vector3 p1)

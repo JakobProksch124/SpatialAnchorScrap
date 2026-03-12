@@ -5205,6 +5205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1836749807}
+  startVideoDelay: 3
   exitCueDelay: 30
   objectsToSpawn: {fileID: 1274896211}
   delayBetweenPhases: 2
@@ -5226,6 +5227,7 @@ MonoBehaviour:
   exitButtonText: VR verlassen
   exitAlwaysExpand: 1
   exitIsBland: 0
+  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   startArrivalAnchor: {fileID: 971701140}
   exitAnchor: {fileID: 640068989}
 --- !u!1 &1319152206

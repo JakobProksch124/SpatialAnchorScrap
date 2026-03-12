@@ -66,7 +66,10 @@ public class AnchorPositionerBinder : MonoBehaviour
         OVRSpatialAnchor.OperationResult result)
     {
         if (result != OVRSpatialAnchor.OperationResult.Success)
+        {
+            Debug.Log("OnAnchorCreated: Not successful");
             return;
+        }
         this.firstAnchorFound = true;
         Debug.Log("anchor created with id: " + anchor.Uuid);
         Bind(anchor);
@@ -75,11 +78,14 @@ public class AnchorPositionerBinder : MonoBehaviour
     private void OnAnchorsLoaded(List<OVRSpatialAnchor> anchors)
     {
         if (anchors == null || anchors.Count == 0)
+        {
+            Debug.Log("(!) KEINE ANCHOR IN LISTE");
             return;
+        }
 
         // Only the last loaded anchor
-        Debug.Log("loaded "+anchors.Count+" anchors");
-        for(int i=0; i<anchors.Count; i++)
+        Debug.Log("loaded " + anchors.Count + " anchors");
+        for (int i = 0; i < anchors.Count; i++)
         {
             Debug.Log("[looping through loaded anchors] anchor loaded with uuid: " + anchors[i].Uuid);
         }
@@ -91,10 +97,13 @@ public class AnchorPositionerBinder : MonoBehaviour
     {
         if (anchor == null)
             return;
+        Transform buildingTransform = anchor.transform;
 
-        Debug.Log("binding anchor root");
-        GameObject instance = Instantiate(_objectToPlace, anchor.transform);
+
+        GameObject instance = Instantiate(_objectToPlace, buildingTransform);
+        Debug.Log("building instance created at " + anchor.transform.position);
         positioner.SetObjectToPosition(instance);
+        Debug.Log("building instance now got positioned at: " + instance.transform.position);
     }
 
     public void createFirstAnchor()
@@ -102,7 +111,7 @@ public class AnchorPositionerBinder : MonoBehaviour
         if (!firstAnchorFound)
         {
             Debug.Log("Spawning first anchor");
-            if (this.joystickController !=null)
+            if (this.joystickController != null)
             {
 
                 SpatialAnchorSpawner.SpawnSpatialAnchor(joystickController.transform.position, joystickController.transform.rotation);

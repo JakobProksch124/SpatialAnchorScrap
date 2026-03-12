@@ -80,7 +80,7 @@ public class UINotificationSystem : MonoBehaviour
         GameObject textObj = new GameObject("NotificationText");
         textObj.transform.SetParent(canvasObj.transform, false);
         TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-        text.text = $"Navigation to {destination} continued";
+        text.text = $"Navigation zu {destination} wird fortgesetzt";
         text.fontSize = 36;
         text.fontStyle = FontStyles.Bold;
         text.alignment = TextAlignmentOptions.Center;
@@ -137,7 +137,7 @@ public class UINotificationSystem : MonoBehaviour
 
         // Create 3D rounded panel that follows the head
         GameObject navPanel = CreateFrostedPanel(
-            $"Navigation to {destination} continued",
+            $"Navigation zu {destination} wird fortgesetzt",
             navigationPanelColor,
             new Vector2(0.8f, 0.1f), // Panel size in meters
             0.02f
@@ -231,8 +231,8 @@ public class UINotificationSystem : MonoBehaviour
     {
         // MESSAGE 1: ARRIVED with checkmark icon
         yield return StartCoroutine(ShowMessageWithIcon(
-            "ARRIVED",
-            "✓", 
+            "Angekommen",
+            "✓",
             new Color(0.2f, 0.8f, 0.3f), // Green
             0.3f, // Vertical offset (higher on screen)
             displayDuration
@@ -242,7 +242,7 @@ public class UINotificationSystem : MonoBehaviour
 
         // MESSAGE 2: CHECK YOUR COMPANION APP with phone icon
         yield return StartCoroutine(ShowMessageWithIcon(
-            "CHECK YOUR COMPANION APP",
+            "CHECK DEIN HANDY",
             "📱",
             new Color(0.2f, 0.6f, 0.8f), // Cyan
             0f, // Center

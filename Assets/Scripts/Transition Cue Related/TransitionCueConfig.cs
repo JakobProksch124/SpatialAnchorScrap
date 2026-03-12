@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-
+using UnityEngine.Video;
 // Configuration data for creating a transition cue;
 // Contains all customizable parameters with defaults
 // Comes with 3 default configs: CreateVRConfig, CreateARConfig, CreateRConfig
@@ -24,6 +24,9 @@ public class TransitionCueConfig
     // Action to invoke when the button is interacted with
     public Action onInteract;
 
+    // Action to invoke when collision with transition cue happens
+    public Action<Collider> onCollide;
+
     // decides if transition leads to AR
     public bool leadsToAR = false;
 
@@ -31,13 +34,22 @@ public class TransitionCueConfig
     public bool isArrival = false;
 
     // decides if transition leads to AR
+    public bool isVoiceCue = false;
+
+    // decides if transition leads to AR
+    public bool isLeaveCue = false;
+
+    // decides if transition leads to AR
     public bool isTransparent = true;
 
     // decides if transition leads out of the lecture
     public bool leadsOutOfLecture = false;
-    
+
     //decides if transition cue is blunt
     public bool isBland = false;
+
+    //video clip object
+    public VideoClip videoClip;
 
     // === Expansion Behavior ===
 
@@ -45,7 +57,7 @@ public class TransitionCueConfig
     public bool alwaysExpanded = false;
 
     // Distance from panel at which expansion can be triggered (in meters)
-    public float expansionTriggerDistance = 1.5f;
+    public float expansionTriggerDistance = 3f;
 
     // Required dot product of camera forward vs panel direction to trigger expansion (0-1, higher = more precise aim required)
     public float gazeThreshold = 0.7f;
@@ -61,7 +73,7 @@ public class TransitionCueConfig
 
     // Depth/thickness of the small panel (in meters)
     public float smallPanelDepth = 0.02f;
-    
+
 
     // Font size for the label text on small panel
     public float labelFontSize = 0.35f;
@@ -95,7 +107,7 @@ public class TransitionCueConfig
     public float contentMarginTop = 0f;
     public float contentMarginBottom = 0f;
     public float contentMarginLeft = 0f;
-    public float contentMarginRight = 0f;  
+    public float contentMarginRight = 0f;
 
     // Optional screenshot texture to display in the panel
     // Note: Ensure that the import is configured as "Texture2D"
@@ -107,6 +119,12 @@ public class TransitionCueConfig
 
     // Height of the screenshot display (in meters)
     public float screenshotHeight = 0.4f;
+
+    // Width of the video display (in meters)
+    public float videoWidth = 0.5f;
+
+    // Height of the video display (in meters)
+    public float videoHeight = 0.5f;
 
     // Spacing between screenshot/3D content and description text (in meters)
     public float contentDescriptionSpacing = 0.25f;
@@ -131,7 +149,6 @@ public class TransitionCueConfig
     // Size of the square close button (meters)
     public float closeButtonSize = 0.1f;
 
-
     // === Button ===
 
     // Text shown on the interaction button
@@ -150,7 +167,7 @@ public class TransitionCueConfig
     public float buttonOffset = 0.075f;
 
     // Font size for button text
-    public float buttonFontSize = 0.1f;
+    public float buttonFontSize = 0.08f;
 
     // Duration of button slide-down animation (seconds)
     public float buttonAnimationDuration = 0.5f;
@@ -192,7 +209,7 @@ public class TransitionCueConfig
     public AudioClip ambientSound = Resources.Load<AudioClip>("TransitionCueAmbient");
 
     // Volume of the ambient sound (0-1)
-    public float ambientVolume = 0.02f;
+    public float ambientVolume = 0.25f;
 
     // Whether the ambient sound should loop continuously
     public bool ambientLoop = true;

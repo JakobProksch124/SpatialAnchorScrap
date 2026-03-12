@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &299631466230513332
 Transform:
   m_ObjectHideFlags: 0
@@ -650,7 +650,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2149750153907495455
 Transform:
   m_ObjectHideFlags: 0
@@ -750,6 +750,287 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6513638395473454496}
   m_LocalEulerAnglesHint: {x: 0, y: 148.252, z: 0}
+--- !u!1 &2525451281462736129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7406914856688986450}
+  - component: {fileID: 1490546429626777644}
+  - component: {fileID: 485768505974779187}
+  - component: {fileID: 9070317306204085503}
+  - component: {fileID: 8083127391607654073}
+  m_Layer: 0
+  m_Name: iMessageCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7406914856688986450
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525451281462736129}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.857, y: 1.115, z: 34.68}
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6513638395473454496}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1490546429626777644
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525451281462736129}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.02, y: 0.012742091, z: 0.019999996}
+  m_Center: {x: 0, y: 0.0036289527, z: 0}
+--- !u!114 &485768505974779187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525451281462736129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b2e02fdd5222b843a34b50606805769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iMessageAnchorName: iMessageAnchor
+  iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
+  iMessageLabel: 
+  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 9e428971f2b23d54da2c69639106cbe5, type: 3}
+  iMessageDescription: 
+  iMessageButtonText: "Schlie\xDFen"
+  iMessageAnchor: {fileID: 2534005402456416928}
+  iMessageTrigger: {fileID: 1490546429626777644}
+  notificationSoundPlayer: {fileID: 9070317306204085503}
+  readNotificationPlayer: {fileID: 8083127391607654073}
+  iMessageDisappearDelay: 15
+  readNotificationDelay: 15
+  visualVoiceAnchorName: visualVoiceAnchor
+  visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
+  visualVoiceLabel: 
+  visualVoiceDescription: Labor in 15m rechts
+  visualVoiceButtonText: "Schlie\xDFen"
+  visualVoicevideoClip: {fileID: 32900000, guid: d79f8d62f973b9c439130aed3c3059b5, type: 3}
+  visualVoiceAnchor: {fileID: 3910752443247973441}
+--- !u!82 &9070317306204085503
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525451281462736129}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: f7b8a3766d51c384e9514cdb9e0edfe9, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &8083127391607654073
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525451281462736129}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: e4e4ee050a50b714e93b0ba72231ab17, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2833207482006198499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,6 +1326,8 @@ Transform:
   - {fileID: 4993667396061305196}
   - {fileID: 3510438844174324208}
   - {fileID: 6594754565762670036}
+  - {fileID: 2534005402456416928}
+  - {fileID: 3910752443247973441}
   - {fileID: 4107922603660936031}
   - {fileID: 1722697222347679900}
   - {fileID: 716283814189532078}
@@ -1054,6 +1337,7 @@ Transform:
   - {fileID: 390927441455354426}
   - {fileID: 299631466230513332}
   - {fileID: 1708993182178711190}
+  - {fileID: 7406914856688986450}
   - {fileID: 354401000597541203}
   - {fileID: 8337095647539126909}
   - {fileID: 9063208831255789705}
@@ -1122,9 +1406,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 4107922603660936031}
   subdivisions: 10
+  _pathing: 1
   lineMaterial: {fileID: -2050348263459485335, guid: 383423bb23c7d0f4b9a2e5410857279c, type: 3}
   lineColor: {r: 0, g: 1, b: 1, a: 1}
   arrowHeadPrefab: {fileID: 919132149155446097, guid: ebd94da4f40c945eca86377eff304c28, type: 3}
+  firstDraw: 1
 --- !u!120 &8653409476053225000
 LineRenderer:
   serializedVersion: 2
@@ -1244,12 +1530,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Laboratory
-  navigationDestination: Lecture
+  navigationDestination: Vorlesung
   ExtraARContent: {fileID: 0}
+  leaveHMDIsBland: 0
+  iMessageCueIsBland: 1
+  IMessageCueScript: {fileID: 485768505974779187}
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
-  startArrivalScreenshotDisplayed: {fileID: 2800000, guid: b3787b0ced9983849b2d868418230c4c, type: 3}
+  startArrivalScreenshotDisplayed: {fileID: 2800000, guid: deac05cc1d11eb544b5030183d005fdd, type: 3}
   startArrivalDescription: "Folge den Pfeilen zum H\xF6rsaal"
   startArrivalButtonText: "Schlie\xDFen"
   startArrivalAlwaysExpand: 0
@@ -1280,6 +1569,7 @@ MonoBehaviour:
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitIsBland: 1
+  exitCueDelay: 20
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: 
@@ -1292,6 +1582,7 @@ MonoBehaviour:
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4
   enableKeyboardShortcuts: 1
+  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &7287314359623195551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1308,10 +1599,10 @@ MonoBehaviour:
   leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
   leaveHMDLabel: Verlasse AR
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
-  leaveHMDDescription: Ziel erreicht. Du kannst das Headset abnehmen.
+  leaveHMDDescription: Ziel erreicht. Nimm das Headset ab und schau auf dein Handy.
   leaveHMDButtonText: Verlasse AR
-  leaveHMDAlwaysExpand: 1
-  leaveHMDIsBland: 0
+  leaveHMDAlwaysExpand: 0
+  leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   targetName: G64Target
   locationName: Vorlesungsraum
   arrivalDistance: 5
@@ -1414,6 +1705,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3900489628809634434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2534005402456416928}
+  m_Layer: 0
+  m_Name: iMessageAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2534005402456416928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3900489628809634434}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.99721944, z: 0, w: -0.07452083}
+  m_LocalPosition: {x: 1.202, y: 1.5, z: 39.753}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6513638395473454496}
+  m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
 --- !u!1 &3969581977106495775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2468,13 +2790,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7235860175906673358}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.9238796, z: -0, w: -0.38268325}
-  m_LocalPosition: {x: 1.531, y: 1.5, z: 5.151}
+  m_LocalRotation: {x: 0.031408783, y: -0.91988397, z: 0.00022731567, w: 0.3909308}
+  m_LocalPosition: {x: 1.298, y: 1.5, z: 3.358}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6513638395473454496}
-  m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
+  m_LocalEulerAnglesHint: {x: 1.431, y: 226.008, z: -3.304}
 --- !u!1 &7371921210935262145
 GameObject:
   m_ObjectHideFlags: 0
@@ -2819,3 +3141,34 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8805900102573073838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3910752443247973441}
+  m_Layer: 0
+  m_Name: visualVoiceAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3910752443247973441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8805900102573073838}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.99721944, z: 0, w: -0.07452083}
+  m_LocalPosition: {x: 1.092, y: 1.5, z: 42.192}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6513638395473454496}
+  m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}

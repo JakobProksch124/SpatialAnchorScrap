@@ -68,6 +68,11 @@ public class Positioner : MonoBehaviour
         _devButtonWasPressed = isPressed;
     }
 
+    public bool getDevMode()
+    {
+        return inDevMode;
+    }
+
     // Blends in extra-information (visually)
     void AdjustVisuals()
     {
@@ -78,13 +83,14 @@ public class Positioner : MonoBehaviour
         if (inDevMode)
         {
             targetMat = transparencyMat;
-        } else
+        }
+        else
         {
             targetMat = occluderMat;
         }
 
         // We exclude the building roots since they contain the line renderer for the arrow drawn, as well as all cues objects
-        ApplyMaterialToChildren(_objectToPosition, targetMat, new List<string> { "Bib_Model_NewMesh", "G62_Model", "G64_Model", "Mensa_Model", "Arrow_3D_Icon_03 (1)", "Arrow_3D_Icon_03" }, 
+        ApplyMaterialToChildren(_objectToPosition, targetMat, new List<string> { "Bib_Model_NewMesh", "G62_Model", "G64_Model", "Mensa_Model", "Arrow_3D_Icon_03 (1)", "Arrow_3D_Icon_03", "iMessageAnchor" },
             new List<string> { "ArrivalCue", "TransitionCue", "VirtualFood_Pancake", "FoodInteractionCanvas", "foodButtonAnchor1", "foodButtonAnchor2", "foodButtonAnchor3", "VirtualFood_Pizza", "VirtualFood_Sandwich", "MinimalCue_" });
 
     }
@@ -181,12 +187,13 @@ public class Positioner : MonoBehaviour
         // If in user mode, don't allow changes to objecttoposition
         if (!inDevMode)
             return;
-        
-        if (_objectToPosition == null) { 
+
+        if (_objectToPosition == null)
+        {
             string trackingInfo = GetTrackingDebugInfo();
 
-        offsetText.text = trackingInfo;
-        return;
+            offsetText.text = trackingInfo;
+            return;
         }
 
         if (_moveAction == null || _turnAction == null)
@@ -252,7 +259,7 @@ public class Positioner : MonoBehaviour
                     $"Z: {OffsetZ}\n" +
                     $"RotX: {OffsetRotX}; " +
                     $"RotY: {OffsetRotY}; " +
-                    $"RotZ: {OffsetRotZ}\n" + 
+                    $"RotZ: {OffsetRotZ}\n" +
                     $"Aktive Rot-Achse: {_currentAxis}";
         }
     }
@@ -288,11 +295,11 @@ public class Positioner : MonoBehaviour
     {
         _objectToPosition = obj;
         AdjustVisuals();
-        Debug.Log("[Positioner] _objectToPosition set");
+        //Debug.Log("[Positioner] _objectToPosition set");
 
         if (!File.Exists(RuntimeJsonPath))
         {
-            Debug.LogWarning("Keine Offset-JSON gefunden.");
+            //Debug.LogWarning("Keine Offset-JSON gefunden.");
             return;
         }
 
@@ -301,7 +308,7 @@ public class Positioner : MonoBehaviour
 
         if (data == null)
         {
-            Debug.LogError("JSON konnte nicht geladen werden.");
+            //Debug.LogError("JSON konnte nicht geladen werden.");
             return;
         }
 
@@ -317,7 +324,7 @@ public class Positioner : MonoBehaviour
         _objectToPosition.transform.localPosition = new Vector3(OffsetX, OffsetY, OffsetZ);
         _objectToPosition.transform.localRotation = Quaternion.Euler(OffsetRotX, OffsetRotY, OffsetRotZ);
 
-        Debug.Log("Offset aus JSON geladen und angewendet.");
+        //Debug.Log("Offset aus JSON geladen und angewendet.");
     }
 
     private string GetTrackingDebugInfo()

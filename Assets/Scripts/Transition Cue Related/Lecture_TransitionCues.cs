@@ -10,6 +10,7 @@ public class Lecture_TransitionCues : MonoBehaviour
 
     [Header("General Infos")]
     [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private float startVideoDelay = 3f;
     [SerializeField] private float exitCueDelay = 20f;
 
     [Header("Root containing Phase1 - Phase6")]
@@ -44,12 +45,21 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private string exitButtonText = "Stop Video";
     [SerializeField] private bool exitAlwaysExpand = false;
     [SerializeField] private bool exitIsBland = false;
+    [SerializeField] InputActionReference switchIsBlandButton;
+
+
+    private bool _switchIsBlandButtonWasPressed = false;
 
 
     [SerializeField] private Transform startArrivalAnchor;
     [SerializeField] private Transform exitAnchor;
     private GameObject exitCue;
     private GameObject startArrivalCue;
+
+    void Awake()
+    {
+        LoadBlandState();
+    }
 
     void Start()
     {
@@ -59,15 +69,35 @@ public class Lecture_TransitionCues : MonoBehaviour
         if (exitAnchor == null)
             Debug.LogError($"Exit Anchor '{exitAnchorName}' not found!");
 
-        HideAllChildren();
+        exitIsBland = true;
 
         // Start the sequence
-        StartCoroutine(SpawnPhases());
+        if (!startArrivalIsBland)
+        {
+            HideAllChildren();
+            StartCoroutine(SpawnPhases());
+        }
+        else
+        {
+            Debug.Log("start arrival is bland");
+            CreateStartArrivalCue(startArrivalAnchor);
+        }
+    }
+
+    void Update()
+    {
+        CheckSwitchIsBland();
+    }
+
+
+    void StartVideo()
+    {
+        videoPlayer.Play();
+
     }
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
-
         if (!startArrivalIsBland)
         {
             TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
@@ -85,10 +115,31 @@ public class Lecture_TransitionCues : MonoBehaviour
                     }
 
                     // Create Exit Cue after delay
+                    Debug.Log("invoked spawn exit cue");
                     Invoke(nameof(SpawnExitCue), exitCueDelay);
 
                 }
             );
+
+
+            StartArrivalCueConfig.onCollide = (other) =>
+            {
+                startArrivalCue.SetActive(false);// Start Video
+                if (videoPlayer != null)
+                {
+                    videoPlayer.Play();
+                }
+                else
+                {
+                    Debug.LogWarning("VideoPlayer reference missing!");
+                }
+
+                // Create Exit Cue after delay
+                Debug.Log("invoked spawn exit cue");
+                Invoke(nameof(SpawnExitCue), exitCueDelay);
+            };
+
+
             StartArrivalCueConfig.isArrival = true;
             StartArrivalCueConfig.isTransparent = false;
             StartArrivalCueConfig.alwaysExpanded = true;
@@ -102,13 +153,16 @@ public class Lecture_TransitionCues : MonoBehaviour
         }
         else
         {
-            videoPlayer.Play();
-         //   Invoke(nameof(videoPlayer.Play), videoStartDelay);
+            Invoke(nameof(StartVideo), startVideoDelay);
+            Debug.Log("invoked spawn exit cue");
+            Invoke(nameof(SpawnExitCue), exitCueDelay);
+            //   Invoke(nameof(videoPlayer.Play), videoStartDelay);
         }
     }
 
     void SpawnExitCue()
     {
+        Debug.Log("spawning Exit Cue");
         CreateExitCue(exitAnchor);
     }
 
@@ -127,9 +181,20 @@ public class Lecture_TransitionCues : MonoBehaviour
         }
     );
 
+        exitCueConfig.onCollide = (other) =>
+        {
+            exitCue.SetActive(false);
+            // Pause Video
+            if (videoPlayer != null)
+            {
+                videoPlayer.Pause();
+            }
+        };
+
         if (!exitIsBland)
         {
             exitCueConfig.alwaysExpanded = exitAlwaysExpand;
+            exitCueConfig.leadsToAR = true;
             exitCueConfig.primaryColor = exitPrimaryColor;
             exitCueConfig.expandedDescription = exitDescription;
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
@@ -150,11 +215,11 @@ public class Lecture_TransitionCues : MonoBehaviour
 
     IEnumerator SpawnPhases()
     {
-            Transform phase1 = objectsToSpawn.GetChild(0);
+        Transform phase1 = objectsToSpawn.GetChild(0);
 
-            // Prepare alpha BEFORE enabling
-            SetPhaseAlpha(phase1, 0f);
-        if(phase1 != null)
+        // Prepare alpha BEFORE enabling
+        SetPhaseAlpha(phase1, 0f);
+        if (phase1 != null)
         {
 
             phase1.gameObject.SetActive(true);
@@ -175,12 +240,12 @@ public class Lecture_TransitionCues : MonoBehaviour
 
         Transform phase3 = objectsToSpawn.GetChild(2);
         phase3.gameObject.SetActive(true);
-        if(phase3 != null)
+        if (phase3 != null)
         {
 
-        foreach (Transform child in phase3)
-        {
-            child.gameObject.SetActive(true);
+            foreach (Transform child in phase3)
+            {
+                child.gameObject.SetActive(true);
             }
         }
         CreateStartArrivalCue(startArrivalAnchor);
@@ -208,36 +273,39 @@ public class Lecture_TransitionCues : MonoBehaviour
     IEnumerator FadeInPhase(Transform phase)
     {
         Renderer[] renderers = phase.GetComponentsInChildren<Renderer>(true);
-
         float time = 0f;
 
-        // Set all materials to transparent and alpha = 0
+        // --- BLOCK 1: START-ZUSTAND ---
         foreach (Renderer r in renderers)
         {
             foreach (Material mat in r.materials)
             {
-                if (mat.HasProperty("_Color"))
+                // CHANGE: "_Color" durch "_BaseColor" ersetzt (URP Standard)
+                if (mat.HasProperty("_BaseColor"))
                 {
-                    Color c = mat.color;
+                    Color c = mat.GetColor("_BaseColor");
                     c.a = 0f;
-                    mat.color = c;
+                    mat.SetColor("_BaseColor", c);
                 }
             }
         }
 
+        // --- BLOCK 2: DIE SCHLEIFE ---
         while (time < fadeDuration)
         {
-            float alpha = time / fadeDuration;
+            // CHANGE: Mathf.Clamp01 hinzugefügt, damit alpha nie > 1 wird
+            float alpha = Mathf.Clamp01(time / fadeDuration);
 
             foreach (Renderer r in renderers)
             {
                 foreach (Material mat in r.materials)
                 {
-                    if (mat.HasProperty("_Color"))
+                    // CHANGE: "_Color" durch "_BaseColor" ersetzt
+                    if (mat.HasProperty("_BaseColor"))
                     {
-                        Color c = mat.color;
+                        Color c = mat.GetColor("_BaseColor");
                         c.a = alpha;
-                        mat.color = c;
+                        mat.SetColor("_BaseColor", c);
                     }
                 }
             }
@@ -246,19 +314,62 @@ public class Lecture_TransitionCues : MonoBehaviour
             yield return null;
         }
 
-        // Ensure fully visible
+        // --- BLOCK 3: ABSCHLUSS (HIER LAG DER FEHLER) ---
         foreach (Renderer r in renderers)
         {
             foreach (Material mat in r.materials)
             {
-                if (mat.HasProperty("_Color"))
+                if (mat.HasProperty("_BaseColor"))
                 {
-                    Color c = mat.color;
+                    // NEU: Setzt das Material wieder auf "Opaque" (Undurchsichtig)
+                    // Ohne diese Zeilen bleibt das Objekt im Modus "Transparent",
+                    // was Schatten und Tiefendarstellung (ZWrite) ruiniert.
+                    mat.SetFloat("_Surface", 0); // 0 = Opaque Modus
+                    mat.SetInt("_ZWrite", 1);    // Schaltet Tiefenschreiben wieder ein
+                    mat.DisableKeyword("_SURFACE_TYPE_TRANSPARENT"); // Keyword deaktivieren
+                    mat.renderQueue = -1;        // Zurück in die Standard-Render-Reihenfolge
+
+                    // Sicherstellen, dass Alpha am Ende 1 ist
+                    Color c = mat.GetColor("_BaseColor");
                     c.a = 1f;
-                    mat.color = c;
+                    mat.SetColor("_BaseColor", c);
                 }
             }
         }
     }
+
+    void CheckSwitchIsBland()
+    {
+        bool isPressed = switchIsBlandButton.action.IsPressed();
+        if (_switchIsBlandButtonWasPressed && !isPressed)
+        {
+            SwitchIsBland();
+        }
+        _switchIsBlandButtonWasPressed = isPressed;
+
+    }
+    void SwitchIsBland()
+    {
+        exitIsBland = !exitIsBland;
+        startArrivalIsBland = !startArrivalIsBland;
+        SaveBlandState();
+    }
+
+    void SaveBlandState()
+    {
+        PlayerPrefs.SetInt("exitIsBland", exitIsBland ? 1 : 0);
+        PlayerPrefs.SetInt("startArrivalIsBland", startArrivalIsBland ? 1 : 0);
+
+        PlayerPrefs.Save();
+    }
+
+    void LoadBlandState()
+    {
+        exitIsBland = PlayerPrefs.GetInt("exitIsBland", 0) == 1;
+        startArrivalIsBland = PlayerPrefs.GetInt("startArrivalIsBland", 0) == 1;
+    }
+
+
+
 
 }

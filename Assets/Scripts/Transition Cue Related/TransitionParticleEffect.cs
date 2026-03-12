@@ -3,7 +3,7 @@ using UnityEngine;
 // Spawns a burst of subtle floating particles around the camera for magical transition effects
 public static class TransitionParticleEffect
 {
-    public static void Spawn(Camera cam, Color color, float duration = 4f, float radius = 1.5f, int particleCount = 300)
+    public static void Spawn(Camera cam, Color color, float duration = 4f, float radius = 1.5f, int particleCount = 150)
     {
         if (cam == null) return;
 
