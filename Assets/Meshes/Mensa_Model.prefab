@@ -230,8 +230,8 @@ Transform:
   m_GameObject: {fileID: 106696370382974497}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000014901161, y: -0, z: 0.309017, w: 0.95105654}
-  m_LocalPosition: {x: 0.10303494, y: 0.024453977, z: 0.010198833}
-  m_LocalScale: {x: 0.7934184, y: 1.9389068, z: 0.08414635}
+  m_LocalPosition: {x: 0.103, y: 0.0245, z: 0.01432}
+  m_LocalScale: {x: 0.7934184, y: 1.9389068, z: 0.42774883}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8589334143153606104}
@@ -2170,6 +2170,7 @@ GameObject:
   - component: {fileID: 2493052496308653318}
   - component: {fileID: 4938774088677038561}
   - component: {fileID: 530473772452608517}
+  - component: {fileID: 7254994878671829189}
   m_Layer: 0
   m_Name: Cylinder.003
   m_TagString: Untagged
@@ -2186,8 +2187,8 @@ Transform:
   m_GameObject: {fileID: 2724717102305096188}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 23.84746, y: 3.9136455, z: -0.04353404}
-  m_LocalScale: {x: 60.000004, y: 60.000004, z: 100}
+  m_LocalPosition: {x: 23.84746, y: 2.8033, z: -0.047481}
+  m_LocalScale: {x: 60.000004, y: 60.000004, z: 24.031889}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
@@ -2245,6 +2246,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &7254994878671829189
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2724717102305096188}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.026}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.016}
+  m_TimeToStationary: 0.5
 --- !u!1 &2749800058830411095
 GameObject:
   m_ObjectHideFlags: 0
@@ -2298,6 +2315,7 @@ GameObject:
   - component: {fileID: 1156702717643401597}
   - component: {fileID: 2442419410424771141}
   - component: {fileID: 2153524337903046393}
+  - component: {fileID: 1024998524414107887}
   m_Layer: 0
   m_Name: Cylinder.001
   m_TagString: Untagged
@@ -2314,8 +2332,8 @@ Transform:
   m_GameObject: {fileID: 2808139820017156138}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 22.5024, y: 3.9136455, z: -2.976053}
-  m_LocalScale: {x: 60.000004, y: 60.000004, z: 100}
+  m_LocalPosition: {x: 22.5024, y: 2.8033, z: -2.98}
+  m_LocalScale: {x: 60.000004, y: 60.000004, z: 24.031889}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
@@ -2373,6 +2391,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &1024998524414107887
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2808139820017156138}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.026}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.016}
+  m_TimeToStationary: 0.5
 --- !u!1 &2928155598970739260
 GameObject:
   m_ObjectHideFlags: 0
@@ -2655,13 +2689,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3019022210633704016}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.99999803, z: -0, w: -0.0019951172}
+  m_LocalRotation: {x: 0, y: 0.99999803, z: 0, w: -0.0019951172}
   m_LocalPosition: {x: 2.463, y: 0.665, z: 0.727}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
-  m_LocalEulerAnglesHint: {x: 0, y: 180.229, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 3.154, z: 0}
 --- !u!1 &3032284759428734755
 GameObject:
   m_ObjectHideFlags: 0
@@ -2965,13 +2999,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3072286891372202210}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.99999803, z: -0, w: -0.0019951172}
+  m_LocalRotation: {x: 0, y: 0.99999803, z: 0, w: -0.0019951172}
   m_LocalPosition: {x: 1.744, y: 0.665, z: 0.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
-  m_LocalEulerAnglesHint: {x: 0, y: 180.229, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 3.154, z: 0}
 --- !u!1 &3512255760676146432
 GameObject:
   m_ObjectHideFlags: 0
@@ -5435,6 +5469,7 @@ GameObject:
   - component: {fileID: 5422243770073959203}
   - component: {fileID: 5255610643921417222}
   - component: {fileID: 3626683158251591716}
+  - component: {fileID: 5008458314814633303}
   m_Layer: 0
   m_Name: Cylinder.002
   m_TagString: Untagged
@@ -5451,8 +5486,8 @@ Transform:
   m_GameObject: {fileID: 4544112981205680656}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 21.503109, y: 3.9136455, z: -1.2891352}
-  m_LocalScale: {x: 60.000004, y: 60.000004, z: 100}
+  m_LocalPosition: {x: 21.503109, y: 2.8033, z: -1.293}
+  m_LocalScale: {x: 60.000004, y: 60.000004, z: 24.031889}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
@@ -5510,6 +5545,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &5008458314814633303
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4544112981205680656}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.026}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.016}
+  m_TimeToStationary: 0.5
 --- !u!1 &4580336776304942729
 GameObject:
   m_ObjectHideFlags: 0
@@ -7082,7 +7133,7 @@ Transform:
   m_GameObject: {fileID: 5635897365292716427}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.7, y: 4.8, z: 0.263}
+  m_LocalPosition: {x: 23.803, y: 4.8, z: 1.058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7208,6 +7259,7 @@ GameObject:
   - component: {fileID: 2097231221104945090}
   - component: {fileID: 7623679622487473047}
   - component: {fileID: 5227466319564169615}
+  - component: {fileID: 3058742875762847830}
   m_Layer: 0
   m_Name: Cylinder.006
   m_TagString: Untagged
@@ -7224,8 +7276,8 @@ Transform:
   m_GameObject: {fileID: 5667719968383598504}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 21.228384, y: 3.9136457, z: -4.8619924}
-  m_LocalScale: {x: 60.000004, y: 60.000004, z: 100}
+  m_LocalPosition: {x: 21.228384, y: 2.8033, z: -4.865947}
+  m_LocalScale: {x: 60.000004, y: 60.000004, z: 24.031889}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
@@ -7283,6 +7335,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &3058742875762847830
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5667719968383598504}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.026}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.016}
+  m_TimeToStationary: 0.5
 --- !u!1 &5668295858112645123
 GameObject:
   m_ObjectHideFlags: 0
@@ -7496,13 +7564,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5790319005870247958}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.99999803, z: -0, w: -0.0019951172}
+  m_LocalRotation: {x: 0, y: 0.99999803, z: 0, w: -0.0019951172}
   m_LocalPosition: {x: 3.151, y: 0.665, z: 0.724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
-  m_LocalEulerAnglesHint: {x: 0, y: 180.229, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 3.154, z: 0}
 --- !u!1 &5816375938039425714
 GameObject:
   m_ObjectHideFlags: 0
@@ -7820,7 +7888,7 @@ Transform:
   m_GameObject: {fileID: 6002629042167033651}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.7, y: 3.32, z: 0.263}
+  m_LocalPosition: {x: 23.803, y: 3.32, z: 1.058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7837,6 +7905,7 @@ GameObject:
   - component: {fileID: 4230274730689795636}
   - component: {fileID: 2565624664002723581}
   - component: {fileID: 8743353050821376622}
+  - component: {fileID: 587552493749641225}
   m_Layer: 0
   m_Name: Cylinder.007
   m_TagString: Untagged
@@ -7853,8 +7922,8 @@ Transform:
   m_GameObject: {fileID: 6030952258473891202}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 23.596643, y: 3.9136457, z: -4.8367734}
-  m_LocalScale: {x: 60.000004, y: 60.000004, z: 100}
+  m_LocalPosition: {x: 23.596643, y: 2.8033, z: -4.840747}
+  m_LocalScale: {x: 60.000004, y: 60.000004, z: 24.031889}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
@@ -7912,6 +7981,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &587552493749641225
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6030952258473891202}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.026}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.016}
+  m_TimeToStationary: 0.5
 --- !u!1 &6170004532021613172
 GameObject:
   m_ObjectHideFlags: 0
@@ -10014,6 +10099,7 @@ GameObject:
   - component: {fileID: 6378285670893390939}
   - component: {fileID: 1800912701482767199}
   - component: {fileID: 750931513607225209}
+  - component: {fileID: 4014626112819991054}
   m_Layer: 0
   m_Name: Cylinder.005
   m_TagString: Untagged
@@ -10030,8 +10116,8 @@ Transform:
   m_GameObject: {fileID: 7956724267114220324}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 19.43307, y: 3.9136457, z: -5.0920467}
-  m_LocalScale: {x: 60.000004, y: 60.000004, z: 100}
+  m_LocalPosition: {x: 19.43307, y: 2.8033, z: -5.095994}
+  m_LocalScale: {x: 60.000004, y: 60.000004, z: 24.031889}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
@@ -10089,6 +10175,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &4014626112819991054
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7956724267114220324}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.026}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.016}
+  m_TimeToStationary: 0.5
 --- !u!1 &7978080618974299310
 GameObject:
   m_ObjectHideFlags: 0
@@ -10333,6 +10435,7 @@ GameObject:
   - component: {fileID: 552920674117152334}
   - component: {fileID: 5990039075292140211}
   - component: {fileID: 884181959456680854}
+  - component: {fileID: 520645894112076563}
   m_Layer: 0
   m_Name: Cylinder.004
   m_TagString: Untagged
@@ -10349,8 +10452,8 @@ Transform:
   m_GameObject: {fileID: 8487858176134988227}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 24.198996, y: 3.9136455, z: -1.9482287}
-  m_LocalScale: {x: 60.000004, y: 60.000004, z: 100}
+  m_LocalPosition: {x: 24.198996, y: 2.8033, z: -1.952147}
+  m_LocalScale: {x: 60.000004, y: 60.000004, z: 24.031889}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
@@ -10408,6 +10511,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &520645894112076563
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8487858176134988227}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.026}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0.016}
+  m_TimeToStationary: 0.5
 --- !u!1 &8581842965306074108
 GameObject:
   m_ObjectHideFlags: 0
@@ -11516,7 +11635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 19adcbb669403e949a73ecd64f856a9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -177.074
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 19adcbb669403e949a73ecd64f856a9b, type: 3}
       propertyPath: m_Name
@@ -11575,15 +11694,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8622603637504246370, guid: d4798675dec9db1459a997a3fe865afe, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8622603637504246370, guid: d4798675dec9db1459a997a3fe865afe, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8622603637504246370, guid: d4798675dec9db1459a997a3fe865afe, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8622603637504246370, guid: d4798675dec9db1459a997a3fe865afe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -11591,7 +11710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8622603637504246370, guid: d4798675dec9db1459a997a3fe865afe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -177.074
       objectReference: {fileID: 0}
     - target: {fileID: 8622603637504246370, guid: d4798675dec9db1459a997a3fe865afe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -11678,7 +11797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7f8ae28947ff9ca4cb923dca6670c03b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -177.074
       objectReference: {fileID: 0}
     - target: {fileID: -7804917517336222848, guid: 7f8ae28947ff9ca4cb923dca6670c03b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

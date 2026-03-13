@@ -2938,7 +2938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   positioner: {fileID: 474745955}
-  _objectToPlace: {fileID: 3252451672500658893, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
+  _objectToPlace: {fileID: 7355581936147766005, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
   SpatialAnchorLoadBuildingBlock: {fileID: 2024517657}
   SpatialAnchorSpawner: {fileID: 2024517658}
   firstAnchorFound: 0
