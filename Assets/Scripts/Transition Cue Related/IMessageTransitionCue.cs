@@ -95,8 +95,7 @@ public class IMessageTransitionCue : MonoBehaviour
     // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateVisualVoiceCue(Transform visualVoiceAnchor)
     {
-        if (!iMessageIsBland)
-        {
+        
             // Base (Same basic configuration for enhanced as well as minimal cues
             TransitionCueConfig visualVoiceCueConfig = TransitionCueConfig.CreateARConfig(
             parent: visualVoiceAnchor,
@@ -122,11 +121,6 @@ public class IMessageTransitionCue : MonoBehaviour
             visualVoiceCueConfig.label = visualVoiceLabel;
             visualVoiceCueConfig.buttonText = visualVoiceButtonText;
             visualVoiceCue = TransitionCueFactory.CreateCue(visualVoiceCueConfig);
-        }
-        else
-        {
-            readNotificationPlayer.Play();
-        }
     }
 
 
@@ -139,7 +133,6 @@ public class IMessageTransitionCue : MonoBehaviour
     {
         if (willReadNotification)
         {
-
             CreateVisualVoiceCue(visualVoiceAnchor);
             this.willReadNotification = false;
             if (iMessageCue != null)

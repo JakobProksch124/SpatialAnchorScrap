@@ -35,7 +35,7 @@ public class AnchorPositionerBinder : MonoBehaviour
 
     private void Update()
     {
-        /*if (this.firstAnchorFound)
+        if (this.firstAnchorFound)
             return;
         _loadTimer += Time.deltaTime;
         if (_loadTimer >= _loadInterval)
@@ -50,7 +50,7 @@ public class AnchorPositionerBinder : MonoBehaviour
             {
                 Debug.Log("can not automatically load anchor bcs SpatialAnchorLoadBuildingBlock reference is not set");
             }
-        }*/
+        }
     }
 
     private void OnDestroy()

@@ -59,6 +59,13 @@ public class Lecture_TransitionCues : MonoBehaviour
     void Awake()
     {
         LoadBlandState();
+
+        if (exitIsBland == startArrivalIsBland)
+        {
+            startArrivalIsBland = true;
+            exitIsBland = false;
+            SaveBlandState();
+        }
     }
 
     void Start()
@@ -69,7 +76,6 @@ public class Lecture_TransitionCues : MonoBehaviour
         if (exitAnchor == null)
             Debug.LogError($"Exit Anchor '{exitAnchorName}' not found!");
 
-        exitIsBland = true;
 
         // Start the sequence
         if (!startArrivalIsBland)

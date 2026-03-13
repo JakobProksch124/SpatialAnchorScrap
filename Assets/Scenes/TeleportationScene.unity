@@ -11613,7 +11613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anchorPrefab: {fileID: 789684486510353890, guid: d257e772d439e664db46073b17aadedf, type: 3}
-  _followHand: 1
+  _followHand: 0
 --- !u!114 &2024517659
 MonoBehaviour:
   m_ObjectHideFlags: 0

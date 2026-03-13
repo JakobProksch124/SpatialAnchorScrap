@@ -130,14 +130,18 @@ public static class TransitionCueFactory
             root.transform.localPosition = Vector3.zero;
             root.transform.localRotation = Quaternion.identity;
             root.transform.localScale = Vector3.one * config.globalScale;
+            Debug.Log("created root");
 
             // === Small Panel ===
             GameObject smallPanel = CreateSmallPanel(config);
             smallPanel.transform.SetParent(root.transform, false);
+            Debug.Log("created small panel");
             AddIsdkSelectToInvoke(smallPanel, config);
+            Debug.Log("added interaction");
 
             // ADD THIS
             AddCollisionSupport(root, smallPanel, null, null, config);
+            Debug.Log("added collision");
 
             return root;
         }
@@ -934,42 +938,113 @@ public static class TransitionCueFactory
     GameObject button,
     TransitionCueConfig config)
     {
-        if (config.onCollide == null)
+        if (config == null)
+        {
+            Debug.LogError("AddCollisionSupport: config is NULL");
             return;
+        }
+
+        if (config.onCollide == null)
+        {
+            Debug.Log("AddCollisionSupport: config.onCollide is null -> collision disabled");
+            return;
+        }
+
+        if (root == null)
+        {
+            Debug.LogError("AddCollisionSupport: root is NULL");
+            return;
+        }
 
         Rigidbody rb = root.GetComponent<Rigidbody>();
         if (rb == null)
         {
+            Debug.Log("AddCollisionSupport: adding Rigidbody to root");
             rb = root.AddComponent<Rigidbody>();
             rb.isKinematic = true;
             rb.useGravity = false;
         }
 
-        TransitionCueTriggerReceiver receiver =
-            root.AddComponent<TransitionCueTriggerReceiver>();
+        TransitionCueTriggerReceiver receiver = root.AddComponent<TransitionCueTriggerReceiver>();
 
+        if (receiver == null)
+        {
+            Debug.LogError("AddCollisionSupport: failed to add TransitionCueTriggerReceiver");
+            return;
+        }
+
+        Debug.Log("AddCollisionSupport: initializing receiver");
         receiver.Initialize(config.onCollide);
 
-        SetupPanelTrigger(smallPanel, receiver);
-        SetupPanelTrigger(expandedPanel, receiver);
+        if (smallPanel != null)
+        {
+            Debug.Log("AddCollisionSupport: setting up trigger for smallPanel");
+            SetupPanelTrigger(smallPanel, receiver);
+        }
+        else
+        {
+            Debug.LogWarning("AddCollisionSupport: smallPanel is NULL");
+        }
+
+        if (expandedPanel != null)
+        {
+            Debug.Log("AddCollisionSupport: setting up trigger for expandedPanel");
+            SetupPanelTrigger(expandedPanel, receiver);
+        }
+        else
+        {
+            Debug.Log("AddCollisionSupport: expandedPanel is NULL (expected for minimal cue)");
+        }
 
         if (button != null)
+        {
+            Debug.Log("AddCollisionSupport: setting up trigger for button");
             SetupPanelTrigger(button, receiver);
+        }
+        else
+        {
+            Debug.Log("AddCollisionSupport: button is NULL (expected for minimal cue)");
+        }
     }
 
     private static void SetupPanelTrigger(
-        GameObject panel,
-        TransitionCueTriggerReceiver receiver)
+    GameObject panel,
+    TransitionCueTriggerReceiver receiver)
     {
+        if (panel == null)
+        {
+            Debug.LogError("SetupPanelTrigger: panel is NULL");
+            return;
+        }
+
+        if (receiver == null)
+        {
+            Debug.LogError("SetupPanelTrigger: receiver is NULL");
+            return;
+        }
+
+        Debug.Log($"SetupPanelTrigger: configuring trigger on {panel.name}");
+
         BoxCollider col = panel.GetComponent<BoxCollider>();
+
         if (col == null)
+        {
+            Debug.Log($"SetupPanelTrigger: adding BoxCollider to {panel.name}");
             col = panel.AddComponent<BoxCollider>();
+        }
 
         col.isTrigger = true;
 
         TransitionCueTriggerForwarder forwarder =
             panel.AddComponent<TransitionCueTriggerForwarder>();
 
+        if (forwarder == null)
+        {
+            Debug.LogError($"SetupPanelTrigger: failed to add TransitionCueTriggerForwarder to {panel.name}");
+            return;
+        }
+
+        Debug.Log($"SetupPanelTrigger: initializing forwarder on {panel.name}");
         forwarder.Initialize(receiver);
     }
 

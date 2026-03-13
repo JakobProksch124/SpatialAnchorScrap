@@ -89,6 +89,15 @@ public class Mensa_FriendCue : MonoBehaviour
     void Awake()
     {
         LoadBlandState();
+        if (entryIsBland && startArrivalIsBland)
+        {
+
+            startArrivalIsBland = false;
+            entryArrivalIsBland = true;
+            entryIsBland = true;
+            leaveHMDIsBland = false;
+            SaveBlandState();
+        }
     }
 
     void Start()

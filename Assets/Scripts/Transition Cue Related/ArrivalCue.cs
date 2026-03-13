@@ -151,6 +151,7 @@ public class ArrivalCue : MonoBehaviour
     // Spawn the arrival cue at the target child location
     public void SpawnArrivalCue(bool leaveHMDIsBland)
     {
+        Debug.Log("specific arrival cue spawning");
         this.leaveHMDIsBland = leaveHMDIsBland;
         // Clean up any existing cue
         if (cueInstance != null)
@@ -185,6 +186,7 @@ public class ArrivalCue : MonoBehaviour
         cylinderPivot.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
         GameObject cylinder = CreateSmoothCylinder("ArrivalDisc", cylinderRadius, cylinderDepth / 2f, cylinderSegments);
+        Debug.Log("created smooth cylinder");
         cylinder.transform.SetParent(cylinderPivot.transform, false);
         cylinder.transform.localPosition = Vector3.zero;
         cylinder.transform.localRotation = Quaternion.identity;
@@ -192,6 +194,7 @@ public class ArrivalCue : MonoBehaviour
 
         // Material — frosted glass style matching TransitionCueFactory
         cylinderMaterial = CreateFrostedGlassMaterial(DefaultColor, 0.7f);
+        Debug.Log("created frosted glass");
         cylinderRenderer = cylinder.GetComponent<Renderer>();
         cylinderRenderer.material = cylinderMaterial;
 
@@ -204,6 +207,7 @@ public class ArrivalCue : MonoBehaviour
         borderPivot.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
         GameObject border = CreateSmoothCylinder("GlowingBorder", cylinderRadius * borderScale, (cylinderDepth / 2f) * 0.95f, cylinderSegments);
+        Debug.Log("created smooth cylinder 2");
         border.transform.SetParent(borderPivot.transform, false);
         border.transform.localPosition = Vector3.zero;
         border.transform.localRotation = Quaternion.identity;
@@ -211,6 +215,7 @@ public class ArrivalCue : MonoBehaviour
 
         // Emissive border material (matches GlowingBorderEffect pattern)
         Material borderMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        Debug.Log("found universal render pipeline lit");
         if (borderMat == null)
         {
             UnityEngine.Debug.Log("borderMat is null; arrival cue is broken");
@@ -230,6 +235,7 @@ public class ArrivalCue : MonoBehaviour
 
         // === Checkmark icon (hidden until arrival) ===
         Texture2D checkmarkTexture = Resources.Load<Texture2D>("CheckmarkIcon");
+        Debug.Log("found checkmark icon");
         if (checkmarkTexture != null)
         {
             GameObject checkmarkQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -251,6 +257,8 @@ public class ArrivalCue : MonoBehaviour
             // Unlit transparent material — starts fully invisible (alpha 0)
 
             Material checkMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            Debug.Log("found universal render pipeline lit 2");
+
             if (checkMat != null)
             {
                 checkMat.SetTexture("_BaseMap", checkmarkTexture);

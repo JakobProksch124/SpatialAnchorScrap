@@ -129,7 +129,19 @@ public class Building_TransitionCues : MonoBehaviour
 
     void Awake()
     {
+        //PlayerPrefs.DeleteAll();
         LoadBlandState();
+        if(entryIsBland && startArrivalIsBland)
+        {
+            startArrivalIsBland = true;
+            iMessageCueIsBland = false;
+            entryIsBland = false;
+            entryArrivalIsBland = false;
+            exitIsBland = false;
+            exitArrivalIsBland = false;
+            leaveHMDIsBland = true;
+            SaveBlandState();
+        }
     }
 
     void Start()
@@ -174,16 +186,21 @@ public class Building_TransitionCues : MonoBehaviour
             exitArrivalAnchor = transform;
         }
 
+        Debug.Log("creating start arrival cue");
         //Create start arrival cue
         CreateStartArrivalCue(startArrivalAnchor);
 
+        Debug.Log("creating entry cue");
         // Create entry cue
         CreateEntryCue(entryAnchor);
 
+        Debug.Log("getting arrival cue component");
         // Spawn arrival cue (Premise: ArrivalCue component is present on this GameObject)
         LeaveHMDCue = GetComponent<ArrivalCue>();
+        Debug.Log("calling arrival cue spawner");
         if (LeaveHMDCue != null)
         {
+            Debug.Log("spawning arrival cue");
             LeaveHMDCue.SpawnArrivalCue(leaveHMDIsBland);
         }
     }
@@ -336,6 +353,7 @@ public class Building_TransitionCues : MonoBehaviour
             entryCueConfig.primaryColor = entryPrimaryColor;
             entryCueConfig.expandedDescription = entryDescription;
             entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
+            Debug.Log("entry is not bland");
         }
         else
         {
@@ -344,11 +362,14 @@ public class Building_TransitionCues : MonoBehaviour
             entryCueConfig.primaryColor = Color.black;
             entryCueConfig.expandedDescription = entryLabel;
             entryCueConfig.isBland = entryIsBland;
+            Debug.Log("entry is bland");
         }
 
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
+        Debug.Log("creating entry cue");
         entryCue = TransitionCueFactory.CreateCue(entryCueConfig);
+        Debug.Log("created entry cue successfully");
     }
 
     IEnumerator EnterVR()
@@ -624,7 +645,7 @@ public class Building_TransitionCues : MonoBehaviour
     // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateExitCue(Transform exitAnchor)
     {
-        if (exitIsBland)
+        /*if (!exitIsBland)
         {
 
         // --- New addition: search for doors and deactivate ---
@@ -640,7 +661,7 @@ public class Building_TransitionCues : MonoBehaviour
             doorR.SetActive(false);
         else
             Debug.LogWarning("[Building_TransitionCues] Door_R not found in scene!");
-        }
+        }*/
         // Base (Same basic configuration for enhanced as well as minimal cues
         TransitionCueConfig exitCueConfig = TransitionCueConfig.CreateARConfig(
             parent: exitAnchor,
@@ -966,7 +987,6 @@ public class Building_TransitionCues : MonoBehaviour
         exitIsBland = !exitIsBland;
         startArrivalIsBland = !startArrivalIsBland;
         leaveHMDIsBland = !leaveHMDIsBland;
-        iMessageCueIsBland = !iMessageCueIsBland;
 
         if (!startArrivalIsBland)
         {
@@ -986,7 +1006,7 @@ public class Building_TransitionCues : MonoBehaviour
 
         if (IMessageCueScript != null)
         {
-            IMessageCueScript.SetIsBland(iMessageCueIsBland);
+            IMessageCueScript.SetIsBland(entryIsBland);
         }
     }
 
@@ -998,7 +1018,6 @@ public class Building_TransitionCues : MonoBehaviour
         PlayerPrefs.SetInt("exitIsBland", exitIsBland ? 1 : 0);
         PlayerPrefs.SetInt("startArrivalIsBland", startArrivalIsBland ? 1 : 0);
         PlayerPrefs.SetInt("leaveHMDIsBland", leaveHMDIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("iMessageCueIsBland", iMessageCueIsBland ? 1 : 0);
 
         PlayerPrefs.Save();
     }
@@ -1011,11 +1030,10 @@ public class Building_TransitionCues : MonoBehaviour
         exitIsBland = PlayerPrefs.GetInt("exitIsBland", 0) == 1;
         startArrivalIsBland = PlayerPrefs.GetInt("startArrivalIsBland", 0) == 1;
         leaveHMDIsBland = PlayerPrefs.GetInt("leaveHMDIsBland", 0) == 1;
-        PlayerPrefs.SetInt("iMessageCueIsBland", iMessageCueIsBland ? 1 : 0);
 
         if (IMessageCueScript != null)
         {
-            IMessageCueScript.SetIsBland(iMessageCueIsBland);
+            IMessageCueScript.SetIsBland(entryIsBland);
         }
     }
 }
