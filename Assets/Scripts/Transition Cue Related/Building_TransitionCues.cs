@@ -119,18 +119,25 @@ public class Building_TransitionCues : MonoBehaviour
     private bool userInVRRoom = false;
     GameObject overlay = null;
 
-
+    // New fields to add
+    private int floorMask;
+    private Transform spawnPoint;
+    private float alignTimer;
+    private const float AlignInterval = 0.001f;  // 0.1 Hz
+    private float targetFloorDeltaY;
 
 
     void Awake()
     {
-        //LoadBlandState();
+        LoadBlandState();
     }
 
     void Start()
     {
         mainCamera = Camera.main;
 
+        // Cache in Start or when vrRoom is assigned
+        floorMask = LayerMask.GetMask("Floor");
         // Find PathGenerator component
         foreach (PathGenerator component in GetComponents<PathGenerator>())
         {
@@ -224,14 +231,38 @@ public class Building_TransitionCues : MonoBehaviour
                 }
             }
         }
-    }
-
-    void LateUpdate()
-    {
         if (!userInVRRoom || vrRoom == null)
             return;
 
-        AlignVRFloorToRealFloor();
+        alignTimer += Time.deltaTime;
+        if (alignTimer >= AlignInterval)
+        {
+            alignTimer = 0f;
+            AlignVRFloorToRealFloor();
+        }
+    }
+
+    void UpdateFloorTarget()
+    {
+        if (mainCamera == null) mainCamera = Camera.main;
+        if (spawnPoint == null) spawnPoint = vrRoom.transform.Find("UserSpawnPoint");
+        if (spawnPoint == null) return;
+
+        Ray ray = new Ray(mainCamera.transform.position, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hit, 20f, floorMask))
+        {
+            if (!hit.collider.CompareTag("Floor")) return;
+            targetFloorDeltaY = hit.point.y - spawnPoint.position.y;
+        }
+    }
+
+    void ApplyFloorAlignment()
+    {
+        if (Mathf.Abs(targetFloorDeltaY) < 0.0005f) return;
+        Vector3 pos = vrRoom.transform.position;
+        pos.y = Mathf.Lerp(pos.y, pos.y + targetFloorDeltaY, Time.deltaTime * 10f);
+        vrRoom.transform.position = pos;
+        // NO Physics.SyncTransforms() — let Unity handle it
     }
 
     void AlignVRFloorToRealFloor()
