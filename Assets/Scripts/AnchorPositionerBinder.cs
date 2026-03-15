@@ -31,6 +31,7 @@ public class AnchorPositionerBinder : MonoBehaviour
         _core.OnAnchorCreateCompleted.AddListener(OnAnchorCreated);
         _core.OnAnchorsLoadCompleted.AddListener(OnAnchorsLoaded);
         Debug.Log("Application Identifier: " + Application.identifier);
+        UINotificationSystem.Instance.ShowPersistentMessage("Der Pfad wird geladen.");
     }
 
     private void Update()
@@ -98,7 +99,7 @@ public class AnchorPositionerBinder : MonoBehaviour
         if (anchor == null)
             return;
         Transform buildingTransform = anchor.transform;
-
+        UINotificationSystem.Instance.HidePersistentMessage();
 
         GameObject instance = Instantiate(_objectToPlace, buildingTransform);
         Debug.Log("building instance created at " + anchor.transform.position);

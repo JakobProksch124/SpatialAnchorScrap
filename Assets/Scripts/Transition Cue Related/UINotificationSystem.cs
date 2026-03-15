@@ -28,7 +28,10 @@ public class UINotificationSystem : MonoBehaviour
 
     // Panel positioning
     private const float navigationPanelVerticalOffset = 0.3f; // How far below eye level (meters)
-    private const float navigationPanelDistance = 2f; // Distance from camera (meters)
+    private const float navigationPanelDistance = 2f; // Distance from camera (meters)// Persistent notification references
+    private GameObject persistentCanvas;
+    private TextMeshProUGUI persistentText;
+    private Image persistentBackground;
 
     public static UINotificationSystem Instance
     {
@@ -42,6 +45,133 @@ public class UINotificationSystem : MonoBehaviour
             }
             return instance;
         }
+    }
+
+    public void ShowPersistentMessage(string message)
+    {
+        // Prevent duplicates
+        if (persistentCanvas != null)
+            return;
+
+        // Create canvas
+        persistentCanvas = new GameObject("PersistentNotificationCanvas");
+        Canvas canvas = persistentCanvas.AddComponent<Canvas>();
+
+        // VR requires world-space canvas
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.sortingOrder = 1000;
+
+        persistentCanvas.AddComponent<CanvasScaler>();
+        persistentCanvas.AddComponent<GraphicRaycaster>();
+
+        // Set canvas size
+        RectTransform canvasRect = persistentCanvas.GetComponent<RectTransform>();
+        canvasRect.sizeDelta = new Vector2(1000, 300);
+
+        // Position canvas in front of headset
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            persistentCanvas.transform.position =
+            cam.transform.position +
+            cam.transform.forward * 2f +
+            Vector3.up; // raise panel
+
+            persistentCanvas.transform.rotation =
+                Quaternion.LookRotation(
+                    persistentCanvas.transform.position - cam.transform.position-
+            Vector3.up
+                );
+
+            persistentCanvas.transform.localScale = Vector3.one * 0.002f;
+        }
+
+        // Background bar
+        GameObject bgPanel = new GameObject("BackgroundBar");
+        bgPanel.transform.SetParent(persistentCanvas.transform, false);
+        persistentBackground = bgPanel.AddComponent<Image>();
+
+        RectTransform bgRect = bgPanel.GetComponent<RectTransform>();
+        bgRect.anchorMin = new Vector2(0.5f, 0.5f);
+        bgRect.anchorMax = new Vector2(0.5f, 0.5f);
+        bgRect.sizeDelta = new Vector2(800, 70);
+        bgRect.anchoredPosition = Vector2.zero;
+
+        persistentBackground.color = new Color(0f, 0f, 0f, 0f);
+
+        // Text
+        GameObject textObj = new GameObject("NotificationText");
+        textObj.transform.SetParent(persistentCanvas.transform, false);
+
+        persistentText = textObj.AddComponent<TextMeshProUGUI>();
+        persistentText.text = message;
+        persistentText.fontSize = 36;
+        persistentText.fontStyle = FontStyles.Bold;
+        persistentText.alignment = TextAlignmentOptions.Center;
+        persistentText.color = new Color(1f, 1f, 1f, 0f);
+
+        RectTransform textRect = textObj.GetComponent<RectTransform>();
+        textRect.anchorMin = new Vector2(0.5f, 0.5f);
+        textRect.anchorMax = new Vector2(0.5f, 0.5f);
+        textRect.sizeDelta = new Vector2(800, 70);
+        textRect.anchoredPosition = Vector2.zero;
+
+        StartCoroutine(FadeInPersistentNotification());
+    }
+
+    private IEnumerator FadeInPersistentNotification()
+    {
+        float duration = 0.4f;
+        float elapsed = 0f;
+        float bgTargetAlpha = 0.35f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+
+            persistentText.color = new Color(1f, 1f, 1f, t);
+            persistentBackground.color = new Color(0f, 0f, 0f, t * bgTargetAlpha);
+
+            yield return null;
+        }
+
+        persistentText.color = Color.white;
+        persistentBackground.color = new Color(0f, 0f, 0f, bgTargetAlpha);
+    }
+
+    public void HidePersistentMessage()
+    {
+        if (persistentCanvas == null)
+            return;
+
+        StartCoroutine(FadeOutPersistentNotification());
+    }
+
+    private IEnumerator FadeOutPersistentNotification()
+    {
+        float duration = 0.4f;
+        float elapsed = 0f;
+
+        Color startText = persistentText.color;
+        Color startBG = persistentBackground.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+
+            persistentText.color = Color.Lerp(startText, new Color(1, 1, 1, 0), t);
+            persistentBackground.color = Color.Lerp(startBG, new Color(0, 0, 0, 0), t);
+
+            yield return null;
+        }
+
+        Destroy(persistentCanvas);
+
+        persistentCanvas = null;
+        persistentText = null;
+        persistentBackground = null;
     }
 
     // Routes to canvas or 3D panel based on useCanvasMode flag
@@ -138,7 +268,7 @@ public class UINotificationSystem : MonoBehaviour
 
         // Create 3D rounded panel that follows the head
         GameObject navPanel = CreateFrostedPanel(
-            $"Navigation zu {destination} wird fortgesetzt",
+            destination,
             navigationPanelColor,
             new Vector2(0.8f, 0.1f), // Panel size in meters
             0.02f
