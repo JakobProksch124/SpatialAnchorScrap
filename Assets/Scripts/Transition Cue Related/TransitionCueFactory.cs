@@ -53,6 +53,7 @@ public static class TransitionCueFactory
                 buttonContainer.transform.localPosition =
                     new Vector3(0, textBottomY - config.buttonOffset, 0);
             }
+
             else
             {
                 // Original behaviour (relative to panel)
@@ -130,18 +131,14 @@ public static class TransitionCueFactory
             root.transform.localPosition = Vector3.zero;
             root.transform.localRotation = Quaternion.identity;
             root.transform.localScale = Vector3.one * config.globalScale;
-            Debug.Log("created root");
 
             // === Small Panel ===
             GameObject smallPanel = CreateSmallPanel(config);
             smallPanel.transform.SetParent(root.transform, false);
-            Debug.Log("created small panel");
             AddIsdkSelectToInvoke(smallPanel, config);
-            Debug.Log("added interaction");
 
             // ADD THIS
             AddCollisionSupport(root, smallPanel, null, null, config);
-            Debug.Log("added collision");
 
             return root;
         }
@@ -973,12 +970,10 @@ public static class TransitionCueFactory
             return;
         }
 
-        Debug.Log("AddCollisionSupport: initializing receiver");
         receiver.Initialize(config.onCollide);
 
         if (smallPanel != null)
         {
-            Debug.Log("AddCollisionSupport: setting up trigger for smallPanel");
             SetupPanelTrigger(smallPanel, receiver);
         }
         else
@@ -988,17 +983,11 @@ public static class TransitionCueFactory
 
         if (expandedPanel != null)
         {
-            Debug.Log("AddCollisionSupport: setting up trigger for expandedPanel");
             SetupPanelTrigger(expandedPanel, receiver);
-        }
-        else
-        {
-            Debug.Log("AddCollisionSupport: expandedPanel is NULL (expected for minimal cue)");
         }
 
         if (button != null)
         {
-            Debug.Log("AddCollisionSupport: setting up trigger for button");
             SetupPanelTrigger(button, receiver);
         }
         else
@@ -1023,7 +1012,6 @@ public static class TransitionCueFactory
             return;
         }
 
-        Debug.Log($"SetupPanelTrigger: configuring trigger on {panel.name}");
 
         BoxCollider col = panel.GetComponent<BoxCollider>();
 
@@ -1044,7 +1032,6 @@ public static class TransitionCueFactory
             return;
         }
 
-        Debug.Log($"SetupPanelTrigger: initializing forwarder on {panel.name}");
         forwarder.Initialize(receiver);
     }
 

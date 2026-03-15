@@ -179,26 +179,21 @@ public class Lecture_TransitionCues : MonoBehaviour
         onInteract: () =>
         {
             exitCue.SetActive(false);
-            // Pause Video
-            if (videoPlayer != null)
-            {
-                videoPlayer.Pause();
-            }
         }
     );
 
         exitCueConfig.onCollide = (other) =>
         {
             exitCue.SetActive(false);
+        };
+
+        if (!exitIsBland)
+        {
             // Pause Video
             if (videoPlayer != null)
             {
                 videoPlayer.Pause();
             }
-        };
-
-        if (!exitIsBland)
-        {
             exitCueConfig.alwaysExpanded = exitAlwaysExpand;
             exitCueConfig.leadsToAR = true;
             exitCueConfig.primaryColor = exitPrimaryColor;

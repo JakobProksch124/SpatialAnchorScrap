@@ -125,6 +125,7 @@ public class Building_TransitionCues : MonoBehaviour
     private float alignTimer;
     private const float AlignInterval = 0.001f;  // 0.1 Hz
     private float targetFloorDeltaY;
+    private bool exitingVR = false;
 
 
     void Awake()
@@ -687,11 +688,11 @@ public class Building_TransitionCues : MonoBehaviour
         else
         {
             // Details for minimal cue
-            exitCueConfig.isBland = exitIsBland;
             exitCueConfig.alwaysExpanded = false;
             exitCueConfig.primaryColor = Color.black;
             exitCueConfig.expandedDescription = exitLabel;
         }
+        exitCueConfig.isBland = exitIsBland;
 
         exitCueConfig.leadsToAR = this.leadsToAR;
 
@@ -809,11 +810,17 @@ public class Building_TransitionCues : MonoBehaviour
 
     IEnumerator ExitVR()
     {
-        Debug.Log($"[Building_TransitionCues] Exiting VR, returning to AR");
+        if (!exitingVR)
+        {
+            exitingVR = true;
 
-        // Fade out
-        yield return StartCoroutine(TransitionEffects.Instance.FadeToAR(3f, vrRoom));
 
+            Debug.Log($"[Building_TransitionCues] Exiting VR, returning to AR");
+            if (!exitIsBland)
+            {
+                // Fade out
+                yield return StartCoroutine(TransitionEffects.Instance.FadeToAR(3f, vrRoom));
+            }
         // Unload VR room
         yield return StartCoroutine(UnloadVRRoom());
 
@@ -863,6 +870,8 @@ public class Building_TransitionCues : MonoBehaviour
         }
 
         userInVRRoom = false;
+        }
+        exitingVR= false;
     }
 
     IEnumerator UnloadVRRoom()
@@ -913,8 +922,8 @@ public class Building_TransitionCues : MonoBehaviour
                 }
             }
 
-            StartCoroutine(UINotificationSystem.Instance.ShowNavigationContinued(
-                destination: navigationDestination,
+            StartCoroutine(UINotificationSystem.Instance.ShowTextInUI(
+                textToShow: "Navigation zu "+navigationDestination+" wird fortgesetzt",
                 swipeSpeed: 2.0f,
                 displayDuration: 3.0f,
                 yOffset: -50f

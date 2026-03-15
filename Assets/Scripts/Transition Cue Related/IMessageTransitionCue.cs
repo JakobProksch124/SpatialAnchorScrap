@@ -13,7 +13,6 @@ public class IMessageTransitionCue : MonoBehaviour
     [SerializeField] private string iMessageButtonText = "Start Video";
     [Tooltip("only used, when start arrival cue is set to blunt")]
     [SerializeField] private Transform iMessageAnchor;
-    [SerializeField] private Collider iMessageTrigger;
     [SerializeField] private AudioSource notificationSoundPlayer;
     [SerializeField] private AudioSource readNotificationPlayer;
     [SerializeField] private float iMessageDisappearDelay = 12f;
@@ -30,8 +29,6 @@ public class IMessageTransitionCue : MonoBehaviour
 
     [SerializeField] private Transform visualVoiceAnchor;
 
-    private bool visualVoiceIsBland = false;
-
     private GameObject visualVoiceCue;
 
 
@@ -40,14 +37,36 @@ public class IMessageTransitionCue : MonoBehaviour
     private GameObject iMessageCue;
     private bool hasTriggered = false;
     private bool iMessageIsBland = false;
+    private Transform playerTransform;
+    private float triggerDistance = 6f;
 
-    void OnTriggerEnter(Collider other)
+    void Start()
     {
+
+
+        Camera mainCam = Camera.main;
+        if (mainCam != null)
+        {
+            playerTransform = mainCam.transform;
+        }
+        else
+        {
+            Debug.Log("[TransitionCueExpander] NO MAIN CAMERA FOUND!!!");
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (playerTransform == null)
+            return;
+
         if (hasTriggered) return;
-
-        hasTriggered = true;
-        CreateIMessageArrivalCue(iMessageAnchor);
-
+            float distance = Vector3.Distance(transform.position, playerTransform.position);
+            if (triggerDistance > distance )
+            {
+                hasTriggered = true;
+                CreateIMessageArrivalCue(iMessageAnchor);
+            }
     }
 
     void CreateIMessageArrivalCue(Transform iMessageAnchor)

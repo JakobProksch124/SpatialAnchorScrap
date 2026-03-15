@@ -396,6 +396,12 @@ public class Mensa_FriendCue : MonoBehaviour
 
     public void StartNavigationToFriends()
     {
+        StartCoroutine(UINotificationSystem.Instance.ShowTextInUI(
+                textToShow: "Dein Essen wurde bestellt.",
+                swipeSpeed: 2.0f,
+                displayDuration: 3.0f,
+                yOffset: -50f
+            ));
         // Hide entry cue
         if (entryCue != null)
             entryCue.SetActive(false);
@@ -445,8 +451,8 @@ public class Mensa_FriendCue : MonoBehaviour
             }
             if (UINotificationSystem.Instance != null)
             {
-                StartCoroutine(UINotificationSystem.Instance.ShowNavigationContinued(
-                    destination: navigationDestination,
+                StartCoroutine(UINotificationSystem.Instance.ShowTextInUI(
+                    textToShow: navigationDestination,
                     swipeSpeed: 2.0f,
                     displayDuration: 3.0f,
                     yOffset: -50f

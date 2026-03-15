@@ -45,12 +45,12 @@ public class UINotificationSystem : MonoBehaviour
     }
 
     // Routes to canvas or 3D panel based on useCanvasMode flag
-    public IEnumerator ShowNavigationContinued(string destination, float swipeSpeed = 1.0f, float displayDuration = 3.0f, float yOffset = -50f)
+    public IEnumerator ShowTextInUI(string textToShow, float swipeSpeed = 1.0f, float displayDuration = 3.0f, float yOffset = -50f)
     {
         if (useCanvasMode)
-            yield return StartCoroutine(ShowNavigationContinued_Canvas(destination, displayDuration));
+            yield return StartCoroutine(ShowNavigationContinued_Canvas(textToShow, displayDuration));
         else
-            yield return StartCoroutine(ShowNavigationContinued_3DPanel(destination, swipeSpeed, displayDuration, yOffset));
+            yield return StartCoroutine(ShowNavigationContinued_3DPanel(textToShow, swipeSpeed, displayDuration, yOffset));
     }
 
     // === CANVAS-BASED OVERLAY (new) ===
@@ -80,7 +80,7 @@ public class UINotificationSystem : MonoBehaviour
         GameObject textObj = new GameObject("NotificationText");
         textObj.transform.SetParent(canvasObj.transform, false);
         TextMeshProUGUI text = textObj.AddComponent<TextMeshProUGUI>();
-        text.text = $"Navigation zu {destination} wird fortgesetzt";
+        text.text = $"{destination}";
         text.fontSize = 36;
         text.fontStyle = FontStyles.Bold;
         text.alignment = TextAlignmentOptions.Center;
@@ -127,6 +127,7 @@ public class UINotificationSystem : MonoBehaviour
 
         Destroy(canvasObj);
     }
+
 
     // === 3D HEAD-LOCKED PANEL (old) ===
     // Swipes panel from top of viewport; Uses head-locked 3D panel with rounded cube
