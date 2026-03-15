@@ -47,13 +47,19 @@ public static class TransitionCueFactory
             GameObject buttonContainer = new GameObject("ButtonContainer");
             buttonContainer.transform.SetParent(root.transform, false);
 
-            if (config.leadsToAR)
+            /*if (config.leadsToAR)
             {
                 // Keep constant spacing relative to text
                 buttonContainer.transform.localPosition =
                     new Vector3(0, textBottomY - config.buttonOffset, 0);
-            }
+            }*/
+            if (config.leadsToAR)
+            {
+                float arLift = config.descriptionFontSize * 1.2f; // tweakable
 
+                buttonContainer.transform.localPosition =
+                    new Vector3(0, textBottomY - config.buttonOffset + arLift, 0);
+            }
             else
             {
                 // Original behaviour (relative to panel)
@@ -365,11 +371,17 @@ public static class TransitionCueFactory
         ? contentBottomY
         : contentBottomY - config.contentDescriptionSpacing;
 
+        if (config.leadsToAR)
+        {
+            descYPosition += config.descriptionFontSize * 1.2f;
+        }
+
         //float descYPosition = contentBottomY - config.contentDescriptionSpacing;
         descObj.transform.localPosition = new Vector3(0, descYPosition, descTextOffset);
         descObj.transform.localRotation = Quaternion.Euler(0, 180, 0);
 
         TextMeshPro descText = descObj.AddComponent<TextMeshPro>();
+
         descText.text = config.expandedDescription;
         descText.fontSize = config.descriptionFontSize * config.generalFontSizeFactor;
         descText.alignment = TextAlignmentOptions.Center;
@@ -397,6 +409,39 @@ public static class TransitionCueFactory
         Vector2 preferredSize = descText.GetPreferredValues(descText.text, textWidth, Mathf.Infinity);
         float textHeight = preferredSize.y;
         textBottomY = descYPosition - textHeight / 2f;
+
+        // --- Background plate for better readability ---
+        if (config.leadsToAR)
+        {
+            GameObject textBackground = CreateRoundedCube();
+            textBackground.name = "TextBackground";
+            textBackground.transform.SetParent(descObj.transform, false);
+
+            float paddingX = 0.03f;
+            float paddingY = 0.02f;
+
+            Vector2 preferred = descText.GetPreferredValues(descText.text, textWidth, Mathf.Infinity);
+
+            textBackground.transform.localScale = new Vector3(
+                preferred.x + paddingX,
+                preferred.y + paddingY,
+                config.expandedPanelDepth * 0.4f
+            );
+
+            textBackground.transform.localPosition =
+                new Vector3(0, 0, -config.textZOffset * 0.5f);
+
+            Renderer bgRenderer = textBackground.GetComponent<Renderer>();
+
+            Material bgMat = CreateFrostedGlassMaterial(Color.white, 0.35f);
+            bgMat.renderQueue = 3050;
+
+            bgRenderer.material = bgMat;
+
+            // remove collider
+            Collider bgCol = textBackground.GetComponent<Collider>();
+            if (bgCol != null) UnityEngine.Object.Destroy(bgCol);
+        }
 
         if (noContentLayout && !config.leadsToAR)
         {
