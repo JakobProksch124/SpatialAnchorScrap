@@ -141,6 +141,10 @@ public class Building_TransitionCues : MonoBehaviour
             exitIsBland = false;
             exitArrivalIsBland = false;
             leaveHMDIsBland = true;
+            if (IMessageCueScript != null)
+            {
+                IMessageCueScript.SetIsBland(entryIsBland);
+            }
             SaveBlandState();
         }
     }
@@ -677,7 +681,7 @@ public class Building_TransitionCues : MonoBehaviour
             StartCoroutine(ExitVR());
         };
 
-        if (!exitIsBland)
+        if (!entryIsBland)
         {
             // Details for enhanced cues
             exitCueConfig.alwaysExpanded = exitAlwaysExpand;
@@ -692,7 +696,8 @@ public class Building_TransitionCues : MonoBehaviour
             exitCueConfig.primaryColor = Color.black;
             exitCueConfig.expandedDescription = exitLabel;
         }
-        exitCueConfig.isBland = exitIsBland;
+        exitCueConfig.isBland = entryIsBland;
+        Debug.Log("exit is bland: " + entryIsBland);
 
         exitCueConfig.leadsToAR = this.leadsToAR;
 
@@ -741,7 +746,7 @@ public class Building_TransitionCues : MonoBehaviour
     // This cue spawns when the user exited vr, lands in ar, and conforms him with a successful landing and info about where he went off
     void CreateExitArrivalCue(Transform exitArrivalAnchor)
     {
-        if (!exitArrivalIsBland)
+        if (!entryIsBland)
         {
             // Base
             TransitionCueConfig exitArrivalCueConfig = TransitionCueConfig.CreateARConfig(

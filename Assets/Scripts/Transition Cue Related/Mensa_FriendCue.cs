@@ -265,6 +265,8 @@ public class Mensa_FriendCue : MonoBehaviour
 
     public void showEntryCue()
     {
+        UINotificationSystem.Instance.ShowPersistentMessage("Dein Essen wurde bestellt.", false);
+
         UnityEngine.Debug.Log("Food Button Pressed!");
         if (startArrivalCue != null)
         {
@@ -396,12 +398,7 @@ public class Mensa_FriendCue : MonoBehaviour
 
     public void StartNavigationToFriends()
     {
-        StartCoroutine(UINotificationSystem.Instance.ShowTextInUI(
-                textToShow: "Dein Essen wurde bestellt.",
-                swipeSpeed: 2.0f,
-                displayDuration: 3.0f,
-                yOffset: -50f
-            ));
+        UINotificationSystem.Instance.HidePersistentMessage();
         // Hide entry cue
         if (entryCue != null)
             entryCue.SetActive(false);

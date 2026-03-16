@@ -31,7 +31,12 @@ public class AnchorPositionerBinder : MonoBehaviour
         _core.OnAnchorCreateCompleted.AddListener(OnAnchorCreated);
         _core.OnAnchorsLoadCompleted.AddListener(OnAnchorsLoaded);
         Debug.Log("Application Identifier: " + Application.identifier);
-        UINotificationSystem.Instance.ShowPersistentMessage("Der Pfad wird geladen.");
+    }
+    
+    private void Start()
+    {
+
+        UINotificationSystem.Instance.ShowPersistentMessage("Der Pfad wird geladen.", true);
     }
 
     private void Update()

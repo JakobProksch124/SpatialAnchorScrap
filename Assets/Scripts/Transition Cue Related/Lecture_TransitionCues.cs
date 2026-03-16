@@ -178,13 +178,11 @@ public class Lecture_TransitionCues : MonoBehaviour
         parent: exitAnchor,
         onInteract: () =>
         {
-            exitCue.SetActive(false);
         }
     );
 
         exitCueConfig.onCollide = (other) =>
         {
-            exitCue.SetActive(false);
         };
 
         if (!exitIsBland)

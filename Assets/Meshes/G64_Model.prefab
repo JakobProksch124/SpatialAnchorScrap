@@ -1252,7 +1252,7 @@ MonoBehaviour:
   ExtraARContent: {fileID: 0}
   leaveHMDIsBland: 0
   iMessageCueIsBland: 1
-  IMessageCueScript: {fileID: 0}
+  IMessageCueScript: {fileID: 2521268298649085863}
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
@@ -1476,7 +1476,6 @@ MonoBehaviour:
   iMessageDescription: 
   iMessageButtonText: "Schlie\xDFen"
   iMessageAnchor: {fileID: 2534005402456416928}
-  iMessageTrigger: {fileID: 0}
   notificationSoundPlayer: {fileID: 6803258545756935040}
   readNotificationPlayer: {fileID: 4967578937458614097}
   iMessageDisappearDelay: 15

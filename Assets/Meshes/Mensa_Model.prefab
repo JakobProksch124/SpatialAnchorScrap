@@ -1124,7 +1124,7 @@ MonoBehaviour:
   entryPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryLabel: Zu Peter
   entryScreenshotDisplayed: {fileID: 2800000, guid: 9181b95a2d529f244b9cd668046707eb, type: 3}
-  entryDescription: Zum Tisch von Peter navigieren?
+  entryDescription: Dein Essen wurde bestellt. Zum Tisch von Peter navigieren?
   entryButtonText: Navigation starten
   entryAlwaysExpand: 0
   entryIsBland: 1
@@ -7132,13 +7132,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5635897365292716427}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.6968971, z: -0, w: 0.7171712}
   m_LocalPosition: {x: 23.803, y: 4.8, z: 1.058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -88.357, z: 0}
 --- !u!1 &5665507784772159981
 GameObject:
   m_ObjectHideFlags: 0
@@ -7887,13 +7887,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6002629042167033651}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.6968971, z: -0, w: 0.7171712}
   m_LocalPosition: {x: 23.803, y: 3.32, z: 1.058}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3088886841078431567}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -88.357, z: 0}
 --- !u!1 &6030952258473891202
 GameObject:
   m_ObjectHideFlags: 0

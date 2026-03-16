@@ -47,7 +47,7 @@ public class UINotificationSystem : MonoBehaviour
         }
     }
 
-    public void ShowPersistentMessage(string message)
+    public void ShowPersistentMessage(string message, bool up)
     {
         // Prevent duplicates
         if (persistentCanvas != null)
@@ -72,16 +72,32 @@ public class UINotificationSystem : MonoBehaviour
         Camera cam = Camera.main;
         if (cam != null)
         {
+            if (up)
+            {
+
             persistentCanvas.transform.position =
             cam.transform.position +
             cam.transform.forward * 2f +
             Vector3.up; // raise panel
 
-            persistentCanvas.transform.rotation =
-                Quaternion.LookRotation(
-                    persistentCanvas.transform.position - cam.transform.position-
-            Vector3.up
-                );
+                persistentCanvas.transform.rotation =
+                    Quaternion.LookRotation(
+                        persistentCanvas.transform.position - cam.transform.position -
+                Vector3.up
+                    );
+            }
+            else
+            {
+
+                persistentCanvas.transform.position =
+                cam.transform.position +
+                cam.transform.forward * 2f;
+
+                persistentCanvas.transform.rotation =
+                    Quaternion.LookRotation(
+                        persistentCanvas.transform.position - cam.transform.position);
+
+            }
 
             persistentCanvas.transform.localScale = Vector3.one * 0.002f;
         }
