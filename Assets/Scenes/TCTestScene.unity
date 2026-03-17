@@ -547,67 +547,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705586194}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1055678779
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1236620202402443077, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: startArrivalIsBland
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3252451672500658893, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_Name
-      value: G64_Model
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.54078
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.2082129
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -6.1034346
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6513638395473454496, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 97e9bcd40b72c5f4fb817cb7d8eb66de, type: 3}
 --- !u!1 &1370208899
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,7 +645,7 @@ MonoBehaviour:
   startArrivalDescription: Welcome to VR!
   startArrivalButtonText: X
   startArrivalAlwaysExpand: 0
-  startArrivalIsBland: 0
+  startArrivalIsBland: 1
   vrRoomTitle: My Virtual Room Test
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -1087,4 +1026,3 @@ SceneRoots:
   - {fileID: 67777459}
   - {fileID: 1819211665}
   - {fileID: 1589841415}
-  - {fileID: 1055678779}

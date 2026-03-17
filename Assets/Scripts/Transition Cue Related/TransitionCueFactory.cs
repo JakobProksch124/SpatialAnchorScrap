@@ -42,7 +42,7 @@ public static class TransitionCueFactory
             GameObject expandedPanel = CreateExpandedPanel(config, out textBottomY);
             expandedPanel.transform.SetParent(root.transform, false);
             expandedPanel.transform.localPosition = Vector3.zero;
-            AddIsdkSelectToInvoke(expandedPanel, config);
+            AddIsdkSelectToInvoke(expandedPanel, config, false);
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
             buttonContainer.transform.SetParent(root.transform, false);
@@ -78,7 +78,7 @@ public static class TransitionCueFactory
             {
                 actionButton = CreateButton(config);
                 actionButton.transform.SetParent(buttonContainer.transform, false);
-                AddIsdkSelectToInvoke(actionButton, config);
+                AddIsdkSelectToInvoke(actionButton, config, true);
 
                 if (!config.alwaysExpanded)
                 {
@@ -99,7 +99,7 @@ public static class TransitionCueFactory
             // Wire close button to dismiss the expanded panel
             if (closeButton != null)
             {
-                AddIsdkSelectToInvoke(closeButton, () => expander.DismissToSmall());
+                AddIsdkSelectToInvoke(closeButton, () => expander.DismissToSmall(), config, true);
             }
 
             // add collision interaction
@@ -130,32 +130,58 @@ public static class TransitionCueFactory
         }
         else
         {
-            // Minimal cue design
+            if (config.isLeaveCue)
+            {
+                // Minimal cue design
 
-            GameObject root = new GameObject($"MinimalCue_{config.label}");
-            root.transform.SetParent(config.parent, false);
-            root.transform.localPosition = Vector3.zero;
-            root.transform.localRotation = Quaternion.identity;
-            root.transform.localScale = Vector3.one * config.globalScale;
+                GameObject root = new GameObject($"MinimalCue_{config.label}");
+                root.transform.SetParent(config.parent, false);
+                root.transform.localPosition = Vector3.zero;
+                root.transform.localRotation = Quaternion.identity;
+                root.transform.localScale = Vector3.one * config.globalScale;
 
-            // === Small Panel ===
-            GameObject smallPanel = CreateSmallPanel(config);
-            smallPanel.transform.SetParent(root.transform, false);
-            AddIsdkSelectToInvoke(smallPanel, config);
+                // === Small Panel ===
+                GameObject smallPanel = CreateSmallPanel(config);
+                smallPanel.transform.SetParent(root.transform, false);
+                //AddIsdkSelectToInvoke(smallPanel, config, false);
 
-            // ADD THIS
-            AddCollisionSupport(root, smallPanel, null, null, config);
+                // ADD THIS
+                //AddCollisionSupport(root, smallPanel, null, null, config);
 
-            return root;
+                return root;
+            }
+            else
+            {
+                // Minimal cue BUT not a leave cue → create a button instead of panel
+
+                GameObject root = new GameObject($"MinimalButtonCue_{config.label}");
+                root.transform.SetParent(config.parent, false);
+                root.transform.localPosition = Vector3.zero;
+                root.transform.localRotation = Quaternion.identity;
+                root.transform.localScale = Vector3.one * config.globalScale;
+
+                // === Button (styled like small panel) ===
+                GameObject button = CreateMinimalButtonFromSmallPanel(config);
+                button.transform.SetParent(root.transform, false);
+
+                // Interaction
+                AddIsdkSelectToInvoke(button, config, true);
+
+                // Collision (same as minimal panel case)
+                AddCollisionSupport(root, button, null, null, config);
+
+                return root;
+            }
         }
     }
 
-    private static void AddIsdkSelectToInvoke(GameObject button, TransitionCueConfig config)
+    private static void AddIsdkSelectToInvoke(GameObject button, TransitionCueConfig config, bool addHover)
     {
-        AddIsdkSelectToInvoke(button, () => config?.onInteract?.Invoke());
+        AddIsdkSelectToInvoke(button, () => config?.onInteract?.Invoke(), config, addHover);
+        
     }
 
-    private static void AddIsdkSelectToInvoke(GameObject button, Action action)
+    private static void AddIsdkSelectToInvoke(GameObject button, Action action, TransitionCueConfig config, bool addHover)
     {
         Collider col = button.GetComponent<Collider>();
         if (col == null) col = button.AddComponent<BoxCollider>();
@@ -175,6 +201,11 @@ public static class TransitionCueFactory
                 action?.Invoke();
             }
         };
+        // === Hover Effect ===
+        if (button.GetComponent<UIButtonHoverEffect>() == null && addHover)
+        {
+            button.AddComponent<UIButtonHoverEffect>();
+        }
     }
 
     private static System.Collections.IEnumerator BindNextFrame(InteractableUnityEventWrapper events, TransitionCueConfig config)
@@ -767,7 +798,7 @@ public static class TransitionCueFactory
         GameObject button = CreateButton(config);
         button.transform.SetParent(root.transform, false);
 
-        AddIsdkSelectToInvoke(button, config);
+        AddIsdkSelectToInvoke(button, config, true);
 
         if (config.onCollide != null)
         {
@@ -1079,6 +1110,66 @@ public static class TransitionCueFactory
 
         forwarder.Initialize(receiver);
     }
+    private static GameObject CreateMinimalButtonFromSmallPanel(TransitionCueConfig config)
+    {
+        // Start from small panel (so we inherit size, font, visuals)
+        GameObject button = CreateRoundedCube();
+        button.name = "MinimalButton";
 
+        float widthMultiplier = 3.5f;
+
+        button.transform.localScale = new Vector3(
+            config.smallPanelSize * widthMultiplier,
+            config.smallPanelSize,
+            config.smallPanelDepth
+        );
+
+        // === Material (same as bland small panel) ===
+        Renderer renderer = button.GetComponent<Renderer>()
+                            ?? button.GetComponentInChildren<Renderer>();
+
+        Material mat = CreateFrostedGlassMaterial(config.primaryColor, 1f);
+        renderer.material = mat;
+
+        // === Remove collider (we re-add properly via ISDK) ===
+        Collider collider = button.GetComponent<Collider>()
+                            ?? button.GetComponentInChildren<Collider>();
+
+        if (collider != null)
+        {
+            UnityEngine.Object.Destroy(collider);
+        }
+
+        // === Label text (same as small panel) ===
+        GameObject labelObj = new GameObject($"{config.label}_Text");
+        labelObj.transform.SetParent(button.transform, false);
+
+        float labelOffset = (config.smallPanelDepth / 2) + config.textZOffset;
+
+        labelObj.transform.localPosition = new Vector3(0, 0, labelOffset);
+        labelObj.transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+        TextMeshPro labelText = labelObj.AddComponent<TextMeshPro>();
+        labelText.text = config.label;
+        labelText.fontSize = config.labelFontSize * config.generalFontSizeFactor;
+        labelText.fontStyle = FontStyles.Bold;
+        labelText.alignment = TextAlignmentOptions.Center;
+        labelText.color = Color.white;
+
+        ApplyCustomFont(labelText, config, true);
+
+        // === Fix scaling (same compensation as small panel) ===
+        labelObj.transform.localScale = new Vector3(
+            1f / widthMultiplier,
+            1f,
+            1f
+        );
+
+        // OPTIONAL: subtle glow to preserve affordance
+        GlowingBorderEffect glow = button.AddComponent<GlowingBorderEffect>();
+        glow.Initialize(config.primaryColor, config.glowIntensity, config.glowBreathingSpeed, true);
+
+        return button;
+    }
 
 }
