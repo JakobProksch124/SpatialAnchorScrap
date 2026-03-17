@@ -762,7 +762,7 @@ public class ArrivalCue : MonoBehaviour
             // Details for minimal cue
             leaveHMDCueConfig.isBland = leaveHMDIsBland;
             leaveHMDCueConfig.alwaysExpanded = false;
-            leaveHMDCueConfig.primaryColor = Color.black;
+            leaveHMDCueConfig.primaryColor = Color.grey;
             leaveHMDCueConfig.expandedDescription = leaveHMDLabel;
         }
         leaveHMDCueConfig.isLeaveCue = true;

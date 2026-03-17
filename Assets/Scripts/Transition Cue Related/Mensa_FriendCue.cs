@@ -355,7 +355,7 @@ public class Mensa_FriendCue : MonoBehaviour
         {
             // Details
             UnityEngine.Debug.Log("setting cue details");
-            entryCueConfig.primaryColor = Color.black;
+            entryCueConfig.primaryColor = Color.grey;
             entryCueConfig.expandedDescription = entryLabel;
             entryCueConfig.alwaysExpanded = true;
             entryCueConfig.isBland = entryIsBland;

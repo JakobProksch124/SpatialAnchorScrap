@@ -364,7 +364,7 @@ public class Building_TransitionCues : MonoBehaviour
         {
             // Details
             entryCueConfig.alwaysExpanded = true;
-            entryCueConfig.primaryColor = Color.black;
+            entryCueConfig.primaryColor = Color.grey;
             entryCueConfig.expandedDescription = entryLabel;
             entryCueConfig.isBland = entryIsBland;
             Debug.Log("entry is bland");
@@ -693,7 +693,7 @@ public class Building_TransitionCues : MonoBehaviour
         {
             // Details for minimal cue
             exitCueConfig.alwaysExpanded = false;
-            exitCueConfig.primaryColor = Color.black;
+            exitCueConfig.primaryColor = Color.grey;
             exitCueConfig.expandedDescription = exitLabel;
         }
         exitCueConfig.isBland = entryIsBland;

@@ -1283,7 +1283,7 @@ MonoBehaviour:
   exitLabel: Wechsel zu AR
   exitScreenshotDisplayed: {fileID: 0}
   exitDescription: "Deine Vorlesung beginnt bald. Zur AR-Navigation zur\xFCckkehren."
-  exitButtonText: Zu VR wechseln
+  exitButtonText: Zu AR wechseln
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitIsBland: 1
