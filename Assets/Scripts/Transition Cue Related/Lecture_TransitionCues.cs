@@ -193,12 +193,12 @@ public class Lecture_TransitionCues : MonoBehaviour
                 videoPlayer.Pause();
             }
             exitCueConfig.alwaysExpanded = exitAlwaysExpand;
-            exitCueConfig.leadsToAR = true;
             exitCueConfig.primaryColor = exitPrimaryColor;
             exitCueConfig.expandedDescription = exitDescription;
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
             exitCueConfig.label = exitLabel;
             exitCueConfig.buttonText = exitButtonText;
+            exitCueConfig.leadsToAR = true;
             exitCueConfig.leadsOutOfLecture = true;
             exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
         }

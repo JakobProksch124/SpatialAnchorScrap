@@ -42,7 +42,9 @@ public static class TransitionCueFactory
             GameObject expandedPanel = CreateExpandedPanel(config, out textBottomY);
             expandedPanel.transform.SetParent(root.transform, false);
             expandedPanel.transform.localPosition = Vector3.zero;
+            if(!config.isLeaveCue && !config.leadsOutOfLecture) { 
             AddIsdkSelectToInvoke(expandedPanel, config, false);
+            }
             // === Button Container ===
             GameObject buttonContainer = new GameObject("ButtonContainer");
             buttonContainer.transform.SetParent(root.transform, false);
@@ -74,7 +76,7 @@ public static class TransitionCueFactory
             // === Close Button (only for collapsible cues) ===
             GameObject closeButton = null;
             GameObject actionButton = null;
-            if (!config.isLeaveCue)
+            if (!config.isLeaveCue && !config.leadsOutOfLecture)
             {
                 actionButton = CreateButton(config);
                 actionButton.transform.SetParent(buttonContainer.transform, false);

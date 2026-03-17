@@ -806,7 +806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2832588448955980398, guid: aad7051f1d1766a4888944649b2cdbda, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.958126
+      value: -8.05
       objectReference: {fileID: 0}
     - target: {fileID: 2832588448955980398, guid: aad7051f1d1766a4888944649b2cdbda, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3194,7 +3194,7 @@ Transform:
   m_GameObject: {fileID: 743563268}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.020303663, z: -0, w: 0.9997938}
-  m_LocalPosition: {x: 28.024, y: 3.5, z: 178.904}
+  m_LocalPosition: {x: 28.024, y: 6.141, z: 178.904}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5206,7 +5206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1836749807}
   startVideoDelay: 3
-  exitCueDelay: 5
+  exitCueDelay: 30
   objectsToSpawn: {fileID: 1274896211}
   delayBetweenPhases: 2
   fadeDuration: 10
@@ -8244,7 +8244,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2487198650390212515, guid: 8d53abed9b11b5347a1fffe0b389a27e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.958126
+      value: -8.05
       objectReference: {fileID: 0}
     - target: {fileID: 2487198650390212515, guid: 8d53abed9b11b5347a1fffe0b389a27e, type: 3}
       propertyPath: m_LocalPosition.z
