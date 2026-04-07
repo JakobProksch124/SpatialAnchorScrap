@@ -753,7 +753,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Interaktive Pinnwand
+  m_text: Interactive bulletin board
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2269,7 +2269,7 @@ MonoBehaviour:
   iMessageLabel: 
   iMessageScreenshotDisplayed: {fileID: 2800000, guid: b454832487f81da439c695f5c3c2f9c1, type: 3}
   iMessageDescription: 
-  iMessageButtonText: "Schlie\xDFen"
+  iMessageButtonText: Close
   iMessageAnchor: {fileID: 6005192364133629521}
   notificationSoundPlayer: {fileID: 8292972302890120562}
   readNotificationPlayer: {fileID: 2452056357855687167}
@@ -2278,8 +2278,8 @@ MonoBehaviour:
   visualVoiceAnchorName: visualVoiceAnchor
   visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   visualVoiceLabel: 
-  visualVoiceDescription: Plakat in 5m links
-  visualVoiceButtonText: "Schlie\xDFen"
+  visualVoiceDescription: Poster in 5m on the left
+  visualVoiceButtonText: Close
   visualVoicevideoClip: {fileID: 32900000, guid: 4e803596261e197438ed4628c17f7568, type: 3}
   visualVoiceAnchor: {fileID: 3533729435843602263}
 --- !u!82 &8292972302890120562
@@ -3681,7 +3681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Bridge
-  navigationDestination: Mensa
+  navigationDestination: Cafeteria
   ExtraARContent: {fileID: 7689347614445365849}
   leaveHMDIsBland: 1
   iMessageCueIsBland: 0
@@ -3690,8 +3690,8 @@ MonoBehaviour:
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 2800000, guid: 2bc04f2592dd931408b32e4a500abdae, type: 3}
-  startArrivalDescription: "Folge den Pfeilen durch das Geb\xE4ude."
-  startArrivalButtonText: "Schlie\xDFen"
+  startArrivalDescription: Follow the arrows through the building.
+  startArrivalButtonText: Close
   startArrivalAlwaysExpand: 1
   startArrivalIsBland: 1
   vrRoomTitle: 'Open Lab: BRiDGE'
@@ -3699,24 +3699,24 @@ MonoBehaviour:
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
   entryScreenshotDisplayed: {fileID: 2800000, guid: 28dbfffbf5dce51408ebbe435af27513, type: 3}
-  entryDescription: Open Lab in zwei Wochen. Willst du dir eine VR-Vorschau ansehen?
-  entryButtonText: Zu VR wechseln
+  entryDescription: Open Lab in two weeks. Do you want to look at a VR-Preview?
+  entryButtonText: Switch to VR
   entryAlwaysExpand: 0
   entryIsBland: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: VR
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
-  entryArrivalDescription: Willkommen im Open Lab. Teleportiere dich zum Erkunden.
-  entryArrivalButtonText: "Schlie\xDFen"
+  entryArrivalDescription: Willkommen im Open Lab. Teleport to explore.
+  entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
   entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
   exitScreenshotDisplayed: {fileID: 0}
-  exitDescription: "Deine Freunde warten in der Mensa. Zur AR-Navigation zur\xFCckkehren."
-  exitButtonText: Zu AR wechseln.
+  exitDescription: Your friends are waiting in the cafeteria. Return to AR-Navigation.
+  exitButtonText: Switch to AR
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitIsBland: 0
@@ -3725,8 +3725,8 @@ MonoBehaviour:
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: AR
   exitArrivalScreenshotDisplayed: {fileID: 0}
-  exitArrivalDescription: Folge den Pfeilen zur Mensa.
-  exitArrivalButtonText: "Schlie\xDFen"
+  exitArrivalDescription: Follow the arrows to the cafeteria
+  exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 1
   exitArrivalIsBland: 0
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -3748,14 +3748,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveHMDAnchorName: LeaveHMDAnchor
   leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
-  leaveHMDLabel: Verlasse AR
+  leaveHMDLabel: Leave AR
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 0aab4fdb54e046d4e8d2ea3b6ea0ce05, type: 3}
-  leaveHMDDescription: Ziel erreicht. Nimm das Headset ab und schau auf dein Handy.
-  leaveHMDButtonText: Verlasse AR
+  leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
+  leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   targetName: BibTarget
-  locationName: Ziel
+  locationName: Destination
   arrivalDistance: 5
   gazeThreshold: 0.7
   despawnAfter: 3.5
@@ -3769,7 +3769,7 @@ MonoBehaviour:
   turnMaxAngle: 12.5
   turnRotationSpeed: 2
   turnTriggerDistance: 6
-  message: Check dein Handy!
+  message: Check your phone!
 --- !u!1 &7463347187346498711
 GameObject:
   m_ObjectHideFlags: 0

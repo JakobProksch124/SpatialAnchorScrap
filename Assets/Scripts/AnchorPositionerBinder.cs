@@ -36,7 +36,7 @@ public class AnchorPositionerBinder : MonoBehaviour
     private void Start()
     {
 
-        UINotificationSystem.Instance.ShowPersistentMessage("Der Pfad wird geladen.", true);
+        UINotificationSystem.Instance.ShowPersistentMessage("Loading path.", true);
     }
 
     private void Update()

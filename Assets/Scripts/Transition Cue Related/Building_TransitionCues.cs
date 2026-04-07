@@ -928,7 +928,7 @@ public class Building_TransitionCues : MonoBehaviour
             }
 
             StartCoroutine(UINotificationSystem.Instance.ShowTextInUI(
-                textToShow: "Navigation zu "+navigationDestination+" wird fortgesetzt",
+                textToShow: "Continuing navigation to the "+navigationDestination+" ",
                 swipeSpeed: 2.0f,
                 displayDuration: 3.0f,
                 yOffset: -50f

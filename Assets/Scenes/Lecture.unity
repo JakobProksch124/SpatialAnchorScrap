@@ -5214,7 +5214,7 @@ MonoBehaviour:
   startArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   startArrivalLabel: Start
   startArrivalScreenshotDisplayed: {fileID: 0}
-  startArrivalDescription: "Start dr\xFCcken, um das Video zu starten."
+  startArrivalDescription: Press start to start the video.
   startArrivalButtonText: Start
   startArrivalAlwaysExpand: 1
   startArrivalIsBland: 1
@@ -5223,9 +5223,8 @@ MonoBehaviour:
   exitPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
   exitLabel: 
   exitScreenshotDisplayed: {fileID: 0}
-  exitDescription: "Peter m\xF6chte gehen. Nimm das Headset ab und schau auf dein
-    Handy."
-  exitButtonText: VR verlassen
+  exitDescription: Peter wants to leave. Take off the headset and check your phone.
+  exitButtonText: Leave VR
   exitAlwaysExpand: 1
   exitIsBland: 0
   switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}

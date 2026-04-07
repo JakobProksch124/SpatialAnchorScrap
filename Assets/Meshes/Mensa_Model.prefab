@@ -1116,24 +1116,24 @@ MonoBehaviour:
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 0}
-  startArrivalDescription: "W\xE4hle ein Gericht zum Bestellen."
-  startArrivalButtonText: Auswahl starten
+  startArrivalDescription: Choose a meal to order.
+  startArrivalButtonText: Start ordering.
   startArrivalAlwaysExpand: 1
   startArrivalIsBland: 0
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryLabel: Zu Peter
   entryScreenshotDisplayed: {fileID: 2800000, guid: 9181b95a2d529f244b9cd668046707eb, type: 3}
-  entryDescription: Dein Essen wurde bestellt. Zum Tisch von Peter navigieren?
-  entryButtonText: Navigation starten
+  entryDescription: Your meal was ordered. Navigate to peters table?
+  entryButtonText: Start navigation
   entryAlwaysExpand: 0
   entryIsBland: 1
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryArrivalLabel: AR
   entryArrivalScreenshotDisplayed: {fileID: 0}
-  entryArrivalDescription: Folge der Route zu Peter.
-  entryArrivalButtonText: "Schlie\xDFen"
+  entryArrivalDescription: Follow the route to peter
+  entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
   entryArrivalIsBland: 1
   enableKeyboardShortcuts: 0
@@ -1164,10 +1164,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveHMDAnchorName: LeaveHMDAnchor
   leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
-  leaveHMDLabel: Verlasse AR
+  leaveHMDLabel: Leave AR
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
-  leaveHMDDescription: Ziel erreicht. Nimm das Headset ab und schau auf dein Handy.
-  leaveHMDButtonText: Verlasse AR
+  leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
+  leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   targetName: MensaTarget
@@ -1185,7 +1185,7 @@ MonoBehaviour:
   turnMaxAngle: 12.5
   turnRotationSpeed: 2
   turnTriggerDistance: 6
-  message: Guten Appetit!
+  message: Enjoy your meal!
 --- !u!114 &5312010339948098574
 MonoBehaviour:
   m_ObjectHideFlags: 0
