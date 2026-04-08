@@ -2267,7 +2267,7 @@ MonoBehaviour:
   iMessageAnchorName: iMessageAnchor
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   iMessageLabel: 
-  iMessageScreenshotDisplayed: {fileID: 2800000, guid: b454832487f81da439c695f5c3c2f9c1, type: 3}
+  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 78f9724f03980c344a0accc2632f258e, type: 3}
   iMessageDescription: 
   iMessageButtonText: Close
   iMessageAnchor: {fileID: 6005192364133629521}
@@ -2280,7 +2280,7 @@ MonoBehaviour:
   visualVoiceLabel: 
   visualVoiceDescription: Poster in 5m on the left
   visualVoiceButtonText: Close
-  visualVoicevideoClip: {fileID: 32900000, guid: 4e803596261e197438ed4628c17f7568, type: 3}
+  visualVoicevideoClip: {fileID: 32900000, guid: 7545b6bfff914764daa0cd7dd3a1dd73, type: 3}
   visualVoiceAnchor: {fileID: 3533729435843602263}
 --- !u!82 &8292972302890120562
 AudioSource:
