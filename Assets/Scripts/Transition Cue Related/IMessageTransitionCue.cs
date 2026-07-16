@@ -36,7 +36,6 @@ public class IMessageTransitionCue : MonoBehaviour
 
     private GameObject iMessageCue;
     private bool hasTriggered = false;
-    private bool iMessageIsBland = false;
     private Transform playerTransform;
     private float triggerDistance = 6f;
 
@@ -88,7 +87,6 @@ public class IMessageTransitionCue : MonoBehaviour
         };
 
         iMessageCueConfig.alwaysExpanded = true;
-        iMessageCueConfig.isBland = false;
         iMessageCueConfig.isArrival = true;
         iMessageCueConfig.primaryColor = iMessagePrimaryColor;
         iMessageCueConfig.expandedDescription = iMessageDescription;
@@ -100,14 +98,7 @@ public class IMessageTransitionCue : MonoBehaviour
         UnityEngine.Debug.Log("iMessage cue created!");
         notificationSoundPlayer.Play();
 
-        if (!iMessageIsBland)
-        {
-            Invoke(nameof(readNotification), readNotificationDelay);
-        }
-        else
-        {
-            willReadNotification = false;
-        }
+       
     }
 
     // CUE INFO:
@@ -162,9 +153,5 @@ public class IMessageTransitionCue : MonoBehaviour
         }
     }
 
-    public void SetIsBland(bool iMessageIsBland)
-    {
-        this.iMessageIsBland = iMessageIsBland;
-    }
 
 }

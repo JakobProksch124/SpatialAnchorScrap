@@ -8,7 +8,6 @@ public class Mensa_FriendCue : MonoBehaviour
 {
     [Tooltip("Destination shown in the navigation notification after returning to AR")]
     [SerializeField] private string navigationDestination = "Next Location";
-    [SerializeField] private bool leaveHMDIsBland = false;
 
 
 
@@ -21,7 +20,6 @@ public class Mensa_FriendCue : MonoBehaviour
     [SerializeField] private string startArrivalDescription = "Welcome to the VR lecture!";
     [SerializeField] private string startArrivalButtonText = "Start Video";
     [SerializeField] private bool startArrivalAlwaysExpand = false;
-    [SerializeField] private bool startArrivalIsBland = false;
 
     [SerializeField] private string entryAnchorName = "entryAnchor";
     [SerializeField] private Color entryPrimaryColor = new Color(0.3f, 0.4f, 0.8f);
@@ -31,7 +29,6 @@ public class Mensa_FriendCue : MonoBehaviour
     [SerializeField] private string entryDescription = "Start navigation to friends";
     [SerializeField] private string entryButtonText = "Start navigation";
     [SerializeField] private bool entryAlwaysExpand = true;
-    [SerializeField] private bool entryIsBland = true;
 
     [SerializeField] private string entryArrivalAnchorName = "entryArrivalAnchor";
     [SerializeField] private Color entryArrivalPrimaryColor = new Color(0.3f, 0.4f, 0.8f);
@@ -41,15 +38,11 @@ public class Mensa_FriendCue : MonoBehaviour
     [SerializeField] private string entryArrivalDescription = "Started navigation";
     [SerializeField] private string entryArrivalButtonText = "X";
     [SerializeField] private bool entryArrivalAlwaysExpand = true;
-    [SerializeField] private bool entryArrivalIsBland = true;
 
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
-    [SerializeField] InputActionReference switchIsBlandButton;
     private Positioner positioner;
 
-
-    private bool _switchIsBlandButtonWasPressed = false;
 
     // Internal references
     private Transform entryAnchor;
@@ -86,19 +79,6 @@ public class Mensa_FriendCue : MonoBehaviour
     private GameObject foodButton2;
     private GameObject foodButton3;
 
-    void Awake()
-    {
-        LoadBlandState();
-        if (entryIsBland && startArrivalIsBland)
-        {
-
-            startArrivalIsBland = false;
-            entryArrivalIsBland = true;
-            entryIsBland = true;
-            leaveHMDIsBland = false;
-            SaveBlandState();
-        }
-    }
 
     void Start()
     {
@@ -184,8 +164,7 @@ public class Mensa_FriendCue : MonoBehaviour
     }
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
-        if (!startArrivalIsBland)
-        {
+        
             TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: StartArrivalAnchor,
                 onInteract: () =>
@@ -212,22 +191,11 @@ public class Mensa_FriendCue : MonoBehaviour
             startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
             UnityEngine.Debug.Log("start arrival cue created!");
 
-        }
-        else
-        {
-            ShowFood();
-        }
+        
     }
 
     void Update()
     {
-        if (positioner != null)
-        {
-            if (positioner.getDevMode())
-            {
-                CheckSwitchIsBland();
-            }
-        }
         if (!enableKeyboardShortcuts) return;
 
         // Keyboard shortcuts for testing (New Input System)
@@ -249,18 +217,6 @@ public class Mensa_FriendCue : MonoBehaviour
                 }
             }
         }
-    }
-
-
-    void CheckSwitchIsBland()
-    {
-        bool isPressed = switchIsBlandButton.action.IsPressed();
-        if (_switchIsBlandButtonWasPressed && !isPressed)
-        {
-            SwitchIsBland();
-        }
-        _switchIsBlandButtonWasPressed = isPressed;
-
     }
 
     public void showEntryCue()
@@ -302,7 +258,7 @@ public class Mensa_FriendCue : MonoBehaviour
         arrivalCue = GetComponent<ArrivalCue>();
         if (arrivalCue != null)
         {
-            arrivalCue.SpawnArrivalCue(leaveHMDIsBland);
+            arrivalCue.SpawnArrivalCue();
             UnityEngine.Debug.Log("Spawned LeaveHMD cue!");
         }
     }
@@ -341,8 +297,7 @@ public class Mensa_FriendCue : MonoBehaviour
             entryCue.SetActive(false);
         };
 
-        if (!entryIsBland)
-        {
+       
             // Details
             UnityEngine.Debug.Log("setting cue details");
             entryCueConfig.primaryColor = entryPrimaryColor;
@@ -350,17 +305,6 @@ public class Mensa_FriendCue : MonoBehaviour
             entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
             entryCueConfig.alwaysExpanded = entryAlwaysExpand;
 
-        }
-        else
-        {
-            // Details
-            UnityEngine.Debug.Log("setting cue details");
-            entryCueConfig.primaryColor = Color.grey;
-            entryCueConfig.expandedDescription = entryLabel;
-            entryCueConfig.alwaysExpanded = true;
-            entryCueConfig.isBland = entryIsBland;
-
-        }
 
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;
@@ -369,8 +313,6 @@ public class Mensa_FriendCue : MonoBehaviour
 
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
     {
-        if (!entryIsBland)
-        {
             // Base
             TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: entryArrivalAnchor,
@@ -393,7 +335,7 @@ public class Mensa_FriendCue : MonoBehaviour
             entryArrivalCueConfig.label = entryArrivalLabel;
 
             entryArrivalCue = TransitionCueFactory.CreateCue(entryArrivalCueConfig);
-        }
+        
     }
 
     public void StartNavigationToFriends()
@@ -474,47 +416,5 @@ public class Mensa_FriendCue : MonoBehaviour
             }
         }
         return null;
-    }
-
-    public void SwitchIsBland()
-    {
-        entryArrivalIsBland = !entryArrivalIsBland;
-        entryIsBland = !entryIsBland;
-        startArrivalIsBland = !startArrivalIsBland;
-        leaveHMDIsBland = !leaveHMDIsBland;
-
-        if (!startArrivalIsBland)
-        {
-            UnityEngine.Debug.Log("active study: AB");
-        }
-        else
-        {
-            UnityEngine.Debug.Log("active study: BA");
-
-        }
-        SaveBlandState();
-
-        if (arrivalCue != null)
-        {
-            arrivalCue.SwitchIsBland();
-        }
-    }
-
-    void SaveBlandState()
-    {
-        PlayerPrefs.SetInt("entryArrivalIsBland", entryArrivalIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("entryIsBland", entryIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("startArrivalIsBland", startArrivalIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("leaveHMDIsBland", leaveHMDIsBland ? 1 : 0);
-
-        PlayerPrefs.Save();
-    }
-
-    void LoadBlandState()
-    {
-        entryArrivalIsBland = PlayerPrefs.GetInt("entryArrivalIsBland", 0) == 1;
-        entryIsBland = PlayerPrefs.GetInt("entryIsBland", 0) == 1;
-        startArrivalIsBland = PlayerPrefs.GetInt("startArrivalIsBland", 0) == 1;
-        leaveHMDIsBland = PlayerPrefs.GetInt("leaveHMDIsBland", 0) == 1;
     }
 }
