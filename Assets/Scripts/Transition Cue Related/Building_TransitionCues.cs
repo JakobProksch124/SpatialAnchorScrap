@@ -359,25 +359,28 @@ public class Building_TransitionCues : MonoBehaviour
 
         // XX hier einfach black mit blue austauschen
         // Fade transition
-        yield return StartCoroutine(TransitionEffects.Instance.FadeToBlackWithTitle(
+        /* yield return StartCoroutine(TransitionEffects.Instance.FadeToBlackWithTitle(
             roomTitle: vrRoomTitle,
             fadeColor: entryPrimaryColor,
             fadeDuration: 1f,
             titleHoldSeconds: 1.0f,
             onOverlayReady: go => overlay = go
-        ));
+        )); */
 
         Debug.Log("starting vr room coroutine 1");
 
         // Load the VR room
         yield return StartCoroutine(LoadVRRoom());
+        
+        // Fade out
+        yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(10f, vrRoom));
         yield return null;
 
-        yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
+        /* yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
             overlayCanvas: overlay,
             fadeColor: entryPrimaryColor,
             fadeDuration: 2f
-        ));
+        )); */
         TransitionParticleEffect.Spawn(mainCamera, enterVRParticleColor, particleDuration * 2);
         userInVRRoom = true;
     }
