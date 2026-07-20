@@ -5180,6 +5180,13 @@ MonoBehaviour:
   objectsToSpawn: {fileID: 1274896211}
   delayBetweenPhases: 2
   fadeDuration: 3
+  startTransitionAnchorName: startArrivalAnchor
+  startTransitionPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
+  startTransitionLabel: VR
+  startTransitionScreenshotDisplayed: {fileID: 0}
+  startTransitionDescription: Proceed to the lecture room!
+  startTransitionButtonText: Proceed!
+  startTransitionAlwaysExpand: 1
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   startArrivalLabel: Start
@@ -5195,8 +5202,15 @@ MonoBehaviour:
   exitDescription: Peter wants to leave. Take off the headset and check your phone.
   exitButtonText: Leave VR
   exitAlwaysExpand: 1
+  leaveHMDAnchorName: leaveHMDAnchor
+  leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
+  leaveHMDLabel: Leave AR
+  leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 0aab4fdb54e046d4e8d2ea3b6ea0ce05, type: 3}
+  leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
+  leaveHMDButtonText: Leave AR
+  leaveHMDAlwaysExpand: 1
+  leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   startArrivalAnchor: {fileID: 971701140}
-  exitAnchor: {fileID: 640068989}
 --- !u!1 &1319152206
 GameObject:
   m_ObjectHideFlags: 0

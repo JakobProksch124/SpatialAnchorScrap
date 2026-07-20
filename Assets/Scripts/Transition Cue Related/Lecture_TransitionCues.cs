@@ -22,6 +22,17 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.5f;
 
 
+    [Header("Start Transition Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string startTransitionAnchorName = "startArrivalAnchor";
+    [SerializeField] private Color startTransitionPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string startTransitionLabel = "VR";
+    [SerializeField] private Texture2D startTransitionScreenshotDisplayed;
+    [SerializeField] private string startTransitionDescription = "Welcome to the VR lecture!";
+    [SerializeField] private string startTransitionButtonText = "Start Video";
+    [SerializeField] private bool startTransitionAlwaysExpand = false;
+
+
     [Header("Start Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
     [SerializeField] private string startArrivalAnchorName = "startArrivalAnchor";
@@ -44,43 +55,79 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private string exitButtonText = "Stop Video";
     [SerializeField] private bool exitAlwaysExpand = false;
 
+    [Header("Leave HMD Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string leaveHMDAnchorName = "leaveHMDAnchor";
+    [SerializeField] private Color leaveHMDPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string leaveHMDLabel = "R";
+    [SerializeField] private Texture2D leaveHMDScreenshotDisplayed;
+    [SerializeField] private string leaveHMDDescription = "Take off the headmounted display";
+    [SerializeField] private string leaveHMDButtonText = "";
+    [SerializeField] private bool leaveHMDAlwaysExpand = false;
+    [SerializeField] private VideoClip leaveHMDvideoClip;
 
+    private GameObject leaveHMDCue;
 
 
     [SerializeField] private Transform startArrivalAnchor;
-    [SerializeField] private Transform exitAnchor;
     private GameObject exitCue;
+    private GameObject exitTransitionCue;
     private GameObject startArrivalCue;
+    private GameObject startTransitionCue;
 
     void Start()
     {
-        if (startArrivalAnchor == null)
-            Debug.LogError($"Start Arrival Anchor '{startArrivalAnchorName}' not found!");
-
-        if (exitAnchor == null)
-            Debug.LogError($"Exit Anchor '{exitAnchorName}' not found!");
-
-
-        // Start the sequence
+        HideAllChildren();
         
-            //HideAllChildren();
-            StartCoroutine(FadeInAll(fadeDuration));
-       
+        // Start the sequence
+        CreateStartTransitionCue(startArrivalAnchor);
+        StartCoroutine(FadeInAll(fadeDuration));
     }
 
+
+    void CreateStartTransitionCue(Transform StartArrivalAnchor)
+    {
+            TransitionCueConfig StartTransitionCueConfig = TransitionCueConfig.CreateARConfig(
+                parent: StartArrivalAnchor,
+                onInteract: () =>
+                {
+                StartCoroutine(FadeInAll(fadeDuration));
+                    
+                }
+            );
+
+
+            StartTransitionCueConfig.onCollide = (other) =>
+            {
+                StartCoroutine(FadeInAll(fadeDuration));
+            };
+
+
+            StartTransitionCueConfig.isArrival = false;
+            StartTransitionCueConfig.isTransparent = false;
+            StartTransitionCueConfig.alwaysExpanded = true;
+            StartTransitionCueConfig.primaryColor = startTransitionPrimaryColor;
+            StartTransitionCueConfig.expandedDescription = startTransitionDescription;
+            StartTransitionCueConfig.screenshotTexture = startTransitionScreenshotDisplayed;
+            StartTransitionCueConfig.label = startTransitionLabel;
+            StartTransitionCueConfig.buttonText = startTransitionButtonText;
+
+            startTransitionCue = TransitionCueFactory.CreateCue(StartTransitionCueConfig);
+    }
 
 
     void StartVideo()
     {
         videoPlayer.Play();
-
     }
+
+
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
-        CreateExitCue(exitAnchor);
-        /* 
-            TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
+        //CreateExitCue(exitAnchor);
+        
+            TransitionCueConfig StartTransitionCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: StartArrivalAnchor,
                 onInteract: () =>
                 {
@@ -102,7 +149,7 @@ public class Lecture_TransitionCues : MonoBehaviour
             );
 
 
-            StartArrivalCueConfig.onCollide = (other) =>
+            StartTransitionCueConfig.onCollide = (other) =>
             {
                 startArrivalCue.SetActive(false);// Start Video
                 if (videoPlayer != null)
@@ -120,36 +167,40 @@ public class Lecture_TransitionCues : MonoBehaviour
             };
 
 
-            StartArrivalCueConfig.isArrival = true;
-            StartArrivalCueConfig.isTransparent = false;
-            StartArrivalCueConfig.alwaysExpanded = true;
-            StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
-            StartArrivalCueConfig.expandedDescription = startArrivalDescription;
-            StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
-            StartArrivalCueConfig.label = startArrivalLabel;
-            StartArrivalCueConfig.buttonText = startArrivalButtonText;
+            StartTransitionCueConfig.isArrival = true;
+            StartTransitionCueConfig.isTransparent = false;
+            StartTransitionCueConfig.alwaysExpanded = true;
+            StartTransitionCueConfig.primaryColor = startArrivalPrimaryColor;
+            StartTransitionCueConfig.expandedDescription = startArrivalDescription;
+            StartTransitionCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
+            StartTransitionCueConfig.label = startArrivalLabel;
+            StartTransitionCueConfig.buttonText = startArrivalButtonText;
 
-            startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
-         */
+            startArrivalCue = TransitionCueFactory.CreateCue(StartTransitionCueConfig);
+         
     }
+
+    
 
     void SpawnExitCue()
     {
         Debug.Log("spawning Exit Cue");
-        CreateExitCue(exitAnchor);
+        CreateExitCue(startArrivalAnchor);
     }
-
-    void CreateExitCue(Transform exitAnchor)
+  
+    void CreateExitCue(Transform startArrivalAnchor)
     {
         TransitionCueConfig exitCueConfig = TransitionCueConfig.CreateARConfig(
-        parent: exitAnchor,
+        parent: startArrivalAnchor,
         onInteract: () =>
         {
+                StartCoroutine(FadeOutAll(fadeDuration));
         }
     );
 
         exitCueConfig.onCollide = (other) =>
         {
+                StartCoroutine(FadeOutAll(fadeDuration));
         };
 
             // Pause Video
@@ -168,6 +219,35 @@ public class Lecture_TransitionCues : MonoBehaviour
             exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
         
     }
+
+    
+    // CUE INFO:
+    // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
+    void CreateLeaveHMDCue(Transform leaveHMDAnchor)
+    {
+        // Base (Same basic configuration for enhanced as well as minimal cues
+        TransitionCueConfig leaveHMDCueConfig = TransitionCueConfig.CreateARConfig(
+            parent: leaveHMDAnchor,
+            onInteract: () =>
+            {
+            }
+        );
+
+       
+            // Details for enhanced cues
+            leaveHMDCueConfig.alwaysExpanded = leaveHMDAlwaysExpand;
+            leaveHMDCueConfig.primaryColor = leaveHMDPrimaryColor;
+            leaveHMDCueConfig.expandedDescription = leaveHMDDescription;
+            leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
+            leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
+        
+        leaveHMDCueConfig.isLeaveCue = true;
+        // (Effectively not used if alwaysExpanded)
+        leaveHMDCueConfig.label = leaveHMDLabel;
+        leaveHMDCueConfig.buttonText = leaveHMDButtonText;
+        leaveHMDCue = TransitionCueFactory.CreateCue(leaveHMDCueConfig);
+    }
+
 
     void HideAllChildren()
 {
@@ -216,6 +296,7 @@ public IEnumerator FadeInAll(float duration)
         block.SetFloat("_Fade", 0f);
         r.SetPropertyBlock(block);
     }
+    CreateStartArrivalCue(startArrivalAnchor);
 }
 
 public IEnumerator FadeOutAll(float duration)
@@ -249,5 +330,6 @@ public IEnumerator FadeOutAll(float duration)
     }
 
     objectsToSpawn.gameObject.SetActive(false);
+    CreateLeaveHMDCue(startArrivalAnchor);
 }
 }
