@@ -166,200 +166,103 @@ public class TransitionEffects : MonoBehaviour
     // Fades out the VR room when returning to AR mode
     // Gradually makes VR objects transparent so AR passthrough shows through
     public IEnumerator FadeToAR(float fadeDuration = 1.5f, GameObject vrRoom = null)
-    {
-        if (vrRoom == null) yield break;
-
-        // include inactive children too, to avoid popping
-        Renderer[] renderers = vrRoom.GetComponentsInChildren<Renderer>(true);
-
-        // Create transparent material instances per renderer
-        Material[][] newMatsPerRenderer = new Material[renderers.Length][];
-        int[][] colorPropIdsPerRenderer = new int[renderers.Length][];
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            var r = renderers[i];
-            if (r == null) continue;
-
-            Material[] srcMats = r.materials; // instances
-            newMatsPerRenderer[i] = new Material[srcMats.Length];
-            colorPropIdsPerRenderer[i] = new int[srcMats.Length];
-
-            for (int j = 0; j < srcMats.Length; j++)
-            {
-                var src = srcMats[j];
-                if (src == null)
-                {
-                    newMatsPerRenderer[i][j] = null;
-                    colorPropIdsPerRenderer[i][j] = -1;
-                    continue;
-                }
-
-                var inst = new Material(src);
-                TrySetURPTransparent(inst);
-
-                if (TryGetColorProp(inst, out int pid))
-                    colorPropIdsPerRenderer[i][j] = pid;
-                else
-                    colorPropIdsPerRenderer[i][j] = -1;
-
-                newMatsPerRenderer[i][j] = inst;
-            }
-
-            r.materials = newMatsPerRenderer[i];
-        }
-
-        float elapsed = 0f;
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = 1f - Mathf.Clamp01(elapsed / fadeDuration);
-
-            for (int i = 0; i < renderers.Length; i++)
-            {
-                var r = renderers[i];
-                if (r == null) continue;
-
-                var mats = r.materials;
-                var pids = colorPropIdsPerRenderer[i];
-                if (mats == null || pids == null) continue;
-
-                for (int j = 0; j < mats.Length; j++)
-                {
-                    var m = mats[j];
-                    int pid = pids[j];
-                    if (m == null || pid == -1) continue;
-
-                    Color c = m.GetColor(pid);
-                    c.a = alpha;
-                    m.SetColor(pid, c);
-                }
-            }
-
-            yield return null;
-        }
-
-        // Final pass: fully transparent (where supported)
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            var r = renderers[i];
-            if (r == null) continue;
-
-            var mats = r.materials;
-            var pids = colorPropIdsPerRenderer[i];
-            if (mats == null || pids == null) continue;
-
-            for (int j = 0; j < mats.Length; j++)
-            {
-                var m = mats[j];
-                int pid = pids[j];
-                if (m == null || pid == -1) continue;
-
-                Color c = m.GetColor(pid);
-                c.a = 0f;
-                m.SetColor(pid, c);
-            }
-        }
-    }
-
-// Fades in the VR room when entering AR mode
-// Gradually makes VR objects visible, then restores original materials
-public IEnumerator FadeToVR(float fadeDuration = 1.5f, GameObject vrRoom = null)
 {
-    if (vrRoom == null) yield break;
+    if (vrRoom == null)
+        yield break;
 
     Renderer[] renderers = vrRoom.GetComponentsInChildren<Renderer>(true);
 
-    // Store the ORIGINAL materials so we can restore them afterwards
-    Material[][] originalMatsPerRenderer = new Material[renderers.Length][];
-
-    // Transparent material instances used only during the fade
-    Material[][] fadeMatsPerRenderer = new Material[renderers.Length][];
-    int[][] colorPropIdsPerRenderer = new int[renderers.Length][];
-
-    for (int i = 0; i < renderers.Length; i++)
-    {
-        var r = renderers[i];
-        if (r == null) continue;
-
-        // Save originals
-        originalMatsPerRenderer[i] = r.materials;
-
-        Material[] srcMats = originalMatsPerRenderer[i];
-        fadeMatsPerRenderer[i] = new Material[srcMats.Length];
-        colorPropIdsPerRenderer[i] = new int[srcMats.Length];
-
-        for (int j = 0; j < srcMats.Length; j++)
-        {
-            var src = srcMats[j];
-
-            if (src == null)
-            {
-                fadeMatsPerRenderer[i][j] = null;
-                colorPropIdsPerRenderer[i][j] = -1;
-                continue;
-            }
-
-            var inst = new Material(src);
-            TrySetURPTransparent(inst);
-
-            if (TryGetColorProp(inst, out int pid))
-            {
-                colorPropIdsPerRenderer[i][j] = pid;
-
-                // Start fully transparent
-                Color c = inst.GetColor(pid);
-                c.a = 0f;
-                inst.SetColor(pid, c);
-            }
-            else
-            {
-                colorPropIdsPerRenderer[i][j] = -1;
-            }
-
-            fadeMatsPerRenderer[i][j] = inst;
-        }
-
-        // Use the temporary transparent materials
-        r.materials = fadeMatsPerRenderer[i];
-    }
+    MaterialPropertyBlock block = new MaterialPropertyBlock();
 
     float elapsed = 0f;
 
     while (elapsed < fadeDuration)
     {
         elapsed += Time.deltaTime;
-        float alpha = Mathf.Clamp01(elapsed / fadeDuration);
 
-        for (int i = 0; i < renderers.Length; i++)
+        // Starts visible (0) and ends invisible (1)
+        float fade = Mathf.Clamp01(elapsed / fadeDuration);
+
+        foreach (Renderer r in renderers)
         {
-            var mats = fadeMatsPerRenderer[i];
-            var pids = colorPropIdsPerRenderer[i];
+            if (r == null)
+                continue;
 
-            if (mats == null) continue;
-
-            for (int j = 0; j < mats.Length; j++)
+            for (int m = 0; m < r.sharedMaterials.Length; m++)
             {
-                var m = mats[j];
-                int pid = pids[j];
-
-                if (m == null || pid == -1)
-                    continue;
-
-                Color c = m.GetColor(pid);
-                c.a = alpha;
-                m.SetColor(pid, c);
+                r.GetPropertyBlock(block, m);
+                block.SetFloat("_Fade", fade);
+                r.SetPropertyBlock(block, m);
             }
         }
 
         yield return null;
     }
 
-    // Restore the ORIGINAL materials
-    for (int i = 0; i < renderers.Length; i++)
+    // Ensure completely invisible
+    foreach (Renderer r in renderers)
     {
-        if (renderers[i] != null)
-            renderers[i].materials = originalMatsPerRenderer[i];
+        if (r == null)
+            continue;
+
+        for (int m = 0; m < r.sharedMaterials.Length; m++)
+        {
+            r.GetPropertyBlock(block, m);
+            block.SetFloat("_Fade", 1f);
+            r.SetPropertyBlock(block, m);
+        }
+    }
+}
+
+// Fades in the VR room when entering AR mode
+// Gradually makes VR objects visible, then restores original materials
+public IEnumerator FadeToVR(float fadeDuration = 1.5f, GameObject vrRoom = null)
+{
+    if (vrRoom == null)
+        yield break;
+
+    Renderer[] renderers = vrRoom.GetComponentsInChildren<Renderer>(true);
+
+    MaterialPropertyBlock block = new MaterialPropertyBlock();
+
+    float elapsed = 0f;
+
+    while (elapsed < fadeDuration)
+    {
+        elapsed += Time.deltaTime;
+
+        // Starts invisible (1) and ends visible (0)
+        float fade = 1f - Mathf.Clamp01(elapsed / fadeDuration);
+
+        foreach (Renderer r in renderers)
+        {
+            if (r == null)
+                continue;
+
+            // Handle every material on the renderer
+            for (int m = 0; m < r.sharedMaterials.Length; m++)
+            {
+                r.GetPropertyBlock(block, m);
+                block.SetFloat("_Fade", fade);
+                r.SetPropertyBlock(block, m);
+            }
+        }
+
+        yield return null;
+    }
+
+    // Ensure completely visible
+    foreach (Renderer r in renderers)
+    {
+        if (r == null)
+            continue;
+
+        for (int m = 0; m < r.sharedMaterials.Length; m++)
+        {
+            r.GetPropertyBlock(block, m);
+            block.SetFloat("_Fade", 0f);
+            r.SetPropertyBlock(block, m);
+        }
     }
 }
 }

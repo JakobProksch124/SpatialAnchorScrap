@@ -1111,7 +1111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navigationDestination: Peter
-  leaveHMDIsBland: 0
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
@@ -1119,7 +1118,6 @@ MonoBehaviour:
   startArrivalDescription: Choose a meal to order.
   startArrivalButtonText: Start ordering.
   startArrivalAlwaysExpand: 1
-  startArrivalIsBland: 0
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryLabel: Zu Peter
@@ -1127,7 +1125,6 @@ MonoBehaviour:
   entryDescription: Your meal was ordered. Navigate to peters table?
   entryButtonText: Start navigation
   entryAlwaysExpand: 0
-  entryIsBland: 1
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryArrivalLabel: AR
@@ -1135,9 +1132,7 @@ MonoBehaviour:
   entryArrivalDescription: Follow the route to peter
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
-  entryArrivalIsBland: 1
   enableKeyboardShortcuts: 0
-  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   FoodA: {fileID: 3585625922424050813}
   FoodB: {fileID: 6710811993430716004}
   FoodC: {fileID: 147486778050537594}

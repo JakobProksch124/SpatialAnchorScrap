@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 
 // Place script directly on the Building Prefab Root
+//transition cues for G64 and Bib
 public class Building_TransitionCues : MonoBehaviour
 {
     [Header("General Reference Configuration")]
@@ -373,7 +374,7 @@ public class Building_TransitionCues : MonoBehaviour
         yield return StartCoroutine(LoadVRRoom());
         
         // Fade out
-        yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(10f, vrRoom));
+        yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(3f, vrRoom));
         yield return null;
 
         /* yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
