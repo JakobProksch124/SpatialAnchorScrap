@@ -63,8 +63,8 @@ public class Lecture_TransitionCues : MonoBehaviour
 
         // Start the sequence
         
-            HideAllChildren();
-            StartCoroutine(SpawnPhases());
+            //HideAllChildren();
+            StartCoroutine(FadeInAll(fadeDuration));
        
     }
 
@@ -170,135 +170,84 @@ public class Lecture_TransitionCues : MonoBehaviour
     }
 
     void HideAllChildren()
+{
+    foreach (Transform child in objectsToSpawn)
     {
-        foreach (Transform phase in objectsToSpawn)
-        {
-            phase.gameObject.SetActive(false);
-        }
+        child.gameObject.SetActive(false);
+    }
+}
+
+public IEnumerator FadeInAll(float duration)
+{
+    Renderer[] renderers = objectsToSpawn.GetComponentsInChildren<Renderer>(true);
+    MaterialPropertyBlock block = new MaterialPropertyBlock();
+
+    // Start fully invisible
+    foreach (Renderer r in renderers)
+    {
+        r.GetPropertyBlock(block);
+        block.SetFloat("_Fade", 1f);
+        r.SetPropertyBlock(block);
     }
 
-    IEnumerator SpawnPhases()
+    objectsToSpawn.gameObject.SetActive(true);
+
+    float elapsed = 0f;
+
+    while (elapsed < duration)
     {
-        Transform phase1 = objectsToSpawn.GetChild(0);
-
-        // Prepare alpha BEFORE enabling
-        SetPhaseAlpha(phase1, 0f);
-        if (phase1 != null)
-        {
-
-            phase1.gameObject.SetActive(true);
-
-            yield return StartCoroutine(FadeInPhase(phase1));
-        }
-        Transform phase2 = objectsToSpawn.GetChild(1);
-
-        // Prepare alpha BEFORE enabling
-        SetPhaseAlpha(phase2, 0f);
-        if (phase2 != null)
-        {
-
-            phase2.gameObject.SetActive(true);
-
-            yield return StartCoroutine(FadeInPhase(phase2));
-        }
-
-        Transform phase3 = objectsToSpawn.GetChild(2);
-        phase3.gameObject.SetActive(true);
-        if (phase3 != null)
-        {
-
-            foreach (Transform child in phase3)
-            {
-                child.gameObject.SetActive(true);
-            }
-        }
-        CreateStartArrivalCue(startArrivalAnchor);
-    }
-
-    void SetPhaseAlpha(Transform phase, float alpha)
-    {
-        Renderer[] renderers = phase.GetComponentsInChildren<Renderer>(true);
+        elapsed += Time.deltaTime;
+        float fade = 1f - Mathf.Clamp01(elapsed / duration);
 
         foreach (Renderer r in renderers)
         {
-            foreach (Material mat in r.materials)
-            {
-                if (mat.HasProperty("_Color"))
-                {
-                    Color c = mat.color;
-                    c.a = alpha;
-                    mat.color = c;
-                }
-            }
+            r.GetPropertyBlock(block);
+            block.SetFloat("_Fade", fade);
+            r.SetPropertyBlock(block);
         }
+
+        yield return null;
     }
 
-
-    IEnumerator FadeInPhase(Transform phase)
+    // Ensure completely visible
+    foreach (Renderer r in renderers)
     {
-        Renderer[] renderers = phase.GetComponentsInChildren<Renderer>(true);
-        float time = 0f;
-
-        // --- BLOCK 1: START-ZUSTAND ---
-        foreach (Renderer r in renderers)
-        {
-            foreach (Material mat in r.materials)
-            {
-                // CHANGE: "_Color" durch "_BaseColor" ersetzt (URP Standard)
-                if (mat.HasProperty("_BaseColor"))
-                {
-                    Color c = mat.GetColor("_BaseColor");
-                    c.a = 0f;
-                    mat.SetColor("_BaseColor", c);
-                }
-            }
-        }
-
-        // --- BLOCK 2: DIE SCHLEIFE ---
-        while (time < fadeDuration)
-        {
-            // CHANGE: Mathf.Clamp01 hinzugef�gt, damit alpha nie > 1 wird
-            float alpha = Mathf.Clamp01(time / fadeDuration);
-
-            foreach (Renderer r in renderers)
-            {
-                foreach (Material mat in r.materials)
-                {
-                    // CHANGE: "_Color" durch "_BaseColor" ersetzt
-                    if (mat.HasProperty("_BaseColor"))
-                    {
-                        Color c = mat.GetColor("_BaseColor");
-                        c.a = alpha;
-                        mat.SetColor("_BaseColor", c);
-                    }
-                }
-            }
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-
-        // --- BLOCK 3: ABSCHLUSS (HIER LAG DER FEHLER) ---
-        foreach (Renderer r in renderers)
-        {
-            foreach (Material mat in r.materials)
-            {
-                if (mat.HasProperty("_BaseColor"))
-                {
-                    // NEU: Setzt das Material wieder auf "Opaque" (Undurchsichtig)
-                    // Ohne diese Zeilen bleibt das Objekt im Modus "Transparent",
-                    // was Schatten und Tiefendarstellung (ZWrite) ruiniert.
-                    mat.SetFloat("_Surface", 0); // 0 = Opaque Modus
-                    mat.SetInt("_ZWrite", 1);    // Schaltet Tiefenschreiben wieder ein
-                    mat.DisableKeyword("_SURFACE_TYPE_TRANSPARENT"); // Keyword deaktivieren
-                    mat.renderQueue = -1;        // Zur�ck in die Standard-Render-Reihenfolge
-
-                    // Sicherstellen, dass Alpha am Ende 1 ist
-                    Color c = mat.GetColor("_BaseColor");
-                    c.a = 1f;
-                    mat.SetColor("_BaseColor", c);
-                }
-            }
-        }
+        r.GetPropertyBlock(block);
+        block.SetFloat("_Fade", 0f);
+        r.SetPropertyBlock(block);
     }
+}
+
+public IEnumerator FadeOutAll(float duration)
+{
+    Renderer[] renderers = objectsToSpawn.GetComponentsInChildren<Renderer>(true);
+    MaterialPropertyBlock block = new MaterialPropertyBlock();
+
+    float elapsed = 0f;
+
+    while (elapsed < duration)
+    {
+        elapsed += Time.deltaTime;
+        float fade = Mathf.Clamp01(elapsed / duration);
+
+        foreach (Renderer r in renderers)
+        {
+            r.GetPropertyBlock(block);
+            block.SetFloat("_Fade", fade);
+            r.SetPropertyBlock(block);
+        }
+
+        yield return null;
+    }
+
+    // Ensure completely invisible
+    foreach (Renderer r in renderers)
+    {
+        r.GetPropertyBlock(block);
+        block.SetFloat("_Fade", 1f);
+        r.SetPropertyBlock(block);
+    }
+
+    objectsToSpawn.gameObject.SetActive(false);
+}
 }
