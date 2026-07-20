@@ -5217,7 +5217,6 @@ MonoBehaviour:
   startArrivalDescription: Press start to start the video.
   startArrivalButtonText: Start
   startArrivalAlwaysExpand: 1
-  startArrivalIsBland: 1
   videoStartDelay: 3
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
@@ -5226,8 +5225,6 @@ MonoBehaviour:
   exitDescription: Peter wants to leave. Take off the headset and check your phone.
   exitButtonText: Leave VR
   exitAlwaysExpand: 1
-  exitIsBland: 0
-  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   startArrivalAnchor: {fileID: 971701140}
   exitAnchor: {fileID: 640068989}
 --- !u!1 &1319152206
@@ -7670,7 +7667,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1836749803
 MeshCollider:
   m_ObjectHideFlags: 0
