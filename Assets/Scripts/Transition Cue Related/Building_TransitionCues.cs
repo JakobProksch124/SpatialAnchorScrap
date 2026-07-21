@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Oculus.Interaction;
 
 // Place script directly on the Building Prefab Root
 public class Building_TransitionCues : MonoBehaviour
@@ -341,9 +342,62 @@ public class Building_TransitionCues : MonoBehaviour
     {
         var prefab = Resources.Load<GameObject>("TransitionCue");
         if (prefab == null)
+        {
             Debug.Log($"[Building_TransitionCues] Could not find prefab for {entryAnchor.name}");
-        else
-            Instantiate(prefab, entryAnchor);
+            return;
+        }
+
+        entryCue = Instantiate(prefab, entryAnchor);
+        FixUpCanvasRayButtons(entryCue);
+
+        WireCueButton(entryCue, "EnterVR", () => StartCoroutine(EnterVR()));
+        WireCueButton(entryCue, "NotNow", () => entryCue.SetActive(false));
+    }
+
+    // The TransitionCue prefab's Canvas buttons (EnterVR, NotNow, ...) ship with a
+    // RayInteractable + BoxCollider, but the BoxCollider is left at Unity's default
+    // 1x1x1 size while the Canvas is scaled down (~0.0005), so the actual hittable
+    // volume is a sub-millimeter speck compared to the visible button. They also have
+    // no hover/press feedback, since UIButtonHoverEffect only supports mesh Renderers,
+    // not CanvasRenderer/Image. This fixes both so the ray interaction is visible and
+    // pressable.
+    private static void FixUpCanvasRayButtons(GameObject cueRoot)
+    {
+        Canvas.ForceUpdateCanvases();
+
+        foreach (var ray in cueRoot.GetComponentsInChildren<RayInteractable>(true))
+        {
+            var rect = ray.GetComponent<RectTransform>();
+            var collider = ray.GetComponent<BoxCollider>();
+            if (rect == null || collider == null) continue;
+
+            Vector2 size = rect.rect.size;
+            if (size.x <= 0f || size.y <= 0f) continue; // not laid out - leave as authored
+
+            collider.size = new Vector3(size.x, size.y, collider.size.z);
+            collider.center = new Vector3(rect.rect.center.x, rect.rect.center.y, collider.center.z);
+
+            if (ray.GetComponent<UICanvasButtonHoverEffect>() == null)
+            {
+                ray.gameObject.AddComponent<UICanvasButtonHoverEffect>();
+            }
+        }
+    }
+
+    // Finds a named RayInteractable button inside an instantiated cue prefab and
+    // invokes onSelect when it transitions into the Select state.
+    private static void WireCueButton(GameObject cueRoot, string buttonName, System.Action onSelect)
+    {
+        foreach (var ray in cueRoot.GetComponentsInChildren<RayInteractable>(true))
+        {
+            if (ray.gameObject.name != buttonName) continue;
+
+            ray.WhenStateChanged += state =>
+            {
+                if (state.NewState == InteractableState.Select)
+                    onSelect?.Invoke();
+            };
+        }
     }
 
     IEnumerator EnterVR()
