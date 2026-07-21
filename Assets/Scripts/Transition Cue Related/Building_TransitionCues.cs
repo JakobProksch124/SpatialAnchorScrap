@@ -284,7 +284,7 @@ public class Building_TransitionCues : MonoBehaviour
         Vector3 pos = vrRoom.transform.position;
         pos.y = Mathf.Lerp(pos.y, pos.y + targetFloorDeltaY, Time.deltaTime * 10f);
         vrRoom.transform.position = pos;
-        // NO Physics.SyncTransforms() — let Unity handle it
+        // NO Physics.SyncTransforms() ï¿½ let Unity handle it
     }
 
     void AlignVRFloorToRealFloor()
@@ -339,42 +339,11 @@ public class Building_TransitionCues : MonoBehaviour
 
     void CreateEntryCue(Transform entryAnchor)
     {
-
-        // Base
-        TransitionCueConfig entryCueConfig = TransitionCueConfig.CreateVRConfig(
-           parent: entryAnchor,
-           onInteract: () => StartCoroutine(EnterVR())
-        );
-
-
-        entryCueConfig.onCollide = (other) =>
-        {
-            StartCoroutine(EnterVR());
-        };
-        if (!entryIsBland)
-        {
-            // Details
-            entryCueConfig.alwaysExpanded = entryAlwaysExpand;
-            entryCueConfig.primaryColor = entryPrimaryColor;
-            entryCueConfig.expandedDescription = entryDescription;
-            entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
-            Debug.Log("entry is not bland");
-        }
+        var prefab = Resources.Load<GameObject>("TransitionCue");
+        if (prefab == null)
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {entryAnchor.name}");
         else
-        {
-            // Details
-            entryCueConfig.alwaysExpanded = true;
-            entryCueConfig.primaryColor = Color.grey;
-            entryCueConfig.expandedDescription = entryLabel;
-            entryCueConfig.isBland = entryIsBland;
-            Debug.Log("entry is bland");
-        }
-
-        entryCueConfig.buttonText = entryButtonText;
-        entryCueConfig.label = entryLabel;
-        Debug.Log("creating entry cue");
-        entryCue = TransitionCueFactory.CreateCue(entryCueConfig);
-        Debug.Log("created entry cue successfully");
+            Instantiate(prefab, entryAnchor);
     }
 
     IEnumerator EnterVR()
