@@ -17,8 +17,6 @@ public class ArrivalCue : MonoBehaviour
     [SerializeField] private bool leaveHMDAlwaysExpand = false;
     [SerializeField] private VideoClip leaveHMDvideoClip;
 
-    private bool leaveHMDIsBland = false;
-
     private GameObject leaveHMDCue;
     private Transform leaveHMDAnchor;
 
@@ -134,24 +132,17 @@ public class ArrivalCue : MonoBehaviour
             return;
 
         if (ShouldTriggerArrival())
-        {
+        {            
             hasArrived = true;
-            if (!leaveHMDIsBland)
-            {
-                StartCoroutine(OnArrivedSequence());
-            }
-            else
-            {
-                HideArrivalCue();
-                CreateLeaveHMDCue(leaveHMDAnchor);
-            }
+
+            StartCoroutine(OnArrivedSequence());
+            
         }
     }
 
     // Spawn the arrival cue at the target child location
-    public void SpawnArrivalCue(bool leaveHMDIsBland)
+    public void SpawnArrivalCue()
     {
-        this.leaveHMDIsBland = leaveHMDIsBland;
         // Clean up any existing cue
         if (cueInstance != null)
         {
@@ -748,32 +739,18 @@ public class ArrivalCue : MonoBehaviour
             }
         );
 
-        if (!leaveHMDIsBland)
-        {
+       
             // Details for enhanced cues
             leaveHMDCueConfig.alwaysExpanded = leaveHMDAlwaysExpand;
             leaveHMDCueConfig.primaryColor = leaveHMDPrimaryColor;
             leaveHMDCueConfig.expandedDescription = leaveHMDDescription;
             leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
             leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
-        }
-        else
-        {
-            // Details for minimal cue
-            leaveHMDCueConfig.isBland = leaveHMDIsBland;
-            leaveHMDCueConfig.alwaysExpanded = false;
-            leaveHMDCueConfig.primaryColor = Color.grey;
-            leaveHMDCueConfig.expandedDescription = leaveHMDLabel;
-        }
+        
         leaveHMDCueConfig.isLeaveCue = true;
         // (Effectively not used if alwaysExpanded)
         leaveHMDCueConfig.label = leaveHMDLabel;
         leaveHMDCueConfig.buttonText = leaveHMDButtonText;
         leaveHMDCue = TransitionCueFactory.CreateCue(leaveHMDCueConfig);
-    }
-
-    public void SwitchIsBland()
-    {
-        leaveHMDIsBland = !leaveHMDIsBland;
     }
 }

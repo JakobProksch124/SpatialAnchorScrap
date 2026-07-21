@@ -632,11 +632,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
-  vrSceneName: Bridge
+  vrSceneName: Laboratory
   navigationDestination: TestLocation
   ExtraARContent: {fileID: 0}
-  leaveHMDIsBland: 0
-  iMessageCueIsBland: 1
   IMessageCueScript: {fileID: 0}
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
@@ -645,7 +643,6 @@ MonoBehaviour:
   startArrivalDescription: Welcome to VR!
   startArrivalButtonText: X
   startArrivalAlwaysExpand: 0
-  startArrivalIsBland: 1
   vrRoomTitle: My Virtual Room Test
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -654,7 +651,6 @@ MonoBehaviour:
   entryDescription: Enter this test virtual space.
   entryButtonText: Test VR
   entryAlwaysExpand: 0
-  entryIsBland: 1
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryArrivalLabel: VR
@@ -662,7 +658,6 @@ MonoBehaviour:
   entryArrivalDescription: Welcome to VR!
   entryArrivalButtonText: X
   entryArrivalAlwaysExpand: 0
-  entryArrivalIsBland: 1
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
@@ -671,7 +666,6 @@ MonoBehaviour:
   exitButtonText: Back to AR
   exitAlwaysExpand: 0
   leadsToAR: 0
-  exitIsBland: 1
   exitCueDelay: 20
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
@@ -680,12 +674,10 @@ MonoBehaviour:
   exitArrivalDescription: Welcome back to AR!
   exitArrivalButtonText: X
   exitArrivalAlwaysExpand: 0
-  exitArrivalIsBland: 1
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 2
   enableKeyboardShortcuts: 1
-  switchIsBlandButton: {fileID: 0}
 --- !u!114 &1589841417
 MonoBehaviour:
   m_ObjectHideFlags: 0

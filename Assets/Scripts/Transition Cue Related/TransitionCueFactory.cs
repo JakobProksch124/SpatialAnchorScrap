@@ -21,8 +21,6 @@ public static class TransitionCueFactory
     // Returns: Root GameObject of the cue
     public static GameObject CreateCue(TransitionCueConfig config)
     {
-        if (!config.isBland)
-        {
             // Normal, enhanced cue design
 
             // === Root Container ===
@@ -129,52 +127,7 @@ public static class TransitionCueFactory
             }
 
             return root;
-        }
-        else
-        {
-            if (config.isLeaveCue)
-            {
-                // Minimal cue design
-
-                GameObject root = new GameObject($"MinimalCue_{config.label}");
-                root.transform.SetParent(config.parent, false);
-                root.transform.localPosition = Vector3.zero;
-                root.transform.localRotation = Quaternion.identity;
-                root.transform.localScale = Vector3.one * config.globalScale;
-
-                // === Small Panel ===
-                GameObject smallPanel = CreateSmallPanel(config);
-                smallPanel.transform.SetParent(root.transform, false);
-                //AddIsdkSelectToInvoke(smallPanel, config, false);
-
-                // ADD THIS
-                //AddCollisionSupport(root, smallPanel, null, null, config);
-
-                return root;
-            }
-            else
-            {
-                // Minimal cue BUT not a leave cue → create a button instead of panel
-
-                GameObject root = new GameObject($"MinimalButtonCue_{config.label}");
-                root.transform.SetParent(config.parent, false);
-                root.transform.localPosition = Vector3.zero;
-                root.transform.localRotation = Quaternion.identity;
-                root.transform.localScale = Vector3.one * config.globalScale;
-
-                // === Button (styled like small panel) ===
-                GameObject button = CreateMinimalButtonFromSmallPanel(config);
-                button.transform.SetParent(root.transform, false);
-
-                // Interaction
-                AddIsdkSelectToInvoke(button, config, true);
-
-                // Collision (same as minimal panel case)
-                AddCollisionSupport(root, button, null, null, config);
-
-                return root;
-            }
-        }
+        
     }
 
     private static void AddIsdkSelectToInvoke(GameObject button, TransitionCueConfig config, bool addHover)
@@ -240,16 +193,9 @@ public static class TransitionCueFactory
         }
 
         // Set the right material / optic, based on type of cue (Enhanced vs. Minimal)
-        if (!config.isBland)
-        {
             Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
             renderer.material = frostedMat;
-        }
-        else
-        {
-            Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, 1);
-            renderer.material = frostedMat;
-        }
+        
 
         // Remove default collider (we'll add XR interaction to button only)
         Collider collider = smallPanel.GetComponent<Collider>();
@@ -328,8 +274,7 @@ public static class TransitionCueFactory
         float contentBottomY = 0f; // Y-position of the bottom of the content
 
         bool noContentLayout = false;
-        if (!config.isBland)
-        {
+       
             if (config.isTransparent && !config.isLeaveCue)
             {
                 Material frostedMat;
@@ -392,7 +337,7 @@ public static class TransitionCueFactory
 
                 noContentLayout = true;
             }
-        }
+        
 
         // Description Text
         GameObject descObj = new GameObject("DescriptionText");

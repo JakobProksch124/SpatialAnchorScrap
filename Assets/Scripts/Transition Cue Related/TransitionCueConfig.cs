@@ -46,7 +46,7 @@ public class TransitionCueConfig
     public bool leadsOutOfLecture = false;
 
     //decides if transition cue is blunt
-    public bool isBland = false;
+    //public bool isBland = false;
 
     //video clip object
     public VideoClip videoClip;

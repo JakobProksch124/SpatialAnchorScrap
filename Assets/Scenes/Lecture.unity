@@ -1427,6 +1427,7 @@ Transform:
   - {fileID: 1584558264}
   - {fileID: 612145202}
   - {fileID: 1997289272}
+  - {fileID: 1274896211}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &382018724
@@ -1654,37 +1655,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 612145202}
   m_LocalEulerAnglesHint: {x: 6.129, y: -11.39, z: -2.6910002}
---- !u!1 &474904940
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 474904941}
-  m_Layer: 0
-  m_Name: Phase1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &474904941
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474904940}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0143566, y: 3.0193288, z: -3.8299255}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1274896211}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &487436491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2291,7 +2261,7 @@ Transform:
   m_GameObject: {fileID: 581703625}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 39.398163, y: 8.526436, z: 173.49657}
+  m_LocalPosition: {x: 11.249899, y: 7.958126, z: -11.867386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2306,7 +2276,7 @@ Transform:
   - {fileID: 861446849}
   - {fileID: 242807541}
   - {fileID: 837989695}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1274896211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &609847842
 GameObject:
@@ -5182,15 +5152,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274896210}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.148264, y: 0.5683098, z: 185.36395}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: -14.074132, y: 32.56831, z: -92.68198}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 474904941}
+  - {fileID: 581703626}
   - {fileID: 813050706}
   - {fileID: 1440374743}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 322066648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1274896212
 MonoBehaviour:
@@ -5209,7 +5179,14 @@ MonoBehaviour:
   exitCueDelay: 30
   objectsToSpawn: {fileID: 1274896211}
   delayBetweenPhases: 2
-  fadeDuration: 10
+  fadeDuration: 3
+  startTransitionAnchorName: startArrivalAnchor
+  startTransitionPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
+  startTransitionLabel: VR
+  startTransitionScreenshotDisplayed: {fileID: 0}
+  startTransitionDescription: Proceed to the lecture room!
+  startTransitionButtonText: Proceed!
+  startTransitionAlwaysExpand: 1
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   startArrivalLabel: Start
@@ -5217,7 +5194,6 @@ MonoBehaviour:
   startArrivalDescription: Press start to start the video.
   startArrivalButtonText: Start
   startArrivalAlwaysExpand: 1
-  startArrivalIsBland: 1
   videoStartDelay: 3
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
@@ -5226,10 +5202,15 @@ MonoBehaviour:
   exitDescription: Peter wants to leave. Take off the headset and check your phone.
   exitButtonText: Leave VR
   exitAlwaysExpand: 1
-  exitIsBland: 0
-  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  leaveHMDAnchorName: leaveHMDAnchor
+  leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
+  leaveHMDLabel: Leave AR
+  leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 0aab4fdb54e046d4e8d2ea3b6ea0ce05, type: 3}
+  leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
+  leaveHMDButtonText: Leave AR
+  leaveHMDAlwaysExpand: 1
+  leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   startArrivalAnchor: {fileID: 971701140}
-  exitAnchor: {fileID: 640068989}
 --- !u!1 &1319152206
 GameObject:
   m_ObjectHideFlags: 0
@@ -14176,7 +14157,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 743563273}
   - {fileID: 322066648}
-  - {fileID: 581703626}
-  - {fileID: 1274896211}
   - {fileID: 1324514054}
   - {fileID: 542088015}
