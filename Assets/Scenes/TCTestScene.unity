@@ -632,7 +632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
-  vrSceneName: Laboratory
+  vrSceneName: Bridge
   navigationDestination: TestLocation
   ExtraARContent: {fileID: 0}
   IMessageCueScript: {fileID: 0}
