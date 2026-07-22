@@ -736,7 +736,11 @@ public class ArrivalCue : MonoBehaviour
             parent: leaveHMDAnchor,
             onInteract: () =>
             {
-            }
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
         );
 
        

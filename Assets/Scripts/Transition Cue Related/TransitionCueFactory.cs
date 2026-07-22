@@ -74,7 +74,7 @@ public static class TransitionCueFactory
             // === Close Button (only for collapsible cues) ===
             GameObject closeButton = null;
             GameObject actionButton = null;
-            if (!config.isLeaveCue && !config.leadsOutOfLecture)
+            if (!config.isLeaveCue || config.leadsOutOfLecture)
             {
                 actionButton = CreateButton(config);
                 actionButton.transform.SetParent(buttonContainer.transform, false);
@@ -98,8 +98,17 @@ public static class TransitionCueFactory
 
             // Wire close button to dismiss the expanded panel
             if (closeButton != null)
+        {
+            if (config.isStandardClose)
             {
                 AddIsdkSelectToInvoke(closeButton, () => expander.DismissToSmall(), config, true);
+
+            }
+            else
+            {
+
+                AddIsdkSelectToInvoke(closeButton, () => config?.onClose?.Invoke(), config, true);
+            }
             }
 
             // add collision interaction

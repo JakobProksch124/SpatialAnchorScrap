@@ -76,7 +76,11 @@ public class IMessageTransitionCue : MonoBehaviour
             {
                 iMessageCue.SetActive(false);
                 readNotification();
-            }
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
         );
 
 
@@ -112,7 +116,11 @@ public class IMessageTransitionCue : MonoBehaviour
             onInteract: () =>
             {
                 visualVoiceCue.SetActive(false);
-            }
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
         );
 
 

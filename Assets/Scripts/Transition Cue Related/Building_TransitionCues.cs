@@ -298,7 +298,11 @@ public class Building_TransitionCues : MonoBehaviour
         // Base
         TransitionCueConfig entryCueConfig = TransitionCueConfig.CreateVRConfig(
            parent: entryAnchor,
-           onInteract: () => StartCoroutine(EnterVR())
+           onInteract: () => StartCoroutine(EnterVR()),
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
         );
 
 
@@ -619,7 +623,11 @@ public class Building_TransitionCues : MonoBehaviour
             onInteract: () =>
             {
                 StartCoroutine(ExitVR());
-            }
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
         );
 
         exitCueConfig.onCollide = (other) =>
@@ -654,7 +662,11 @@ public class Building_TransitionCues : MonoBehaviour
                 onInteract: () =>
                 {
                     entryArrivalCue.SetActive(false);
-                }
+                },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
             );
             entryArrivalCueConfig.onCollide = (other) =>
             {
@@ -685,7 +697,11 @@ public class Building_TransitionCues : MonoBehaviour
                 onInteract: () =>
                 {
                     exitArrivalCue.SetActive(false);
-                }
+                },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
             );
 
             exitArrivalCueConfig.onCollide = (other) =>
@@ -719,7 +735,11 @@ public class Building_TransitionCues : MonoBehaviour
                 onInteract: () =>
                 {
                     startArrivalCue.SetActive(false);
-                }
+                },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
             );
 
             StartArrivalCueConfig.onCollide = (other) =>

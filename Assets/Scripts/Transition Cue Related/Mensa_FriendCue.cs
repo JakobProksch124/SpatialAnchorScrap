@@ -171,7 +171,11 @@ public class Mensa_FriendCue : MonoBehaviour
                 {
                     startArrivalCue.SetActive(false);
                     ShowFood();
-                }
+                },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
             );
 
             StartArrivalCueConfig.onCollide = (other) =>
@@ -287,7 +291,11 @@ public class Mensa_FriendCue : MonoBehaviour
             onInteract: () => {
                 StartNavigationToFriends();
                 entryCue.SetActive(false);
-            }
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
         );
 
 
@@ -316,7 +324,11 @@ public class Mensa_FriendCue : MonoBehaviour
             // Base
             TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: entryArrivalAnchor,
-                onInteract: () => entryArrivalCue.SetActive(false)
+                onInteract: () => entryArrivalCue.SetActive(false),
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
             );
 
 
