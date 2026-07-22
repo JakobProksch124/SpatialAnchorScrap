@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class WelcomeAnimation : MonoBehaviour
 {
@@ -31,9 +32,12 @@ public class WelcomeAnimation : MonoBehaviour
 
     public AudioSource audioSource;
 
+    public InputAction action = new InputAction(binding: "<XRController>{RightHand}/secondaryButton");
+
 
     public void Initialize(float distance, AudioSource audioSource, bool animate)
     {
+        this.action.Enable();
         this.animate=animate;
         this.audioSource = audioSource;
         triggerDistance = distance;
@@ -73,6 +77,17 @@ public class WelcomeAnimation : MonoBehaviour
         {
             HoverMotion();
         }
+
+        if(hasPlayed && action.WasPressedThisFrame())
+        {
+           playSound();
+        }
+
+    }
+
+    public void playSound()
+    {
+               this.audioSource.Play();
     }
 
     void CollectRenderers()
