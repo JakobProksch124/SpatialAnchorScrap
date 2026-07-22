@@ -39,8 +39,30 @@ public class IMessageTransitionCue : MonoBehaviour
     private Transform playerTransform;
     private float triggerDistance = 6f;
 
+    private PathGenerator pathGenerator;
+
+    [SerializeField] private string entryAnchorName = "entryAnchor";
+    private Transform entryAnchor;
+
+
     void Start()
     {
+        foreach (PathGenerator component in GetComponents<PathGenerator>())
+        {
+            if (component.GetType().Name == "PathGenerator")
+            {
+                pathGenerator = component;
+                break;
+            }
+        }
+
+        // Find entry anchor point in this building
+        entryAnchor = transform.Find(entryAnchorName);
+        if (entryAnchor == null)
+        {
+            Debug.LogWarning($"[Building_TransitionCues] Anchor '{entryAnchorName}' not found. Using this transform.");
+            entryAnchor = transform;
+        }
 
 
         Camera mainCam = Camera.main;
@@ -75,7 +97,8 @@ public class IMessageTransitionCue : MonoBehaviour
             onInteract: () =>
             {
                 iMessageCue.SetActive(false);
-                readNotification();
+                //readNotification();
+                CreateVisualVoiceCue(visualVoiceAnchor);
             },
             onClose: () =>
             {
@@ -87,7 +110,8 @@ public class IMessageTransitionCue : MonoBehaviour
         iMessageCueConfig.onCollide = (other) =>
         {
             iMessageCue.SetActive(false);
-            readNotification();
+            //readNotification();
+            CreateVisualVoiceCue(visualVoiceAnchor);
         };
 
         iMessageCueConfig.alwaysExpanded = true;
@@ -116,6 +140,7 @@ public class IMessageTransitionCue : MonoBehaviour
             onInteract: () =>
             {
                 visualVoiceCue.SetActive(false);
+                pathGenerator.AddInbetweenTarget(entryAnchor);
             },
             onClose: () =>
             {
@@ -133,7 +158,7 @@ public class IMessageTransitionCue : MonoBehaviour
             visualVoiceCueConfig.alwaysExpanded = true;
             visualVoiceCueConfig.primaryColor = visualVoicePrimaryColor;
             visualVoiceCueConfig.expandedDescription = visualVoiceDescription;
-            visualVoiceCueConfig.videoClip = visualVoicevideoClip;
+            //visualVoiceCueConfig.videoClip = visualVoicevideoClip;
             visualVoiceCueConfig.isVoiceCue = true;
             // (Effectively not used if alwaysExpanded)
             visualVoiceCueConfig.label = visualVoiceLabel;

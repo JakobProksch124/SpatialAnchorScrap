@@ -26,7 +26,7 @@ public class PathGenerator : MonoBehaviour
     float updateThreshold = 1f; // only recalc if moved more than 1m
     public bool firstDraw = true; // true until the line has been drawn once
     bool isDrawingFirstTime = false;
-
+    private Transform inBetweenTarget;
 
     void Start()
     {
@@ -93,27 +93,49 @@ public class PathGenerator : MonoBehaviour
 
     void GetPath()
     {
-        if (start)
+        if (start == null)
+            return;
+
+        List<Vector3> corners = new List<Vector3>();
+
+        if (inBetweenTarget != null)
         {
-            var path = new NavMeshPath();
-            if (NavMesh.CalculatePath(start.position, target.position, NavMesh.AllAreas, path))
-            {
-                if (firstDraw)
-                {
-                    if (!isDrawingFirstTime)
-                    {
-                        StartCoroutine(DrawCentripetalCurveCoroutine(path.corners));
-                    }
-                }
-                else
-                {
-                    DrawCentripetalCurveInstant(path.corners);
-                }
-            }
+            NavMeshPath first = new NavMeshPath();
+            NavMeshPath second = new NavMeshPath();
+
+            if (!NavMesh.CalculatePath(start.position, inBetweenTarget.position,
+                                       NavMesh.AllAreas, first))
+                return;
+
+            if (!NavMesh.CalculatePath(inBetweenTarget.position, target.position,
+                                       NavMesh.AllAreas, second))
+                return;
+
+            corners.AddRange(first.corners);
+
+            // Skip duplicate point where the two paths meet.
+            for (int i = 1; i < second.corners.Length; i++)
+                corners.Add(second.corners[i]);
         }
         else
         {
-            Debug.Log("[PathGenerator] No start exists");
+            NavMeshPath path = new NavMeshPath();
+
+            if (!NavMesh.CalculatePath(start.position, target.position,
+                                       NavMesh.AllAreas, path))
+                return;
+
+            corners.AddRange(path.corners);
+        }
+
+        if (firstDraw)
+        {
+            if (!isDrawingFirstTime)
+                StartCoroutine(DrawCentripetalCurveCoroutine(corners.ToArray()));
+        }
+        else
+        {
+            DrawCentripetalCurveInstant(corners.ToArray());
         }
     }
 
@@ -294,5 +316,15 @@ public class PathGenerator : MonoBehaviour
         }
 
         _spawnedArrows.Clear();
+    }
+
+    public void AddInbetweenTarget(Transform newTarget)
+    {
+        inBetweenTarget = newTarget;
+    }
+
+    public void ClearInbetweenTarget()
+    {
+        inBetweenTarget = null;
     }
 }
