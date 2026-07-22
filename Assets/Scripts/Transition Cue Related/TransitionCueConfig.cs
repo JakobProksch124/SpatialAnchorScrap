@@ -27,9 +27,6 @@ public class TransitionCueConfig
     // Action to invoke when the button is interacted with
     public Action onClose;
 
-    // Action to invoke when collision with transition cue happens
-    public Action<Collider> onCollide;
-
     // decides if transition cue standardly minimizes transition cue or sets a different action
     public bool isStandardClose = true;
     

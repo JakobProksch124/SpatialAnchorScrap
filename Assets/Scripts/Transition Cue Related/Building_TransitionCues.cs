@@ -306,10 +306,6 @@ public class Building_TransitionCues : MonoBehaviour
         );
 
 
-        entryCueConfig.onCollide = (other) =>
-        {
-            StartCoroutine(EnterVR());
-        };
     
             // Details
             entryCueConfig.alwaysExpanded = entryAlwaysExpand;
@@ -630,10 +626,6 @@ public class Building_TransitionCues : MonoBehaviour
             isStandardClose: true
         );
 
-        exitCueConfig.onCollide = (other) =>
-        {
-            StartCoroutine(ExitVR());
-        };
 
             // Details for enhanced cues
             exitCueConfig.alwaysExpanded = exitAlwaysExpand;
@@ -668,10 +660,7 @@ public class Building_TransitionCues : MonoBehaviour
             },
             isStandardClose: true
             );
-            entryArrivalCueConfig.onCollide = (other) =>
-            {
-                entryArrivalCue.SetActive(false);
-            };
+
             // Details
             entryArrivalCueConfig.isArrival = true;
             entryArrivalCueConfig.isTransparent = false;
@@ -703,11 +692,6 @@ public class Building_TransitionCues : MonoBehaviour
             },
             isStandardClose: true
             );
-
-            exitArrivalCueConfig.onCollide = (other) =>
-            {
-                exitArrivalCue.SetActive(false);
-            };
 
             // Details
             exitArrivalCueConfig.isArrival = true;
@@ -742,10 +726,6 @@ public class Building_TransitionCues : MonoBehaviour
             isStandardClose: true
             );
 
-            StartArrivalCueConfig.onCollide = (other) =>
-            {
-                startArrivalCue.SetActive(false);
-            };
 
             // Details
             StartArrivalCueConfig.isArrival = true;

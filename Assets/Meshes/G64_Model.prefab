@@ -1250,8 +1250,6 @@ MonoBehaviour:
   vrSceneName: Laboratory
   navigationDestination: Lecture
   ExtraARContent: {fileID: 0}
-  leaveHMDIsBland: 0
-  iMessageCueIsBland: 1
   IMessageCueScript: {fileID: 2521268298649085863}
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
@@ -1260,7 +1258,6 @@ MonoBehaviour:
   startArrivalDescription: Follow the arrows to the lecture hall.
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 0
-  startArrivalIsBland: 0
   vrRoomTitle: The Laboratory
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -1269,7 +1266,6 @@ MonoBehaviour:
   entryDescription: Curious what the chemistry lab looks like? Explore it in VR.
   entryButtonText: Switch to VR
   entryAlwaysExpand: 0
-  entryIsBland: 1
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: 
@@ -1277,7 +1273,6 @@ MonoBehaviour:
   entryArrivalDescription: Welcome to the chemistry lab. Teleport to explore.
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 0
-  entryArrivalIsBland: 1
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: Switch to AR
@@ -1286,7 +1281,6 @@ MonoBehaviour:
   exitButtonText: Switch to AR
   exitAlwaysExpand: 1
   leadsToAR: 1
-  exitIsBland: 1
   exitCueDelay: 20
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
@@ -1295,12 +1289,10 @@ MonoBehaviour:
   exitArrivalDescription: Follow the arrows to the lecture hall.
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
-  exitArrivalIsBland: 1
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4
   enableKeyboardShortcuts: 1
-  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &7287314359623195551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1471,10 +1463,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iMessageAnchorName: iMessageAnchor
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  iMessageLabel: 
+  iMessageLabel: You have received a message from Peter!
   iMessageScreenshotDisplayed: {fileID: 2800000, guid: 1331fc9fb5b921243b0c6c23e4f02ebc, type: 3}
-  iMessageDescription: 
-  iMessageButtonText: Close
+  iMessageDescription: Would you like me to show you where the lab is? 1/2
+  iMessageButtonText: Show me where the lab is
   iMessageAnchor: {fileID: 2534005402456416928}
   notificationSoundPlayer: {fileID: 6803258545756935040}
   readNotificationPlayer: {fileID: 4967578937458614097}
@@ -1482,11 +1474,13 @@ MonoBehaviour:
   readNotificationDelay: 15
   visualVoiceAnchorName: visualVoiceAnchor
   visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  visualVoiceLabel: 
-  visualVoiceDescription: Lab in 15m on the right
-  visualVoiceButtonText: Close
+  visualVoiceLabel: The Lab is in 15m on the right.
+  visualVoiceDescription: The Lab is in 15m on the right. Would you like me to add
+    it to the navigation? 2/2
+  visualVoiceButtonText: Add as next goal
   visualVoicevideoClip: {fileID: 32900000, guid: 9fb0a8e5244fb714691c7e1a4e917b53, type: 3}
   visualVoiceAnchor: {fileID: 3910752443247973441}
+  entryAnchorName: entryAnchor
 --- !u!82 &6803258545756935040
 AudioSource:
   m_ObjectHideFlags: 0

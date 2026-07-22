@@ -111,9 +111,6 @@ public static class TransitionCueFactory
             }
             }
 
-            // add collision interaction
-            AddCollisionSupport(root, smallPanel, expandedPanel, actionButton, config);
-
             // === Rotation Effect ===
             if (config.enableTurnTowardsUser && !config.leadsToAR)
             {
@@ -750,19 +747,7 @@ public static class TransitionCueFactory
 
         AddIsdkSelectToInvoke(button, config, true);
 
-        if (config.onCollide != null)
-        {
-            Rigidbody rb = root.AddComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.useGravity = false;
-
-            TransitionCueTriggerReceiver receiver =
-                root.AddComponent<TransitionCueTriggerReceiver>();
-
-            receiver.Initialize(config.onCollide);
-
-            SetupPanelTrigger(button, receiver);
-        }
+       
 
         return root;
     }
@@ -953,74 +938,6 @@ public static class TransitionCueFactory
             }
         }
         textComponent.font = fontToUse;
-    }
-
-    private static void AddCollisionSupport(
-    GameObject root,
-    GameObject smallPanel,
-    GameObject expandedPanel,
-    GameObject button,
-    TransitionCueConfig config)
-    {
-        if (config == null)
-        {
-            Debug.LogError("AddCollisionSupport: config is NULL");
-            return;
-        }
-
-        if (config.onCollide == null)
-        {
-            Debug.Log("AddCollisionSupport: config.onCollide is null -> collision disabled");
-            return;
-        }
-
-        if (root == null)
-        {
-            Debug.LogError("AddCollisionSupport: root is NULL");
-            return;
-        }
-
-        Rigidbody rb = root.GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            Debug.Log("AddCollisionSupport: adding Rigidbody to root");
-            rb = root.AddComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.useGravity = false;
-        }
-
-        TransitionCueTriggerReceiver receiver = root.AddComponent<TransitionCueTriggerReceiver>();
-
-        if (receiver == null)
-        {
-            Debug.LogError("AddCollisionSupport: failed to add TransitionCueTriggerReceiver");
-            return;
-        }
-
-        receiver.Initialize(config.onCollide);
-
-        if (smallPanel != null)
-        {
-            SetupPanelTrigger(smallPanel, receiver);
-        }
-        else
-        {
-            Debug.LogWarning("AddCollisionSupport: smallPanel is NULL");
-        }
-
-        if (expandedPanel != null)
-        {
-            SetupPanelTrigger(expandedPanel, receiver);
-        }
-
-        if (button != null)
-        {
-            SetupPanelTrigger(button, receiver);
-        }
-        else
-        {
-            Debug.Log("AddCollisionSupport: button is NULL (expected for minimal cue)");
-        }
     }
 
     private static void SetupPanelTrigger(

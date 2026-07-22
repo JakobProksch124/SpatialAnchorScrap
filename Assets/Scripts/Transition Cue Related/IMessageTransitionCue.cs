@@ -106,14 +106,6 @@ public class IMessageTransitionCue : MonoBehaviour
             isStandardClose: true
         );
 
-
-        iMessageCueConfig.onCollide = (other) =>
-        {
-            iMessageCue.SetActive(false);
-            //readNotification();
-            CreateVisualVoiceCue(visualVoiceAnchor);
-        };
-
         iMessageCueConfig.alwaysExpanded = true;
         iMessageCueConfig.isArrival = true;
         iMessageCueConfig.primaryColor = iMessagePrimaryColor;
@@ -124,7 +116,7 @@ public class IMessageTransitionCue : MonoBehaviour
 
         iMessageCue = TransitionCueFactory.CreateCue(iMessageCueConfig);
         UnityEngine.Debug.Log("iMessage cue created!");
-        notificationSoundPlayer.Play();
+        //notificationSoundPlayer.Play();
 
        
     }
@@ -147,12 +139,6 @@ public class IMessageTransitionCue : MonoBehaviour
             },
             isStandardClose: true
         );
-
-
-            visualVoiceCueConfig.onCollide = (other) =>
-            {
-                visualVoiceCue.SetActive(false);
-            };
 
             // Details for enhanced cues
             visualVoiceCueConfig.alwaysExpanded = true;

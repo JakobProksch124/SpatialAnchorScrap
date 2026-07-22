@@ -110,14 +110,6 @@ public class Lecture_TransitionCues : MonoBehaviour
             isStandardClose: true
         );
 
-
-            StartTransitionCueConfig.onCollide = (other) =>
-            {
-                startTransitionCue.SetActive(false);
-                StartCoroutine(FadeInAll(fadeDuration));
-            };
-
-
             StartTransitionCueConfig.isArrival = false;
             StartTransitionCueConfig.isTransparent = false;
             StartTransitionCueConfig.alwaysExpanded = true;
@@ -167,25 +159,6 @@ public class Lecture_TransitionCues : MonoBehaviour
             isStandardClose: true
             );
 
-
-            StartTransitionCueConfig.onCollide = (other) =>
-            {
-                startArrivalCue.SetActive(false);// Start Video
-                if (videoPlayer != null)
-                {
-                    videoPlayer.Play();
-                }
-                else
-                {
-                    Debug.LogWarning("VideoPlayer reference missing!");
-                }
-
-                // Create Exit Cue after delay
-                Debug.Log("invoked spawn exit cue");
-                Invoke(nameof(SpawnExitCue), exitCueDelay);
-            };
-
-
             StartTransitionCueConfig.isArrival = true;
             StartTransitionCueConfig.isTransparent = false;
             StartTransitionCueConfig.alwaysExpanded = true;
@@ -225,11 +198,6 @@ public class Lecture_TransitionCues : MonoBehaviour
             },
             isStandardClose: false
     );
-
-        exitCueConfig.onCollide = (other) =>
-        {
-                StartCoroutine(FadeOutAll(fadeDuration));
-        };
 
             // Pause Video
             if (videoPlayer != null)

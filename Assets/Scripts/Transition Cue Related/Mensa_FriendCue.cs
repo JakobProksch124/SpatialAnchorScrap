@@ -178,11 +178,6 @@ public class Mensa_FriendCue : MonoBehaviour
             isStandardClose: true
             );
 
-            StartArrivalCueConfig.onCollide = (other) =>
-            {
-                startArrivalCue.SetActive(false);
-                ShowFood();
-            };
 
             StartArrivalCueConfig.isArrival = true;
             StartArrivalCueConfig.alwaysExpanded = true;
@@ -276,7 +271,6 @@ public class Mensa_FriendCue : MonoBehaviour
             primaryColor = foodButtonColor,
             buttonText = text,
             onInteract = () => showEntryCue(),
-            onCollide = (other) => showEntryCue(),
             enableTurnTowardsUser = foodButtonsTurnToUser
         };
 
@@ -298,12 +292,6 @@ public class Mensa_FriendCue : MonoBehaviour
             isStandardClose: true
         );
 
-
-        entryCueConfig.onCollide = (other) =>
-        {
-            StartNavigationToFriends();
-            entryCue.SetActive(false);
-        };
 
        
             // Details
@@ -332,10 +320,6 @@ public class Mensa_FriendCue : MonoBehaviour
             );
 
 
-            entryArrivalCueConfig.onCollide = (other) =>
-            {
-                entryArrivalCue.SetActive(false);
-            };
 
             // Details
             entryArrivalCueConfig.isArrival = true;

@@ -2268,8 +2268,8 @@ MonoBehaviour:
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   iMessageLabel: 
   iMessageScreenshotDisplayed: {fileID: 2800000, guid: 78f9724f03980c344a0accc2632f258e, type: 3}
-  iMessageDescription: 
-  iMessageButtonText: Close
+  iMessageDescription: Would you like me to show you where the posters are? 1/2
+  iMessageButtonText: Show me
   iMessageAnchor: {fileID: 6005192364133629521}
   notificationSoundPlayer: {fileID: 8292972302890120562}
   readNotificationPlayer: {fileID: 2452056357855687167}
@@ -2277,11 +2277,13 @@ MonoBehaviour:
   readNotificationDelay: 15
   visualVoiceAnchorName: visualVoiceAnchor
   visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  visualVoiceLabel: 
-  visualVoiceDescription: Poster in 5m on the left
-  visualVoiceButtonText: Close
+  visualVoiceLabel: 'The Poster is in 5m on the left. '
+  visualVoiceDescription: The Poster is in 5m on the left. Would you like me to add
+    it to the navigation? 2/2
+  visualVoiceButtonText: Add as next goal
   visualVoicevideoClip: {fileID: 32900000, guid: 7545b6bfff914764daa0cd7dd3a1dd73, type: 3}
   visualVoiceAnchor: {fileID: 3533729435843602263}
+  entryAnchorName: entryAnchor
 --- !u!82 &8292972302890120562
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3683,8 +3685,6 @@ MonoBehaviour:
   vrSceneName: Bridge
   navigationDestination: Cafeteria
   ExtraARContent: {fileID: 7689347614445365849}
-  leaveHMDIsBland: 1
-  iMessageCueIsBland: 0
   IMessageCueScript: {fileID: 7182538367590812793}
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
@@ -3693,7 +3693,6 @@ MonoBehaviour:
   startArrivalDescription: Follow the arrows through the building.
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 1
-  startArrivalIsBland: 1
   vrRoomTitle: 'Open Lab: BRiDGE'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -3702,7 +3701,6 @@ MonoBehaviour:
   entryDescription: Open Lab in two weeks. Do you want to look at a VR-Preview?
   entryButtonText: Switch to VR
   entryAlwaysExpand: 0
-  entryIsBland: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: VR
@@ -3710,7 +3708,6 @@ MonoBehaviour:
   entryArrivalDescription: Willkommen im Open Lab. Teleport to explore.
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
-  entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
@@ -3719,7 +3716,6 @@ MonoBehaviour:
   exitButtonText: Switch to AR
   exitAlwaysExpand: 1
   leadsToAR: 1
-  exitIsBland: 0
   exitCueDelay: 20
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
@@ -3728,12 +3724,10 @@ MonoBehaviour:
   exitArrivalDescription: Follow the arrows to the cafeteria
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 1
-  exitArrivalIsBland: 0
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4
   enableKeyboardShortcuts: 1
-  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &3805502901795510387
 MonoBehaviour:
   m_ObjectHideFlags: 0
