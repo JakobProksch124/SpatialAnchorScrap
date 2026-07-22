@@ -121,19 +121,13 @@ public static class TransitionCueFactory
                 rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
             }
 
-            // === Arrival Welcome Animation ===
-            if (config.isArrival)
-            {
-                WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
-                welcome.Initialize(config.turnTriggerDistance);
-            }
+            // === Configure Audio Player===
+            ConfigureAudio(root, config);
 
-            if (!config.isArrival)
-            {
-                // === Ambient Audio ===
-                AddAmbientAudio(root, config);
-
-            }
+            // === Add Audio and if its an Arrival Cue the Welcome Animation ===
+            WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
+            welcome.Initialize(config.turnTriggerDistance, config.audioSource, config.isArrival);
+            
 
             return root;
         
@@ -899,7 +893,7 @@ public static class TransitionCueFactory
     // === Helper Methods ===
 
     // Adds ambient audio to the transition cue
-    private static void AddAmbientAudio(GameObject root, TransitionCueConfig config)
+    private static void ConfigureAudio(GameObject root, TransitionCueConfig config)
     {
         // Load default sound
         AudioClip soundClip = config.ambientSound;
@@ -915,12 +909,12 @@ public static class TransitionCueFactory
         audioSource.volume = config.ambientVolume;
         audioSource.loop = config.ambientLoop;
         audioSource.spatialBlend = config.ambientSpatialBlend;
-        audioSource.minDistance = config.ambientMinDistance;
-        audioSource.maxDistance = config.ambientMaxDistance;
+        //audioSource.minDistance = config.ambientMinDistance;
+        //audioSource.maxDistance = config.ambientMaxDistance;
         audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.priority = config.ambientPriority;
         audioSource.dopplerLevel = config.ambientDopplerLevel;
-        audioSource.playOnAwake = true;
+        audioSource.playOnAwake = false;
 
         // Enable spread for more natural 3D sound
         audioSource.spread = 60f; // Degrees of spread for 3D sound
@@ -930,6 +924,7 @@ public static class TransitionCueFactory
         lowPassFilter.cutoffFrequency = 5000f; // Cuts high frequencies for softer sound
 
         audioSource.Play();
+        config.audioSource = audioSource;
     }
 
     // Applies custom font to TextMeshPro component

@@ -12,6 +12,7 @@ public class WelcomeAnimation : MonoBehaviour
 
     private bool hasPlayed = false;
     private bool hovering = false;
+    public bool animate = false;
 
     [Header("Appear")]
     public float appearDuration = 0.9f;
@@ -28,18 +29,26 @@ public class WelcomeAnimation : MonoBehaviour
 
     private Dictionary<Renderer, float> targetAlphas = new Dictionary<Renderer, float>();
 
-    public void Initialize(float distance)
+    public AudioSource audioSource;
+
+
+    public void Initialize(float distance, AudioSource audioSource, bool animate)
     {
+        this.animate=animate;
+        this.audioSource = audioSource;
         triggerDistance = distance;
         user = Camera.main.transform;
 
         startScale = transform.localScale;
         startPos = transform.localPosition;
 
-        CollectRenderers();
 
-        transform.localScale = Vector3.zero;
-        SetOpacity(0f);
+        CollectRenderers();
+        if (animate)
+        {
+            transform.localScale = Vector3.zero;
+            SetOpacity(0f);
+        }
     }
 
     void Update()
@@ -51,7 +60,12 @@ public class WelcomeAnimation : MonoBehaviour
 
         if (dist < triggerDistance && !hasPlayed)
         {
-            StartCoroutine(AppearSequence());
+
+            this.audioSource.Play();
+            if (animate)
+             {
+                StartCoroutine(AppearSequence());
+             }
             hasPlayed = true;
         }
 

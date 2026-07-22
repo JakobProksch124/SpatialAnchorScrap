@@ -210,15 +210,17 @@ public class TransitionCueConfig
 
     // === Audio ===
 
+    public AudioSource audioSource;
+
     // Audio clip to play as continuous ambient sound from the transition cue (Resources/TransitionCueAmbient.wav)
     // Default sound will be loaded from Resources/TransitionCueAmbient.wav if this is null
-    public AudioClip ambientSound = Resources.Load<AudioClip>("TransitionCueAmbient");
+    public AudioClip ambientSound = Resources.Load<AudioClip>("iphone_imessage_tone");
 
     // Volume of the ambient sound (0-1)
     public float ambientVolume = 0.15f;
 
     // Whether the ambient sound should loop continuously
-    public bool ambientLoop = true;
+    public bool ambientLoop = false;
 
     // Spatial blend (0 = 2D, 1 = 3D spatial audio)
     public float ambientSpatialBlend = 1.0f;
