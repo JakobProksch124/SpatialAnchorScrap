@@ -80,7 +80,8 @@ public static class TransitionCueFactory
                 actionButton.transform.SetParent(buttonContainer.transform, false);
                 AddIsdkSelectToInvoke(actionButton, config, true);
 
-                if (!config.alwaysExpanded)
+                //if (!config.alwaysExpanded)
+                if(!config.isArrival)
                 {
                     float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
                     actionButton.transform.localPosition = new Vector3(actionButtonX, 0, 0);
@@ -709,7 +710,7 @@ public static class TransitionCueFactory
         float zOffset = (config.buttonDepth / 2) + config.textZOffset;
         float lineLength = 0.6f;
         float lineThickness = 0.06f;
-        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        Material lineMat = new Material(Shader.Find("Unlit/Texture"));
         if (lineMat != null)
         {
             lineMat.SetColor("_BaseColor", Color.white);
@@ -755,8 +756,7 @@ public static class TransitionCueFactory
 
     private static Material CreateWhiteMaterial()
     {
-        Debug.Log("generating white color for expanded panel");
-        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        Material mat = new Material(Shader.Find("Unlit/Texture"));
 
         // Set base color to completely white
         Color whiteColor = new Color(1f, 1f, 1f, 1f);
@@ -785,8 +785,7 @@ public static class TransitionCueFactory
 
     private static Material CreateBlueMaterial()
     {
-        Debug.Log("generating blue color for expanded panel");
-        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        Material mat = new Material(Shader.Find("Unlit/Texture"));
 
         // Convert hex 4C66CC to RGB (0-1 range)
         Color hexColor = new Color(0x4C / 255f, 0x66 / 255f, 0xCC / 255f, 1f);

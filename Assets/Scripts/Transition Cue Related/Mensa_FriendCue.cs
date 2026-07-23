@@ -220,7 +220,7 @@ public class Mensa_FriendCue : MonoBehaviour
 
     public void showEntryCue()
     {
-        UINotificationSystem.Instance.ShowPersistentMessage("Your food was ordered.", false);
+        //UINotificationSystem.Instance.ShowPersistentMessage("Your food was ordered.", false);
 
         UnityEngine.Debug.Log("Food Button Pressed!");
         if (startArrivalCue != null)

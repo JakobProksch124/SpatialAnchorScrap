@@ -100,16 +100,19 @@ public class PathGenerator : MonoBehaviour
 
         if (inBetweenTarget != null)
         {
+
             NavMeshPath first = new NavMeshPath();
             NavMeshPath second = new NavMeshPath();
 
             if (!NavMesh.CalculatePath(start.position, inBetweenTarget.position,
                                        NavMesh.AllAreas, first))
                 return;
+        
 
             if (!NavMesh.CalculatePath(inBetweenTarget.position, target.position,
                                        NavMesh.AllAreas, second))
                 return;
+        
 
             corners.AddRange(first.corners);
 
@@ -247,7 +250,7 @@ public class PathGenerator : MonoBehaviour
                     accumulatedDistance += segmentDistance;
                 }
 
-                yield return new WaitForSeconds(0.1f); // wait a frame to animate drawing
+                yield return new WaitForSeconds(0.05f); // wait a frame to animate drawing
             }
         }
         isDrawingFirstTime = false;
@@ -320,11 +323,23 @@ public class PathGenerator : MonoBehaviour
 
     public void AddInbetweenTarget(Transform newTarget)
     {
+        
+        Debug.Log("Setting InBetween Target");
+        if (newTarget != null)
+        {
         inBetweenTarget = newTarget;
+
+        }
+        else
+        {
+            Debug.Log("Inbetween Target is null");
+        }
     }
 
     public void ClearInbetweenTarget()
     {
+        
+        Debug.Log("Clearing InBetween Target");
         inBetweenTarget = null;
     }
 }

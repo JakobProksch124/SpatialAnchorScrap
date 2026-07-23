@@ -25,10 +25,8 @@ public class IMessageTransitionCue : MonoBehaviour
     [SerializeField] private string visualVoiceLabel = "R";
     [SerializeField] private string visualVoiceDescription = "Take off the headmounted display";
     [SerializeField] private string visualVoiceButtonText = "";
-    [SerializeField] private VideoClip visualVoicevideoClip;
-
     [SerializeField] private Transform visualVoiceAnchor;
-
+    [SerializeField] private PathGenerator pathGenerator;
     private GameObject visualVoiceCue;
 
 
@@ -39,10 +37,8 @@ public class IMessageTransitionCue : MonoBehaviour
     private Transform playerTransform;
     private float triggerDistance = 6f;
 
-    private PathGenerator pathGenerator;
 
-    [SerializeField] private string entryAnchorName = "entryAnchor";
-    private Transform entryAnchor;
+    [SerializeField] private Transform entryAnchor;
 
 
     void Start()
@@ -56,13 +52,7 @@ public class IMessageTransitionCue : MonoBehaviour
             }
         }
 
-        // Find entry anchor point in this building
-        entryAnchor = transform.Find(entryAnchorName);
-        if (entryAnchor == null)
-        {
-            Debug.LogWarning($"[Building_TransitionCues] Anchor '{entryAnchorName}' not found. Using this transform.");
-            entryAnchor = transform;
-        }
+        
 
 
         Camera mainCam = Camera.main;
@@ -107,7 +97,7 @@ public class IMessageTransitionCue : MonoBehaviour
         );
 
         iMessageCueConfig.alwaysExpanded = true;
-        iMessageCueConfig.isArrival = true;
+        iMessageCueConfig.isArrival = false;
         iMessageCueConfig.primaryColor = iMessagePrimaryColor;
         iMessageCueConfig.expandedDescription = iMessageDescription;
         iMessageCueConfig.screenshotTexture = iMessageScreenshotDisplayed;
@@ -132,7 +122,15 @@ public class IMessageTransitionCue : MonoBehaviour
             onInteract: () =>
             {
                 visualVoiceCue.SetActive(false);
+                Debug.Log("Adding InBetween Target");
+                if (pathGenerator != null)
+                {
                 pathGenerator.AddInbetweenTarget(entryAnchor);
+                }
+                else
+                {
+                    Debug.Log("path generator reference in IMessage is null");
+                }
             },
             onClose: () =>
             {
@@ -145,7 +143,7 @@ public class IMessageTransitionCue : MonoBehaviour
             visualVoiceCueConfig.primaryColor = visualVoicePrimaryColor;
             visualVoiceCueConfig.expandedDescription = visualVoiceDescription;
             //visualVoiceCueConfig.videoClip = visualVoicevideoClip;
-            visualVoiceCueConfig.isVoiceCue = true;
+            visualVoiceCueConfig.isVoiceCue = false;
             // (Effectively not used if alwaysExpanded)
             visualVoiceCueConfig.label = visualVoiceLabel;
             visualVoiceCueConfig.buttonText = visualVoiceButtonText;

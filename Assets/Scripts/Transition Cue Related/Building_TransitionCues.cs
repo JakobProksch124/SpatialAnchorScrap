@@ -376,6 +376,33 @@ public class Building_TransitionCues : MonoBehaviour
         // Fade out
         yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(3f, vrRoom));
         yield return null;
+        var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
+
+                if (exitTargets.Count > 0)
+                {
+                    foreach (var go in exitTargets)
+                    {
+                        exitCueAnchor = go.transform;
+                        Invoke(nameof(SpawnExitCue), exitCueDelay);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[BUILDING_TRANSITIONCUE] {exitAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
+                }
+                var exitArrivalTargets = FindDeepChildrenInScene(loadedVRScene, entryArrivalAnchorName);
+
+                if (exitArrivalTargets.Count > 0)
+                {
+                    foreach (var go in exitArrivalTargets)
+                    {
+                        CreateEntryArrivalCue(go.transform);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[BUILDING_TRANSITIONCUE] {entryArrivalAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
+                }
 
         /* yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
             overlayCanvas: overlay,
@@ -483,7 +510,7 @@ public class Building_TransitionCues : MonoBehaviour
                 vrRoom = bridgeRoot;
             }
 
-            if (loadedVRScene.isLoaded)
+            /*if (loadedVRScene.isLoaded)
             {
                 var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
 
@@ -512,7 +539,7 @@ public class Building_TransitionCues : MonoBehaviour
                 {
                     Debug.LogWarning($"[BUILDING_TRANSITIONCUE] {entryArrivalAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
                 }
-            }
+            }*/
         }
         // Priority 2: Instantiate prefab
         else if (vrRoomPrefab != null)
@@ -618,6 +645,7 @@ public class Building_TransitionCues : MonoBehaviour
             parent: exitAnchor,
             onInteract: () =>
             {
+                exitCue.SetActive(false);
                 StartCoroutine(ExitVR());
             },
             onClose: () =>
@@ -781,11 +809,25 @@ public class Building_TransitionCues : MonoBehaviour
         }
         SetPlacedBuildingVisible(true);
 
-        // Enable arrival cue B
+        // Enable arrival cue
         if (exitArrivalCue == null)
         {
             CreateExitArrivalCue(exitArrivalAnchor);
         }
+            else
+            {
+                exitArrivalCue.SetActive(true);
+            }
+
+        // Enable entry cue
+        if (entryCue == null)
+        {
+            CreateEntryCue(entryAnchor);
+            }
+            else
+            {
+                entryCue.SetActive(true);
+            }
 
         if (ExtraARContent != null)
         {

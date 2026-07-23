@@ -2266,7 +2266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iMessageAnchorName: iMessageAnchor
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  iMessageLabel: 
+  iMessageLabel: You have received a message from Peter!
   iMessageScreenshotDisplayed: {fileID: 2800000, guid: 78f9724f03980c344a0accc2632f258e, type: 3}
   iMessageDescription: Would you like me to show you where the posters are? 1/2
   iMessageButtonText: Show me
@@ -2281,9 +2281,9 @@ MonoBehaviour:
   visualVoiceDescription: The Poster is in 5m on the left. Would you like me to add
     it to the navigation? 2/2
   visualVoiceButtonText: Add as next goal
-  visualVoicevideoClip: {fileID: 32900000, guid: 7545b6bfff914764daa0cd7dd3a1dd73, type: 3}
   visualVoiceAnchor: {fileID: 3533729435843602263}
-  entryAnchorName: entryAnchor
+  pathGenerator: {fileID: 593722303556831063}
+  entryAnchor: {fileID: 4394912394980126459}
 --- !u!82 &8292972302890120562
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2589,7 +2589,7 @@ Transform:
   m_GameObject: {fileID: 4983439533233562544}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.8818679, z: -0, w: -0.4714966}
-  m_LocalPosition: {x: 2.518, y: 1.5, z: 5.95}
+  m_LocalPosition: {x: 3.178, y: 1.5, z: 4.962}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3703,9 +3703,9 @@ MonoBehaviour:
   entryAlwaysExpand: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  entryArrivalLabel: VR
+  entryArrivalLabel: VR - Open Lab
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
-  entryArrivalDescription: Willkommen im Open Lab. Teleport to explore.
+  entryArrivalDescription: Welcome to the Open Lab. Teleport to explore.
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
   exitAnchorName: exitAnchor

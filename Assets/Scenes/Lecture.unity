@@ -5176,7 +5176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1836749807}
   startVideoDelay: 3
-  exitCueDelay: 30
+  exitCueDelay: 3
   objectsToSpawn: {fileID: 1274896211}
   delayBetweenPhases: 2
   fadeDuration: 3
@@ -5200,7 +5200,7 @@ MonoBehaviour:
   exitLabel: 
   exitScreenshotDisplayed: {fileID: 0}
   exitDescription: Peter wants to talk to you. Would you like to talk to him?
-  exitButtonText: Fade out surroundings
+  exitButtonText: Fade out lecture
   exitAlwaysExpand: 1
   exitTransitionAnchorName: exitAnchor
   exitTransitionPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
@@ -5218,6 +5218,7 @@ MonoBehaviour:
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   startArrivalAnchor: {fileID: 971701140}
+  videoPlane: {fileID: 1836749801}
 --- !u!1 &1319152206
 GameObject:
   m_ObjectHideFlags: 0
@@ -7658,7 +7659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1836749803
 MeshCollider:
   m_ObjectHideFlags: 0

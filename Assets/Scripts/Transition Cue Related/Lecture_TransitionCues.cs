@@ -80,6 +80,7 @@ public class Lecture_TransitionCues : MonoBehaviour
 
 
     [SerializeField] private Transform startArrivalAnchor;
+    [SerializeField] private GameObject videoPlane;
     private GameObject exitCue;
     private GameObject exitTransitionCue;
     private GameObject startArrivalCue;
@@ -186,6 +187,7 @@ public class Lecture_TransitionCues : MonoBehaviour
         parent: startArrivalAnchor,
         onInteract: () =>
         {
+                exitCue.SetActive(false);
                 StartCoroutine(FadeOutAll(fadeDuration));
         },
             onClose: () =>
@@ -210,7 +212,7 @@ public class Lecture_TransitionCues : MonoBehaviour
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
             exitCueConfig.label = exitLabel;
             exitCueConfig.buttonText = exitButtonText;
-            exitCueConfig.leadsToAR = true;
+            exitCueConfig.isTransparent = false;
 
             exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
         
@@ -225,7 +227,9 @@ public class Lecture_TransitionCues : MonoBehaviour
         TransitionCueConfig exitTransitionCueConfig = TransitionCueConfig.CreateARConfig(
             parent: startArrivalAnchor,
             onInteract: () =>
-            {CreateLeaveHMDCue(startArrivalAnchor);
+            {
+                exitTransitionCue.SetActive(false);
+                CreateLeaveHMDCue(startArrivalAnchor);
             },
             onClose: () =>
             {
@@ -334,11 +338,30 @@ public class Lecture_TransitionCues : MonoBehaviour
         block.SetFloat("_Fade", 0f);
         r.SetPropertyBlock(block);
     }
+        if (videoPlane != null)
+        {
+    videoPlane.SetActive(true);
+
+        }
+        else
+        {
+            Debug.Log("video plane does not exist");
+        }
     CreateStartArrivalCue(startArrivalAnchor);
 }
 
 public IEnumerator FadeOutAll(float duration)
 {
+        if (videoPlane != null)
+        {
+    videoPlane.SetActive(false);
+
+        }
+        else
+        {
+            Debug.Log("video plane does not exist");
+        }
+        
     Renderer[] renderers = objectsToSpawn.GetComponentsInChildren<Renderer>(true);
     MaterialPropertyBlock block = new MaterialPropertyBlock();
 
@@ -367,7 +390,7 @@ public IEnumerator FadeOutAll(float duration)
         r.SetPropertyBlock(block);
     }
 
-    objectsToSpawn.gameObject.SetActive(false);
-    CreateLeaveHMDCue(startArrivalAnchor);
+    //objectsToSpawn.gameObject.SetActive(false);
+    CreateExitTransitionCue(startArrivalAnchor);
 }
 }
