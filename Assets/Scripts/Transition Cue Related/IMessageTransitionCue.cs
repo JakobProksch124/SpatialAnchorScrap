@@ -25,10 +25,8 @@ public class IMessageTransitionCue : MonoBehaviour
     [SerializeField] private string visualVoiceLabel = "R";
     [SerializeField] private string visualVoiceDescription = "Take off the headmounted display";
     [SerializeField] private string visualVoiceButtonText = "";
-    [SerializeField] private VideoClip visualVoicevideoClip;
-
     [SerializeField] private Transform visualVoiceAnchor;
-
+    [SerializeField] private PathGenerator pathGenerator;
     private GameObject visualVoiceCue;
 
 
@@ -36,12 +34,25 @@ public class IMessageTransitionCue : MonoBehaviour
 
     private GameObject iMessageCue;
     private bool hasTriggered = false;
-    private bool iMessageIsBland = false;
     private Transform playerTransform;
     private float triggerDistance = 6f;
 
+
+    [SerializeField] private Transform entryAnchor;
+
+
     void Start()
     {
+        foreach (PathGenerator component in GetComponents<PathGenerator>())
+        {
+            if (component.GetType().Name == "PathGenerator")
+            {
+                pathGenerator = component;
+                break;
+            }
+        }
+
+        
 
 
         Camera mainCam = Camera.main;
@@ -76,20 +87,17 @@ public class IMessageTransitionCue : MonoBehaviour
             onInteract: () =>
             {
                 iMessageCue.SetActive(false);
-                readNotification();
-            }
+                //readNotification();
+                CreateVisualVoiceCue(visualVoiceAnchor);
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
         );
 
-
-        iMessageCueConfig.onCollide = (other) =>
-        {
-            iMessageCue.SetActive(false);
-            readNotification();
-        };
-
         iMessageCueConfig.alwaysExpanded = true;
-        iMessageCueConfig.isBland = false;
-        iMessageCueConfig.isArrival = true;
+        iMessageCueConfig.isArrival = false;
         iMessageCueConfig.primaryColor = iMessagePrimaryColor;
         iMessageCueConfig.expandedDescription = iMessageDescription;
         iMessageCueConfig.screenshotTexture = iMessageScreenshotDisplayed;
@@ -98,16 +106,9 @@ public class IMessageTransitionCue : MonoBehaviour
 
         iMessageCue = TransitionCueFactory.CreateCue(iMessageCueConfig);
         UnityEngine.Debug.Log("iMessage cue created!");
-        notificationSoundPlayer.Play();
+        //notificationSoundPlayer.Play();
 
-        if (!iMessageIsBland)
-        {
-            Invoke(nameof(readNotification), readNotificationDelay);
-        }
-        else
-        {
-            willReadNotification = false;
-        }
+       
     }
 
     // CUE INFO:
@@ -121,21 +122,28 @@ public class IMessageTransitionCue : MonoBehaviour
             onInteract: () =>
             {
                 visualVoiceCue.SetActive(false);
-            }
-        );
-
-
-            visualVoiceCueConfig.onCollide = (other) =>
+                Debug.Log("Adding InBetween Target");
+                if (pathGenerator != null)
+                {
+                pathGenerator.AddInbetweenTarget(entryAnchor);
+                }
+                else
+                {
+                    Debug.Log("path generator reference in IMessage is null");
+                }
+            },
+            onClose: () =>
             {
-                visualVoiceCue.SetActive(false);
-            };
+            },
+            isStandardClose: true
+        );
 
             // Details for enhanced cues
             visualVoiceCueConfig.alwaysExpanded = true;
             visualVoiceCueConfig.primaryColor = visualVoicePrimaryColor;
             visualVoiceCueConfig.expandedDescription = visualVoiceDescription;
-            visualVoiceCueConfig.videoClip = visualVoicevideoClip;
-            visualVoiceCueConfig.isVoiceCue = true;
+            //visualVoiceCueConfig.videoClip = visualVoicevideoClip;
+            visualVoiceCueConfig.isVoiceCue = false;
             // (Effectively not used if alwaysExpanded)
             visualVoiceCueConfig.label = visualVoiceLabel;
             visualVoiceCueConfig.buttonText = visualVoiceButtonText;
@@ -162,9 +170,5 @@ public class IMessageTransitionCue : MonoBehaviour
         }
     }
 
-    public void SetIsBland(bool iMessageIsBland)
-    {
-        this.iMessageIsBland = iMessageIsBland;
-    }
 
 }

@@ -22,6 +22,17 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.5f;
 
 
+    [Header("Start Transition Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string startTransitionAnchorName = "startArrivalAnchor";
+    [SerializeField] private Color startTransitionPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string startTransitionLabel = "VR";
+    [SerializeField] private Texture2D startTransitionScreenshotDisplayed;
+    [SerializeField] private string startTransitionDescription = "Welcome to the VR lecture!";
+    [SerializeField] private string startTransitionButtonText = "Start Video";
+    [SerializeField] private bool startTransitionAlwaysExpand = false;
+
+
     [Header("Start Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
     [SerializeField] private string startArrivalAnchorName = "startArrivalAnchor";
@@ -31,7 +42,6 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private string startArrivalDescription = "Welcome to the VR lecture!";
     [SerializeField] private string startArrivalButtonText = "Start Video";
     [SerializeField] private bool startArrivalAlwaysExpand = false;
-    [SerializeField] private bool startArrivalIsBland = false;
     [Tooltip("only used, when start arrival cue is set to blunt")]
     [SerializeField] private float videoStartDelay = 3f;
 
@@ -44,69 +54,88 @@ public class Lecture_TransitionCues : MonoBehaviour
     [SerializeField] private string exitDescription = "Your friends are waiting!";
     [SerializeField] private string exitButtonText = "Stop Video";
     [SerializeField] private bool exitAlwaysExpand = false;
-    [SerializeField] private bool exitIsBland = false;
-    [SerializeField] InputActionReference switchIsBlandButton;
 
+    [Header("VRExit Trransition Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string exitTransitionAnchorName = "exitAnchor";
+    [SerializeField] private Color exitTransitionPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string exitTransitionLabel = "Reality";
+    [SerializeField] private Texture2D exitTransitionScreenshotDisplayed;
+    [SerializeField] private string exitTransitionDescription = "Your friends are waiting!";
+    [SerializeField] private string exitTransitionButtonText = "Stop Video";
+    [SerializeField] private bool exitTransitionAlwaysExpand = false;
 
-    private bool _switchIsBlandButtonWasPressed = false;
+    [Header("Leave HMD Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string leaveHMDAnchorName = "leaveHMDAnchor";
+    [SerializeField] private Color leaveHMDPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string leaveHMDLabel = "R";
+    [SerializeField] private Texture2D leaveHMDScreenshotDisplayed;
+    [SerializeField] private string leaveHMDDescription = "Take off the headmounted display";
+    [SerializeField] private string leaveHMDButtonText = "";
+    [SerializeField] private bool leaveHMDAlwaysExpand = false;
+    [SerializeField] private VideoClip leaveHMDvideoClip;
+
+    private GameObject leaveHMDCue;
 
 
     [SerializeField] private Transform startArrivalAnchor;
-    [SerializeField] private Transform exitAnchor;
+    [SerializeField] private GameObject videoPlane;
     private GameObject exitCue;
+    private GameObject exitTransitionCue;
     private GameObject startArrivalCue;
-
-    void Awake()
-    {
-        LoadBlandState();
-
-        if (exitIsBland == startArrivalIsBland)
-        {
-            startArrivalIsBland = true;
-            exitIsBland = false;
-            SaveBlandState();
-        }
-    }
+    private GameObject startTransitionCue;
 
     void Start()
     {
-        if (startArrivalAnchor == null)
-            Debug.LogError($"Start Arrival Anchor '{startArrivalAnchorName}' not found!");
-
-        if (exitAnchor == null)
-            Debug.LogError($"Exit Anchor '{exitAnchorName}' not found!");
-
-
+        HideAllChildren();
+        
         // Start the sequence
-        if (!startArrivalIsBland)
-        {
-            HideAllChildren();
-            StartCoroutine(SpawnPhases());
-        }
-        else
-        {
-            Debug.Log("start arrival is bland");
-            CreateStartArrivalCue(startArrivalAnchor);
-        }
+        CreateStartTransitionCue(startArrivalAnchor);
+        //StartCoroutine(FadeInAll(fadeDuration));
     }
 
-    void Update()
+
+    void CreateStartTransitionCue(Transform StartArrivalAnchor)
     {
-        CheckSwitchIsBland();
+        TransitionCueConfig StartTransitionCueConfig = TransitionCueConfig.CreateARConfig(
+            parent: StartArrivalAnchor,
+            onInteract: () =>
+            {
+                startTransitionCue.SetActive(false);
+                StartCoroutine(FadeInAll(fadeDuration));
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
+        );
+
+            StartTransitionCueConfig.isArrival = false;
+            StartTransitionCueConfig.isTransparent = false;
+            StartTransitionCueConfig.alwaysExpanded = true;
+            StartTransitionCueConfig.primaryColor = startTransitionPrimaryColor;
+            StartTransitionCueConfig.expandedDescription = startTransitionDescription;
+            StartTransitionCueConfig.screenshotTexture = startTransitionScreenshotDisplayed;
+            StartTransitionCueConfig.label = startTransitionLabel;
+            StartTransitionCueConfig.buttonText = startTransitionButtonText;
+
+            startTransitionCue = TransitionCueFactory.CreateCue(StartTransitionCueConfig);
     }
 
 
     void StartVideo()
     {
         videoPlayer.Play();
-
     }
+
+
 
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
-        if (!startArrivalIsBland)
-        {
-            TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
+        //CreateExitCue(exitAnchor);
+        
+            TransitionCueConfig StartTransitionCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: StartArrivalAnchor,
                 onInteract: () =>
                 {
@@ -124,69 +153,54 @@ public class Lecture_TransitionCues : MonoBehaviour
                     Debug.Log("invoked spawn exit cue");
                     Invoke(nameof(SpawnExitCue), exitCueDelay);
 
-                }
+                },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
             );
 
+            StartTransitionCueConfig.isArrival = true;
+            StartTransitionCueConfig.isTransparent = false;
+            StartTransitionCueConfig.alwaysExpanded = true;
+            StartTransitionCueConfig.primaryColor = startArrivalPrimaryColor;
+            StartTransitionCueConfig.expandedDescription = startArrivalDescription;
+            StartTransitionCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
+            StartTransitionCueConfig.label = startArrivalLabel;
+            StartTransitionCueConfig.buttonText = startArrivalButtonText;
 
-            StartArrivalCueConfig.onCollide = (other) =>
-            {
-                startArrivalCue.SetActive(false);// Start Video
-                if (videoPlayer != null)
-                {
-                    videoPlayer.Play();
-                }
-                else
-                {
-                    Debug.LogWarning("VideoPlayer reference missing!");
-                }
-
-                // Create Exit Cue after delay
-                Debug.Log("invoked spawn exit cue");
-                Invoke(nameof(SpawnExitCue), exitCueDelay);
-            };
-
-
-            StartArrivalCueConfig.isArrival = true;
-            StartArrivalCueConfig.isTransparent = false;
-            StartArrivalCueConfig.alwaysExpanded = true;
-            StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
-            StartArrivalCueConfig.expandedDescription = startArrivalDescription;
-            StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
-            StartArrivalCueConfig.label = startArrivalLabel;
-            StartArrivalCueConfig.buttonText = startArrivalButtonText;
-
-            startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
-        }
-        else
-        {
-            Invoke(nameof(StartVideo), startVideoDelay);
-            Debug.Log("invoked spawn exit cue");
-            Invoke(nameof(SpawnExitCue), exitCueDelay);
-            //   Invoke(nameof(videoPlayer.Play), videoStartDelay);
-        }
+            startArrivalCue = TransitionCueFactory.CreateCue(StartTransitionCueConfig);
+         
     }
+
+    
 
     void SpawnExitCue()
     {
         Debug.Log("spawning Exit Cue");
-        CreateExitCue(exitAnchor);
+        CreateExitCue(startArrivalAnchor);
     }
-
-    void CreateExitCue(Transform exitAnchor)
+  
+    void CreateExitCue(Transform startArrivalAnchor)
     {
         TransitionCueConfig exitCueConfig = TransitionCueConfig.CreateARConfig(
-        parent: exitAnchor,
+        parent: startArrivalAnchor,
         onInteract: () =>
         {
-        }
+                exitCue.SetActive(false);
+                StartCoroutine(FadeOutAll(fadeDuration));
+        },
+            onClose: () =>
+            {
+                exitCue.SetActive(false);
+                videoPlayer.Play();
+                // Create Exit Cue again after delay
+                Debug.Log("invoked spawn exit cue");
+                Invoke(nameof(SpawnExitCue), exitCueDelay);
+            },
+            isStandardClose: false
     );
 
-        exitCueConfig.onCollide = (other) =>
-        {
-        };
-
-        if (!exitIsBland)
-        {
             // Pause Video
             if (videoPlayer != null)
             {
@@ -198,177 +212,185 @@ public class Lecture_TransitionCues : MonoBehaviour
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
             exitCueConfig.label = exitLabel;
             exitCueConfig.buttonText = exitButtonText;
-            exitCueConfig.leadsToAR = true;
-            exitCueConfig.leadsOutOfLecture = true;
+            exitCueConfig.isTransparent = false;
+
             exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
-        }
+        
+    }
+
+    
+    // CUE INFO:
+    // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
+    void CreateExitTransitionCue(Transform startArrivalAnchor)
+    {
+        // Base (Same basic configuration for enhanced as well as minimal cues
+        TransitionCueConfig exitTransitionCueConfig = TransitionCueConfig.CreateARConfig(
+            parent: startArrivalAnchor,
+            onInteract: () =>
+            {
+                exitTransitionCue.SetActive(false);
+                CreateLeaveHMDCue(startArrivalAnchor);
+            },
+            onClose: () =>
+            {
+                exitTransitionCue.SetActive(false);
+                StartCoroutine(FadeInAll(fadeDuration));
+            },
+            isStandardClose: false
+        );
+        exitTransitionCueConfig.alwaysExpanded = exitTransitionAlwaysExpand;
+        exitTransitionCueConfig.primaryColor = exitTransitionPrimaryColor;
+        exitTransitionCueConfig.expandedDescription = exitTransitionDescription;
+        exitTransitionCueConfig.screenshotTexture = exitTransitionScreenshotDisplayed;
+
+        exitTransitionCueConfig.leadsOutOfLecture = true;
+        // (Effectively not used if alwaysExpanded)
+        exitTransitionCueConfig.label = exitTransitionLabel;
+        exitTransitionCueConfig.buttonText = exitTransitionButtonText;
+        exitTransitionCue = TransitionCueFactory.CreateCue(exitTransitionCueConfig);
+    }
+
+    // CUE INFO:
+    // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
+    void CreateLeaveHMDCue(Transform startArrivalAnchor)
+    {
+        // Base (Same basic configuration for enhanced as well as minimal cues
+        TransitionCueConfig leaveHMDCueConfig = TransitionCueConfig.CreateARConfig(
+            parent: startArrivalAnchor,
+            onInteract: () =>
+            {
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
+        );
+
+
+        // Details for enhanced cues
+        leaveHMDCueConfig.alwaysExpanded = leaveHMDAlwaysExpand;
+        leaveHMDCueConfig.primaryColor = leaveHMDPrimaryColor;
+        leaveHMDCueConfig.expandedDescription = leaveHMDDescription;
+        leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
+        leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
+
+        leaveHMDCueConfig.isLeaveCue = true;
+        // (Effectively not used if alwaysExpanded)
+        leaveHMDCueConfig.label = leaveHMDLabel;
+        leaveHMDCueConfig.buttonText = leaveHMDButtonText;
+        leaveHMDCue = TransitionCueFactory.CreateCue(leaveHMDCueConfig);
     }
 
     void HideAllChildren()
     {
-        foreach (Transform phase in objectsToSpawn)
-        {
-            phase.gameObject.SetActive(false);
-        }
-    }
-
-    IEnumerator SpawnPhases()
-    {
-        Transform phase1 = objectsToSpawn.GetChild(0);
-
-        // Prepare alpha BEFORE enabling
-        SetPhaseAlpha(phase1, 0f);
-        if (phase1 != null)
-        {
-
-            phase1.gameObject.SetActive(true);
-
-            yield return StartCoroutine(FadeInPhase(phase1));
-        }
-        Transform phase2 = objectsToSpawn.GetChild(1);
-
-        // Prepare alpha BEFORE enabling
-        SetPhaseAlpha(phase2, 0f);
-        if (phase2 != null)
-        {
-
-            phase2.gameObject.SetActive(true);
-
-            yield return StartCoroutine(FadeInPhase(phase2));
-        }
-
-        Transform phase3 = objectsToSpawn.GetChild(2);
-        phase3.gameObject.SetActive(true);
-        if (phase3 != null)
-        {
-
-            foreach (Transform child in phase3)
-            {
-                child.gameObject.SetActive(true);
-            }
-        }
-        CreateStartArrivalCue(startArrivalAnchor);
-    }
-
-    void SetPhaseAlpha(Transform phase, float alpha)
-    {
-        Renderer[] renderers = phase.GetComponentsInChildren<Renderer>(true);
+        Renderer[] renderers = objectsToSpawn.GetComponentsInChildren<Renderer>(true);
+        MaterialPropertyBlock block = new MaterialPropertyBlock();
 
         foreach (Renderer r in renderers)
         {
-            foreach (Material mat in r.materials)
-            {
-                if (mat.HasProperty("_Color"))
-                {
-                    Color c = mat.color;
-                    c.a = alpha;
-                    mat.color = c;
-                }
-            }
+            r.GetPropertyBlock(block);
+            block.SetFloat("_Fade", 1f); // Fully invisible
+            r.SetPropertyBlock(block);
         }
+
+        /*foreach (Transform child in objectsToSpawn)
+        {
+            child.gameObject.SetActive(false);
+        }*/
     }
 
+    public IEnumerator FadeInAll(float duration)
+{
+    Renderer[] renderers = objectsToSpawn.GetComponentsInChildren<Renderer>(true);
+    MaterialPropertyBlock block = new MaterialPropertyBlock();
 
-    IEnumerator FadeInPhase(Transform phase)
+    // Start fully invisible
+    foreach (Renderer r in renderers)
     {
-        Renderer[] renderers = phase.GetComponentsInChildren<Renderer>(true);
-        float time = 0f;
+        r.GetPropertyBlock(block);
+        block.SetFloat("_Fade", 1f);
+        r.SetPropertyBlock(block);
+    }
 
-        // --- BLOCK 1: START-ZUSTAND ---
+    objectsToSpawn.gameObject.SetActive(true);
+
+    float elapsed = 0f;
+
+    while (elapsed < duration)
+    {
+        elapsed += Time.deltaTime;
+        float fade = 1f - Mathf.Clamp01(elapsed / duration);
+
         foreach (Renderer r in renderers)
         {
-            foreach (Material mat in r.materials)
-            {
-                // CHANGE: "_Color" durch "_BaseColor" ersetzt (URP Standard)
-                if (mat.HasProperty("_BaseColor"))
-                {
-                    Color c = mat.GetColor("_BaseColor");
-                    c.a = 0f;
-                    mat.SetColor("_BaseColor", c);
-                }
-            }
+            r.GetPropertyBlock(block);
+            block.SetFloat("_Fade", fade);
+            r.SetPropertyBlock(block);
         }
 
-        // --- BLOCK 2: DIE SCHLEIFE ---
-        while (time < fadeDuration)
+        yield return null;
+    }
+
+    // Ensure completely visible
+    foreach (Renderer r in renderers)
+    {
+        r.GetPropertyBlock(block);
+        block.SetFloat("_Fade", 0f);
+        r.SetPropertyBlock(block);
+    }
+        if (videoPlane != null)
         {
-            // CHANGE: Mathf.Clamp01 hinzugefügt, damit alpha nie > 1 wird
-            float alpha = Mathf.Clamp01(time / fadeDuration);
+    videoPlane.SetActive(true);
 
-            foreach (Renderer r in renderers)
-            {
-                foreach (Material mat in r.materials)
-                {
-                    // CHANGE: "_Color" durch "_BaseColor" ersetzt
-                    if (mat.HasProperty("_BaseColor"))
-                    {
-                        Color c = mat.GetColor("_BaseColor");
-                        c.a = alpha;
-                        mat.SetColor("_BaseColor", c);
-                    }
-                }
-            }
-
-            time += Time.deltaTime;
-            yield return null;
         }
+        else
+        {
+            Debug.Log("video plane does not exist");
+        }
+    CreateStartArrivalCue(startArrivalAnchor);
+}
 
-        // --- BLOCK 3: ABSCHLUSS (HIER LAG DER FEHLER) ---
+public IEnumerator FadeOutAll(float duration)
+{
+        if (videoPlane != null)
+        {
+    videoPlane.SetActive(false);
+
+        }
+        else
+        {
+            Debug.Log("video plane does not exist");
+        }
+        
+    Renderer[] renderers = objectsToSpawn.GetComponentsInChildren<Renderer>(true);
+    MaterialPropertyBlock block = new MaterialPropertyBlock();
+
+    float elapsed = 0f;
+
+    while (elapsed < duration)
+    {
+        elapsed += Time.deltaTime;
+        float fade = Mathf.Clamp01(elapsed / duration);
+
         foreach (Renderer r in renderers)
         {
-            foreach (Material mat in r.materials)
-            {
-                if (mat.HasProperty("_BaseColor"))
-                {
-                    // NEU: Setzt das Material wieder auf "Opaque" (Undurchsichtig)
-                    // Ohne diese Zeilen bleibt das Objekt im Modus "Transparent",
-                    // was Schatten und Tiefendarstellung (ZWrite) ruiniert.
-                    mat.SetFloat("_Surface", 0); // 0 = Opaque Modus
-                    mat.SetInt("_ZWrite", 1);    // Schaltet Tiefenschreiben wieder ein
-                    mat.DisableKeyword("_SURFACE_TYPE_TRANSPARENT"); // Keyword deaktivieren
-                    mat.renderQueue = -1;        // Zurück in die Standard-Render-Reihenfolge
-
-                    // Sicherstellen, dass Alpha am Ende 1 ist
-                    Color c = mat.GetColor("_BaseColor");
-                    c.a = 1f;
-                    mat.SetColor("_BaseColor", c);
-                }
-            }
+            r.GetPropertyBlock(block);
+            block.SetFloat("_Fade", fade);
+            r.SetPropertyBlock(block);
         }
+
+        yield return null;
     }
 
-    void CheckSwitchIsBland()
+    // Ensure completely invisible
+    foreach (Renderer r in renderers)
     {
-        bool isPressed = switchIsBlandButton.action.IsPressed();
-        if (_switchIsBlandButtonWasPressed && !isPressed)
-        {
-            SwitchIsBland();
-        }
-        _switchIsBlandButtonWasPressed = isPressed;
-
-    }
-    void SwitchIsBland()
-    {
-        exitIsBland = !exitIsBland;
-        startArrivalIsBland = !startArrivalIsBland;
-        SaveBlandState();
+        r.GetPropertyBlock(block);
+        block.SetFloat("_Fade", 1f);
+        r.SetPropertyBlock(block);
     }
 
-    void SaveBlandState()
-    {
-        PlayerPrefs.SetInt("exitIsBland", exitIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("startArrivalIsBland", startArrivalIsBland ? 1 : 0);
-
-        PlayerPrefs.Save();
-    }
-
-    void LoadBlandState()
-    {
-        exitIsBland = PlayerPrefs.GetInt("exitIsBland", 0) == 1;
-        startArrivalIsBland = PlayerPrefs.GetInt("startArrivalIsBland", 0) == 1;
-    }
-
-
-
-
+    //objectsToSpawn.gameObject.SetActive(false);
+    CreateExitTransitionCue(startArrivalAnchor);
+}
 }

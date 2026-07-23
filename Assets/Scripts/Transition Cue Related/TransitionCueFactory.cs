@@ -21,8 +21,6 @@ public static class TransitionCueFactory
     // Returns: Root GameObject of the cue
     public static GameObject CreateCue(TransitionCueConfig config)
     {
-        if (!config.isBland)
-        {
             // Normal, enhanced cue design
 
             // === Root Container ===
@@ -76,13 +74,14 @@ public static class TransitionCueFactory
             // === Close Button (only for collapsible cues) ===
             GameObject closeButton = null;
             GameObject actionButton = null;
-            if (!config.isLeaveCue && !config.leadsOutOfLecture)
+            if (!config.isLeaveCue || config.leadsOutOfLecture)
             {
                 actionButton = CreateButton(config);
                 actionButton.transform.SetParent(buttonContainer.transform, false);
                 AddIsdkSelectToInvoke(actionButton, config, true);
 
-                if (!config.alwaysExpanded)
+                //if (!config.alwaysExpanded)
+                if(!config.isArrival)
                 {
                     float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
                     actionButton.transform.localPosition = new Vector3(actionButtonX, 0, 0);
@@ -100,12 +99,18 @@ public static class TransitionCueFactory
 
             // Wire close button to dismiss the expanded panel
             if (closeButton != null)
+        {
+            if (config.isStandardClose)
             {
                 AddIsdkSelectToInvoke(closeButton, () => expander.DismissToSmall(), config, true);
-            }
 
-            // add collision interaction
-            AddCollisionSupport(root, smallPanel, expandedPanel, actionButton, config);
+            }
+            else
+            {
+
+                AddIsdkSelectToInvoke(closeButton, () => config?.onClose?.Invoke(), config, true);
+            }
+            }
 
             // === Rotation Effect ===
             if (config.enableTurnTowardsUser && !config.leadsToAR)
@@ -114,67 +119,16 @@ public static class TransitionCueFactory
                 rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
             }
 
-            // === Arrival Welcome Animation ===
-            if (config.isArrival)
-            {
-                WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
-                welcome.Initialize(config.turnTriggerDistance);
-            }
+            // === Configure Audio Player===
+            ConfigureAudio(root, config);
 
-            if (!config.isArrival)
-            {
-                // === Ambient Audio ===
-                AddAmbientAudio(root, config);
-
-            }
+            // === Add Audio and if its an Arrival Cue the Welcome Animation ===
+            WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
+            welcome.Initialize(config.turnTriggerDistance, config.audioSource, config.isArrival);
+            
 
             return root;
-        }
-        else
-        {
-            if (config.isLeaveCue)
-            {
-                // Minimal cue design
-
-                GameObject root = new GameObject($"MinimalCue_{config.label}");
-                root.transform.SetParent(config.parent, false);
-                root.transform.localPosition = Vector3.zero;
-                root.transform.localRotation = Quaternion.identity;
-                root.transform.localScale = Vector3.one * config.globalScale;
-
-                // === Small Panel ===
-                GameObject smallPanel = CreateSmallPanel(config);
-                smallPanel.transform.SetParent(root.transform, false);
-                //AddIsdkSelectToInvoke(smallPanel, config, false);
-
-                // ADD THIS
-                //AddCollisionSupport(root, smallPanel, null, null, config);
-
-                return root;
-            }
-            else
-            {
-                // Minimal cue BUT not a leave cue → create a button instead of panel
-
-                GameObject root = new GameObject($"MinimalButtonCue_{config.label}");
-                root.transform.SetParent(config.parent, false);
-                root.transform.localPosition = Vector3.zero;
-                root.transform.localRotation = Quaternion.identity;
-                root.transform.localScale = Vector3.one * config.globalScale;
-
-                // === Button (styled like small panel) ===
-                GameObject button = CreateMinimalButtonFromSmallPanel(config);
-                button.transform.SetParent(root.transform, false);
-
-                // Interaction
-                AddIsdkSelectToInvoke(button, config, true);
-
-                // Collision (same as minimal panel case)
-                AddCollisionSupport(root, button, null, null, config);
-
-                return root;
-            }
-        }
+        
     }
 
     private static void AddIsdkSelectToInvoke(GameObject button, TransitionCueConfig config, bool addHover)
@@ -240,16 +194,9 @@ public static class TransitionCueFactory
         }
 
         // Set the right material / optic, based on type of cue (Enhanced vs. Minimal)
-        if (!config.isBland)
-        {
             Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
             renderer.material = frostedMat;
-        }
-        else
-        {
-            Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, 1);
-            renderer.material = frostedMat;
-        }
+        
 
         // Remove default collider (we'll add XR interaction to button only)
         Collider collider = smallPanel.GetComponent<Collider>();
@@ -328,8 +275,7 @@ public static class TransitionCueFactory
         float contentBottomY = 0f; // Y-position of the bottom of the content
 
         bool noContentLayout = false;
-        if (!config.isBland)
-        {
+       
             if (config.isTransparent && !config.isLeaveCue)
             {
                 Material frostedMat;
@@ -392,7 +338,7 @@ public static class TransitionCueFactory
 
                 noContentLayout = true;
             }
-        }
+        
 
         // Description Text
         GameObject descObj = new GameObject("DescriptionText");
@@ -764,7 +710,7 @@ public static class TransitionCueFactory
         float zOffset = (config.buttonDepth / 2) + config.textZOffset;
         float lineLength = 0.6f;
         float lineThickness = 0.06f;
-        Material lineMat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        Material lineMat = new Material(Shader.Find("Unlit/Texture"));
         if (lineMat != null)
         {
             lineMat.SetColor("_BaseColor", Color.white);
@@ -802,19 +748,7 @@ public static class TransitionCueFactory
 
         AddIsdkSelectToInvoke(button, config, true);
 
-        if (config.onCollide != null)
-        {
-            Rigidbody rb = root.AddComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.useGravity = false;
-
-            TransitionCueTriggerReceiver receiver =
-                root.AddComponent<TransitionCueTriggerReceiver>();
-
-            receiver.Initialize(config.onCollide);
-
-            SetupPanelTrigger(button, receiver);
-        }
+       
 
         return root;
     }
@@ -822,8 +756,7 @@ public static class TransitionCueFactory
 
     private static Material CreateWhiteMaterial()
     {
-        Debug.Log("generating white color for expanded panel");
-        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        Material mat = new Material(Shader.Find("Unlit/Texture"));
 
         // Set base color to completely white
         Color whiteColor = new Color(1f, 1f, 1f, 1f);
@@ -852,8 +785,7 @@ public static class TransitionCueFactory
 
     private static Material CreateBlueMaterial()
     {
-        Debug.Log("generating blue color for expanded panel");
-        Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        Material mat = new Material(Shader.Find("Unlit/Texture"));
 
         // Convert hex 4C66CC to RGB (0-1 range)
         Color hexColor = new Color(0x4C / 255f, 0x66 / 255f, 0xCC / 255f, 1f);
@@ -945,7 +877,7 @@ public static class TransitionCueFactory
     // === Helper Methods ===
 
     // Adds ambient audio to the transition cue
-    private static void AddAmbientAudio(GameObject root, TransitionCueConfig config)
+    private static void ConfigureAudio(GameObject root, TransitionCueConfig config)
     {
         // Load default sound
         AudioClip soundClip = config.ambientSound;
@@ -961,12 +893,12 @@ public static class TransitionCueFactory
         audioSource.volume = config.ambientVolume;
         audioSource.loop = config.ambientLoop;
         audioSource.spatialBlend = config.ambientSpatialBlend;
-        audioSource.minDistance = config.ambientMinDistance;
-        audioSource.maxDistance = config.ambientMaxDistance;
+        //audioSource.minDistance = config.ambientMinDistance;
+        //audioSource.maxDistance = config.ambientMaxDistance;
         audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.priority = config.ambientPriority;
         audioSource.dopplerLevel = config.ambientDopplerLevel;
-        audioSource.playOnAwake = true;
+        audioSource.playOnAwake = false;
 
         // Enable spread for more natural 3D sound
         audioSource.spread = 60f; // Degrees of spread for 3D sound
@@ -976,6 +908,7 @@ public static class TransitionCueFactory
         lowPassFilter.cutoffFrequency = 5000f; // Cuts high frequencies for softer sound
 
         audioSource.Play();
+        config.audioSource = audioSource;
     }
 
     // Applies custom font to TextMeshPro component
@@ -1004,74 +937,6 @@ public static class TransitionCueFactory
             }
         }
         textComponent.font = fontToUse;
-    }
-
-    private static void AddCollisionSupport(
-    GameObject root,
-    GameObject smallPanel,
-    GameObject expandedPanel,
-    GameObject button,
-    TransitionCueConfig config)
-    {
-        if (config == null)
-        {
-            Debug.LogError("AddCollisionSupport: config is NULL");
-            return;
-        }
-
-        if (config.onCollide == null)
-        {
-            Debug.Log("AddCollisionSupport: config.onCollide is null -> collision disabled");
-            return;
-        }
-
-        if (root == null)
-        {
-            Debug.LogError("AddCollisionSupport: root is NULL");
-            return;
-        }
-
-        Rigidbody rb = root.GetComponent<Rigidbody>();
-        if (rb == null)
-        {
-            Debug.Log("AddCollisionSupport: adding Rigidbody to root");
-            rb = root.AddComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.useGravity = false;
-        }
-
-        TransitionCueTriggerReceiver receiver = root.AddComponent<TransitionCueTriggerReceiver>();
-
-        if (receiver == null)
-        {
-            Debug.LogError("AddCollisionSupport: failed to add TransitionCueTriggerReceiver");
-            return;
-        }
-
-        receiver.Initialize(config.onCollide);
-
-        if (smallPanel != null)
-        {
-            SetupPanelTrigger(smallPanel, receiver);
-        }
-        else
-        {
-            Debug.LogWarning("AddCollisionSupport: smallPanel is NULL");
-        }
-
-        if (expandedPanel != null)
-        {
-            SetupPanelTrigger(expandedPanel, receiver);
-        }
-
-        if (button != null)
-        {
-            SetupPanelTrigger(button, receiver);
-        }
-        else
-        {
-            Debug.Log("AddCollisionSupport: button is NULL (expected for minimal cue)");
-        }
     }
 
     private static void SetupPanelTrigger(

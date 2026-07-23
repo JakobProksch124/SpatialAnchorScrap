@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 using Oculus.Interaction;
 
 // Place script directly on the Building Prefab Root
+//transition cues for G64 and Bib
 public class Building_TransitionCues : MonoBehaviour
 {
     [Header("General Reference Configuration")]
@@ -21,8 +22,6 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string navigationDestination = "Next Location";
     private Positioner positioner;
     [SerializeField] private GameObject ExtraARContent;
-    [SerializeField] private bool leaveHMDIsBland = false;
-    [SerializeField] private bool iMessageCueIsBland = false;
     [SerializeField] private IMessageTransitionCue IMessageCueScript;
 
 
@@ -36,7 +35,6 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string startArrivalDescription = "Welcome to VR!";
     [SerializeField] private string startArrivalButtonText = "X";
     [SerializeField] private bool startArrivalAlwaysExpand = false;
-    [SerializeField] private bool startArrivalIsBland = false;
 
     [Header("VREntry Cue Infos")]
     [Tooltip("Title shown during the VR transition fade")]
@@ -50,7 +48,6 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string entryDescription = "Enter this virtual space.";
     [SerializeField] private string entryButtonText = "Enter VR";
     [SerializeField] private bool entryAlwaysExpand = false;
-    [SerializeField] private bool entryIsBland = false;
 
     [Header("VREntry Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -61,7 +58,6 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string entryArrivalDescription = "Welcome to VR!";
     [SerializeField] private string entryArrivalButtonText = "X";
     [SerializeField] private bool entryArrivalAlwaysExpand = false;
-    [SerializeField] private bool entryArrivalIsBland = false;
 
     [Header("VRExit Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -73,7 +69,6 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string exitButtonText = "Enter AR";
     [SerializeField] private bool exitAlwaysExpand = false;
     [SerializeField] private bool leadsToAR = false;
-    [SerializeField] private bool exitIsBland = false;
     [SerializeField] private float exitCueDelay = 20f;
 
     [Header("VRExit Arrival Cue Infos")]
@@ -85,7 +80,6 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string exitArrivalDescription = "Welcome back to AR!";
     [SerializeField] private string exitArrivalButtonText = "X";
     [SerializeField] private bool exitArrivalAlwaysExpand = false;
-    [SerializeField] private bool exitArrivalIsBland = false;
 
     [Header("Transition Particles")]
     [SerializeField] private Color enterVRParticleColor = new Color(0.3f, 0.4f, 0.8f);
@@ -94,11 +88,7 @@ public class Building_TransitionCues : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
-    [SerializeField] InputActionReference switchIsBlandButton;
 
-
-
-    private bool _switchIsBlandButtonWasPressed = false;
 
     // Internal references
     private Transform entryAnchor;
@@ -129,26 +119,6 @@ public class Building_TransitionCues : MonoBehaviour
     private bool exitingVR = false;
 
 
-    void Awake()
-    {
-        //PlayerPrefs.DeleteAll();
-        LoadBlandState();
-        if(entryIsBland && startArrivalIsBland)
-        {
-            startArrivalIsBland = true;
-            iMessageCueIsBland = false;
-            entryIsBland = false;
-            entryArrivalIsBland = false;
-            exitIsBland = false;
-            exitArrivalIsBland = false;
-            leaveHMDIsBland = true;
-            if (IMessageCueScript != null)
-            {
-                IMessageCueScript.SetIsBland(entryIsBland);
-            }
-            SaveBlandState();
-        }
-    }
 
     void Start()
     {
@@ -207,7 +177,7 @@ public class Building_TransitionCues : MonoBehaviour
         if (LeaveHMDCue != null)
         {
             Debug.Log("spawning arrival cue");
-            LeaveHMDCue.SpawnArrivalCue(leaveHMDIsBland);
+            LeaveHMDCue.SpawnArrivalCue();
         }
     }
 
@@ -226,13 +196,7 @@ public class Building_TransitionCues : MonoBehaviour
 
     public void Update()
     {
-        if (positioner != null)
-        {
-            if (positioner.getDevMode())
-            {
-                CheckSwitchIsBland();
-            }
-        }
+        
         if (!enableKeyboardShortcuts) return;
 
         // Keyboard shortcuts for testing (New Input System)
@@ -327,16 +291,7 @@ public class Building_TransitionCues : MonoBehaviour
         }
     }
 
-    void CheckSwitchIsBland()
-    {
-        bool isPressed = switchIsBlandButton.action.IsPressed();
-        if (_switchIsBlandButtonWasPressed && !isPressed)
-        {
-            SwitchIsBland();
-        }
-        _switchIsBlandButtonWasPressed = isPressed;
-
-    }
+   
 
     void CreateEntryCue(Transform entryAnchor)
     {
@@ -421,25 +376,55 @@ public class Building_TransitionCues : MonoBehaviour
 
         // XX hier einfach black mit blue austauschen
         // Fade transition
-        yield return StartCoroutine(TransitionEffects.Instance.FadeToBlackWithTitle(
+        /* yield return StartCoroutine(TransitionEffects.Instance.FadeToBlackWithTitle(
             roomTitle: vrRoomTitle,
             fadeColor: entryPrimaryColor,
             fadeDuration: 1f,
             titleHoldSeconds: 1.0f,
             onOverlayReady: go => overlay = go
-        ));
+        )); */
 
         Debug.Log("starting vr room coroutine 1");
 
         // Load the VR room
         yield return StartCoroutine(LoadVRRoom());
+        
+        // Fade out
+        yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(3f, vrRoom));
         yield return null;
+        var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
 
-        yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
+                if (exitTargets.Count > 0)
+                {
+                    foreach (var go in exitTargets)
+                    {
+                        exitCueAnchor = go.transform;
+                        Invoke(nameof(SpawnExitCue), exitCueDelay);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[BUILDING_TRANSITIONCUE] {exitAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
+                }
+                var exitArrivalTargets = FindDeepChildrenInScene(loadedVRScene, entryArrivalAnchorName);
+
+                if (exitArrivalTargets.Count > 0)
+                {
+                    foreach (var go in exitArrivalTargets)
+                    {
+                        CreateEntryArrivalCue(go.transform);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[BUILDING_TRANSITIONCUE] {entryArrivalAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
+                }
+
+        /* yield return StartCoroutine(TransitionEffects.Instance.FadeFromBlackAndDestroy(
             overlayCanvas: overlay,
             fadeColor: entryPrimaryColor,
             fadeDuration: 2f
-        ));
+        )); */
         TransitionParticleEffect.Spawn(mainCamera, enterVRParticleColor, particleDuration * 2);
         userInVRRoom = true;
     }
@@ -541,7 +526,7 @@ public class Building_TransitionCues : MonoBehaviour
                 vrRoom = bridgeRoot;
             }
 
-            if (loadedVRScene.isLoaded)
+            /*if (loadedVRScene.isLoaded)
             {
                 var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
 
@@ -570,7 +555,7 @@ public class Building_TransitionCues : MonoBehaviour
                 {
                     Debug.LogWarning($"[BUILDING_TRANSITIONCUE] {entryArrivalAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
                 }
-            }
+            }*/
         }
         // Priority 2: Instantiate prefab
         else if (vrRoomPrefab != null)
@@ -655,8 +640,7 @@ public class Building_TransitionCues : MonoBehaviour
     // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateExitCue(Transform exitAnchor)
     {
-        /*if (!exitIsBland)
-        {
+        /*
 
         // --- New addition: search for doors and deactivate ---
         GameObject doorL = GameObject.Find("Door_L");
@@ -671,38 +655,28 @@ public class Building_TransitionCues : MonoBehaviour
             doorR.SetActive(false);
         else
             Debug.LogWarning("[Building_TransitionCues] Door_R not found in scene!");
-        }*/
+        */
         // Base (Same basic configuration for enhanced as well as minimal cues
         TransitionCueConfig exitCueConfig = TransitionCueConfig.CreateARConfig(
             parent: exitAnchor,
             onInteract: () =>
             {
+                exitCue.SetActive(false);
                 StartCoroutine(ExitVR());
-            }
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
         );
 
-        exitCueConfig.onCollide = (other) =>
-        {
-            StartCoroutine(ExitVR());
-        };
 
-        if (!entryIsBland)
-        {
             // Details for enhanced cues
             exitCueConfig.alwaysExpanded = exitAlwaysExpand;
             exitCueConfig.primaryColor = exitPrimaryColor;
             exitCueConfig.expandedDescription = exitDescription;
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
-        }
-        else
-        {
-            // Details for minimal cue
-            exitCueConfig.alwaysExpanded = false;
-            exitCueConfig.primaryColor = Color.grey;
-            exitCueConfig.expandedDescription = exitLabel;
-        }
-        exitCueConfig.isBland = entryIsBland;
-        Debug.Log("exit is bland: " + entryIsBland);
+       
 
         exitCueConfig.leadsToAR = this.leadsToAR;
 
@@ -717,20 +691,20 @@ public class Building_TransitionCues : MonoBehaviour
     // This cue spawns in front of the user when he freshly entered a vr room and gives him some info or instructions about what he can explore
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
     {
-        if (!entryArrivalIsBland)
-        {
+        
             // Base
             TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: entryArrivalAnchor,
                 onInteract: () =>
                 {
                     entryArrivalCue.SetActive(false);
-                }
-            );
-            entryArrivalCueConfig.onCollide = (other) =>
+                },
+            onClose: () =>
             {
-                entryArrivalCue.SetActive(false);
-            };
+            },
+            isStandardClose: true
+            );
+
             // Details
             entryArrivalCueConfig.isArrival = true;
             entryArrivalCueConfig.isTransparent = false;
@@ -744,7 +718,6 @@ public class Building_TransitionCues : MonoBehaviour
             entryArrivalCueConfig.buttonText = entryArrivalButtonText;
 
             entryArrivalCue = TransitionCueFactory.CreateCue(entryArrivalCueConfig);
-        }
     }
 
     // CUE INFO:
@@ -773,21 +746,19 @@ public class Building_TransitionCues : MonoBehaviour
     // confronting them with orders to follow the arrow
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
-        if (!startArrivalIsBland)
-        {
             // Base
             TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: StartArrivalAnchor,
                 onInteract: () =>
                 {
                     startArrivalCue.SetActive(false);
-                }
+                },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
             );
 
-            StartArrivalCueConfig.onCollide = (other) =>
-            {
-                startArrivalCue.SetActive(false);
-            };
 
             // Details
             StartArrivalCueConfig.isArrival = true;
@@ -801,7 +772,7 @@ public class Building_TransitionCues : MonoBehaviour
             StartArrivalCueConfig.buttonText = startArrivalButtonText;
 
             startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
-        }
+        
     }
 
     IEnumerator ExitVR()
@@ -812,11 +783,9 @@ public class Building_TransitionCues : MonoBehaviour
 
 
             Debug.Log($"[Building_TransitionCues] Exiting VR, returning to AR");
-            if (!exitIsBland)
-            {
+            
                 // Fade out
                 yield return StartCoroutine(TransitionEffects.Instance.FadeToAR(3f, vrRoom));
-            }
         // Unload VR room
         yield return StartCoroutine(UnloadVRRoom());
 
@@ -845,11 +814,25 @@ public class Building_TransitionCues : MonoBehaviour
         }
         SetPlacedBuildingVisible(true);
 
-        // Enable arrival cue B
+        // Enable arrival cue
         if (exitArrivalCue == null)
         {
             CreateExitArrivalCue(exitArrivalAnchor);
         }
+            else
+            {
+                exitArrivalCue.SetActive(true);
+            }
+
+        // Enable entry cue
+        if (entryCue == null)
+        {
+            CreateEntryCue(entryAnchor);
+            }
+            else
+            {
+                entryCue.SetActive(true);
+            }
 
         if (ExtraARContent != null)
         {
@@ -862,7 +845,7 @@ public class Building_TransitionCues : MonoBehaviour
         // Re-spawn arrival cue
         if (LeaveHMDCue != null)
         {
-            LeaveHMDCue.SpawnArrivalCue(leaveHMDIsBland);
+            LeaveHMDCue.SpawnArrivalCue();
         }
 
         userInVRRoom = false;
@@ -982,63 +965,5 @@ public class Building_TransitionCues : MonoBehaviour
         vrRoom.transform.position += offset;
 
         Physics.SyncTransforms();
-    }
-
-    public void SwitchIsBland()
-    {
-        entryArrivalIsBland = !entryArrivalIsBland;
-        entryIsBland = !entryIsBland;
-        exitArrivalIsBland = !exitArrivalIsBland;
-        exitIsBland = !exitIsBland;
-        startArrivalIsBland = !startArrivalIsBland;
-        leaveHMDIsBland = !leaveHMDIsBland;
-
-        if (!startArrivalIsBland)
-        {
-            UnityEngine.Debug.Log("active study: AB");
-        }
-        else
-        {
-            UnityEngine.Debug.Log("active study: BA");
-
-        }
-        SaveBlandState();
-
-        if (LeaveHMDCue != null)
-        {
-            LeaveHMDCue.SwitchIsBland();
-        }
-
-        if (IMessageCueScript != null)
-        {
-            IMessageCueScript.SetIsBland(entryIsBland);
-        }
-    }
-
-    void SaveBlandState()
-    {
-        PlayerPrefs.SetInt("entryArrivalIsBland", entryArrivalIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("entryIsBland", entryIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("exitArrivalIsBland", exitArrivalIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("exitIsBland", exitIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("startArrivalIsBland", startArrivalIsBland ? 1 : 0);
-        PlayerPrefs.SetInt("leaveHMDIsBland", leaveHMDIsBland ? 1 : 0);
-
-        PlayerPrefs.Save();
-    }
-
-    void LoadBlandState()
-    {
-        entryArrivalIsBland = PlayerPrefs.GetInt("entryArrivalIsBland", 0) == 1;
-        entryIsBland = PlayerPrefs.GetInt("entryIsBland", 0) == 1;
-        exitArrivalIsBland = PlayerPrefs.GetInt("exitArrivalIsBland", 0) == 1;
-        exitIsBland = PlayerPrefs.GetInt("exitIsBland", 0) == 1;
-        startArrivalIsBland = PlayerPrefs.GetInt("startArrivalIsBland", 0) == 1;
-        leaveHMDIsBland = PlayerPrefs.GetInt("leaveHMDIsBland", 0) == 1;
-
-        if (IMessageCueScript != null)
-        {
-            IMessageCueScript.SetIsBland(entryIsBland);
-        }
     }
 }

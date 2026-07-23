@@ -910,11 +910,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5626388009519181172}
-  - {fileID: 6268926659721083988}
+  - {fileID: 3451618852767852666}
   - {fileID: 6872376208820892673}
   - {fileID: 921995493336172691}
-  - {fileID: 3451618852767852666}
+  - {fileID: 6268926659721083988}
+  - {fileID: 5626388009519181172}
   - {fileID: 4498905363078469255}
   - {fileID: 6226867909288670430}
   - {fileID: 666579877494043328}
@@ -1111,7 +1111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navigationDestination: Peter
-  leaveHMDIsBland: 0
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
@@ -1119,25 +1118,21 @@ MonoBehaviour:
   startArrivalDescription: Choose a meal to order.
   startArrivalButtonText: Start ordering.
   startArrivalAlwaysExpand: 1
-  startArrivalIsBland: 0
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  entryLabel: Zu Peter
+  entryLabel: To Peter
   entryScreenshotDisplayed: {fileID: 2800000, guid: 9181b95a2d529f244b9cd668046707eb, type: 3}
   entryDescription: Your meal was ordered. Navigate to peters table?
   entryButtonText: Start navigation
   entryAlwaysExpand: 0
-  entryIsBland: 1
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryArrivalLabel: AR
   entryArrivalScreenshotDisplayed: {fileID: 0}
-  entryArrivalDescription: Follow the route to peter
+  entryArrivalDescription: Follow the route to Peter
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
-  entryArrivalIsBland: 1
   enableKeyboardShortcuts: 0
-  switchIsBlandButton: {fileID: 5533207970251053981, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   FoodA: {fileID: 3585625922424050813}
   FoodB: {fileID: 6710811993430716004}
   FoodC: {fileID: 147486778050537594}
@@ -3116,8 +3111,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3537412414869542475}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9580627, z: -0, w: -0.28655878}
-  m_LocalPosition: {x: 3.941, y: 1.053, z: -0.708}
+  m_LocalRotation: {x: 0, y: 0.99999803, z: 0, w: -0.0019951172}
+  m_LocalPosition: {x: 2.463, y: 1.053, z: 0.727}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10869,8 +10864,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8676441689616038619}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9580627, z: -0, w: -0.28655878}
-  m_LocalPosition: {x: 3.941, y: 1.053, z: -0.708}
+  m_LocalRotation: {x: 0, y: 0.99999803, z: 0, w: -0.0019951172}
+  m_LocalPosition: {x: 2.463, y: 1.053, z: 0.727}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

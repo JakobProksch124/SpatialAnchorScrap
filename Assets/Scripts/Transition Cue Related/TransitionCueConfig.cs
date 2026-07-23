@@ -24,9 +24,12 @@ public class TransitionCueConfig
     // Action to invoke when the button is interacted with
     public Action onInteract;
 
-    // Action to invoke when collision with transition cue happens
-    public Action<Collider> onCollide;
+    // Action to invoke when the button is interacted with
+    public Action onClose;
 
+    // decides if transition cue standardly minimizes transition cue or sets a different action
+    public bool isStandardClose = true;
+    
     // decides if transition leads to AR
     public bool leadsToAR = false;
 
@@ -46,7 +49,7 @@ public class TransitionCueConfig
     public bool leadsOutOfLecture = false;
 
     //decides if transition cue is blunt
-    public bool isBland = false;
+    //public bool isBland = false;
 
     //video clip object
     public VideoClip videoClip;
@@ -204,15 +207,17 @@ public class TransitionCueConfig
 
     // === Audio ===
 
+    public AudioSource audioSource;
+
     // Audio clip to play as continuous ambient sound from the transition cue (Resources/TransitionCueAmbient.wav)
     // Default sound will be loaded from Resources/TransitionCueAmbient.wav if this is null
-    public AudioClip ambientSound = Resources.Load<AudioClip>("TransitionCueAmbient");
+    public AudioClip ambientSound = Resources.Load<AudioClip>("iphone_imessage_tone");
 
     // Volume of the ambient sound (0-1)
     public float ambientVolume = 0.15f;
 
     // Whether the ambient sound should loop continuously
-    public bool ambientLoop = true;
+    public bool ambientLoop = false;
 
     // Spatial blend (0 = 2D, 1 = 3D spatial audio)
     public float ambientSpatialBlend = 1.0f;
@@ -260,7 +265,7 @@ public class TransitionCueConfig
     // === Factory Methods for Common Presets ===
 
     // Creates a VR transition cue config (blue color scheme)
-    public static TransitionCueConfig CreateVRConfig(Transform parent, Action onInteract)
+    public static TransitionCueConfig CreateVRConfig(Transform parent, Action onInteract, Action onClose, bool isStandardClose)
     {
         return new TransitionCueConfig
         {
@@ -268,13 +273,15 @@ public class TransitionCueConfig
             primaryColor = new Color(0.3f, 0.4f, 0.8f),
             parent = parent,
             onInteract = onInteract,
+            onClose = onClose,
+            isStandardClose = isStandardClose,
             expandedDescription = "Lorem Ipsum",
             buttonText = "Enter VR"
         };
     }
 
     // Creates an AR transition cue config (orange color scheme)
-    public static TransitionCueConfig CreateARConfig(Transform parent, Action onInteract)
+    public static TransitionCueConfig CreateARConfig(Transform parent, Action onInteract, Action onClose, bool isStandardClose)
     {
         return new TransitionCueConfig
         {
@@ -282,13 +289,15 @@ public class TransitionCueConfig
             primaryColor = new Color(0.8f, 0.4f, 0f), // Darker orange
             parent = parent,
             onInteract = onInteract,
+            onClose = onClose,
+            isStandardClose = isStandardClose,
             expandedDescription = "Lorem Ipsum",
             buttonText = "Enter AR"
         };
     }
 
     // Creates a Reality (R) transition cue config (red color scheme)
-    public static TransitionCueConfig CreateRConfig(Transform parent, Action onInteract)
+    public static TransitionCueConfig CreateRConfig(Transform parent, Action onInteract, Action onClose, bool isStandardClose)
     {
         return new TransitionCueConfig
         {
@@ -296,6 +305,8 @@ public class TransitionCueConfig
             primaryColor = new Color(0.8f, 0.15f, 0.15f), // Darker red
             parent = parent,
             onInteract = onInteract,
+            onClose = onClose,
+            isStandardClose = isStandardClose,
             expandedDescription = "Lorem Ipsum",
             buttonText = "Take off your HMD"
         };
