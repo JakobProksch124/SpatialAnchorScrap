@@ -16,6 +16,7 @@ public class CueDockUI : MonoBehaviour
     [SerializeField] private TMP_Text status;
     [SerializeField] private RectTransform textGroup;
     [SerializeField] private GameObject thinkDots;
+    [SerializeField] private GameObject leadingDot;
     [SerializeField] private Image[] dots;
     [SerializeField] private Image[] haloRings;
 
@@ -34,39 +35,67 @@ public class CueDockUI : MonoBehaviour
     private static readonly Color AnswerText = new(226/255f, 232/255f, 255/255f, 0.92f);
 
     private CueVisualState _state = CueVisualState.Idle;
-    private CueLanguage _language = CueLanguage.English;
-    private float _width;
-    private float _baseY;
+    private string _waiting = "Waiting for your question";
+    private string _listening = "Listening…";
+    private string _thinking = "Gathering answers";
     private Coroutine _typing;
+
+    /// <summary>Set the status-box strings from CueConfig.</summary>
+    public void SetTexts(string waiting, string listening, string thinking)
+    {
+        _waiting = waiting; _listening = listening; _thinking = thinking;
+    }
+    private CanvasGroup _group;
+    private LayoutElement _layoutElement;
+    private CueTextReveal _reveal;
 
     private void Awake()
     {
-        _width = collapsedWidth;
-        _baseY = dockRect ? dockRect.anchoredPosition.y : 0f;
+        if (dockRect)
+        {
+            _group = dockRect.GetComponent<CanvasGroup>();
+            if (!_group) _group = dockRect.gameObject.AddComponent<CanvasGroup>();
+            _layoutElement = dockRect.GetComponent<LayoutElement>();
+        }
+
+        // self-attach the streaming-text fade to the status label (no scene wiring)
+        if (status)
+        {
+            _reveal = status.GetComponent<CueTextReveal>();
+            if (!_reveal) _reveal = status.gameObject.AddComponent<CueTextReveal>();
+        }
+
+        ApplyVisibility(false);
     }
 
-    public void SetLanguage(CueLanguage language) => _language = language;
+    // Pill shows only while listening or thinking; otherwise it fades out AND
+    // drops out of the vertical stack (ignoreLayout) so no gap remains.
+    private void ApplyVisibility(bool visible)
+    {
+        if (_group) _group.alpha = visible ? 1f : 0f;
+        if (_layoutElement) _layoutElement.ignoreLayout = !visible;
+    }
 
     public void SetPhase(CueVisualState state)
     {
         _state = state;
-        var german = _language == CueLanguage.German;
+        // Box is visible whenever engaged (near/listening/thinking/answering); hidden only when far.
+        ApplyVisibility(state is CueVisualState.Available or CueVisualState.Listening
+            or CueVisualState.Thinking or CueVisualState.Speaking);
+        if (leadingDot) leadingDot.SetActive(state is CueVisualState.Available or CueVisualState.Listening);
         switch (state)
         {
-            case CueVisualState.Available:
-                SetText(german ? "Frag mich zu diesem Übergang" : "Ask about this transition", DimText);
+            case CueVisualState.Available: // "near" — already waiting for input
+                SetText(_waiting, DimText);
                 break;
             case CueVisualState.Listening:
-                SetText(german ? "Ich höre zu…" : "Listening…", DimText);
+                SetText(_listening, BrightText);
                 break;
             case CueVisualState.Thinking:
-                // transcript arrives via ShowQuestion right before/after this
-                break;
-            case CueVisualState.Speaking:
+                SetText(_thinking, DimText);
                 break;
             default:
-                SetText("", DimText);
-                break;
+                break; // Speaking: answer text arrives via ShowAnswer; Idle: hidden
         }
     }
 
@@ -74,19 +103,23 @@ public class CueDockUI : MonoBehaviour
     public void ShowQuestion(string question) =>
         StartTyping('“' + question.Trim().TrimEnd('.') + '”', BrightText);
 
-    /// <summary>Live-updates the answer text while the LLM streams.</summary>
+    /// <summary>Live-updates the answer text while the LLM streams (gentle tail fade).</summary>
     public void ShowAnswer(string answer)
     {
         StopTyping();
-        SetText(answer, AnswerText);
+        if (!status) return;
+        status.color = AnswerText;
+        if (_reveal) _reveal.SetStreaming(answer);
+        else status.text = answer;
     }
 
     private void SetText(string text, Color color)
     {
         StopTyping();
         if (!status) return;
-        status.text = text;
         status.color = color;
+        if (_reveal) _reveal.ShowInstant(text);
+        else status.text = text;
     }
 
     private void StartTyping(string text, Color color)
@@ -94,6 +127,7 @@ public class CueDockUI : MonoBehaviour
         StopTyping();
         if (!status) return;
         status.color = color;
+        if (_reveal) _reveal.ShowInstant(""); // typewriter drives status.text directly
         _typing = StartCoroutine(TypeRoutine(text));
     }
 
@@ -114,26 +148,6 @@ public class CueDockUI : MonoBehaviour
 
     private void Update()
     {
-        var expanded = _state != CueVisualState.Idle;
-        var targetW = expanded ? expandedWidth : collapsedWidth;
-        // exponential ease-out approximating the design's cubic-bezier(.4,0,.2,1)
-        _width = Mathf.Lerp(_width, targetW, 1f - Mathf.Exp(-Time.deltaTime * (4.6f / expandSeconds)));
-        if (dockRect)
-        {
-            dockRect.sizeDelta = new Vector2(_width, dockRect.sizeDelta.y);
-            var p = dockRect.anchoredPosition;
-            p.y = _baseY + Mathf.Sin(Time.time * (2f * Mathf.PI / 4.5f)) * floatAmplitude;
-            dockRect.anchoredPosition = p;
-        }
-
-        if (textGroup) textGroup.gameObject.SetActive(_width > collapsedWidth + 30f);
-
-        if (background)
-        {
-            var active = _state is CueVisualState.Listening or CueVisualState.Speaking;
-            background.color = Color.Lerp(background.color, active ? ActiveBg : IdleBg, Time.deltaTime * 8f);
-        }
-
         if (thinkDots)
         {
             thinkDots.SetActive(_state == CueVisualState.Thinking);

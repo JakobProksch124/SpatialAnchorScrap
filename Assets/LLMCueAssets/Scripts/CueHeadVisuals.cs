@@ -13,7 +13,7 @@ public class CueHeadVisuals : MonoBehaviour
 {
     [SerializeField] private Renderer orbRenderer;
     [SerializeField] private AudioSource voiceSource;
-    [SerializeField] private int orbiterCount = 8;
+    [SerializeField] private int orbiterCount = 6;
     [SerializeField] private float transitionSpeed = 5f;
 
     /// <summary>0..1 smoothed RMS of the currently playing voice audio.</summary>
@@ -50,6 +50,11 @@ public class CueHeadVisuals : MonoBehaviour
     private static readonly int NoiseAmpId = Shader.PropertyToID("_NoiseAmp");
     private static readonly int NoiseSpeedId = Shader.PropertyToID("_NoiseSpeed");
     private static readonly int RimGlowId = Shader.PropertyToID("_RimGlow");
+    private static readonly int HiId = Shader.PropertyToID("_HiColor");
+    private static readonly int MidId = Shader.PropertyToID("_MidColor");
+    private static readonly int LoId = Shader.PropertyToID("_LoColor");
+
+    [SerializeField] private CueTheme theme;
 
     private StateLook _current = Idle;
     private StateLook _target = Idle;
@@ -60,6 +65,8 @@ public class CueHeadVisuals : MonoBehaviour
     private float[] _orbiterPhase;
     private Vector3[] _orbiterAxis;
     private float _orbitAngle;
+    private float _listenPulse; // organic listening "sound" pulse (0..1)
+    private float _reactive;    // combined drive for glow/rim/satellites
     private readonly float[] _samples = new float[256];
 
     private void Awake()
@@ -69,6 +76,27 @@ public class CueHeadVisuals : MonoBehaviour
         _mat = orbRenderer.material;
         BuildOrbiters();
         Apply(_current, 0f);
+        if (theme)
+        {
+            ApplyTheme(theme);
+            theme.Changed += ApplyTheme;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (theme) theme.Changed -= ApplyTheme;
+    }
+
+    /// <summary>Recolors the orb gradient per mode (entry blue / arrival green). Shape/motion unchanged.</summary>
+    public void ApplyTheme(CueTheme t)
+    {
+        if (!_mat) _mat = orbRenderer.material;
+        _mat.SetColor(HiId, t.OrbHi);
+        _mat.SetColor(MidId, t.OrbMid);
+        _mat.SetColor(LoId, t.OrbLo);
+        foreach (var orb in _orbiters ?? System.Array.Empty<Transform>())
+            if (orb) orb.GetComponent<Renderer>().material.SetColor(MidId, t.OrbMid);
     }
 
     public void SetState(CueVisualState state)
@@ -97,6 +125,18 @@ public class CueHeadVisuals : MonoBehaviour
 
         AudioLevel = Mathf.Lerp(AudioLevel, targetLevel, Time.deltaTime * 14f);
 
+        // Listening pulse: Meta's STT keeps its mic buffer private, so this is a
+        // lively organic (Perlin) pulse rather than a true amplitude meter.
+        var listenTarget = 0f;
+        if (_state == CueVisualState.Listening)
+        {
+            var a = Mathf.PerlinNoise(Time.time * 2.3f, 0.37f);
+            var b = Mathf.PerlinNoise(Time.time * 5.1f, 4.20f);
+            listenTarget = Mathf.Clamp01(0.55f * a + 0.55f * b);
+        }
+        _listenPulse = Mathf.Lerp(_listenPulse, listenTarget, Time.deltaTime * 12f);
+        _reactive = AudioLevel + _listenPulse; // speaking OR listening drives the glow
+
         var k = Time.deltaTime * transitionSpeed;
         _current.glow = Mathf.Lerp(_current.glow, _target.glow, k);
         _current.noiseAmp = Mathf.Lerp(_current.noiseAmp, _target.noiseAmp, k);
@@ -106,12 +146,13 @@ public class CueHeadVisuals : MonoBehaviour
         _current.orbiterRadius = Mathf.Lerp(_current.orbiterRadius, _target.orbiterRadius, k);
         _current.orbiterScale = Mathf.Lerp(_current.orbiterScale, _target.orbiterScale, k);
 
-        Apply(_current, AudioLevel);
+        Apply(_current, _reactive);
         UpdateOrbiters();
 
-        // breathe (design token 1.07), faster while listening
+        // breathe (always alive, even Idle/Available); faster + deeper while listening
         var breatheFreq = _state == CueVisualState.Listening ? 4.8f : 2.2f;
-        transform.localScale = _baseScale * (1f + 0.035f * (1f + Mathf.Sin(Time.time * breatheFreq)));
+        var breatheAmp = 0.035f + _listenPulse * 0.02f;
+        transform.localScale = _baseScale * (1f + breatheAmp * (1f + Mathf.Sin(Time.time * breatheFreq)));
     }
 
     private void Apply(StateLook look, float audio)
@@ -152,7 +193,7 @@ public class CueHeadVisuals : MonoBehaviour
             var angle = _orbitAngle + _orbiterPhase[i];
             var basePos = Quaternion.AngleAxis(angle, _orbiterAxis[i]) * Vector3.forward;
             _orbiters[i].localPosition = basePos * (0.5f * _current.orbiterRadius);
-            _orbiters[i].localScale = Vector3.one * (0.055f * _current.orbiterScale * (1f + AudioLevel * 0.6f));
+            _orbiters[i].localScale = Vector3.one * (0.055f * _current.orbiterScale * (1f + _reactive * 0.6f));
         }
     }
 }

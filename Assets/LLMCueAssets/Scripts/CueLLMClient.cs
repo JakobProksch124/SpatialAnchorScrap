@@ -36,22 +36,69 @@ public class CueLLMClient : MonoBehaviour
 
     private const string Endpoint = "https://api.openai.com/v1/chat/completions";
 
-    private const string ToolsJson = @"[
-      {""type"":""function"",""function"":{
-        ""name"":""show_preview"",
-        ""description"":""Show a preview panel about one aspect of the VR target context. Call this whenever the user asks what something looks like, how the controls work, who else is there, or how it sounds."",
-        ""parameters"":{""type"":""object"",""properties"":{
-            ""topic"":{""type"":""string"",""enum"":[""environment"",""controls"",""social"",""audio""]}},
-          ""required"":[""topic""]}}},
-      {""type"":""function"",""function"":{
-        ""name"":""show_transition_info"",
-        ""description"":""Show the panel explaining how the transition into VR works and how to come back."",
-        ""parameters"":{""type"":""object"",""properties"":{}}}},
-      {""type"":""function"",""function"":{
-        ""name"":""hide_panel"",
-        ""description"":""Hide the preview/info panel, e.g. when the user says hide it, thanks, or is done."",
-        ""parameters"":{""type"":""object"",""properties"":{}}}}
-    ]";
+    // card catalog (id, title, when-to-show) supplied per cue by CueController from CueConfig
+    private readonly List<(string id, string title, string when)> _cards = new();
+
+    /// <summary>The full context this cue may talk about (from CueConfig); overrides the KB asset when set.</summary>
+    public string ContextText { get; set; } = "";
+
+    public void SetCards(List<CueCardDef> defs)
+    {
+        _cards.Clear();
+        if (defs == null) return;
+        foreach (var d in defs)
+            if (d != null && !string.IsNullOrWhiteSpace(d.id))
+                _cards.Add((d.id.Trim(), d.title, d.whenToShow));
+    }
+
+    private JArray BuildToolsJson()
+    {
+        var tools = new JArray();
+
+        if (_cards.Count > 0)
+        {
+            var ids = new JArray();
+            foreach (var c in _cards) ids.Add(c.id);
+            tools.Add(Fn("show_card",
+                "Show one answer card next to the cue. Pick the card whose purpose matches the user's question " +
+                "(see the card list in the context). Add at most one card per question. You MUST call this to " +
+                "actually show a card — never just say you did.",
+                new JObject { ["card"] = EnumParam(ids) }, "card"));
+            tools.Add(Fn("hide_card",
+                "Remove ONE info card the user no longer wants (e.g. 'hide the preview', 'close the video'). " +
+                "Removes only that card, NOT the whole cue. You MUST call this to actually hide it — never just " +
+                "say you did.",
+                new JObject { ["card"] = EnumParam(ids) }, "card"));
+        }
+
+        tools.Add(Fn("enter_vr",
+            "Start the transition into VR. Call ONLY on a clear, explicit intent to enter/join " +
+            "('take me in', 'ich moechte beitreten', 'ich will rein'). Never just because the user asked for info.",
+            new JObject(), null));
+        tools.Add(Fn("dismiss_cue",
+            "Close the ENTIRE cue (not a single card). Only for when the user clearly wants the whole cue gone " +
+            "AND confirms. To close one info card use hide_card, never this.",
+            new JObject(), null));
+        return tools;
+    }
+
+    private static JObject Fn(string name, string desc, JObject props, string required)
+    {
+        var req = new JArray();
+        if (required != null) req.Add(required);
+        return new JObject
+        {
+            ["type"] = "function",
+            ["function"] = new JObject
+            {
+                ["name"] = name,
+                ["description"] = desc,
+                ["parameters"] = new JObject { ["type"] = "object", ["properties"] = props, ["required"] = req }
+            }
+        };
+    }
+
+    private static JObject EnumParam(JArray values) => new() { ["type"] = "string", ["enum"] = values };
 
     public void SendUserMessage(string text)
     {
@@ -70,10 +117,28 @@ public class CueLLMClient : MonoBehaviour
 
     public void ResetConversation() => _history.Clear();
 
-    private string BuildSystemPrompt() =>
-        (systemPromptAsset ? systemPromptAsset.text : "You are a helpful voice assistant.") +
-        "\n\n# Knowledge base — the ONLY source of truth about the target context\n\n" +
-        (knowledgeBaseAsset ? knowledgeBaseAsset.text : "(no knowledge base provided)");
+    /// <summary>Extra per-cue instruction (e.g. entry vs arrival role), set from CueConfig.</summary>
+    public string ExtraInstruction { get; set; } = "";
+
+    private string BuildSystemPrompt()
+    {
+        var ctx = !string.IsNullOrWhiteSpace(ContextText)
+            ? ContextText
+            : (knowledgeBaseAsset ? knowledgeBaseAsset.text : "(no context provided)");
+
+        var cards = "";
+        if (_cards.Count > 0)
+        {
+            var sb = new System.Text.StringBuilder("\n\n# Cards you can show (use show_card with the id)\n");
+            foreach (var c in _cards) sb.Append($"- {c.id}: {c.title} — {c.when}\n");
+            cards = sb.ToString();
+        }
+
+        return (systemPromptAsset ? systemPromptAsset.text : "You are a helpful voice assistant.") +
+               (string.IsNullOrEmpty(ExtraInstruction) ? "" : "\n\n# This cue\n" + ExtraInstruction) +
+               "\n\n# Context — the ONLY source of truth about the target context\n\n" + ctx +
+               cards;
+    }
 
     private IEnumerator RunTurn(int depth)
     {
@@ -91,7 +156,7 @@ public class CueLLMClient : MonoBehaviour
             ["model"] = model,
             ["stream"] = true,
             ["messages"] = messages,
-            ["tools"] = JArray.Parse(ToolsJson),
+            ["tools"] = BuildToolsJson(),
             ["max_completion_tokens"] = maxCompletionTokens
         };
 
@@ -150,24 +215,7 @@ public class CueLLMClient : MonoBehaviour
 
         if (toolCalls.Count > 0)
         {
-            var tcArray = new JArray();
-            foreach (var b in toolCalls.Values)
-            {
-                tcArray.Add(new JObject
-                {
-                    ["id"] = b.Id,
-                    ["type"] = "function",
-                    ["function"] = new JObject { ["name"] = b.Name, ["arguments"] = b.Args.ToString() }
-                });
-            }
-
-            _history.Add(new JObject
-            {
-                ["role"] = "assistant",
-                ["content"] = roundContent.Length > 0 ? roundContent.ToString() : null,
-                ["tool_calls"] = tcArray
-            });
-
+            // Execute the tools locally (UI updates now).
             foreach (var b in toolCalls.Values)
             {
                 JObject args;
@@ -178,10 +226,31 @@ public class CueLLMClient : MonoBehaviour
                 string result;
                 try { result = ToolHandler?.Invoke(b.Name, args) ?? "ok"; }
                 catch (Exception e) { result = "error: " + e.Message; }
-
                 Debug.Log($"[CueLLMClient] tool {b.Name}({raw}) -> {result}");
-                _history.Add(new JObject { ["role"] = "tool", ["tool_call_id"] = b.Id, ["content"] = result });
+                _lastToolResult = result;
             }
+
+            // FAST PATH: the model already spoke alongside the tool call -> use that answer
+            // directly, no second round-trip. Store it as a plain assistant turn so history stays valid.
+            if (roundContent.Length > 0)
+            {
+                _history.Add(new JObject { ["role"] = "assistant", ["content"] = _answerSoFar });
+                IsBusy = false;
+                OnAnswerComplete?.Invoke(_answerSoFar);
+                yield break;
+            }
+
+            // Tool-only response (model didn't speak): do the proper tool round to get the reply.
+            var tcArray = new JArray();
+            foreach (var b in toolCalls.Values)
+                tcArray.Add(new JObject
+                {
+                    ["id"] = b.Id, ["type"] = "function",
+                    ["function"] = new JObject { ["name"] = b.Name, ["arguments"] = b.Args.ToString() }
+                });
+            _history.Add(new JObject { ["role"] = "assistant", ["content"] = null, ["tool_calls"] = tcArray });
+            foreach (var b in toolCalls.Values)
+                _history.Add(new JObject { ["role"] = "tool", ["tool_call_id"] = b.Id, ["content"] = _lastToolResult });
 
             yield return RunTurn(depth + 1);
         }
@@ -192,6 +261,8 @@ public class CueLLMClient : MonoBehaviour
             OnAnswerComplete?.Invoke(_answerSoFar);
         }
     }
+
+    private string _lastToolResult = "ok";
 
     private void Fail(string message)
     {

@@ -340,7 +340,7 @@ public class Building_TransitionCues : MonoBehaviour
 
     void CreateEntryCue(Transform entryAnchor)
     {
-        var prefab = Resources.Load<GameObject>("TransitionCue");
+        var prefab = Resources.Load<GameObject>("LLMCues/TransitionCueEntry");
         if (prefab == null)
         {
             Debug.Log($"[Building_TransitionCues] Could not find prefab for {entryAnchor.name}");
@@ -350,8 +350,11 @@ public class Building_TransitionCues : MonoBehaviour
         entryCue = Instantiate(prefab, entryAnchor);
         FixUpCanvasRayButtons(entryCue);
 
-        WireCueButton(entryCue, "EnterVR", () => StartCoroutine(EnterVR()));
-        WireCueButton(entryCue, "NotNow", () => entryCue.SetActive(false));
+        entryCue.GetComponent<CueEvents>().onStartTransition.AddListener(() =>
+            {
+                StartCoroutine(EnterVR());
+            }
+        );
     }
 
     // The TransitionCue prefab's Canvas buttons (EnterVR, NotNow, ...) ship with a
@@ -376,27 +379,6 @@ public class Building_TransitionCues : MonoBehaviour
 
             collider.size = new Vector3(size.x, size.y, collider.size.z);
             collider.center = new Vector3(rect.rect.center.x, rect.rect.center.y, collider.center.z);
-
-            if (ray.GetComponent<UICanvasButtonHoverEffect>() == null)
-            {
-                ray.gameObject.AddComponent<UICanvasButtonHoverEffect>();
-            }
-        }
-    }
-
-    // Finds a named RayInteractable button inside an instantiated cue prefab and
-    // invokes onSelect when it transitions into the Select state.
-    private static void WireCueButton(GameObject cueRoot, string buttonName, System.Action onSelect)
-    {
-        foreach (var ray in cueRoot.GetComponentsInChildren<RayInteractable>(true))
-        {
-            if (ray.gameObject.name != buttonName) continue;
-
-            ray.WhenStateChanged += state =>
-            {
-                if (state.NewState == InteractableState.Select)
-                    onSelect?.Invoke();
-            };
         }
     }
 
@@ -769,35 +751,21 @@ public class Building_TransitionCues : MonoBehaviour
     // This cue spawns when the user exited vr, lands in ar, and conforms him with a successful landing and info about where he went off
     void CreateExitArrivalCue(Transform exitArrivalAnchor)
     {
-        if (!entryIsBland)
+        var prefab = Resources.Load<GameObject>("LLMCues/TransitionCueArrival");
+        if (prefab == null)
         {
-            // Base
-            TransitionCueConfig exitArrivalCueConfig = TransitionCueConfig.CreateARConfig(
-                parent: exitArrivalAnchor,
-                onInteract: () =>
-                {
-                    exitArrivalCue.SetActive(false);
-                }
-            );
-
-            exitArrivalCueConfig.onCollide = (other) =>
-            {
-                exitArrivalCue.SetActive(false);
-            };
-
-            // Details
-            exitArrivalCueConfig.isArrival = true;
-            exitArrivalCueConfig.alwaysExpanded = true;
-            exitArrivalCueConfig.primaryColor = exitArrivalPrimaryColor;
-            exitArrivalCueConfig.expandedDescription = exitArrivalDescription;
-            exitArrivalCueConfig.screenshotTexture = exitArrivalScreenshotDisplayed;
-
-            // (Effectively not used if alwaysExpanded)
-            exitArrivalCueConfig.buttonText = exitArrivalButtonText;
-            exitArrivalCueConfig.label = exitArrivalLabel;
-
-            exitArrivalCue = TransitionCueFactory.CreateCue(exitArrivalCueConfig);
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {exitArrivalAnchor.name}");
+            return;
         }
+
+        exitArrivalCue = Instantiate(prefab, exitArrivalAnchor);
+        FixUpCanvasRayButtons(exitArrivalCue);
+
+        exitArrivalCue.GetComponent<CueEvents>().onStartTransition.AddListener(() =>
+            {
+                StartCoroutine(EnterVR());
+            }
+        );
     }
 
     // CUE INFO:

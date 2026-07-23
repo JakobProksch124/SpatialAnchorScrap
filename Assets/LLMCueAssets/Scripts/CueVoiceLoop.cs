@@ -26,17 +26,23 @@ public class CueVoiceLoop : MonoBehaviour
     [SerializeField] private CueProximitySensor proximity;
     [SerializeField] private CueHeadVisuals head;
     [SerializeField] private CueFaceRig face;
-    [SerializeField] private CueAvatar avatar;
     [SerializeField] private CueDockUI dock;
-    [SerializeField] private CueCardUI card;
+    [SerializeField] private CueInvitationCard invitation;
+    [SerializeField] private CueAnswerRow answerRow;
+    [SerializeField] private CueEvents events;
 
     [Tooltip("Seconds after an answer before proximity may auto-trigger listening again.")]
     [SerializeField] private float relistenCooldown = 2.5f;
     [SerializeField] private CueLanguage language = CueLanguage.English;
+    [Tooltip("Soft chime on wake + blip when listening starts.")]
+    [SerializeField] private bool earcons = true;
+
+    private CueEarcons _earcons;
 
     private CueVisualState _state = CueVisualState.Idle;
     private int _consumed;
     private bool _firstSentenceSent;
+    private bool _cardAddedThisTurn;
     private float _tTranscript;
     private float _lastAnswerEnd = -99f;
 
@@ -46,7 +52,19 @@ public class CueVoiceLoop : MonoBehaviour
         if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
             Permission.RequestUserPermission(Permission.Microphone);
 #endif
-        dock.SetLanguage(language);
+        // arrival cues appear already inside the context -> the encounter starts now;
+        // entry cues start their encounter when the user comes near (below).
+        var cfg = GetComponent<CueConfig>();
+        if (cfg != null && cfg.IsArrival) CueLogger.Begin("cue_created");
+
+        if (earcons)
+        {
+            _earcons = GetComponent<CueEarcons>();
+            if (!_earcons) _earcons = gameObject.AddComponent<CueEarcons>();
+        }
+
+        // grow-in on approach instead of popping on at the wake radius (self-wires to the sensor)
+        if (!GetComponent<CueApproachFade>()) gameObject.AddComponent<CueApproachFade>();
 
         stt.onTranscript.AddListener(OnTranscript);
 
@@ -68,16 +86,15 @@ public class CueVoiceLoop : MonoBehaviour
 
         proximity.onEnterOuter.AddListener(() =>
         {
-            if (_state == CueVisualState.Idle) ToState(CueVisualState.Available);
+            if (_state == CueVisualState.Idle)
+            {
+                ToState(CueVisualState.Available);
+                if (_earcons) _earcons.PlayWake(); // chime only on the actual wake
+            }
+            CueLogger.Begin("cue_shown"); // entry encounter opens when the user is near
         });
-        proximity.onExitOuter.AddListener(() =>
-        {
-            stt.StopNow();
-            speaker.StopAll();
-            card.Hide();
-            llm.ResetConversation();
-            ToState(CueVisualState.Idle);
-        });
+        // Latch: once activated the cue never deactivates on walking away (study behaviour).
+        // (No onExitOuter reset — it stays available until the transition is entered.)
         proximity.onEnterInner.AddListener(TryAutoListen);
 
         ToState(CueVisualState.Idle);
@@ -85,7 +102,7 @@ public class CueVoiceLoop : MonoBehaviour
 
     private void Update()
     {
-        if (!OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger)) return;
+        if (!OVRInput.GetDown(OVRInput.Button.One)) return;
 
         switch (_state)
         {
@@ -113,6 +130,7 @@ public class CueVoiceLoop : MonoBehaviour
 
     private void StartListening()
     {
+        if (_earcons) _earcons.PlayListen();
         stt.StartListening();
         ToState(CueVisualState.Listening);
         Debug.Log("[CueVoiceLoop] Listening...");
@@ -122,6 +140,7 @@ public class CueVoiceLoop : MonoBehaviour
     {
         _tTranscript = Time.realtimeSinceStartup;
         Debug.Log($"[CueVoiceLoop] Transcript: '{text}'");
+        CueLogger.Event("text_input", text);
         if (string.IsNullOrWhiteSpace(text))
         {
             ToState(RestState());
@@ -130,6 +149,7 @@ public class CueVoiceLoop : MonoBehaviour
 
         _consumed = 0;
         _firstSentenceSent = false;
+        _cardAddedThisTurn = false;
         ToState(CueVisualState.Thinking);
         dock.ShowQuestion(text);
         llm.SendUserMessage(text);
@@ -149,6 +169,7 @@ public class CueVoiceLoop : MonoBehaviour
     {
         Debug.Log($"[CueVoiceLoop] TIMING llm-complete: {Time.realtimeSinceStartup - _tTranscript:F2}s after transcript");
         Debug.Log($"[CueVoiceLoop] LLM response: '{full}'");
+        CueLogger.Event("text_output", full);
         dock.ShowAnswer(full);
         if (full.Length > _consumed) EnqueueSpan(full, full.Length);
         speaker.EndOfInput();
@@ -171,17 +192,41 @@ public class CueVoiceLoop : MonoBehaviour
 
     private string HandleTool(string name, JObject args)
     {
-        switch (name)
+        if (answerRow == null) return "no answer row";
+
+        // voice intents (shared with the buttons)
+        if (name == "enter_vr")
         {
-            case "show_preview":
-                return card.ShowPreview((string)args["topic"] ?? "");
-            case "show_transition_info":
-                return card.ShowTransitionInfo();
-            case "hide_panel":
-                return card.Hide();
-            default:
-                return $"unknown tool '{name}'";
+            if (events) events.RaiseStartTransition(); // logs transition_entered + closes the encounter
+            return "entering VR";
         }
+        if (name == "dismiss_cue")
+        {
+            if (events) events.RaiseStartTransition(); // logs closed + dissolves
+            return "cue dismissed";
+        }
+
+        // hide is always allowed, and re-expands the invitation when the row empties
+        if (name == "hide_card")
+        {
+            var id = (string)args["card"] ?? "";
+            var r = answerRow.Remove(id);
+            CueLogger.Event("panel_hidden", panel: id);
+            if (answerRow.IsEmpty && invitation) invitation.SetSmall(false);
+            return r;
+        }
+
+        if (name != "show_card") return $"unknown tool '{name}'";
+
+        // one card added per user turn — the cue reveals content step by step
+        if (_cardAddedThisTurn)
+            return "one card was already added for this question; wait for the next question before adding another";
+
+        var result = answerRow.ShowCard((string)args["card"] ?? "");
+        _cardAddedThisTurn = true;
+        if (result.StartsWith("card")) CueLogger.Event("panel_shown", panel: (string)args["card"] ?? "");
+        if (invitation) invitation.SetSmall(true); // any card => shrink invitation
+        return result;
     }
 
     private CueVisualState RestState() => proximity.InOuter ? CueVisualState.Available : CueVisualState.Idle;
@@ -194,6 +239,5 @@ public class CueVoiceLoop : MonoBehaviour
         head.SetState(state);
         face.SetState(state);
         dock.SetPhase(state);
-        if (avatar) avatar.SetState(state);
     }
 }

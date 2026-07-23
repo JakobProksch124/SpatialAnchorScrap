@@ -22,6 +22,10 @@ public class CueFaceRig : MonoBehaviour
     [SerializeField] private float eyeGapPx = 6.5f;
     [SerializeField] private float blinkPeriod = 4.5f;
     [SerializeField] private float talkFallbackSpeed = 0.9f;
+    [Tooltip("How far the eyes drift toward the user, as a fraction of head size.")]
+    [SerializeField] private float gazeAmount = 0.09f;
+
+    private Transform _cam;
 
     private const float PillBorder = 81f; // must match the generated pill sprite border
 
@@ -89,8 +93,27 @@ public class CueFaceRig : MonoBehaviour
                 break;
         }
 
+        // gaze: eyes drift toward the user. Since the panel billboards to face the
+        // user horizontally, this is mostly a vertical look (up when you're standing,
+        // level when you're lower). Damped, and eased off while thinking/listening.
+        var gaze = Vector2.zero;
+        if (!_cam) { var c = Camera.main; if (c) _cam = c.transform; }
+        if (_cam)
+        {
+            var local = transform.InverseTransformDirection((_cam.position - transform.position).normalized);
+            gaze = new Vector2(Mathf.Clamp(local.x, -1f, 1f), Mathf.Clamp(local.y, -1f, 1f)) * (gazeAmount * em);
+        }
+        var gazeWeight = _state switch
+        {
+            CueVisualState.Thinking => 0f,   // scanning has its own motion
+            CueVisualState.Listening => 0.5f,
+            _ => 1f
+        };
+
+        var baseY = _state == CueVisualState.Thinking ? 0.04f * em : 0f;
         _eyeSize = Vector2.Lerp(_eyeSize, size, Time.deltaTime * 10f);
-        _eyeOffset = Vector2.Lerp(_eyeOffset, new Vector2(xShift, _state == CueVisualState.Thinking ? 0.04f * em : 0f), Time.deltaTime * 10f);
+        _eyeOffset = Vector2.Lerp(_eyeOffset,
+            new Vector2(xShift + gaze.x * gazeWeight, baseY + gaze.y * gazeWeight), Time.deltaTime * 10f);
 
         var half = (eyeGapPx / 24f * em + _eyeSize.x) * 0.5f;
         ApplyEye(leftEye, -half);

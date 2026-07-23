@@ -17,6 +17,7 @@ public class CueProximitySensor : MonoBehaviour
 
     public bool InOuter { get; private set; }
     public bool InInner { get; private set; }
+    public float OuterRadius => outerRadius;
 
     private Transform _head;
 

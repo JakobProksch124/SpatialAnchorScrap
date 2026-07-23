@@ -29,15 +29,15 @@ Material:
     - _Glow: 1.2
     - _NoiseAmp: 0.02
     - _NoiseFreq: 7
-    - _NoiseSpeed: 2.1
+    - _NoiseSpeed: 1.05
     - _RimGlow: 1.1
     - _RimPower: 2.5
-    - _TravelSpeed: 1.26
+    - _TravelSpeed: 0.7
     m_Colors:
     - _CoreColor: {r: 0.049999982, g: 0.29999998, b: 0.5, a: 1}
-    - _HiColor: {r: 0.9411765, g: 0.72156864, b: 1, a: 1}
-    - _LoColor: {r: 0.30588236, g: 0.65882355, b: 1, a: 1}
-    - _MidColor: {r: 0.54509807, g: 0.36078432, b: 0.9647059, a: 1}
-    - _RimColor: {r: 0.29999998, g: 0.8, b: 1, a: 1}
+    - _HiColor: {r: 0.91764706, g: 0.9529412, b: 1, a: 1}
+    - _LoColor: {r: 0.105882354, g: 0.22745098, b: 0.56078434, a: 1}
+    - _MidColor: {r: 0.30588236, g: 0.65882355, b: 1, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
