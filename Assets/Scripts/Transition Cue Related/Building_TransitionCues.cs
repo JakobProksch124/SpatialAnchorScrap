@@ -374,7 +374,7 @@ public class Building_TransitionCues : MonoBehaviour
         yield return StartCoroutine(LoadVRRoom());
         
         // Fade out
-        yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(3f, vrRoom));
+        yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(6f, vrRoom));
         yield return null;
         var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
 

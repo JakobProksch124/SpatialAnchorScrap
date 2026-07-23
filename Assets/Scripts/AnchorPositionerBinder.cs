@@ -15,7 +15,7 @@ public class AnchorPositionerBinder : MonoBehaviour
     public bool firstAnchorFound = false;
 
     public GameObject joystickController;
-    private float _loadInterval = 5f;
+    private float _loadInterval = 0.05f;
     private float _loadTimer = 0f;
 
     private void Awake()
@@ -119,7 +119,6 @@ public class AnchorPositionerBinder : MonoBehaviour
             Debug.Log("Spawning first anchor");
             if (this.joystickController != null)
             {
-
                 SpatialAnchorSpawner.SpawnSpatialAnchor(joystickController.transform.position, joystickController.transform.rotation);
             }
             else

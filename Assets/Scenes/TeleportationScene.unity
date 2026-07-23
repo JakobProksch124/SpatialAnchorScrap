@@ -2955,6 +2955,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5475d2fb1682049a0c1d15ff967215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startArrivalPrimaryColor: {r: 0.8, g: 0, b: 0.029796982, a: 1}
+  startArrivalLabel: Erase Anchors
+  startArrivalScreenshotDisplayed: {fileID: 0}
+  startArrivalDescription: Do you really want to delete all anchors?
+  startArrivalButtonText: Delete
+  startArrivalAlwaysExpand: 1
   offsetText: {fileID: 505335694}
   vrConsoleText: {fileID: 2099031856}
   ascendButton: {fileID: -4022060916381164570, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -2966,6 +2972,7 @@ MonoBehaviour:
   _moveAction: {fileID: -6466034804778379739, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _turnAction: {fileID: -3655558797359205420, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _saveOffsetAction: {fileID: 3672006832179021560, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _deleteAnchors: {fileID: 6031578643565600746, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _objectToPosition: {fileID: 0}
   offsetJsonTemplate: {fileID: 4900000, guid: 5ba6b16f75a842d4488b86b55e6ab4f0, type: 3}
   OffsetX: 0
@@ -6568,21 +6575,20 @@ MonoBehaviour:
   - Title: Erase all spatial anchors
     Button: 32768
     ButtonMode: 0
-    InputActionReference: {fileID: 0}
+    InputActionReference: {fileID: 6031578643565600746, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     CallbackWithContext:
       m_PersistentCalls:
         m_Calls: []
     Callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 100498344}
-          m_TargetAssemblyTypeName: Meta.XR.BuildingBlocks.SpatialAnchorCoreBuildingBlock,
-            Meta.XR.BuildingBlocks
-          m_MethodName: EraseAllAnchors
-          m_Mode: 0
+        - m_Target: {fileID: 474745955}
+          m_TargetAssemblyTypeName: Positioner, Assembly-CSharp
+          m_MethodName: CreateEraseCue
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 

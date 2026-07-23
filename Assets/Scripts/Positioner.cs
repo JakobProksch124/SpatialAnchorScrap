@@ -4,12 +4,26 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.IO;
 using System.Collections.Generic;
+using Meta.XR.BuildingBlocks;
 using Oculus.Platform;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
 
 public class Positioner : MonoBehaviour
 {
+
+
+    [Header("Start Arrival Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private Color startArrivalPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string startArrivalLabel = "VR";
+    [SerializeField] private Texture2D startArrivalScreenshotDisplayed;
+    [SerializeField] private string startArrivalDescription = "Welcome to VR!";
+    [SerializeField] private string startArrivalButtonText = "X";
+    [SerializeField] private bool startArrivalAlwaysExpand = false;
+    private GameObject eraseCue;
+
+
     // Debug text elements for showing the current Offset and console output
     [SerializeField] TMP_Text offsetText;
     [SerializeField] TMP_Text vrConsoleText;
@@ -33,6 +47,8 @@ public class Positioner : MonoBehaviour
     [SerializeField] InputActionReference _turnAction;
     [SerializeField] InputActionReference _saveOffsetAction;
 
+    [SerializeField] InputActionReference _deleteAnchors;
+
     // Used for bringing the relevant 3D model to its correct position
     [SerializeField] public GameObject _objectToPosition;
     [SerializeField] private TextAsset offsetJsonTemplate;
@@ -47,6 +63,7 @@ public class Positioner : MonoBehaviour
     [SerializeField] Material occluderMat;
     [SerializeField] Material transparencyMat;
     public GameObject PlacedObject => _objectToPosition;
+    private SpatialAnchorCoreBuildingBlock _core;
 
     // Place where json containing translation and rotation info is stored
     private string RuntimeJsonPath =>
@@ -54,6 +71,15 @@ public class Positioner : MonoBehaviour
             UnityEngine.Application.persistentDataPath,
             offsetJsonTemplate.name + ".json"
         );
+
+    private void Awake()
+    {
+        _core = FindAnyObjectByType<SpatialAnchorCoreBuildingBlock>();
+        if (_core == null)
+        {
+            Debug.LogError("SpatialAnchorCoreBuildingBlock not found in scene.");
+        }
+    }
 
     // Determines the current mode of the application (dev mode shows more visual information)
     void ChooseVisualMode()
@@ -161,6 +187,7 @@ public class Positioner : MonoBehaviour
         descendButton.action.Enable();
         triggerLeft.action.Enable();
         _saveOffsetAction.action.Enable();
+        _deleteAnchors.action.Enable();
     }
 
     void OnDisable()
@@ -171,6 +198,7 @@ public class Positioner : MonoBehaviour
         descendButton.action.Disable();
         triggerLeft.action.Disable();
         _saveOffsetAction.action.Disable();
+        _deleteAnchors.action.Disable();
     }
 
     void Start()
@@ -261,6 +289,65 @@ public class Positioner : MonoBehaviour
                     $"RotY: {OffsetRotY}; " +
                     $"RotZ: {OffsetRotZ}\n" +
                     $"Aktive Rot-Achse: {_currentAxis}";
+        }
+    }
+
+
+
+    public void CreateEraseCue()
+    {
+        Debug.Log("delete anchors button was pressed");
+        if (_core != null || !inDevMode)
+        {
+            // Position canvas in front of headset
+            Camera cam = Camera.main;
+            Transform eraseCueAnchor = cam.transform;
+            if (cam != null) 
+            {
+
+                eraseCueAnchor.position =
+                cam.transform.position +
+                cam.transform.forward * 2f +
+                Vector3.up; // raise panel
+
+                eraseCueAnchor.transform.rotation =
+                    Quaternion.LookRotation(
+                        eraseCueAnchor.transform.position - cam.transform.position -
+                Vector3.up
+                    );
+
+                eraseCueAnchor.transform.localScale = Vector3.one * 0.002f;
+            }
+            Debug.Log("Creating erase Cue");
+
+            // Base
+            TransitionCueConfig EraseCueConfig = TransitionCueConfig.CreateARConfig(
+                parent: eraseCueAnchor,
+                onInteract: () =>
+                {
+                    _core.EraseAllAnchors();
+                    Destroy(eraseCue);
+                },
+            onClose: () =>
+            {
+                Destroy(eraseCue);
+            },
+            isStandardClose: false
+            );
+
+            // Details
+            EraseCueConfig.isArrival = true;
+            EraseCueConfig.alwaysExpanded = true;
+            EraseCueConfig.primaryColor = startArrivalPrimaryColor;
+            EraseCueConfig.expandedDescription = startArrivalDescription;
+            EraseCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
+
+            // (Effectively not used if alwaysExpanded)
+            EraseCueConfig.label = startArrivalLabel;
+            EraseCueConfig.buttonText = startArrivalButtonText;
+
+            Debug.Log("Erase Cue Created!");
+            eraseCue = TransitionCueFactory.CreateCue(EraseCueConfig);
         }
     }
 
