@@ -645,7 +645,6 @@ public class Building_TransitionCues : MonoBehaviour
             parent: exitAnchor,
             onInteract: () =>
             {
-                exitCue.SetActive(false);
                 StartCoroutine(ExitVR());
             },
             onClose: () =>

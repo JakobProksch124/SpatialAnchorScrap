@@ -526,7 +526,7 @@ public class ArrivalCue : MonoBehaviour
         }
 
         // Same volume as transition sound effects in TransitionCueConfig
-        AudioSource.PlayClipAtPoint(clip, cueInstance.transform.position, 0.035f);
+        AudioSource.PlayClipAtPoint(clip, cueInstance.transform.position, 0.35f);
     }
 
     private void DisablePathGenerator()
