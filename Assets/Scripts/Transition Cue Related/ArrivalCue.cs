@@ -1,4 +1,5 @@
 using System.Collections;
+using Oculus.Interaction;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Video;
@@ -8,7 +9,9 @@ public class ArrivalCue : MonoBehaviour
 {
     [Header("Leave HMD Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
-    [SerializeField] private string leaveHMDAnchorName = "leaveHMDAnchor";
+    [SerializeField]
+    private string leaveHMDAnchorName = "leaveHMDAnchor";
+
     [SerializeField] private Color leaveHMDPrimaryColor = new Color(0.8f, 0.4f, 0f);
     [SerializeField] private string leaveHMDLabel = "R";
     [SerializeField] private Texture2D leaveHMDScreenshotDisplayed;
@@ -16,6 +19,7 @@ public class ArrivalCue : MonoBehaviour
     [SerializeField] private string leaveHMDButtonText = "";
     [SerializeField] private bool leaveHMDAlwaysExpand = false;
     [SerializeField] private VideoClip leaveHMDvideoClip;
+    [SerializeField] private string leaveHMDCuePath;
 
     private GameObject leaveHMDCue;
     private Transform leaveHMDAnchor;
@@ -28,19 +32,17 @@ public class ArrivalCue : MonoBehaviour
     [Tooltip("Text displayed above the cylinder (e.g. room or building name)")]
     public string locationName = "Location";
 
-    [Header("Proximity")]
-    [Tooltip("Distance (meters) at which arrival is triggered (requires distance + gaze)")]
+    [Header("Proximity")] [Tooltip("Distance (meters) at which arrival is triggered (requires distance + gaze)")]
     public float arrivalDistance = 3f;
 
-    [Tooltip("Required dot product of camera forward vs cue direction to trigger (0-1, higher = more precise gaze needed)")]
+    [Tooltip(
+        "Required dot product of camera forward vs cue direction to trigger (0-1, higher = more precise gaze needed)")]
     public float gazeThreshold = 0.7f;
 
-    [Header("Despawn")]
-    [Tooltip("Seconds after arrival before the cue despawns")]
+    [Header("Despawn")] [Tooltip("Seconds after arrival before the cue despawns")]
     public float despawnAfter = 2f;
 
-    [Header("Appearance")]
-    [Tooltip("Vertical offset of the floating text above the cylinder (meters)")]
+    [Header("Appearance")] [Tooltip("Vertical offset of the floating text above the cylinder (meters)")]
     public float textOffset = 0.25f;
 
     [Tooltip("Radius of the cylinder (meters)")]
@@ -55,12 +57,10 @@ public class ArrivalCue : MonoBehaviour
     [Tooltip("Number of segments around the cylinder circumference (higher = smoother)")]
     public int cylinderSegments = 64;
 
-    [Header("Border")]
-    [Tooltip("Intensity of the glowing border emission (0-1)")]
+    [Header("Border")] [Tooltip("Intensity of the glowing border emission (0-1)")]
     public float glowIntensity = 0.8f;
 
-    [Header("Rotation Towards User")]
-    [Tooltip("If true, the arrival cue slightly rotates to face the user")]
+    [Header("Rotation Towards User")] [Tooltip("If true, the arrival cue slightly rotates to face the user")]
     public bool enableTurnTowardsUser = true;
 
     [Tooltip("Maximum rotation angle toward user (degrees)")]
@@ -94,8 +94,8 @@ public class ArrivalCue : MonoBehaviour
     private LineRenderer[] pathLineRenderers;
 
     private static readonly Color DefaultColor = new Color(0.78f, 0.78f, 0.78f); // light grey
-    private static readonly Color ArrivedColor = new Color(0.15f, 0.65f, 0.15f);  // green
-    private static readonly Color BorderColor = new Color(0.88f, 0.88f, 0.88f);  // slightly lighter grey
+    private static readonly Color ArrivedColor = new Color(0.15f, 0.65f, 0.15f); // green
+    private static readonly Color BorderColor = new Color(0.88f, 0.88f, 0.88f); // slightly lighter grey
 
 
     void Start()
@@ -120,10 +120,10 @@ public class ArrivalCue : MonoBehaviour
         leaveHMDAnchor = transform.Find(leaveHMDAnchorName);
         if (leaveHMDAnchor == null)
         {
-            Debug.LogWarning($"[Building_TransitionCues] Anchor '{leaveHMDAnchorName}' not found. Using this transform.");
+            Debug.LogWarning(
+                $"[Building_TransitionCues] Anchor '{leaveHMDAnchorName}' not found. Using this transform.");
             leaveHMDAnchor = transform;
         }
-
     }
 
     void Update()
@@ -132,11 +132,10 @@ public class ArrivalCue : MonoBehaviour
             return;
 
         if (ShouldTriggerArrival())
-        {            
+        {
             hasArrived = true;
 
             StartCoroutine(OnArrivedSequence());
-            
         }
     }
 
@@ -148,6 +147,7 @@ public class ArrivalCue : MonoBehaviour
         {
             Destroy(cueInstance);
         }
+
         hasArrived = false;
 
         // Re-enable path generator whenever the arrival cue spawns
@@ -194,7 +194,8 @@ public class ArrivalCue : MonoBehaviour
         borderPivot.transform.localPosition = Vector3.zero;
         borderPivot.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
-        GameObject border = CreateSmoothCylinder("GlowingBorder", cylinderRadius * borderScale, (cylinderDepth / 2f) * 0.95f, cylinderSegments);
+        GameObject border = CreateSmoothCylinder("GlowingBorder", cylinderRadius * borderScale,
+            (cylinderDepth / 2f) * 0.95f, cylinderSegments);
         border.transform.SetParent(borderPivot.transform, false);
         border.transform.localPosition = Vector3.zero;
         border.transform.localRotation = Quaternion.identity;
@@ -216,7 +217,6 @@ public class ArrivalCue : MonoBehaviour
             border.GetComponent<Renderer>().material = borderMat;
             borderRef = border;
             borderMaterialRef = borderMat;
-
         }
 
         // === Checkmark icon (hidden until arrival) ===
@@ -317,7 +317,11 @@ public class ArrivalCue : MonoBehaviour
     private static float EaseInCubic(float t) => t * t * t;
 
     // Cubic ease-out: fast start, decelerates (1-(1-t)^3)
-    private static float EaseOutCubic(float t) { float inv = 1f - t; return 1f - inv * inv * inv; }
+    private static float EaseOutCubic(float t)
+    {
+        float inv = 1f - t;
+        return 1f - inv * inv * inv;
+    }
 
     // Cubic ease-in-out: smooth both ends
     private static float EaseInOutCubic(float t) => t < 0.5f ? 4f * t * t * t : 1f - Mathf.Pow(-2f * t + 2f, 3f) / 2f;
@@ -349,6 +353,7 @@ public class ArrivalCue : MonoBehaviour
             vertDistances[i] = dist;
             if (dist > maxDist) maxDist = dist;
         }
+
         if (maxDist > 0f)
             for (int i = 0; i < verts.Length; i++)
                 vertDistances[i] /= maxDist;
@@ -389,6 +394,7 @@ public class ArrivalCue : MonoBehaviour
                 float vertEased = EaseOutCubic(vertT);
                 vertColors[i] = Color.Lerp(cylStartColor, cylEndColor, vertEased);
             }
+
             mesh.colors = vertColors;
 
             // Text color (white → green, synced with sweep)
@@ -513,6 +519,7 @@ public class ArrivalCue : MonoBehaviour
             Destroy(cueInstance);
             cueInstance = null;
         }
+
         hasArrived = false;
     }
 
@@ -731,30 +738,39 @@ public class ArrivalCue : MonoBehaviour
     // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateLeaveHMDCue(Transform leaveHMDAnchor)
     {
-        // Base (Same basic configuration for enhanced as well as minimal cues
-        TransitionCueConfig leaveHMDCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: leaveHMDAnchor,
-            onInteract: () =>
-            {
-            },
-            onClose: () =>
-            {
-            },
-            isStandardClose: true
-        );
+        var prefab = Resources.Load<GameObject>(leaveHMDCuePath);
+        if (prefab == null)
+        {
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {leaveHMDAnchor.name}");
+            return;
+        }
 
-       
-            // Details for enhanced cues
-            leaveHMDCueConfig.alwaysExpanded = leaveHMDAlwaysExpand;
-            leaveHMDCueConfig.primaryColor = leaveHMDPrimaryColor;
-            leaveHMDCueConfig.expandedDescription = leaveHMDDescription;
-            leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
-            leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
-        
-        leaveHMDCueConfig.isLeaveCue = true;
-        // (Effectively not used if alwaysExpanded)
-        leaveHMDCueConfig.label = leaveHMDLabel;
-        leaveHMDCueConfig.buttonText = leaveHMDButtonText;
-        leaveHMDCue = TransitionCueFactory.CreateCue(leaveHMDCueConfig);
+        leaveHMDCue = Instantiate(prefab, leaveHMDAnchor);
+        FixUpCanvasRayButtons(leaveHMDCue);
+    }
+
+    // The TransitionCue prefab's Canvas buttons (EnterVR, NotNow, ...) ship with a
+    // RayInteractable + BoxCollider, but the BoxCollider is left at Unity's default
+    // 1x1x1 size while the Canvas is scaled down (~0.0005), so the actual hittable
+    // volume is a sub-millimeter speck compared to the visible button. They also have
+    // no hover/press feedback, since UIButtonHoverEffect only supports mesh Renderers,
+    // not CanvasRenderer/Image. This fixes both so the ray interaction is visible and
+    // pressable.
+    private static void FixUpCanvasRayButtons(GameObject cueRoot)
+    {
+        Canvas.ForceUpdateCanvases();
+
+        foreach (var ray in cueRoot.GetComponentsInChildren<RayInteractable>(true))
+        {
+            var rect = ray.GetComponent<RectTransform>();
+            var collider = ray.GetComponent<BoxCollider>();
+            if (rect == null || collider == null) continue;
+
+            Vector2 size = rect.rect.size;
+            if (size.x <= 0f || size.y <= 0f) continue; // not laid out - leave as authored
+
+            collider.size = new Vector3(size.x, size.y, collider.size.z);
+            collider.center = new Vector3(rect.rect.center.x, rect.rect.center.y, collider.center.z);
+        }
     }
 }

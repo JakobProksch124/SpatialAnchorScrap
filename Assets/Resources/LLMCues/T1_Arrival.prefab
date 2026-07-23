@@ -3510,7 +3510,7 @@ GameObject:
   - component: {fileID: 7248982388044874743}
   - component: {fileID: 2182446209608913315}
   m_Layer: 0
-  m_Name: TransitionCueEntry
+  m_Name: T1_Arrival
   m_TagString: TransitionCue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3760,7 +3760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cueName: EntryCue1
-  mode: 0
+  mode: 1
   entryTitle: Wechsel zu VR
   entryHighlight: VR
   entryReason: Um dir das Chemielabor anzuschauen
@@ -3847,7 +3847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff02dd099a544012bb41d55b6a22120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
+  mode: 1
 --- !u!114 &7248982388044874743
 MonoBehaviour:
   m_ObjectHideFlags: 0

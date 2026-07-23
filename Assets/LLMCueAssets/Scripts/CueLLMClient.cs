@@ -70,7 +70,7 @@ public class CueLLMClient : MonoBehaviour
                 "say you did.",
                 new JObject { ["card"] = EnumParam(ids) }, "card"));
         }
-
+        
         tools.Add(Fn("enter_vr",
             "Start the transition into VR. Call ONLY on a clear, explicit intent to enter/join " +
             "('take me in', 'ich moechte beitreten', 'ich will rein'). Never just because the user asked for info.",

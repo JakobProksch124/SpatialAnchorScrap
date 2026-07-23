@@ -1,7 +1,9 @@
 using System.Diagnostics;
+using Oculus.Interaction;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 // Place script directly on the Building Prefab Root
 public class Mensa_FriendCue : MonoBehaviour
@@ -20,6 +22,7 @@ public class Mensa_FriendCue : MonoBehaviour
     [SerializeField] private string startArrivalDescription = "Welcome to the VR lecture!";
     [SerializeField] private string startArrivalButtonText = "Start Video";
     [SerializeField] private bool startArrivalAlwaysExpand = false;
+    [SerializeField] private string startArrivalCuePath;
 
     [SerializeField] private string entryAnchorName = "entryAnchor";
     [SerializeField] private Color entryPrimaryColor = new Color(0.3f, 0.4f, 0.8f);
@@ -29,6 +32,7 @@ public class Mensa_FriendCue : MonoBehaviour
     [SerializeField] private string entryDescription = "Start navigation to friends";
     [SerializeField] private string entryButtonText = "Start navigation";
     [SerializeField] private bool entryAlwaysExpand = true;
+    [SerializeField] private string entryCuePath;
 
     [SerializeField] private string entryArrivalAnchorName = "entryArrivalAnchor";
     [SerializeField] private Color entryArrivalPrimaryColor = new Color(0.3f, 0.4f, 0.8f);
@@ -38,6 +42,7 @@ public class Mensa_FriendCue : MonoBehaviour
     [SerializeField] private string entryArrivalDescription = "Started navigation";
     [SerializeField] private string entryArrivalButtonText = "X";
     [SerializeField] private bool entryArrivalAlwaysExpand = true;
+    [SerializeField] private string entryArrivalCuePath;
 
     [Header("Debug")]
     [SerializeField] private bool enableKeyboardShortcuts = true;
@@ -164,35 +169,49 @@ public class Mensa_FriendCue : MonoBehaviour
     }
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
+        var prefab = Resources.Load<GameObject>(startArrivalCuePath);
+        if (prefab == null)
+        {
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {StartArrivalAnchor.name}");
+            return;
+        }
+
+        startArrivalCue = Instantiate(prefab, StartArrivalAnchor);
+        FixUpCanvasRayButtons(startArrivalCue);
         
-            TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
-                parent: StartArrivalAnchor,
-                onInteract: () =>
-                {
-                    startArrivalCue.SetActive(false);
-                    ShowFood();
-                },
-            onClose: () =>
+        startArrivalCue.GetComponent<CueEvents>().onCloseCue.AddListener(() =>
             {
-            },
-            isStandardClose: true
-            );
-
-
-            StartArrivalCueConfig.isArrival = true;
-            StartArrivalCueConfig.alwaysExpanded = true;
-            StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
-            StartArrivalCueConfig.expandedDescription = startArrivalDescription;
-            StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
-            StartArrivalCueConfig.label = startArrivalLabel;
-            StartArrivalCueConfig.buttonText = startArrivalButtonText;
-
-            startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
-            UnityEngine.Debug.Log("start arrival cue created!");
-
-        
+                startArrivalCue.SetActive(false);
+                ShowFood();
+            }
+        );
     }
 
+    // The TransitionCue prefab's Canvas buttons (EnterVR, NotNow, ...) ship with a
+    // RayInteractable + BoxCollider, but the BoxCollider is left at Unity's default
+    // 1x1x1 size while the Canvas is scaled down (~0.0005), so the actual hittable
+    // volume is a sub-millimeter speck compared to the visible button. They also have
+    // no hover/press feedback, since UIButtonHoverEffect only supports mesh Renderers,
+    // not CanvasRenderer/Image. This fixes both so the ray interaction is visible and
+    // pressable.
+    private static void FixUpCanvasRayButtons(GameObject cueRoot)
+    {
+        Canvas.ForceUpdateCanvases();
+
+        foreach (var ray in cueRoot.GetComponentsInChildren<RayInteractable>(true))
+        {
+            var rect = ray.GetComponent<RectTransform>();
+            var collider = ray.GetComponent<BoxCollider>();
+            if (rect == null || collider == null) continue;
+
+            Vector2 size = rect.rect.size;
+            if (size.x <= 0f || size.y <= 0f) continue; // not laid out - leave as authored
+
+            collider.size = new Vector3(size.x, size.y, collider.size.z);
+            collider.center = new Vector3(rect.rect.center.x, rect.rect.center.y, collider.center.z);
+        }
+    }
+    
     void Update()
     {
         if (!enableKeyboardShortcuts) return;
@@ -279,59 +298,30 @@ public class Mensa_FriendCue : MonoBehaviour
 
     void CreateEntryCue(Transform entryAnchor)
     {
-        // Base
-        TransitionCueConfig entryCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: entryAnchor,
-            onInteract: () => {
-                StartNavigationToFriends();
-                entryCue.SetActive(false);
-            },
-            onClose: () =>
-            {
-            },
-            isStandardClose: true
-        );
+        var prefab = Resources.Load<GameObject>(entryCuePath);
+        if (prefab == null)
+        {
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {entryAnchor.name}");
+            return;
+        }
 
+        entryCue = Instantiate(prefab, entryAnchor);
+        FixUpCanvasRayButtons(entryCue);
 
-       
-            // Details
-            UnityEngine.Debug.Log("setting cue details");
-            entryCueConfig.primaryColor = entryPrimaryColor;
-            entryCueConfig.expandedDescription = entryDescription;
-            entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
-            entryCueConfig.alwaysExpanded = entryAlwaysExpand;
-
-
-        entryCueConfig.buttonText = entryButtonText;
-        entryCueConfig.label = entryLabel;
-        entryCue = TransitionCueFactory.CreateCue(entryCueConfig);
+        entryCue.GetComponent<CueEvents>().onStartTransition.AddListener(StartNavigationToFriends);
     }
 
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
     {
-            // Base
-            TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateARConfig(
-                parent: entryArrivalAnchor,
-                onInteract: () => entryArrivalCue.SetActive(false),
-            onClose: () =>
-            {
-            },
-            isStandardClose: true
-            );
+        var prefab = Resources.Load<GameObject>(entryArrivalCuePath);
+        if (prefab == null)
+        {
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {entryArrivalAnchor.name}");
+            return;
+        }
 
-
-
-            // Details
-            entryArrivalCueConfig.isArrival = true;
-            entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
-            entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
-            entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;
-            entryArrivalCueConfig.alwaysExpanded = true;
-            entryArrivalCueConfig.buttonText = entryArrivalButtonText;
-            entryArrivalCueConfig.label = entryArrivalLabel;
-
-            entryArrivalCue = TransitionCueFactory.CreateCue(entryArrivalCueConfig);
-        
+        entryArrivalCue = Instantiate(prefab, entryArrivalAnchor);
+        FixUpCanvasRayButtons(entryArrivalCue);
     }
 
     public void StartNavigationToFriends()

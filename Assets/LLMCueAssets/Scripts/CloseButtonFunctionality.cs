@@ -6,6 +6,7 @@ public class CloseButtonFunctionality : MonoBehaviour
     void Start()
     {
         var ray = GetComponent<RayInteractable>();
+        var cueEvents = GetComponentInParent<CueEvents>();
 
         var curr = transform.parent;
         GameObject foundParent = null;
@@ -24,6 +25,7 @@ public class CloseButtonFunctionality : MonoBehaviour
         {
             if (state.NewState == InteractableState.Select)
             {
+                cueEvents.RaiseCloseCue();
                 CueLogger.Event("closed");
                 if (foundParent != null)
                     foundParent.SetActive(false);

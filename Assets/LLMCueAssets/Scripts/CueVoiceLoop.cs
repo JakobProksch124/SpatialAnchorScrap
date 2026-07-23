@@ -197,12 +197,12 @@ public class CueVoiceLoop : MonoBehaviour
         // voice intents (shared with the buttons)
         if (name == "enter_vr")
         {
-            if (events) events.RaiseStartTransition(); // logs transition_entered + closes the encounter
+            if (events) events.RaiseStartTransition();
             return "entering VR";
         }
         if (name == "dismiss_cue")
         {
-            if (events) events.RaiseStartTransition(); // logs closed + dissolves
+            if (events) events.RaiseStartTransition();
             return "cue dismissed";
         }
 

@@ -40,9 +40,12 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string startArrivalDescription = "Welcome to VR!";
     [SerializeField] private string startArrivalButtonText = "X";
     [SerializeField] private bool startArrivalAlwaysExpand = false;
+    [SerializeField] private string startArrivalCuePath;
 
     [Header("VREntry Cue Infos")] [Tooltip("Title shown during the VR transition fade")] [SerializeField]
     private string vrRoomTitle = "Virtual Room";
+
+    [SerializeField] private string entryCuePath;
 
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")] [SerializeField]
     private string entryAnchorName = "entryAnchor";
@@ -68,6 +71,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string entryArrivalDescription = "Welcome to VR!";
     [SerializeField] private string entryArrivalButtonText = "X";
     [SerializeField] private bool entryArrivalAlwaysExpand = false;
+    [SerializeField] private string entryArrivalCuePath;
 
     [Header("VRExit Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -82,6 +86,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private bool exitAlwaysExpand = false;
     [SerializeField] private bool leadsToAR = false;
     [SerializeField] private float exitCueDelay = 20f;
+    [SerializeField] private string exitCuePath;
 
     [Header("VRExit Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -94,6 +99,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string exitArrivalDescription = "Welcome back to AR!";
     [SerializeField] private string exitArrivalButtonText = "X";
     [SerializeField] private bool exitArrivalAlwaysExpand = false;
+    [SerializeField] private string exitArrivalCuePath;
 
     [Header("Transition Particles")] [SerializeField]
     private Color enterVRParticleColor = new Color(0.3f, 0.4f, 0.8f);
@@ -102,6 +108,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private float particleDuration = 4f;
 
     [Header("Debug")] [SerializeField] private bool enableKeyboardShortcuts = true;
+    
 
 
     // Internal references
@@ -178,7 +185,7 @@ public class Building_TransitionCues : MonoBehaviour
         }
 
         Debug.Log("creating start arrival cue");
-        //Create start arrival cue
+        // start arrival cue
         CreateStartArrivalCue(startArrivalAnchor);
 
         Debug.Log("creating entry cue");
@@ -309,7 +316,7 @@ public class Building_TransitionCues : MonoBehaviour
 
     void CreateEntryCue(Transform entryAnchor)
     {
-        var prefab = Resources.Load<GameObject>("LLMCues/TransitionCueEntry");
+        var prefab = Resources.Load<GameObject>(entryCuePath);
         if (prefab == null)
         {
             Debug.Log($"[Building_TransitionCues] Could not find prefab for {entryAnchor.name}");
@@ -403,21 +410,7 @@ public class Building_TransitionCues : MonoBehaviour
         // Fade out
         yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(3f, vrRoom));
         yield return null;
-        var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
 
-        if (exitTargets.Count > 0)
-        {
-            foreach (var go in exitTargets)
-            {
-                exitCueAnchor = go.transform;
-                Invoke(nameof(SpawnExitCue), exitCueDelay);
-            }
-        }
-        else
-        {
-            Debug.LogWarning(
-                $"[BUILDING_TRANSITIONCUE] {exitAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
-        }
 
         var exitArrivalTargets = FindDeepChildrenInScene(loadedVRScene, entryArrivalAnchorName);
 
@@ -654,83 +647,59 @@ public class Building_TransitionCues : MonoBehaviour
     // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateExitCue(Transform exitAnchor)
     {
-        /*
+        var prefab = Resources.Load<GameObject>(exitCuePath);
+        if (prefab == null)
+        {
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {exitAnchor.name}");
+            return;
+        }
 
-        // --- New addition: search for doors and deactivate ---
-        GameObject doorL = GameObject.Find("Door_L");
-        GameObject doorR = GameObject.Find("Door_R");
+        exitCue = Instantiate(prefab, exitAnchor);
+        FixUpCanvasRayButtons(exitCue);
 
-        if (doorL != null)
-            doorL.SetActive(false);
-        else
-            Debug.LogWarning("[Building_TransitionCues] Door_L not found in scene!");
-
-        if (doorR != null)
-            doorR.SetActive(false);
-        else
-            Debug.LogWarning("[Building_TransitionCues] Door_R not found in scene!");
-        */
-        // Base (Same basic configuration for enhanced as well as minimal cues
-        TransitionCueConfig exitCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: exitAnchor,
-            onInteract: () =>
-            {
-                exitCue.SetActive(false);
-                StartCoroutine(ExitVR());
-            },
-            onClose: () => { },
-            isStandardClose: true
+        exitCue.GetComponent<CueEvents>().onStartTransition.AddListener(() => { StartCoroutine(ExitVR()); }
         );
-
-
-        // Details for enhanced cues
-        exitCueConfig.alwaysExpanded = exitAlwaysExpand;
-        exitCueConfig.primaryColor = exitPrimaryColor;
-        exitCueConfig.expandedDescription = exitDescription;
-        exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
-
-
-        exitCueConfig.leadsToAR = this.leadsToAR;
-
-
-        // (Effectively not used if alwaysExpanded)
-        exitCueConfig.label = exitLabel;
-        exitCueConfig.buttonText = exitButtonText;
-        exitCue = TransitionCueFactory.CreateCue(exitCueConfig);
     }
 
     // CUE INFO:
     // This cue spawns in front of the user when he freshly entered a vr room and gives him some info or instructions about what he can explore
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
     {
-        // Base
-        TransitionCueConfig entryArrivalCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: entryArrivalAnchor,
-            onInteract: () => { entryArrivalCue.SetActive(false); },
-            onClose: () => { },
-            isStandardClose: true
-        );
+        var prefab = Resources.Load<GameObject>(entryArrivalCuePath);
+        if (prefab == null)
+        {
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {entryArrivalAnchor.name}");
+            return;
+        }
 
-        // Details
-        entryArrivalCueConfig.isArrival = true;
-        entryArrivalCueConfig.isTransparent = false;
-        entryArrivalCueConfig.alwaysExpanded = true;
-        entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
-        entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
-        entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;
+        entryArrivalCue = Instantiate(prefab, entryArrivalAnchor);
+        FixUpCanvasRayButtons(entryArrivalCue);
 
-        // (Effectively not used if alwaysExpanded)
-        entryArrivalCueConfig.label = entryArrivalLabel;
-        entryArrivalCueConfig.buttonText = entryArrivalButtonText;
+        entryArrivalCue.GetComponent<CueEvents>().onCloseCue.AddListener(() =>
+        {
+            var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
 
-        entryArrivalCue = TransitionCueFactory.CreateCue(entryArrivalCueConfig);
+            if (exitTargets.Count > 0)
+            {
+                foreach (var go in exitTargets)
+                {
+                    exitCueAnchor = go.transform;
+                    SpawnExitCue();
+                }
+            }
+            else
+            {
+                Debug.LogWarning(
+                    $"[BUILDING_TRANSITIONCUE] {exitAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
+            }
+        });
     }
 
     // CUE INFO:
     // This cue spawns when the user exited vr, lands in ar, and conforms him with a successful landing and info about where he went off
     void CreateExitArrivalCue(Transform exitArrivalAnchor)
     {
-        var prefab = Resources.Load<GameObject>("LLMCues/TransitionCueArrival");
+        var prefab = Resources.Load<GameObject>(exitArrivalCuePath);
         if (prefab == null)
         {
             Debug.Log($"[Building_TransitionCues] Could not find prefab for {exitArrivalAnchor.name}");
@@ -739,9 +708,6 @@ public class Building_TransitionCues : MonoBehaviour
 
         exitArrivalCue = Instantiate(prefab, exitArrivalAnchor);
         FixUpCanvasRayButtons(exitArrivalCue);
-
-        exitArrivalCue.GetComponent<CueEvents>().onStartTransition.AddListener(() => { StartCoroutine(EnterVR()); }
-        );
     }
 
     // CUE INFO:
@@ -749,27 +715,15 @@ public class Building_TransitionCues : MonoBehaviour
     // confronting them with orders to follow the arrow
     void CreateStartArrivalCue(Transform StartArrivalAnchor)
     {
-        // Base
-        TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: StartArrivalAnchor,
-            onInteract: () => { startArrivalCue.SetActive(false); },
-            onClose: () => { },
-            isStandardClose: true
-        );
+        var prefab = Resources.Load<GameObject>(startArrivalCuePath);
+        if (prefab == null)
+        {
+            Debug.Log($"[Building_TransitionCues] Could not find prefab for {StartArrivalAnchor.name}");
+            return;
+        }
 
-
-        // Details
-        StartArrivalCueConfig.isArrival = true;
-        StartArrivalCueConfig.alwaysExpanded = true;
-        StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
-        StartArrivalCueConfig.expandedDescription = startArrivalDescription;
-        StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
-
-        // (Effectively not used if alwaysExpanded)
-        StartArrivalCueConfig.label = startArrivalLabel;
-        StartArrivalCueConfig.buttonText = startArrivalButtonText;
-
-        startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
+        startArrivalCue = Instantiate(prefab, StartArrivalAnchor);
+        FixUpCanvasRayButtons(startArrivalCue);
     }
 
     IEnumerator ExitVR()

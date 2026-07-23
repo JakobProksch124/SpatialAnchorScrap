@@ -3693,7 +3693,9 @@ MonoBehaviour:
   startArrivalDescription: Follow the arrows through the building.
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 1
+  startArrivalCuePath: LLMCues/T5_Arrival
   vrRoomTitle: 'Open Lab: BRiDGE'
+  entryCuePath: LLMCues/T6_Entry
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
@@ -3708,6 +3710,7 @@ MonoBehaviour:
   entryArrivalDescription: Welcome to the Open Lab. Teleport to explore.
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
+  entryArrivalCuePath: LLMCues/T6_Arrival
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
@@ -3717,6 +3720,7 @@ MonoBehaviour:
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitCueDelay: 20
+  exitCuePath: LLMCues/T7_Entry
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: AR
@@ -3724,6 +3728,7 @@ MonoBehaviour:
   exitArrivalDescription: Follow the arrows to the cafeteria
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 1
+  exitArrivalCuePath: LLMCues/T7_Arrival
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4
@@ -3748,6 +3753,7 @@ MonoBehaviour:
   leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
+  leaveHMDCuePath: LLMCues/T8_Entry
   targetName: BibTarget
   locationName: Destination
   arrivalDistance: 5

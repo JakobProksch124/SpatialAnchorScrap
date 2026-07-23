@@ -1258,7 +1258,9 @@ MonoBehaviour:
   startArrivalDescription: Follow the arrows to the lecture hall.
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 0
+  startArrivalCuePath: LLMCues/T1_Arrival
   vrRoomTitle: The Laboratory
+  entryCuePath: LLMCues/T2_Entry
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR - Chemistry Lab
@@ -1273,6 +1275,7 @@ MonoBehaviour:
   entryArrivalDescription: Welcome to the chemistry lab. Teleport to explore.
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 0
+  entryArrivalCuePath: LLMCues/T2_Arrival
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: Switch to AR
@@ -1282,6 +1285,7 @@ MonoBehaviour:
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitCueDelay: 20
+  exitCuePath: LLMCues/T3_Entry
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: 
@@ -1289,6 +1293,7 @@ MonoBehaviour:
   exitArrivalDescription: Follow the arrows to the lecture hall.
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
+  exitArrivalCuePath: LLMCues/T3_Arrival
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4
@@ -1313,6 +1318,7 @@ MonoBehaviour:
   leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
+  leaveHMDCuePath: LLMCues/T4_Entry
   targetName: G64Target
   locationName: Lecture Hall
   arrivalDistance: 5

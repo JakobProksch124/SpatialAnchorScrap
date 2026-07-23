@@ -12,13 +12,9 @@ using UnityEngine.Events;
 /// </summary>
 public class CueEvents : MonoBehaviour
 {
-    [Tooltip("Fires AFTER the cue has faded away, when the user chose to enter. " +
-             "Drop your transition-start function here.")]
     public UnityEvent onStartTransition;
+    public UnityEvent onCloseCue;
 
     public void RaiseStartTransition() => onStartTransition?.Invoke();
-
-    /// <summary>True if the host wired at least one listener in the Inspector.</summary>
-    public bool HasTransitionListener =>
-        onStartTransition != null && onStartTransition.GetPersistentEventCount() > 0;
+    public void RaiseCloseCue() => onCloseCue?.Invoke();
 }
