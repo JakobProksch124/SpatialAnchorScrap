@@ -3733,6 +3733,9 @@ MonoBehaviour:
   onStartTransition:
     m_PersistentCalls:
       m_Calls: []
+  onCloseCue:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4227738371685928763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3759,10 +3762,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd0f65fa6943480dbe17682591d3d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cueName: EntryCue1
+  cueName: EntryCue2
   mode: 0
-  entryTitle: Wechsel zu VR
-  entryHighlight: VR
+  entryTitle: Wechsel zu AR
+  entryHighlight: AR
   entryReason: Um dir das Chemielabor anzuschauen
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
@@ -3770,44 +3773,31 @@ MonoBehaviour:
   waitingText: Ich warte auf deine Frage
   listeningText: "Ich h\xF6re zu\u2026"
   thinkingText: Sammle Antworten
-  enterLabel: Enter VR
+  enterLabel: Exit VR
   dismissLabel: Jetzt nicht
   closeLabel: "Schlie\xDFen"
   assistantNote: You are an ENTRY cue shown before the user enters the target context.
-  contextText: "# Target context: a VR representation of the chemistry lab\r\n\r\nThis
-    is the knowledge the cue may draw on. Answer ONLY from what is written here.\r\n(Written
-    in English; if the user speaks German, answer in German.)\r\n\r\n## The situation\r\n\r\nThe
-    user is walking through the building in AR, on the way to a lecture room. A message
-    just arrived from Peter, asking how many working stations there are in the chemistry
-    lab. As the user walks a few meters further, an entry cue appears to their right
-    \u2014 right in front of the real chemistry lab room. The cue offers a way to
-    look inside the lab **without entering the real room**.\r\n\r\n## What you can
-    transition into\r\n\r\nA **virtual representation (a VR clone) of the chemistry
-    lab** \u2014 the same room that is physically to the user's right. It is a faithful
-    copy of the real lab: the layout, the working stations, and where things are
-    placed all match reality. Stepping in lets the user take a peek and walk around
-    the lab virtually.\r\n\r\n## Why the virtual version instead of the real room\r\n\r\n-
-    The user cannot / does not want to enter the real room right now.\r\n- People
-    are currently working in the real lab; the virtual visit avoids interrupting
-    them.\r\n- In the virtual representation the user is **alone** \u2014 free to
-    look around at their own pace.\r\n\r\n## What's in the lab\r\n\r\n- The lab is
-    laid out with a number of working stations plus the usual equipment; it is a
-    compact, straightforward space.\r\n- Do NOT state how many working stations there
-    are \u2014 you don't have that number. If the user asks how many, tell them that's
-    exactly what stepping inside lets them see and count for themselves.\r\n- The
-    chemistry lab is located in **building 64, on the ground floor**.\r\n\r\n## How
-    you move and interact inside\r\n\r\n- Move around by **teleporting with the right
-    controller** \u2014 point where you want to go and teleport there.\r\n- You can
-    freely look around and walk through the space to see how the lab is set up and
-    where everything is.\r\n- There are no tasks to complete inside \u2014 it is
-    purely for looking and getting oriented.\r\n\r\n## The transition itself\r\n\r\n-
-    **Entering is quick:** joining takes about a second, with a short preview animation
-    as you come in from the side.\r\n- **Time inside:** finding what you need takes
-    only about two minutes (at most two to five).\r\n- **Going back is easy:** an
-    exit cue lets you leave the virtual lab and return to AR. There are no extra
-    steps and no additional tasks.\r\n- **No interruption:** when you return, you
-    simply continue the navigation task you were doing before \u2014 nothing you
-    were doing is lost.\r\n"
+  contextText: "Target Context: Returning from the VR Clone of the Chemistry Lab
+    to AR\nThe situation\n\nThe user is inside the virtual clone of the chemistry
+    lab, which they entered earlier via the entry cue in front of the real lab. They've
+    had a brief look around (at most two to five minutes) and now want to return
+    to the real environment to continue on their way to the lecture room. An exit
+    cue is available for this.\n\nWhat the transition does\n\nThe transition brings
+    the person back into AR, at the exact spot in building 64, ground floor, where
+    they entered the virtual lab \u2014 directly in front of the real, physical chemistry
+    lab. This isn't a new location; it's a return to the starting point.\n\nHow the
+    transition works\nTriggering it: Via the exit cue, visible/accessible at any
+    point during the virtual visit. No extra step, no confirmation required.\nThe
+    transition itself: Leaving is quick \u2014 about a second, with a short transition
+    animation as the person glides out of the virtual scene and into the real AR
+    view.\nNo interruption: The navigation task toward the lecture room, which was
+    running before entering the lab, resumes seamlessly \u2014 nothing is lost, no
+    task needs to be restarted.\nWhat holds true after returning\nThe person is back
+    in front of the real lab, where people are actually working right now \u2014
+    without having entered the room or disturbed anyone.\nPeter's message asking
+    about the number of working stations can now be answered, since the person counted
+    the stations themselves during the virtual walkthrough.\nThere are no further
+    steps or tasks when exiting \u2014 the cue leads directly back into AR mode."
   cards:
   - id: preview
     kind: 0

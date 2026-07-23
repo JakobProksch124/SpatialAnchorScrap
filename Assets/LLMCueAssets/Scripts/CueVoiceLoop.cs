@@ -195,14 +195,13 @@ public class CueVoiceLoop : MonoBehaviour
         if (answerRow == null) return "no answer row";
 
         // voice intents (shared with the buttons)
-        if (name == "enter_vr")
+        if (name == "start_transition")
         {
             if (events) events.RaiseStartTransition();
-            return "entering VR";
+            return "starting transition";
         }
         if (name == "dismiss_cue")
         {
-            if (events) events.RaiseStartTransition();
             return "cue dismissed";
         }
 

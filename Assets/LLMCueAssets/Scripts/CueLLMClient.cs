@@ -71,9 +71,9 @@ public class CueLLMClient : MonoBehaviour
                 new JObject { ["card"] = EnumParam(ids) }, "card"));
         }
         
-        tools.Add(Fn("enter_vr",
-            "Start the transition into VR. Call ONLY on a clear, explicit intent to enter/join " +
-            "('take me in', 'ich moechte beitreten', 'ich will rein'). Never just because the user asked for info.",
+        tools.Add(Fn("start_transition",
+            "Start the transition into the new context (AR or VR). Call ONLY on a clear, explicit intent to enter/join or leave " +
+            "('take me in', 'take me out', 'ich moechte beitreten', 'ich will rein', 'ich will raus'). Never just because the user asked for info.",
             new JObject(), null));
         tools.Add(Fn("dismiss_cue",
             "Close the ENTIRE cue (not a single card). Only for when the user clearly wants the whole cue gone " +
