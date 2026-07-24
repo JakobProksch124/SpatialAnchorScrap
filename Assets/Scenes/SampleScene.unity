@@ -2090,6 +2090,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5475d2fb1682049a0c1d15ff967215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  startArrivalLabel: VR
+  startArrivalScreenshotDisplayed: {fileID: 0}
+  startArrivalDescription: Welcome to VR!
+  startArrivalButtonText: X
+  startArrivalAlwaysExpand: 0
   offsetText: {fileID: 1276836535}
   vrConsoleText: {fileID: 754921086}
   ascendButton: {fileID: -4022060916381164570, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -2101,6 +2107,7 @@ MonoBehaviour:
   _moveAction: {fileID: -6466034804778379739, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _turnAction: {fileID: -3655558797359205420, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _saveOffsetAction: {fileID: 3672006832179021560, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  _deleteAnchors: {fileID: 0}
   _objectToPosition: {fileID: 0}
   offsetJsonTemplate: {fileID: 4900000, guid: 5ba6b16f75a842d4488b86b55e6ab4f0, type: 3}
   OffsetX: 0
@@ -9406,7 +9413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _monoscopic: 0
   _sharpenType: 0
-  _enableDynamicResolution: 0
+  _enableDynamicResolution: 1
   minDynamicResolutionScale: 1
   maxDynamicResolutionScale: 1
   quest2MinDynamicResolutionScale: 0.7
@@ -12238,6 +12245,7 @@ MonoBehaviour:
   vrSceneName: Bridge Replica
   navigationDestination: Cafeteria
   ExtraARContent: {fileID: 0}
+  IMessageCueScript: {fileID: 0}
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: VR
@@ -12245,7 +12253,6 @@ MonoBehaviour:
   startArrivalDescription: Welcome to VR!
   startArrivalButtonText: X
   startArrivalAlwaysExpand: 0
-  startArrivalIsBland: 0
   vrRoomTitle: 'IDUX working place: The Bridge'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
@@ -12254,7 +12261,6 @@ MonoBehaviour:
   entryDescription: Take a look inside the working place of the IDUX group.
   entryButtonText: Enter VR
   entryAlwaysExpand: 0
-  entryIsBland: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   entryArrivalLabel: VR
@@ -12262,7 +12268,6 @@ MonoBehaviour:
   entryArrivalDescription: Welcome to VR!
   entryArrivalButtonText: X
   entryArrivalAlwaysExpand: 0
-  entryArrivalIsBland: 0
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
@@ -12271,7 +12276,7 @@ MonoBehaviour:
   exitButtonText: Back to AR
   exitAlwaysExpand: 0
   leadsToAR: 0
-  exitIsBland: 0
+  exitCueDelay: 20
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: AR
@@ -12279,7 +12284,6 @@ MonoBehaviour:
   exitArrivalDescription: Welcome back to AR!
   exitArrivalButtonText: X
   exitArrivalAlwaysExpand: 0
-  exitArrivalIsBland: 0
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4

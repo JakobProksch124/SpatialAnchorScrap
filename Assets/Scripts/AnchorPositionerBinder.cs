@@ -127,4 +127,10 @@ public class AnchorPositionerBinder : MonoBehaviour
             }
         }
     }
+
+    public void SetFirstAnchorFound(bool firstAnchorFound)
+    {
+        this.firstAnchorFound = firstAnchorFound;
+        Debug.Log("allowing placement of new anchor");
+    }
 }

@@ -686,7 +686,7 @@
                 {
                     "name": "",
                     "id": "9e35028a-4b71-4267-90da-5d1ca7bcad7d",
-                    "path": "<XRController>{RightHand}/{TriggerButton}",
+                    "path": "<XRController>{RightHand}/{Primary2DAxisClick}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

@@ -21,7 +21,12 @@ public class Positioner : MonoBehaviour
     [SerializeField] private string startArrivalDescription = "Welcome to VR!";
     [SerializeField] private string startArrivalButtonText = "X";
     [SerializeField] private bool startArrivalAlwaysExpand = false;
+    [SerializeField] private Transform eraseCueAnchor;
+    [SerializeField] private AnchorPositionerBinder anchorPositionerBinder;
+    private Transform eraseCueBaseAnchor;
     private GameObject eraseCue;
+
+
 
 
     // Debug text elements for showing the current Offset and console output
@@ -74,6 +79,10 @@ public class Positioner : MonoBehaviour
 
     private void Awake()
     {
+        if(eraseCueAnchor != null)
+        {
+            eraseCueBaseAnchor = eraseCueAnchor;
+        }
         _core = FindAnyObjectByType<SpatialAnchorCoreBuildingBlock>();
         if (_core == null)
         {
@@ -297,35 +306,41 @@ public class Positioner : MonoBehaviour
     public void CreateEraseCue()
     {
         Debug.Log("delete anchors button was pressed");
-        if (_core != null || !inDevMode)
+        if (_core != null && inDevMode && eraseCue ==null)
         {
+            eraseCueAnchor=eraseCueBaseAnchor;
             // Position canvas in front of headset
             Camera cam = Camera.main;
-            Transform eraseCueAnchor = cam.transform;
             if (cam != null) 
             {
+                Debug.Log("camera found");
+                
 
-                eraseCueAnchor.position =
+                eraseCueAnchor.transform.position =
                 cam.transform.position +
                 cam.transform.forward * 2f +
                 Vector3.up; // raise panel
+                Debug.Log("set erase cue position");
 
                 eraseCueAnchor.transform.rotation =
                     Quaternion.LookRotation(
                         eraseCueAnchor.transform.position - cam.transform.position -
                 Vector3.up
-                    );
+                    ) * Quaternion.Euler(0f, 180f, 0f);
+                Debug.Log("set erase cue rotation");
 
-                eraseCueAnchor.transform.localScale = Vector3.one * 0.002f;
+                eraseCueAnchor.transform.localScale = Vector3.one;
+                Debug.Log("set erase cue scale");
             }
             Debug.Log("Creating erase Cue");
 
             // Base
             TransitionCueConfig EraseCueConfig = TransitionCueConfig.CreateARConfig(
-                parent: eraseCueAnchor,
+                parent: eraseCueAnchor.transform,
                 onInteract: () =>
                 {
                     _core.EraseAllAnchors();
+                    anchorPositionerBinder.SetFirstAnchorFound(false);
                     Destroy(eraseCue);
                 },
             onClose: () =>
@@ -336,7 +351,7 @@ public class Positioner : MonoBehaviour
             );
 
             // Details
-            EraseCueConfig.isArrival = true;
+            EraseCueConfig.isArrival = false;
             EraseCueConfig.alwaysExpanded = true;
             EraseCueConfig.primaryColor = startArrivalPrimaryColor;
             EraseCueConfig.expandedDescription = startArrivalDescription;
