@@ -303,6 +303,9 @@ public class TransitionCueConfig
     // Global font size multiplier applied to all text elements
     public float generalFontSizeFactor = 12f;
 
+    // the transform of the right hand controller
+    public Transform rightController;
+
 
     // === Factory Methods for Common Presets ===
 

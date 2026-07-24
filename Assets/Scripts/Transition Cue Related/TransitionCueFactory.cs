@@ -112,6 +112,22 @@ public static class TransitionCueFactory
                     new Vector3(-sideOffset, 0f, 0f);  // negative = right
             }
         }
+        if(config.rightController != null)
+        {
+        GameObject dragHandle = CreateDragHandle(config);
+dragHandle.transform.SetParent(buttonContainer.transform, false);
+dragHandle.transform.localPosition =
+    new Vector3(
+        -(config.buttonWidth + config.closeButtonSize + config.buttonSpacing * 2),
+        0,
+        0);
+
+        AddIsdkDragToMoveRoot(
+    dragHandle,
+    root,
+    config, config.rightController);
+        }
+
 
         // === Expansion Controller ===
         TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
@@ -240,7 +256,7 @@ public static class TransitionCueFactory
 
         TextMeshPro labelText = labelObj.AddComponent<TextMeshPro>();
         labelText.text = config.label;
-        labelText.fontSize = config.labelFontSize * config.generalFontSizeFactor*0.75f;
+        labelText.fontSize = config.labelFontSize * config.generalFontSizeFactor * 0.75f;
         labelText.fontStyle = FontStyles.Bold;
         labelText.alignment = TextAlignmentOptions.Center;
         labelText.color = Color.white;
@@ -1084,47 +1100,137 @@ public static class TransitionCueFactory
 
         return indicator;
     }
-private static void CreateStepText(Transform parent, TransitionCueConfig config)
-{
-    GameObject textObj = new GameObject("StepText");
-    textObj.transform.SetParent(parent, false);
-
-    float zOffset = (config.buttonDepth / 2f) + config.textZOffset;
-
-    textObj.transform.localPosition = new Vector3(0, 0, zOffset);
-    textObj.transform.localRotation = Quaternion.Euler(0, 180, 0);
-
-    TextMeshPro text = textObj.AddComponent<TextMeshPro>();
-
-    text.text = $"{config.currentStep}/{config.totalSteps}";
-    text.fontSize = config.buttonFontSize * config.generalFontSizeFactor/2;
-    text.fontStyle = FontStyles.Bold;
-    text.alignment = TextAlignmentOptions.Center;
-    text.textWrappingMode = TextWrappingModes.NoWrap;
-    text.enableAutoSizing = false;
-
-    text.color = config.isBlackText ? Color.black : Color.white;
-
-    ApplyCustomFont(text, config, true);
-
-    // Match the rendering behaviour of the description text
-    if (text.fontMaterial != null)
+    private static void CreateStepText(Transform parent, TransitionCueConfig config)
     {
-        text.fontMaterial.renderQueue = 3100;
+        GameObject textObj = new GameObject("StepText");
+        textObj.transform.SetParent(parent, false);
+
+        float zOffset = (config.buttonDepth / 2f) + config.textZOffset;
+
+        textObj.transform.localPosition = new Vector3(0, 0, zOffset);
+        textObj.transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+        TextMeshPro text = textObj.AddComponent<TextMeshPro>();
+
+        text.text = $"{config.currentStep}/{config.totalSteps}";
+        text.fontSize = config.buttonFontSize * config.generalFontSizeFactor / 2;
+        text.fontStyle = FontStyles.Bold;
+        text.alignment = TextAlignmentOptions.Center;
+        text.textWrappingMode = TextWrappingModes.NoWrap;
+        text.enableAutoSizing = false;
+
+        text.color = config.isBlackText ? Color.black : Color.white;
+
+        ApplyCustomFont(text, config, true);
+
+        // Match the rendering behaviour of the description text
+        if (text.fontMaterial != null)
+        {
+            text.fontMaterial.renderQueue = 3100;
+        }
+
+        // Give TMP a proper rectangle to render into
+        text.rectTransform.sizeDelta = new Vector2(
+            config.closeButtonSize * 0.9f,
+            config.buttonHeight * 1.5f
+        );
+
+        // Compensate for the parent cube's scale, just like the expanded panel text
+        textObj.transform.localScale = new Vector3(
+            1f / parent.localScale.x,
+            1f / parent.localScale.y,
+            1f
+        );
+    }
+    private static GameObject CreateDragHandle(TransitionCueConfig config)
+    {
+        GameObject dragHandle = CreateRoundedCube();
+        dragHandle.name = "DragHandle";
+
+        dragHandle.transform.localScale = new Vector3(
+            config.closeButtonSize,
+            config.buttonHeight,
+            config.buttonDepth);
+
+        Renderer renderer = dragHandle.GetComponent<Renderer>();
+        if (renderer == null)
+            renderer = dragHandle.GetComponentInChildren<Renderer>();
+
+        Material mat = CreateFrostedGlassMaterial(
+            Color.grey,
+            config.frostedGlassAlpha + 0.2f);
+
+        renderer.material = mat;
+
+        CreateCircleIcon(dragHandle.transform, config);
+
+        return dragHandle;
     }
 
-    // Give TMP a proper rectangle to render into
-    text.rectTransform.sizeDelta = new Vector2(
-        config.closeButtonSize * 0.9f,
-        config.buttonHeight * 1.5f
-    );
+    private static void CreateCircleIcon(Transform parent, TransitionCueConfig config)
+    {
+        float zOffset = (config.buttonDepth / 2f) + config.textZOffset;
 
-    // Compensate for the parent cube's scale, just like the expanded panel text
-    textObj.transform.localScale = new Vector3(
-        1f / parent.localScale.x,
-        1f / parent.localScale.y,
-        1f
-    );
+        GameObject circle = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        circle.name = "CircleIcon";
+        circle.transform.SetParent(parent, false);
+
+        // Face the user
+        circle.transform.localPosition = new Vector3(0, 0, zOffset);
+        circle.transform.localRotation = Quaternion.Euler(90, 0, 0);
+
+        float diameter = config.closeButtonSize * 0.35f;
+
+        circle.transform.localScale =
+            new Vector3(diameter, 0.01f, diameter);
+
+        Collider c = circle.GetComponent<Collider>();
+        if (c != null)
+            UnityEngine.Object.Destroy(c);
+
+        Material mat = new Material(Shader.Find("Unlit/Texture"));
+        mat.SetColor("_BaseColor", Color.white);
+        mat.renderQueue = 3100;
+
+        circle.GetComponent<Renderer>().material = mat;
+    }
+
+
+
+
+    private static void AddIsdkDragToMoveRoot(
+    GameObject handle,
+    GameObject root,
+    TransitionCueConfig config,
+    Transform rightController)
+{
+    Collider col = handle.GetComponent<Collider>();
+
+    if (col == null)
+        col = handle.AddComponent<BoxCollider>();
+
+    var surface = handle.GetComponent<ColliderSurface>();
+
+    if (surface == null)
+        surface = handle.AddComponent<ColliderSurface>();
+
+    surface.InjectAllColliderSurface(col);
+
+    var ray = handle.GetComponent<RayInteractable>();
+
+    if (ray == null)
+        ray = handle.AddComponent<RayInteractable>();
+
+    ray.InjectAllRayInteractable(surface);
+
+    DragHandle drag =
+        handle.AddComponent<DragHandle>();
+
+    drag.Initialize(
+    ray,
+    root.transform,
+    rightController);
+
+    handle.AddComponent<UIButtonHoverEffect>();
 }
-
 }

@@ -389,9 +389,11 @@ public class Positioner : MonoBehaviour
         _triggerLeftWasPressed = isPressed;
     }
 
-    public void SetObjectToPosition(GameObject obj)
+    public void SetObjectToPosition(GameObject obj, Transform rightController)
     {
         _objectToPosition = obj;
+        Building_TransitionCues buildingTransitionCues = _objectToPosition.GetComponent<Building_TransitionCues>();
+        buildingTransitionCues.SetRightController(rightController);
         AdjustVisuals();
         //Debug.Log("[Positioner] _objectToPosition set");
 

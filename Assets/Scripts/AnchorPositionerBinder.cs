@@ -59,6 +59,7 @@ public class AnchorPositionerBinder : MonoBehaviour
         }
     }
 
+
     private void OnDestroy()
     {
         if (_core == null) return;
@@ -108,7 +109,7 @@ public class AnchorPositionerBinder : MonoBehaviour
 
         GameObject instance = Instantiate(_objectToPlace, buildingTransform);
         Debug.Log("building instance created at " + anchor.transform.position);
-        positioner.SetObjectToPosition(instance);
+        positioner.SetObjectToPosition(instance, joystickController.transform);
         Debug.Log("building instance now got positioned at: " + instance.transform.position);
     }
 

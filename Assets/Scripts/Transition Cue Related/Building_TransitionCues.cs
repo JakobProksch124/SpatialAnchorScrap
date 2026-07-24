@@ -117,6 +117,8 @@ public class Building_TransitionCues : MonoBehaviour
     private float targetFloorDeltaY;
     private bool exitingVR = false;
 
+    private Transform rightController;
+
 
 
     void Start()
@@ -178,6 +180,11 @@ public class Building_TransitionCues : MonoBehaviour
             Debug.Log("spawning arrival cue");
             LeaveHMDCue.SpawnArrivalCue();
         }
+    }
+
+    public void SetRightController(Transform rightController)
+    {
+        this.rightController=rightController;
     }
 
     /*public void RegisterTeleportRedirects()
@@ -312,6 +319,7 @@ public class Building_TransitionCues : MonoBehaviour
             entryCueConfig.primaryColor = entryPrimaryColor;
             entryCueConfig.expandedDescription = entryDescription;
             entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
+            entryCueConfig.rightController = rightController;
         
 
         entryCueConfig.buttonText = entryButtonText;
