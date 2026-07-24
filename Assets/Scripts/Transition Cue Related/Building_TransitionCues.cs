@@ -128,6 +128,11 @@ public class Building_TransitionCues : MonoBehaviour
     private LineRenderer[] pathLineRenderers;
     private Scene loadedVRScene;
     private VRRoomTeleport _teleporter;
+
+    // True while the user is inside any VR room. Positioner reads this to suppress its
+    // dev-mode calibration (which shares the thumbstick with teleport) so teleporting
+    // can't drag the anchored AR building off the anchor.
+    public static bool UserInAnyVRRoom { get; private set; }
     private ArrivalCue LeaveHMDCue;
     private bool userInVRRoom = false;
     GameObject overlay = null;
@@ -363,6 +368,7 @@ public class Building_TransitionCues : MonoBehaviour
     IEnumerator EnterVR()
     {
         Debug.Log($"[Building_TransitionCues] Entering VR: {vrRoomTitle}");
+        UserInAnyVRRoom = true; // suppress Positioner calibration while in VR (shares the teleport stick)
 
         // Disable the entry cue while in VR
         if (entryCue != null)
@@ -812,6 +818,7 @@ public class Building_TransitionCues : MonoBehaviour
             }
 
             userInVRRoom = false;
+            UserInAnyVRRoom = false; // AR calibration allowed again
         }
 
         exitingVR = false;

@@ -188,6 +188,11 @@ public class Positioner : MonoBehaviour
         if (!inDevMode)
             return;
 
+        // While in a VR room the thumbstick drives teleport — do NOT let it also nudge the
+        // anchored AR building (that caused the AR overlay to drift on return to AR).
+        if (Building_TransitionCues.UserInAnyVRRoom)
+            return;
+
         if (_objectToPosition == null)
         {
             string trackingInfo = GetTrackingDebugInfo();
