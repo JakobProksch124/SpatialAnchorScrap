@@ -3690,29 +3690,31 @@ MonoBehaviour:
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 2800000, guid: 2bc04f2592dd931408b32e4a500abdae, type: 3}
-  startArrivalDescription: Follow the arrows through the building.
+  startArrivalDescription: Follow the arrows through the building to the cafeteria.
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 1
   vrRoomTitle: 'Open Lab: BRiDGE'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  entryLabel: VR - Open Lab
+  entryLabel: Reached Open Lab
   entryScreenshotDisplayed: {fileID: 2800000, guid: 28dbfffbf5dce51408ebbe435af27513, type: 3}
-  entryDescription: Open Lab in two weeks. Do you want to look at a VR-Preview?
+  entryDescription: Peter asked you to check out the Open Lab Posters. Do you want
+    to look at a VR-Preview, to give him a better assessment?
   entryButtonText: Switch to VR
   entryAlwaysExpand: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: VR - Open Lab
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
-  entryArrivalDescription: Welcome to the Open Lab. Teleport to explore.
+  entryArrivalDescription: Welcome to the Open Lab. Teleport using the controller
+    to look around.
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
   exitScreenshotDisplayed: {fileID: 0}
-  exitDescription: Your friends are waiting in the cafeteria. Return to AR-Navigation.
+  exitDescription: Would you like to return to your AR-navigation to the cafeteria?
   exitButtonText: Switch to AR
   exitAlwaysExpand: 1
   leadsToAR: 1

@@ -297,6 +297,9 @@ public class Mensa_FriendCue : MonoBehaviour
        
             // Details
             UnityEngine.Debug.Log("setting cue details");
+            entryCueConfig.isMultiStep = true;
+            entryCueConfig.currentStep = 1;
+            entryCueConfig.totalSteps = 2;
             entryCueConfig.primaryColor = entryPrimaryColor;
             entryCueConfig.expandedDescription = entryDescription;
             entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
@@ -325,6 +328,9 @@ public class Mensa_FriendCue : MonoBehaviour
             // Details
             entryArrivalCueConfig.hasCloseButton = false;
             entryArrivalCueConfig.isAnimated = true;
+            entryArrivalCueConfig.isMultiStep = true;
+            entryArrivalCueConfig.currentStep = 2;
+            entryArrivalCueConfig.totalSteps = 2;
             entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
             entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
             entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;

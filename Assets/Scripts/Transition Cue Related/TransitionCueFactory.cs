@@ -240,7 +240,7 @@ public static class TransitionCueFactory
 
         TextMeshPro labelText = labelObj.AddComponent<TextMeshPro>();
         labelText.text = config.label;
-        labelText.fontSize = config.labelFontSize * config.generalFontSizeFactor;
+        labelText.fontSize = config.labelFontSize * config.generalFontSizeFactor*0.75f;
         labelText.fontStyle = FontStyles.Bold;
         labelText.alignment = TextAlignmentOptions.Center;
         labelText.color = Color.white;

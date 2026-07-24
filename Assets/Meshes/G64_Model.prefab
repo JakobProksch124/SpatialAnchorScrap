@@ -1261,23 +1261,25 @@ MonoBehaviour:
   vrRoomTitle: The Laboratory
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  entryLabel: VR - Chemistry Lab
+  entryLabel: Reached chemistry lab
   entryScreenshotDisplayed: {fileID: 2800000, guid: 2648a0f314811a949ba9cf297b5f9bdb, type: 3}
-  entryDescription: Curious what the chemistry lab looks like? Explore it in VR.
+  entryDescription: Would you like to enter a VR-version of the Chemistry Lab to
+    count the number of available work spaces for Peter?
   entryButtonText: Switch to VR
   entryAlwaysExpand: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: 
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
-  entryArrivalDescription: Welcome to the chemistry lab. Teleport to explore.
+  entryArrivalDescription: Welcome to the chemistry lab. Teleport using the controller
+    and count the amount of available work places!.
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 0
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: Switch to AR
   exitScreenshotDisplayed: {fileID: 0}
-  exitDescription: Your lecture is starting soon. Return to AR-Navigation.
+  exitDescription: Would you like to return to your AR-navigation to the lecture?
   exitButtonText: Switch to AR
   exitAlwaysExpand: 1
   leadsToAR: 1
