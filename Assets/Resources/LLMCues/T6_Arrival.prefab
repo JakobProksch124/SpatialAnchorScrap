@@ -183,6 +183,7 @@ MonoBehaviour:
   haloRings:
   - {fileID: 8342791601042165368}
   - {fileID: 4677549439232589327}
+  theme: {fileID: 0}
   collapsedWidth: 60
   expandedWidth: 290
   expandSeconds: 0.45
@@ -354,7 +355,6 @@ GameObject:
   - component: {fileID: 2963095235850260648}
   - component: {fileID: 6583631507905988157}
   - component: {fileID: 4700393627502361350}
-  - component: {fileID: 157333585050970073}
   - component: {fileID: 8694294916429497009}
   m_Layer: 0
   m_Name: CueCanvas
@@ -498,21 +498,6 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!114 &157333585050970073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1255079895867026594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2518c50cb3fc6a6458d4b743c2f69c7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  _useInitialPressPositionForDrag: 1
-  _exclusiveMode: 1
 --- !u!114 &8694294916429497009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3731,6 +3716,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onStartTransition:
+    m_PersistentCalls:
+      m_Calls: []
+  onCloseCue:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &4227738371685928763

@@ -271,6 +271,69 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1589841415}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &181864285
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 181864288}
+  - component: {fileID: 181864287}
+  - component: {fileID: 181864286}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &181864286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181864285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2518c50cb3fc6a6458d4b743c2f69c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  _useInitialPressPositionForDrag: 1
+  _exclusiveMode: 1
+--- !u!114 &181864287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181864285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &181864288
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181864285}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &307938336
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,63 +365,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1589841415}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &604936373
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -51.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.9740794
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 60.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9641788
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.26525316
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 30.764
-      objectReference: {fileID: 0}
-    - target: {fileID: 3103572488037237033, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7355581936147766005, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
-      propertyPath: m_Name
-      value: Bib_Model_NewMesh
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3d28d09772cbe2e4d8613a245d92c011, type: 3}
 --- !u!1 &637477723
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,7 +706,9 @@ MonoBehaviour:
   startArrivalDescription: Welcome to VR!
   startArrivalButtonText: X
   startArrivalAlwaysExpand: 0
+  startArrivalCuePath: 
   vrRoomTitle: My Virtual Room Test
+  entryCuePath: 
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: VR
@@ -715,6 +723,7 @@ MonoBehaviour:
   entryArrivalDescription: Welcome to VR!
   entryArrivalButtonText: X
   entryArrivalAlwaysExpand: 0
+  entryArrivalCuePath: 
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitLabel: AR
@@ -724,6 +733,7 @@ MonoBehaviour:
   exitAlwaysExpand: 0
   leadsToAR: 0
   exitCueDelay: 20
+  exitCuePath: 
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: AR
@@ -731,6 +741,7 @@ MonoBehaviour:
   exitArrivalDescription: Welcome back to AR!
   exitArrivalButtonText: X
   exitArrivalAlwaysExpand: 0
+  exitArrivalCuePath: 
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 2
@@ -911,6 +922,7 @@ MonoBehaviour:
   leaveHMDButtonText: 
   leaveHMDAlwaysExpand: 0
   leaveHMDvideoClip: {fileID: 0}
+  leaveHMDCuePath: 
   targetName: pathTarget
   locationName: Library
   arrivalDistance: 5
@@ -1075,4 +1087,4 @@ SceneRoots:
   - {fileID: 67777459}
   - {fileID: 1819211665}
   - {fileID: 1589841415}
-  - {fileID: 604936373}
+  - {fileID: 181864288}

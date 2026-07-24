@@ -100,3 +100,5 @@ InitTestScene*.unity*
 
 /[Aa]ssets/MetaXR/*
 /.idea/*
+# Unity Burst debug output
+*_BurstDebugInformation_DoNotShip/

@@ -127,6 +127,7 @@ public class Building_TransitionCues : MonoBehaviour
     private PathGenerator pathGenerator;
     private LineRenderer[] pathLineRenderers;
     private Scene loadedVRScene;
+    private VRRoomTeleport _teleporter;
     private ArrivalCue LeaveHMDCue;
     private bool userInVRRoom = false;
     GameObject overlay = null;
@@ -413,6 +414,14 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Wire teleport in the loaded VR scene to move the room (not the rig)
         RegisterTeleportRedirects();
+
+        // Self-contained teleport: right stick to aim, release to slide the room to the target.
+        // Works regardless of the ISDK teleport building block being present/wired.
+        if (_teleporter == null)
+        {
+            _teleporter = new GameObject("VRRoomTeleporter").AddComponent<VRRoomTeleport>();
+            _teleporter.Init(this);
+        }
 
         // Fade out
         yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(3f, vrRoom));
@@ -746,6 +755,9 @@ public class Building_TransitionCues : MonoBehaviour
             yield return StartCoroutine(TransitionEffects.Instance.FadeToAR(3f, vrRoom));
             // Unload VR room
             yield return StartCoroutine(UnloadVRRoom());
+
+            // Remove the room-move teleporter (only valid while in VR)
+            if (_teleporter != null) { Destroy(_teleporter.gameObject); _teleporter = null; }
 
             TransitionParticleEffect.Spawn(mainCamera, exitVRParticleColor, particleDuration);
 
