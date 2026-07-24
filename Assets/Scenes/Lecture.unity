@@ -5179,7 +5179,7 @@ MonoBehaviour:
   exitCueDelay: 3
   objectsToSpawn: {fileID: 1274896211}
   delayBetweenPhases: 2
-  fadeDuration: 3
+  fadeDuration: 5
   startTransitionAnchorName: startArrivalAnchor
   startTransitionPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   startTransitionLabel: VR

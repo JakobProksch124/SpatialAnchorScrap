@@ -164,14 +164,12 @@ public class TransitionEffects : MonoBehaviour
     }
 
     // Fades out the VR room when returning to AR mode
-    // Gradually makes VR objects transparent so AR passthrough shows through
-    public IEnumerator FadeToAR(float fadeDuration = 1.5f, GameObject vrRoom = null)
+public IEnumerator FadeToAR(float fadeDuration = 1.5f, GameObject vrRoom = null)
 {
     if (vrRoom == null)
         yield break;
 
     Renderer[] renderers = vrRoom.GetComponentsInChildren<Renderer>(true);
-
     MaterialPropertyBlock block = new MaterialPropertyBlock();
 
     float elapsed = 0f;
@@ -180,8 +178,8 @@ public class TransitionEffects : MonoBehaviour
     {
         elapsed += Time.deltaTime;
 
-        // Starts visible (0) and ends invisible (1)
-        float fade = Mathf.Clamp01(elapsed / fadeDuration);
+        // Fade from 0 -> 0.75
+        float fade = Mathf.Lerp(0f, 0.75f, Mathf.Clamp01(elapsed / fadeDuration));
 
         foreach (Renderer r in renderers)
         {
@@ -199,7 +197,7 @@ public class TransitionEffects : MonoBehaviour
         yield return null;
     }
 
-    // Ensure completely invisible
+    // Ensure fully invisible
     foreach (Renderer r in renderers)
     {
         if (r == null)
@@ -208,21 +206,20 @@ public class TransitionEffects : MonoBehaviour
         for (int m = 0; m < r.sharedMaterials.Length; m++)
         {
             r.GetPropertyBlock(block, m);
-            block.SetFloat("_Fade", 1f);
+            block.SetFloat("_Fade", 0.75f);
             r.SetPropertyBlock(block, m);
         }
     }
 }
 
-// Fades in the VR room when entering AR mode
-// Gradually makes VR objects visible, then restores original materials
+
+// Fades in the VR room when entering VR mode
 public IEnumerator FadeToVR(float fadeDuration = 1.5f, GameObject vrRoom = null)
 {
     if (vrRoom == null)
         yield break;
 
     Renderer[] renderers = vrRoom.GetComponentsInChildren<Renderer>(true);
-
     MaterialPropertyBlock block = new MaterialPropertyBlock();
 
     float elapsed = 0f;
@@ -231,15 +228,14 @@ public IEnumerator FadeToVR(float fadeDuration = 1.5f, GameObject vrRoom = null)
     {
         elapsed += Time.deltaTime;
 
-        // Starts invisible (1) and ends visible (0)
-        float fade = 1f - Mathf.Clamp01(elapsed / fadeDuration);
+        // Fade from 0.75 -> 0
+        float fade = Mathf.Lerp(0.75f, 0f, Mathf.Clamp01(elapsed / fadeDuration));
 
         foreach (Renderer r in renderers)
         {
             if (r == null)
                 continue;
 
-            // Handle every material on the renderer
             for (int m = 0; m < r.sharedMaterials.Length; m++)
             {
                 r.GetPropertyBlock(block, m);
@@ -251,7 +247,7 @@ public IEnumerator FadeToVR(float fadeDuration = 1.5f, GameObject vrRoom = null)
         yield return null;
     }
 
-    // Ensure completely visible
+    // Ensure fully visible
     foreach (Renderer r in renderers)
     {
         if (r == null)

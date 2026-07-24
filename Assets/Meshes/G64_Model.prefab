@@ -1281,7 +1281,7 @@ MonoBehaviour:
   exitButtonText: Switch to AR
   exitAlwaysExpand: 1
   leadsToAR: 1
-  exitCueDelay: 20
+  exitCueDelay: 1
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: 

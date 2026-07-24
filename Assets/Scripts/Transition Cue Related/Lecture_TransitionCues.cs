@@ -92,7 +92,7 @@ public class Lecture_TransitionCues : MonoBehaviour
         
         // Start the sequence
         CreateStartTransitionCue(startArrivalAnchor);
-        //StartCoroutine(FadeInAll(fadeDuration));
+        //StartCoroutine(FadeInAll(fadeDuration*2));
     }
 
 
@@ -103,7 +103,7 @@ public class Lecture_TransitionCues : MonoBehaviour
             onInteract: () =>
             {
                 startTransitionCue.SetActive(false);
-                StartCoroutine(FadeInAll(fadeDuration));
+                StartCoroutine(FadeInAll(fadeDuration*2));
             },
             onClose: () =>
             {
@@ -299,7 +299,7 @@ public class Lecture_TransitionCues : MonoBehaviour
         }*/
     }
 
-    public IEnumerator FadeInAll(float duration)
+   public IEnumerator FadeInAll(float duration)
 {
     Renderer[] renderers = objectsToSpawn.GetComponentsInChildren<Renderer>(true);
     MaterialPropertyBlock block = new MaterialPropertyBlock();
@@ -308,7 +308,7 @@ public class Lecture_TransitionCues : MonoBehaviour
     foreach (Renderer r in renderers)
     {
         r.GetPropertyBlock(block);
-        block.SetFloat("_Fade", 1f);
+        block.SetFloat("_Fade", 0.75f);
         r.SetPropertyBlock(block);
     }
 
@@ -319,7 +319,7 @@ public class Lecture_TransitionCues : MonoBehaviour
     while (elapsed < duration)
     {
         elapsed += Time.deltaTime;
-        float fade = 1f - Mathf.Clamp01(elapsed / duration);
+        float fade = Mathf.Lerp(0.75f, 0f, Mathf.Clamp01(elapsed / duration));
 
         foreach (Renderer r in renderers)
         {
@@ -338,30 +338,30 @@ public class Lecture_TransitionCues : MonoBehaviour
         block.SetFloat("_Fade", 0f);
         r.SetPropertyBlock(block);
     }
-        if (videoPlane != null)
-        {
-    videoPlane.SetActive(true);
 
-        }
-        else
-        {
-            Debug.Log("video plane does not exist");
-        }
+    if (videoPlane != null)
+    {
+        videoPlane.SetActive(true);
+    }
+    else
+    {
+        Debug.Log("video plane does not exist");
+    }
+
     CreateStartArrivalCue(startArrivalAnchor);
 }
 
 public IEnumerator FadeOutAll(float duration)
 {
-        if (videoPlane != null)
-        {
-    videoPlane.SetActive(false);
+    if (videoPlane != null)
+    {
+        videoPlane.SetActive(false);
+    }
+    else
+    {
+        Debug.Log("video plane does not exist");
+    }
 
-        }
-        else
-        {
-            Debug.Log("video plane does not exist");
-        }
-        
     Renderer[] renderers = objectsToSpawn.GetComponentsInChildren<Renderer>(true);
     MaterialPropertyBlock block = new MaterialPropertyBlock();
 
@@ -370,7 +370,7 @@ public IEnumerator FadeOutAll(float duration)
     while (elapsed < duration)
     {
         elapsed += Time.deltaTime;
-        float fade = Mathf.Clamp01(elapsed / duration);
+        float fade = Mathf.Lerp(0f, 0.75f, Mathf.Clamp01(elapsed / duration));
 
         foreach (Renderer r in renderers)
         {
@@ -386,7 +386,7 @@ public IEnumerator FadeOutAll(float duration)
     foreach (Renderer r in renderers)
     {
         r.GetPropertyBlock(block);
-        block.SetFloat("_Fade", 1f);
+        block.SetFloat("_Fade", 0.75f);
         r.SetPropertyBlock(block);
     }
 
