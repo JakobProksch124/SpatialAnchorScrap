@@ -3759,7 +3759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd0f65fa6943480dbe17682591d3d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cueName: EntryCue1
+  cueName: T4_Entry
   mode: 0
   entryTitle: Wechsel zu VR
   entryHighlight: VR
