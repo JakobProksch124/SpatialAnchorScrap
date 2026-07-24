@@ -97,7 +97,8 @@ public class IMessageTransitionCue : MonoBehaviour
         );
 
         iMessageCueConfig.alwaysExpanded = true;
-        iMessageCueConfig.isArrival = false;
+            iMessageCueConfig.hasCloseButton = false;
+            iMessageCueConfig.isAnimated = true;
         iMessageCueConfig.primaryColor = iMessagePrimaryColor;
         iMessageCueConfig.expandedDescription = iMessageDescription;
         iMessageCueConfig.screenshotTexture = iMessageScreenshotDisplayed;
@@ -143,7 +144,6 @@ public class IMessageTransitionCue : MonoBehaviour
             visualVoiceCueConfig.primaryColor = visualVoicePrimaryColor;
             visualVoiceCueConfig.expandedDescription = visualVoiceDescription;
             //visualVoiceCueConfig.videoClip = visualVoicevideoClip;
-            visualVoiceCueConfig.isVoiceCue = false;
             // (Effectively not used if alwaysExpanded)
             visualVoiceCueConfig.label = visualVoiceLabel;
             visualVoiceCueConfig.buttonText = visualVoiceButtonText;

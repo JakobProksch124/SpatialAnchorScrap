@@ -111,7 +111,8 @@ public class Lecture_TransitionCues : MonoBehaviour
             isStandardClose: true
         );
 
-            StartTransitionCueConfig.isArrival = false;
+            StartTransitionCueConfig.hasCloseButton = false;
+            StartTransitionCueConfig.isAnimated = true;
             StartTransitionCueConfig.isTransparent = false;
             StartTransitionCueConfig.alwaysExpanded = true;
             StartTransitionCueConfig.primaryColor = startTransitionPrimaryColor;
@@ -135,7 +136,7 @@ public class Lecture_TransitionCues : MonoBehaviour
     {
         //CreateExitCue(exitAnchor);
         
-            TransitionCueConfig StartTransitionCueConfig = TransitionCueConfig.CreateARConfig(
+            TransitionCueConfig StartArrivalCueConfig = TransitionCueConfig.CreateARConfig(
                 parent: StartArrivalAnchor,
                 onInteract: () =>
                 {
@@ -160,16 +161,18 @@ public class Lecture_TransitionCues : MonoBehaviour
             isStandardClose: true
             );
 
-            StartTransitionCueConfig.isArrival = true;
-            StartTransitionCueConfig.isTransparent = false;
-            StartTransitionCueConfig.alwaysExpanded = true;
-            StartTransitionCueConfig.primaryColor = startArrivalPrimaryColor;
-            StartTransitionCueConfig.expandedDescription = startArrivalDescription;
-            StartTransitionCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
-            StartTransitionCueConfig.label = startArrivalLabel;
-            StartTransitionCueConfig.buttonText = startArrivalButtonText;
 
-            startArrivalCue = TransitionCueFactory.CreateCue(StartTransitionCueConfig);
+            StartArrivalCueConfig.hasCloseButton = false;
+            StartArrivalCueConfig.isAnimated = true;
+            StartArrivalCueConfig.isTransparent = false;
+            StartArrivalCueConfig.alwaysExpanded = true;
+            StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
+            StartArrivalCueConfig.expandedDescription = startArrivalDescription;
+            StartArrivalCueConfig.screenshotTexture = startArrivalScreenshotDisplayed;
+            StartArrivalCueConfig.label = startArrivalLabel;
+            StartArrivalCueConfig.buttonText = startArrivalButtonText;
+
+            startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
          
     }
 
@@ -243,7 +246,7 @@ public class Lecture_TransitionCues : MonoBehaviour
         exitTransitionCueConfig.expandedDescription = exitTransitionDescription;
         exitTransitionCueConfig.screenshotTexture = exitTransitionScreenshotDisplayed;
 
-        exitTransitionCueConfig.leadsOutOfLecture = true;
+        //exitTransitionCueConfig.isVeryWideAndHigher = true;
         // (Effectively not used if alwaysExpanded)
         exitTransitionCueConfig.label = exitTransitionLabel;
         exitTransitionCueConfig.buttonText = exitTransitionButtonText;
@@ -274,7 +277,12 @@ public class Lecture_TransitionCues : MonoBehaviour
         leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
         leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
 
-        leaveHMDCueConfig.isLeaveCue = true;
+        
+        leaveHMDCueConfig.isExpandedPanelInteractable = false;
+        leaveHMDCueConfig.hasButton = false;
+        leaveHMDCueConfig.isTransparent = false;
+        leaveHMDCueConfig.isWhite = true;
+        leaveHMDCueConfig.isBlackText = true;
         // (Effectively not used if alwaysExpanded)
         leaveHMDCueConfig.label = leaveHMDLabel;
         leaveHMDCueConfig.buttonText = leaveHMDButtonText;

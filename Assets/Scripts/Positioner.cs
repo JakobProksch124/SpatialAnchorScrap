@@ -318,15 +318,12 @@ public class Positioner : MonoBehaviour
 
                 eraseCueAnchor.transform.position =
                 cam.transform.position +
-                cam.transform.forward * 2f +
-                Vector3.up; // raise panel
+                cam.transform.forward * 2f; // raise panel
                 Debug.Log("set erase cue position");
 
                 eraseCueAnchor.transform.rotation =
                     Quaternion.LookRotation(
-                        eraseCueAnchor.transform.position - cam.transform.position -
-                Vector3.up
-                    ) * Quaternion.Euler(0f, 180f, 0f);
+                        eraseCueAnchor.transform.position - cam.transform.position) * Quaternion.Euler(0f, 180f, 0f);
                 Debug.Log("set erase cue rotation");
 
                 eraseCueAnchor.transform.localScale = Vector3.one;
@@ -351,7 +348,6 @@ public class Positioner : MonoBehaviour
             );
 
             // Details
-            EraseCueConfig.isArrival = false;
             EraseCueConfig.alwaysExpanded = true;
             EraseCueConfig.primaryColor = startArrivalPrimaryColor;
             EraseCueConfig.expandedDescription = startArrivalDescription;

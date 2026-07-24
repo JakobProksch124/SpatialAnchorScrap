@@ -179,7 +179,8 @@ public class Mensa_FriendCue : MonoBehaviour
             );
 
 
-            StartArrivalCueConfig.isArrival = true;
+            StartArrivalCueConfig.hasCloseButton = false;
+            StartArrivalCueConfig.isAnimated = true;
             StartArrivalCueConfig.alwaysExpanded = true;
             StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
             StartArrivalCueConfig.expandedDescription = startArrivalDescription;
@@ -322,7 +323,8 @@ public class Mensa_FriendCue : MonoBehaviour
 
 
             // Details
-            entryArrivalCueConfig.isArrival = true;
+            entryArrivalCueConfig.hasCloseButton = false;
+            entryArrivalCueConfig.isAnimated = true;
             entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
             entryArrivalCueConfig.expandedDescription = entryArrivalDescription;
             entryArrivalCueConfig.screenshotTexture = entryArrivalScreenshotDisplayed;

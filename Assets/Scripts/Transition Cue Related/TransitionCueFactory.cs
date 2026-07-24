@@ -40,7 +40,7 @@ public static class TransitionCueFactory
             GameObject expandedPanel = CreateExpandedPanel(config, out textBottomY);
             expandedPanel.transform.SetParent(root.transform, false);
             expandedPanel.transform.localPosition = Vector3.zero;
-            if(!config.isLeaveCue && !config.leadsOutOfLecture) { 
+            if(config.isExpandedPanelInteractable) { 
             AddIsdkSelectToInvoke(expandedPanel, config, false);
             }
             // === Button Container ===
@@ -53,7 +53,7 @@ public static class TransitionCueFactory
                 buttonContainer.transform.localPosition =
                     new Vector3(0, textBottomY - config.buttonOffset, 0);
             }*/
-            if (config.leadsToAR)
+            if (config.liftDescriptionText)
             {
                 float arLift = config.descriptionFontSize * 1.2f; // tweakable
 
@@ -74,14 +74,14 @@ public static class TransitionCueFactory
             // === Close Button (only for collapsible cues) ===
             GameObject closeButton = null;
             GameObject actionButton = null;
-            if (!config.isLeaveCue || config.leadsOutOfLecture)
+            if (config.hasButton)
             {
                 actionButton = CreateButton(config);
                 actionButton.transform.SetParent(buttonContainer.transform, false);
                 AddIsdkSelectToInvoke(actionButton, config, true);
 
                 //if (!config.alwaysExpanded)
-                if(!config.isArrival)
+                if(config.hasCloseButton)
                 {
                     float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
                     actionButton.transform.localPosition = new Vector3(actionButtonX, 0, 0);
@@ -113,7 +113,7 @@ public static class TransitionCueFactory
             }
 
             // === Rotation Effect ===
-            if (config.enableTurnTowardsUser && !config.leadsToAR)
+            if (config.enableTurnTowardsUser)
             {
                 TurnTowardsUser rotateToUser = root.AddComponent<TurnTowardsUser>();
                 rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
@@ -124,7 +124,7 @@ public static class TransitionCueFactory
 
             // === Add Audio and if its an Arrival Cue the Welcome Animation ===
             WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
-            welcome.Initialize(config.turnTriggerDistance, config.audioSource, config.isArrival);
+            welcome.Initialize(config.turnTriggerDistance, config.audioSource, config.isAnimated);
             
 
             return root;
@@ -251,11 +251,11 @@ public static class TransitionCueFactory
         // Use rounded cube model for aesthetic rounded edges
         GameObject expandedPanel = CreateRoundedCube();
         expandedPanel.name = "ExpandedPanel";
-        if (config.leadsToAR)
+        if (config.isVeryHighAndWider)
         {
             expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth * 2, config.expandedPanelHeight * 4, config.expandedPanelDepth);
         }
-        else if (config.leadsOutOfLecture)
+        else if (config.isVeryWideAndHigher)
         {
             expandedPanel.transform.localScale = new Vector3(config.expandedPanelWidth * 4, config.expandedPanelHeight * 2, config.expandedPanelDepth);
         }
@@ -276,15 +276,15 @@ public static class TransitionCueFactory
 
         bool noContentLayout = false;
        
-            if (config.isTransparent && !config.isLeaveCue)
+            if (config.isTransparent)
             {
                 Material frostedMat;
 
-                if (config.leadsToAR)
+                if (config.isWhite)
                 {
                     frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 0f);
                 }
-                else if (config.isVoiceCue)
+                else if (config.isBlue)
                 {
                     frostedMat = CreateBlueMaterial();
                 }
@@ -300,11 +300,11 @@ public static class TransitionCueFactory
             else
             {
                 Material frostedMat;
-                if (config.isLeaveCue)
+                if (config.isWhite)
                 {
                     frostedMat = CreateWhiteMaterial();
                 }
-                else if (config.isVoiceCue)
+                else if (config.isBlue)
                 {
                     frostedMat = CreateBlueMaterial();
                 }
@@ -350,7 +350,7 @@ public static class TransitionCueFactory
         ? contentBottomY
         : contentBottomY - config.contentDescriptionSpacing;
 
-        if (config.leadsToAR)
+        if (config.liftDescriptionText)
         {
             descYPosition += config.descriptionFontSize * 1.2f;
         }
@@ -364,7 +364,7 @@ public static class TransitionCueFactory
         descText.text = config.expandedDescription;
         descText.fontSize = config.descriptionFontSize * config.generalFontSizeFactor;
         descText.alignment = TextAlignmentOptions.Center;
-        if (config.isLeaveCue || config.leadsToAR)
+        if (config.isBlackText)
         {
             descText.color = Color.black;
         }
@@ -390,7 +390,7 @@ public static class TransitionCueFactory
         textBottomY = descYPosition - textHeight / 2f;
 
         // --- Background plate for better readability ---
-        if (config.leadsToAR)
+        if (config.liftDescriptionText)
         {
             GameObject textBackground = CreateRoundedCube();
             textBackground.name = "TextBackground";
@@ -422,7 +422,7 @@ public static class TransitionCueFactory
             if (bgCol != null) UnityEngine.Object.Destroy(bgCol);
         }
 
-        if (noContentLayout && !config.leadsToAR)
+        if (noContentLayout && !config.liftDescriptionText)
         {
             MakeExpandedPanelSmallerAndCenterDescription(
                 expandedPanel.transform,
@@ -507,7 +507,7 @@ public static class TransitionCueFactory
         videoPlayer.renderMode = VideoRenderMode.RenderTexture;
         videoPlayer.targetTexture = renderTexture;
         videoPlayer.source = VideoSource.VideoClip; // or VideoSource.VideoClip
-        if (config.isVoiceCue)
+        if (config.isDestroyVideoAtEnd)
         {
             videoPlayer.loopPointReached += (vp) =>
             {
@@ -565,7 +565,7 @@ public static class TransitionCueFactory
 
         Renderer renderer = imageQuad.GetComponent<Renderer>();
         Material imageMat;
-        if (config.leadsToAR)
+        if (config.isWhite && config.isTransparent) //leads to AR
         {
             imageMat = CreateFrostedGlassMaterial(Color.clear, 0f);
         }

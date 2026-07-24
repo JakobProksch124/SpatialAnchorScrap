@@ -751,7 +751,11 @@ public class ArrivalCue : MonoBehaviour
             leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
             leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
         
-        leaveHMDCueConfig.isLeaveCue = true;
+        leaveHMDCueConfig.isExpandedPanelInteractable = false;
+        leaveHMDCueConfig.hasButton = false;
+        leaveHMDCueConfig.isTransparent = false;
+        leaveHMDCueConfig.isWhite = true;
+        leaveHMDCueConfig.isBlackText = true;
         // (Effectively not used if alwaysExpanded)
         leaveHMDCueConfig.label = leaveHMDLabel;
         leaveHMDCueConfig.buttonText = leaveHMDButtonText;

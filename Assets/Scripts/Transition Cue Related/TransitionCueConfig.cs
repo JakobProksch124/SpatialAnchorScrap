@@ -31,22 +31,54 @@ public class TransitionCueConfig
     public bool isStandardClose = true;
     
     // decides if transition leads to AR
-    public bool leadsToAR = false;
+    //public bool leadsToAR = false;
 
-    // decides if transition leads to AR
-    public bool isArrival = false;
 
-    // decides if transition leads to AR
-    public bool isVoiceCue = false;
 
-    // decides if transition leads to AR
-    public bool isLeaveCue = false;
+    // decides if expanded Panel is interactable
+    public bool isExpandedPanelInteractable = true; //is leave cue
 
-    // decides if transition leads to AR
-    public bool isTransparent = true;
+    // decides if the cue has a button
+    public bool hasButton = true; //is leave cue
 
-    // decides if transition leads out of the lecture
-    public bool leadsOutOfLecture = false;
+    // decides if the cue has a close button
+    public bool hasCloseButton = true; //is arrival
+
+    // decides if the cue has a welcome animation
+    public bool isAnimated = false; //is Arrival
+
+    // makes cue very wide and higher
+    public bool isVeryWideAndHigher = false; //leads out of lecture
+
+    // makes cue very high and wider
+    public bool isVeryHighAndWider = false; //leads to ar
+
+    // lifts the description text of the cue
+    public bool liftDescriptionText = false; //leads to ar
+
+    
+
+    
+
+    // decides if cue is transparent
+    public bool isTransparent = true; //! isLeaveCue !voice cue
+
+    // decides if cue is white
+    public bool isWhite = false; // leads to ar        is leave cue
+
+    // decides if cue is white
+    public bool isBlue = false; //isVoiceCue
+
+    // decides if cue text ist black
+    public bool isBlackText = false; //isLeaveCue || config.leadsToAR
+
+    // decides if cue video loops or stops cue
+    public bool isDestroyVideoAtEnd = false; //isVoiceCue
+
+
+
+
+    
 
     //decides if transition cue is blunt
     //public bool isBland = false;
@@ -182,7 +214,7 @@ public class TransitionCueConfig
     // === Following/Rotation Behavior ===
 
     // If true, panels rotate to face the user
-    public bool enableTurnTowardsUser = true;
+    public bool enableTurnTowardsUser = true; // leadsToAR
 
     // Maximum rotation angle toward user (degrees)
     public float turnMaxAngle = 20f;

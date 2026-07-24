@@ -661,7 +661,12 @@ public class Building_TransitionCues : MonoBehaviour
             exitCueConfig.screenshotTexture = exitScreenshotDisplayed;
        
 
-        exitCueConfig.leadsToAR = this.leadsToAR;
+        exitCueConfig.isVeryHighAndWider = true;
+        exitCueConfig.liftDescriptionText = true;
+        exitCueConfig.isWhite = true;
+        exitCueConfig.isBlackText = true;
+        exitCueConfig.enableTurnTowardsUser = false;
+        
 
 
         // (Effectively not used if alwaysExpanded)
@@ -689,7 +694,8 @@ public class Building_TransitionCues : MonoBehaviour
             );
 
             // Details
-            entryArrivalCueConfig.isArrival = true;
+            entryArrivalCueConfig.hasCloseButton = false;
+            entryArrivalCueConfig.isAnimated = true;
             entryArrivalCueConfig.isTransparent = false;
             entryArrivalCueConfig.alwaysExpanded = true;
             entryArrivalCueConfig.primaryColor = entryArrivalPrimaryColor;
@@ -721,7 +727,8 @@ public class Building_TransitionCues : MonoBehaviour
             );
 
             // Details
-            exitArrivalCueConfig.isArrival = true;
+            exitArrivalCueConfig.hasCloseButton = false;
+            exitArrivalCueConfig.isAnimated = true;
             exitArrivalCueConfig.alwaysExpanded = true;
             exitArrivalCueConfig.primaryColor = exitArrivalPrimaryColor;
             exitArrivalCueConfig.expandedDescription = exitArrivalDescription;
@@ -755,7 +762,8 @@ public class Building_TransitionCues : MonoBehaviour
 
 
             // Details
-            StartArrivalCueConfig.isArrival = true;
+            StartArrivalCueConfig.hasCloseButton = false;
+            StartArrivalCueConfig.isAnimated = true;
             StartArrivalCueConfig.alwaysExpanded = true;
             StartArrivalCueConfig.primaryColor = startArrivalPrimaryColor;
             StartArrivalCueConfig.expandedDescription = startArrivalDescription;
