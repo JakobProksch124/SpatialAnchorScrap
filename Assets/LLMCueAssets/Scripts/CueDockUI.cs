@@ -99,6 +99,16 @@ public class CueDockUI : MonoBehaviour
             foreach (var d in dots) if (d) d.color = new Color(accent.r, accent.g, accent.b, d.color.a);
         if (haloRings != null)
             foreach (var r in haloRings) if (r) r.color = new Color(accent.r, accent.g, accent.b, r.color.a);
+
+        // the pill's OUTLINE is a RoundedRectUI border (was hard-coded blue) — recolour to accent
+        var box = background ? background.GetComponent<RoundedRectUI>() : null;
+        if (box == null && dockRect) box = dockRect.GetComponent<RoundedRectUI>();
+        if (box == null && dockRect) box = dockRect.GetComponentInChildren<RoundedRectUI>(true);
+        if (box != null)
+        {
+            box.borderColor = new Color(accent.r, accent.g, accent.b, box.borderColor.a);
+            box.Refresh();
+        }
     }
 
     // Pill shows only while listening or thinking; otherwise it fades out AND
