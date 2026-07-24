@@ -21,84 +21,104 @@ public static class TransitionCueFactory
     // Returns: Root GameObject of the cue
     public static GameObject CreateCue(TransitionCueConfig config)
     {
-            // Normal, enhanced cue design
+        // Normal, enhanced cue design
 
-            // === Root Container ===
-            GameObject root = new GameObject($"TransitionCue_{config.label}");
-            root.transform.SetParent(config.parent, false);
-            root.transform.localPosition = Vector3.zero;
-            root.transform.localRotation = Quaternion.identity;
-            root.transform.localScale = Vector3.one * config.globalScale;
+        // === Root Container ===
+        GameObject root = new GameObject($"TransitionCue_{config.label}");
+        root.transform.SetParent(config.parent, false);
+        root.transform.localPosition = Vector3.zero;
+        root.transform.localRotation = Quaternion.identity;
+        root.transform.localScale = Vector3.one * config.globalScale;
 
 
-            // === Small Panel ===
-            GameObject smallPanel = CreateSmallPanel(config);
-            smallPanel.transform.SetParent(root.transform, false);
+        // === Small Panel ===
+        GameObject smallPanel = CreateSmallPanel(config);
+        smallPanel.transform.SetParent(root.transform, false);
 
-            // === Expanded Panel ===
-            float textBottomY;
-            GameObject expandedPanel = CreateExpandedPanel(config, out textBottomY);
-            expandedPanel.transform.SetParent(root.transform, false);
-            expandedPanel.transform.localPosition = Vector3.zero;
-            if(config.isExpandedPanelInteractable) { 
+        // === Expanded Panel ===
+        float textBottomY;
+        GameObject expandedPanel = CreateExpandedPanel(config, out textBottomY);
+        expandedPanel.transform.SetParent(root.transform, false);
+        expandedPanel.transform.localPosition = Vector3.zero;
+        if (config.isExpandedPanelInteractable)
+        {
             AddIsdkSelectToInvoke(expandedPanel, config, false);
-            }
-            // === Button Container ===
-            GameObject buttonContainer = new GameObject("ButtonContainer");
-            buttonContainer.transform.SetParent(root.transform, false);
+        }
+        // === Button Container ===
+        GameObject buttonContainer = new GameObject("ButtonContainer");
+        buttonContainer.transform.SetParent(root.transform, false);
 
-            /*if (config.leadsToAR)
+        /*if (config.leadsToAR)
+        {
+            // Keep constant spacing relative to text
+            buttonContainer.transform.localPosition =
+                new Vector3(0, textBottomY - config.buttonOffset, 0);
+        }*/
+        if (config.liftDescriptionText)
+        {
+            float arLift = config.descriptionFontSize * 1.2f; // tweakable
+
+            buttonContainer.transform.localPosition =
+                new Vector3(0, textBottomY - config.buttonOffset + arLift, 0);
+        }
+        else
+        {
+            // Original behaviour (relative to panel)
+            float actualPanelHeight = expandedPanel.transform.localScale.y;
+
+            buttonContainer.transform.localPosition =
+                new Vector3(0, -(actualPanelHeight / 2 + config.buttonOffset), 0);
+        }
+        //buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
+
+        // === Action Button ===
+        // === Close Button (only for collapsible cues) ===
+        GameObject closeButton = null;
+        GameObject actionButton = null;
+        if (config.hasButton)
+        {
+            actionButton = CreateButton(config);
+            actionButton.transform.SetParent(buttonContainer.transform, false);
+            AddIsdkSelectToInvoke(actionButton, config, true);
+
+            float sideOffset =
+    (config.buttonWidth / 2f) +
+    (config.closeButtonSize / 2f) +
+    config.buttonSpacing;
+
+
+
+            // Action button
+            actionButton.transform.localPosition = Vector3.zero;
+
+
+            // Step indicator (LEFT)
+            if (config.isMultiStep)
             {
-                // Keep constant spacing relative to text
-                buttonContainer.transform.localPosition =
-                    new Vector3(0, textBottomY - config.buttonOffset, 0);
-            }*/
-            if (config.liftDescriptionText)
-            {
-                float arLift = config.descriptionFontSize * 1.2f; // tweakable
+                GameObject stepIndicator = CreateStepIndicator(config);
+                stepIndicator.transform.SetParent(buttonContainer.transform, false);
 
-                buttonContainer.transform.localPosition =
-                    new Vector3(0, textBottomY - config.buttonOffset + arLift, 0);
-            }
-            else
-            {
-                // Original behaviour (relative to panel)
-                float actualPanelHeight = expandedPanel.transform.localScale.y;
-
-                buttonContainer.transform.localPosition =
-                    new Vector3(0, -(actualPanelHeight / 2 + config.buttonOffset), 0);
-            }
-            //buttonContainer.transform.localPosition = new Vector3(0, -(config.expandedPanelHeight / 2 + config.buttonOffset), 0);
-
-            // === Action Button ===
-            // === Close Button (only for collapsible cues) ===
-            GameObject closeButton = null;
-            GameObject actionButton = null;
-            if (config.hasButton)
-            {
-                actionButton = CreateButton(config);
-                actionButton.transform.SetParent(buttonContainer.transform, false);
-                AddIsdkSelectToInvoke(actionButton, config, true);
-
-                //if (!config.alwaysExpanded)
-                if(config.hasCloseButton)
-                {
-                    float actionButtonX = (config.buttonSpacing + config.closeButtonSize) / 2f;
-                    actionButton.transform.localPosition = new Vector3(actionButtonX, 0, 0);
-
-                    closeButton = CreateCloseButton(config);
-                    float closeButtonX = -(config.buttonWidth + config.buttonSpacing) / 2f;
-                    closeButton.transform.SetParent(buttonContainer.transform, false);
-                    closeButton.transform.localPosition = new Vector3(closeButtonX, 0, 0);
-                }
+                stepIndicator.transform.localPosition =
+                    new Vector3(sideOffset, 0f, 0f);   // positive = left
             }
 
-            // === Expansion Controller ===
-            TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
-            expander.Initialize(config, smallPanel, expandedPanel, buttonContainer);
+            // Close button (RIGHT)
+            if (config.hasCloseButton)
+            {
+                closeButton = CreateCloseButton(config);
+                closeButton.transform.SetParent(buttonContainer.transform, false);
 
-            // Wire close button to dismiss the expanded panel
-            if (closeButton != null)
+                closeButton.transform.localPosition =
+                    new Vector3(-sideOffset, 0f, 0f);  // negative = right
+            }
+        }
+
+        // === Expansion Controller ===
+        TransitionCueExpander expander = root.AddComponent<TransitionCueExpander>();
+        expander.Initialize(config, smallPanel, expandedPanel, buttonContainer);
+
+        // Wire close button to dismiss the expanded panel
+        if (closeButton != null)
         {
             if (config.isStandardClose)
             {
@@ -110,31 +130,31 @@ public static class TransitionCueFactory
 
                 AddIsdkSelectToInvoke(closeButton, () => config?.onClose?.Invoke(), config, true);
             }
-            }
+        }
 
-            // === Rotation Effect ===
-            if (config.enableTurnTowardsUser)
-            {
-                TurnTowardsUser rotateToUser = root.AddComponent<TurnTowardsUser>();
-                rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
-            }
+        // === Rotation Effect ===
+        if (config.enableTurnTowardsUser)
+        {
+            TurnTowardsUser rotateToUser = root.AddComponent<TurnTowardsUser>();
+            rotateToUser.Initialize(config.turnMaxAngle, config.turnRotationSpeed, config.turnTriggerDistance);
+        }
 
-            // === Configure Audio Player===
-            ConfigureAudio(root, config);
+        // === Configure Audio Player===
+        ConfigureAudio(root, config);
 
-            // === Add Audio and if its an Arrival Cue the Welcome Animation ===
-            WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
-            welcome.Initialize(config.turnTriggerDistance, config.audioSource, config.isAnimated);
-            
+        // === Add Audio and if its an Arrival Cue the Welcome Animation ===
+        WelcomeAnimation welcome = root.AddComponent<WelcomeAnimation>();
+        welcome.Initialize(config.turnTriggerDistance, config.audioSource, config.isAnimated);
 
-            return root;
-        
+
+        return root;
+
     }
 
     private static void AddIsdkSelectToInvoke(GameObject button, TransitionCueConfig config, bool addHover)
     {
         AddIsdkSelectToInvoke(button, () => config?.onInteract?.Invoke(), config, addHover);
-        
+
     }
 
     private static void AddIsdkSelectToInvoke(GameObject button, Action action, TransitionCueConfig config, bool addHover)
@@ -194,9 +214,9 @@ public static class TransitionCueFactory
         }
 
         // Set the right material / optic, based on type of cue (Enhanced vs. Minimal)
-            Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
-            renderer.material = frostedMat;
-        
+        Material frostedMat = CreateFrostedGlassMaterial(config.primaryColor, config.frostedGlassAlpha + 0.2f);
+        renderer.material = frostedMat;
+
 
         // Remove default collider (we'll add XR interaction to button only)
         Collider collider = smallPanel.GetComponent<Collider>();
@@ -275,70 +295,70 @@ public static class TransitionCueFactory
         float contentBottomY = 0f; // Y-position of the bottom of the content
 
         bool noContentLayout = false;
-       
-            if (config.isTransparent)
-            {
-                Material frostedMat;
 
-                if (config.isWhite)
-                {
-                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 0f);
-                }
-                else if (config.isBlue)
-                {
-                    frostedMat = CreateBlueMaterial();
-                }
-                else
-                {
-                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
-                }
-                if (frostedMat != null)
-                {
-                    renderer.material = frostedMat;
-                }
+        if (config.isTransparent)
+        {
+            Material frostedMat;
+
+            if (config.isWhite)
+            {
+                frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 0f);
+            }
+            else if (config.isBlue)
+            {
+                frostedMat = CreateBlueMaterial();
             }
             else
             {
-                Material frostedMat;
-                if (config.isWhite)
-                {
-                    frostedMat = CreateWhiteMaterial();
-                }
-                else if (config.isBlue)
-                {
-                    frostedMat = CreateBlueMaterial();
-                }
-                else
-                {
-                    frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 1f);
-                }
-                if (frostedMat != null)
-                {
-                    renderer.material = frostedMat;
-                }
+                frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, config.frostedGlassAlpha);
             }
-            if (config.videoClip != null)
+            if (frostedMat != null)
             {
-                contentBottomY = CreateVideoDisplay(expandedPanel.transform, config);
+                renderer.material = frostedMat;
             }
-            else if (config.screenshotTexture != null)
+        }
+        else
+        {
+            Material frostedMat;
+            if (config.isWhite)
             {
-                contentBottomY = CreateScreenshotDisplay(expandedPanel.transform, config);
+                frostedMat = CreateWhiteMaterial();
             }
-            else if (config.contentObject != null)
+            else if (config.isBlue)
             {
-                contentBottomY = Create3DObjectDisplay(expandedPanel.transform, config);
+                frostedMat = CreateBlueMaterial();
             }
             else
             {
-                // No content
-                //Make expanded panel smaller and center the description text
-                //contentBottomY = config.expandedPanelHeight * 0.1f;
-
-
-                noContentLayout = true;
+                frostedMat = CreateFrostedGlassMaterial(config.expandedPanelColor, 1f);
             }
-        
+            if (frostedMat != null)
+            {
+                renderer.material = frostedMat;
+            }
+        }
+        if (config.videoClip != null)
+        {
+            contentBottomY = CreateVideoDisplay(expandedPanel.transform, config);
+        }
+        else if (config.screenshotTexture != null)
+        {
+            contentBottomY = CreateScreenshotDisplay(expandedPanel.transform, config);
+        }
+        else if (config.contentObject != null)
+        {
+            contentBottomY = Create3DObjectDisplay(expandedPanel.transform, config);
+        }
+        else
+        {
+            // No content
+            //Make expanded panel smaller and center the description text
+            //contentBottomY = config.expandedPanelHeight * 0.1f;
+
+
+            noContentLayout = true;
+        }
+
 
         // Description Text
         GameObject descObj = new GameObject("DescriptionText");
@@ -748,7 +768,7 @@ public static class TransitionCueFactory
 
         AddIsdkSelectToInvoke(button, config, true);
 
-       
+
 
         return root;
     }
@@ -1038,5 +1058,73 @@ public static class TransitionCueFactory
 
         return button;
     }
+
+    private static GameObject CreateStepIndicator(TransitionCueConfig config)
+    {
+        GameObject indicator = CreateRoundedCube();
+        indicator.name = "StepIndicator";
+
+        indicator.transform.localScale = new Vector3(
+            config.closeButtonSize,
+            config.buttonHeight,
+            config.buttonDepth);
+
+        Renderer renderer = indicator.GetComponent<Renderer>();
+        if (renderer == null)
+            renderer = indicator.GetComponentInChildren<Renderer>();
+
+        Material mat = CreateFrostedGlassMaterial(
+            Color.grey,
+            config.frostedGlassAlpha + 0.2f);
+
+        if (mat != null)
+            renderer.material = mat;
+
+        CreateStepText(indicator.transform, config);
+
+        return indicator;
+    }
+private static void CreateStepText(Transform parent, TransitionCueConfig config)
+{
+    GameObject textObj = new GameObject("StepText");
+    textObj.transform.SetParent(parent, false);
+
+    float zOffset = (config.buttonDepth / 2f) + config.textZOffset;
+
+    textObj.transform.localPosition = new Vector3(0, 0, zOffset);
+    textObj.transform.localRotation = Quaternion.Euler(0, 180, 0);
+
+    TextMeshPro text = textObj.AddComponent<TextMeshPro>();
+
+    text.text = $"{config.currentStep}/{config.totalSteps}";
+    text.fontSize = config.buttonFontSize * config.generalFontSizeFactor/2;
+    text.fontStyle = FontStyles.Bold;
+    text.alignment = TextAlignmentOptions.Center;
+    text.textWrappingMode = TextWrappingModes.NoWrap;
+    text.enableAutoSizing = false;
+
+    text.color = config.isBlackText ? Color.black : Color.white;
+
+    ApplyCustomFont(text, config, true);
+
+    // Match the rendering behaviour of the description text
+    if (text.fontMaterial != null)
+    {
+        text.fontMaterial.renderQueue = 3100;
+    }
+
+    // Give TMP a proper rectangle to render into
+    text.rectTransform.sizeDelta = new Vector2(
+        config.closeButtonSize * 0.9f,
+        config.buttonHeight * 1.5f
+    );
+
+    // Compensate for the parent cube's scale, just like the expanded panel text
+    textObj.transform.localScale = new Vector3(
+        1f / parent.localScale.x,
+        1f / parent.localScale.y,
+        1f
+    );
+}
 
 }

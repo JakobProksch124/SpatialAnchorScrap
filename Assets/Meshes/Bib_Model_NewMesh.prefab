@@ -2268,7 +2268,7 @@ MonoBehaviour:
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   iMessageLabel: You have received a message from Peter!
   iMessageScreenshotDisplayed: {fileID: 2800000, guid: 78f9724f03980c344a0accc2632f258e, type: 3}
-  iMessageDescription: Would you like me to show you where the posters are? 1/2
+  iMessageDescription: Would you like me to show you where the posters are?
   iMessageButtonText: Show me
   iMessageAnchor: {fileID: 6005192364133629521}
   notificationSoundPlayer: {fileID: 8292972302890120562}
@@ -2279,7 +2279,7 @@ MonoBehaviour:
   visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   visualVoiceLabel: 'The Poster is in 5m on the left. '
   visualVoiceDescription: The Poster is in 5m on the left. Would you like me to add
-    it to the navigation? 2/2
+    it to the navigation?
   visualVoiceButtonText: Add as next goal
   visualVoiceAnchor: {fileID: 3533729435843602263}
   pathGenerator: {fileID: 593722303556831063}
@@ -3696,7 +3696,7 @@ MonoBehaviour:
   vrRoomTitle: 'Open Lab: BRiDGE'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  entryLabel: VR
+  entryLabel: VR - Open Lab
   entryScreenshotDisplayed: {fileID: 2800000, guid: 28dbfffbf5dce51408ebbe435af27513, type: 3}
   entryDescription: Open Lab in two weeks. Do you want to look at a VR-Preview?
   entryButtonText: Switch to VR

@@ -56,6 +56,16 @@ public class TransitionCueConfig
     // lifts the description text of the cue
     public bool liftDescriptionText = false; //leads to ar
 
+    // decides if cue is multi step
+    public bool isMultiStep = false;
+
+    // decides current cue step
+    public int currentStep = 1;
+
+    // decides total steps of that cue
+
+    public int totalSteps = 1;
+
     
 
     

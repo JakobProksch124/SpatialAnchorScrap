@@ -52,7 +52,7 @@ public class IMessageTransitionCue : MonoBehaviour
             }
         }
 
-        
+
 
 
         Camera mainCam = Camera.main;
@@ -72,12 +72,12 @@ public class IMessageTransitionCue : MonoBehaviour
             return;
 
         if (hasTriggered) return;
-            float distance = Vector3.Distance(transform.position, playerTransform.position);
-            if (triggerDistance > distance )
-            {
-                hasTriggered = true;
-                CreateIMessageArrivalCue(iMessageAnchor);
-            }
+        float distance = Vector3.Distance(transform.position, playerTransform.position);
+        if (triggerDistance > distance)
+        {
+            hasTriggered = true;
+            CreateIMessageArrivalCue(iMessageAnchor);
+        }
     }
 
     void CreateIMessageArrivalCue(Transform iMessageAnchor)
@@ -97,8 +97,11 @@ public class IMessageTransitionCue : MonoBehaviour
         );
 
         iMessageCueConfig.alwaysExpanded = true;
-            iMessageCueConfig.hasCloseButton = false;
-            iMessageCueConfig.isAnimated = true;
+        iMessageCueConfig.isMultiStep = true;
+        iMessageCueConfig.currentStep = 1;
+        iMessageCueConfig.totalSteps = 2;
+        iMessageCueConfig.hasCloseButton = true;
+        iMessageCueConfig.isAnimated = true;
         iMessageCueConfig.primaryColor = iMessagePrimaryColor;
         iMessageCueConfig.expandedDescription = iMessageDescription;
         iMessageCueConfig.screenshotTexture = iMessageScreenshotDisplayed;
@@ -109,45 +112,48 @@ public class IMessageTransitionCue : MonoBehaviour
         UnityEngine.Debug.Log("iMessage cue created!");
         //notificationSoundPlayer.Play();
 
-       
+
     }
 
     // CUE INFO:
     // This cue is placed at the doors of any vr room and allows the player to exit the vr room and return to the ar-supported world
     void CreateVisualVoiceCue(Transform visualVoiceAnchor)
     {
-        
-            // Base (Same basic configuration for enhanced as well as minimal cues
-            TransitionCueConfig visualVoiceCueConfig = TransitionCueConfig.CreateARConfig(
-            parent: visualVoiceAnchor,
-            onInteract: () =>
-            {
-                visualVoiceCue.SetActive(false);
-                Debug.Log("Adding InBetween Target");
-                if (pathGenerator != null)
-                {
-                pathGenerator.AddInbetweenTarget(entryAnchor);
-                }
-                else
-                {
-                    Debug.Log("path generator reference in IMessage is null");
-                }
-            },
-            onClose: () =>
-            {
-            },
-            isStandardClose: true
-        );
 
-            // Details for enhanced cues
-            visualVoiceCueConfig.alwaysExpanded = true;
-            visualVoiceCueConfig.primaryColor = visualVoicePrimaryColor;
-            visualVoiceCueConfig.expandedDescription = visualVoiceDescription;
-            //visualVoiceCueConfig.videoClip = visualVoicevideoClip;
-            // (Effectively not used if alwaysExpanded)
-            visualVoiceCueConfig.label = visualVoiceLabel;
-            visualVoiceCueConfig.buttonText = visualVoiceButtonText;
-            visualVoiceCue = TransitionCueFactory.CreateCue(visualVoiceCueConfig);
+        // Base (Same basic configuration for enhanced as well as minimal cues
+        TransitionCueConfig visualVoiceCueConfig = TransitionCueConfig.CreateARConfig(
+        parent: visualVoiceAnchor,
+        onInteract: () =>
+        {
+            visualVoiceCue.SetActive(false);
+            Debug.Log("Adding InBetween Target");
+            if (pathGenerator != null)
+            {
+                pathGenerator.AddInbetweenTarget(entryAnchor);
+            }
+            else
+            {
+                Debug.Log("path generator reference in IMessage is null");
+            }
+        },
+        onClose: () =>
+        {
+        },
+        isStandardClose: true
+    );
+
+        // Details for enhanced cues
+        visualVoiceCueConfig.alwaysExpanded = true;
+        visualVoiceCueConfig.isMultiStep = true;
+        visualVoiceCueConfig.currentStep = 2;
+        visualVoiceCueConfig.totalSteps = 2;
+        visualVoiceCueConfig.primaryColor = visualVoicePrimaryColor;
+        visualVoiceCueConfig.expandedDescription = visualVoiceDescription;
+        //visualVoiceCueConfig.videoClip = visualVoicevideoClip;
+        // (Effectively not used if alwaysExpanded)
+        visualVoiceCueConfig.label = visualVoiceLabel;
+        visualVoiceCueConfig.buttonText = visualVoiceButtonText;
+        visualVoiceCue = TransitionCueFactory.CreateCue(visualVoiceCueConfig);
     }
 
 
