@@ -39,6 +39,12 @@ public class CueVoiceLoop : MonoBehaviour
 
     private CueEarcons _earcons;
 
+    // Only ONE cue in the scene may be engaged (listening/thinking/speaking) at a time.
+    // Several cues can be active at once (e.g. an arrival cue + an entry cue), and the A
+    // button is read globally — without this, pressing A would make every cue answer,
+    // producing two overlapping voices and competing dock text.
+    private static CueVoiceLoop _activeLoop;
+
     private CueVisualState _state = CueVisualState.Idle;
     private int _consumed;
     private bool _firstSentenceSent;
@@ -103,6 +109,8 @@ public class CueVoiceLoop : MonoBehaviour
     private void Update()
     {
         if (!OVRInput.GetDown(OVRInput.Button.One)) return;
+        // A only affects the cue the user is actually near (several cues can be active at once)
+        if (proximity != null && !proximity.InOuter && _activeLoop != this) return;
 
         switch (_state)
         {
@@ -130,6 +138,9 @@ public class CueVoiceLoop : MonoBehaviour
 
     private void StartListening()
     {
+        // engagement lock: if another cue is already listening/answering, ignore
+        if (_activeLoop != null && _activeLoop != this) return;
+        _activeLoop = this;
         if (_earcons) _earcons.PlayListen();
         stt.StartListening();
         ToState(CueVisualState.Listening);
@@ -258,8 +269,17 @@ public class CueVoiceLoop : MonoBehaviour
     private void ToState(CueVisualState state)
     {
         _state = state;
+        // release the engagement lock once this cue is back at rest
+        if ((state is CueVisualState.Idle or CueVisualState.Available) && _activeLoop == this)
+            _activeLoop = null;
         head.SetState(state);
         face.SetState(state);
         dock.SetPhase(state);
+    }
+
+    // release the lock if this cue is deactivated mid-engagement (e.g. transition entered / closed)
+    private void OnDisable()
+    {
+        if (_activeLoop == this) _activeLoop = null;
     }
 }
