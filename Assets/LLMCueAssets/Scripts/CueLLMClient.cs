@@ -72,12 +72,18 @@ public class CueLLMClient : MonoBehaviour
         }
         
         tools.Add(Fn("start_transition",
-            "Start the transition into the new context (AR or VR). Call ONLY on a clear, explicit intent to enter/join or leave " +
-            "('take me in', 'take me out', 'ich moechte beitreten', 'ich will rein', 'ich will raus'). Never just because the user asked for info.",
+            "Proceed with the transition THIS cue offers — whatever its direction or kind: entering VR or AR, " +
+            "leaving VR or AR back to reality, taking off the headset, or finishing/ending. This cue's specific " +
+            "transition is described under '# This cue'. Call it ONLY on a clear, explicit intent to proceed, e.g. " +
+            "EN: 'take me in', 'let's go', 'enter', 'take me out', 'leave', 'go back', 'exit', \"I'm done\", 'finish'. " +
+            "DE: 'ich will rein', 'ich moechte beitreten', 'bring mich rein', 'ich will raus', 'verlassen', " +
+            "'zurueck', 'Headset absetzen', 'beenden', 'fertig'. Never call it just because the user asked for info.",
             new JObject(), null));
         tools.Add(Fn("dismiss_cue",
-            "Close the ENTIRE cue (not a single card). Only for when the user clearly wants the whole cue gone " +
-            "AND confirms. To close one info card use hide_card, never this.",
+            "Close/dismiss the ENTIRE cue. Call it IMMEDIATELY when the user clearly wants the whole cue gone " +
+            "('close this', 'schliessen', 'mach das weg', \"I don't need this\") — no confirmation step, no second " +
+            "turn. To close one info card use hide_card, never this. (Only has an effect on arrival cues; on entry " +
+            "cues nothing happens, which is intended.)",
             new JObject(), null));
         return tools;
     }

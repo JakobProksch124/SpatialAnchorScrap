@@ -19,6 +19,9 @@ public class CueDockUI : MonoBehaviour
     [SerializeField] private GameObject leadingDot;
     [SerializeField] private Image[] dots;
     [SerializeField] private Image[] haloRings;
+    [Tooltip("Drives the accent colour of the dock background + listening indicator " +
+             "(blue for entry, green for arrival). Self-found from the cue root if left empty.")]
+    [SerializeField] private CueTheme theme;
 
     [Header("Design tokens")]
     [SerializeField] private float collapsedWidth = 60f;
@@ -65,7 +68,37 @@ public class CueDockUI : MonoBehaviour
             if (!_reveal) _reveal = status.gameObject.AddComponent<CueTextReveal>();
         }
 
+        // accent (blue=entry / green=arrival) drives the dock bg + listening indicator
+        if (!theme) theme = GetComponentInParent<CueTheme>();
+        if (theme) theme.Changed += OnThemeChanged;
+        ApplyAccent();
+
         ApplyVisibility(false);
+    }
+
+    private void OnDestroy()
+    {
+        if (theme) theme.Changed -= OnThemeChanged;
+    }
+
+    private void OnThemeChanged(CueTheme t) => ApplyAccent();
+
+    /// <summary>Recolour the dock background + listening halo/dots to the theme accent.</summary>
+    private void ApplyAccent()
+    {
+        var accent = theme ? theme.Accent : new Color(0.31f, 0.66f, 1f); // fallback: entry blue
+        // dark, low-key accent tint for the pill background (keeps text readable)
+        if (background)
+            background.color = new Color(
+                Mathf.Lerp(accent.r, 0.02f, 0.80f),
+                Mathf.Lerp(accent.g, 0.03f, 0.80f),
+                Mathf.Lerp(accent.b, 0.05f, 0.80f), 0.86f);
+        if (leadingDot && leadingDot.TryGetComponent<Image>(out var ld))
+            ld.color = new Color(accent.r, accent.g, accent.b, ld.color.a);
+        if (dots != null)
+            foreach (var d in dots) if (d) d.color = new Color(accent.r, accent.g, accent.b, d.color.a);
+        if (haloRings != null)
+            foreach (var r in haloRings) if (r) r.color = new Color(accent.r, accent.g, accent.b, r.color.a);
     }
 
     // Pill shows only while listening or thinking; otherwise it fades out AND

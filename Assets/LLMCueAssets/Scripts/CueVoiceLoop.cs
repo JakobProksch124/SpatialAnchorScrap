@@ -202,7 +202,18 @@ public class CueVoiceLoop : MonoBehaviour
         }
         if (name == "dismiss_cue")
         {
-            return "cue dismissed";
+            // Only arrival cues may be closed by voice (entry cues must be entered, not removed).
+            // Mirror the Close button: raise onCloseCue, log, and deactivate the cue — one shot, no confirm.
+            var cfg = GetComponent<CueConfig>();
+            if (cfg != null && cfg.IsArrival)
+            {
+                if (events) events.RaiseCloseCue();
+                CueLogger.Event("closed");
+                CloseCueRoot();
+                return "cue closed";
+            }
+            CueLogger.Event("dismiss_requested_ignored");
+            return "closing is not available on this cue";
         }
 
         // hide is always allowed, and re-expands the invitation when the row empties
@@ -226,6 +237,18 @@ public class CueVoiceLoop : MonoBehaviour
         if (result.StartsWith("card")) CueLogger.Event("panel_shown", panel: (string)args["card"] ?? "");
         if (invitation) invitation.SetSmall(true); // any card => shrink invitation
         return result;
+    }
+
+    // Deactivate the whole cue — the same "TransitionCue"-tagged ancestor the Close button uses.
+    private void CloseCueRoot()
+    {
+        var t = transform;
+        while (t != null)
+        {
+            if (t.CompareTag("TransitionCue")) { t.gameObject.SetActive(false); return; }
+            t = t.parent;
+        }
+        gameObject.SetActive(false); // fallback if the tag isn't found
     }
 
     private CueVisualState RestState() => proximity.InOuter ? CueVisualState.Available : CueVisualState.Idle;
