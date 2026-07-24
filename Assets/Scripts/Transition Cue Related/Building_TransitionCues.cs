@@ -203,18 +203,22 @@ public class Building_TransitionCues : MonoBehaviour
         }
     }
 
-    /*public void RegisterTeleportRedirects()
+    // Wire every teleport interactor in the freshly-loaded VR scene to move the VR ROOM
+    // (not the rig), so the spatial-anchor AR mapping is never disturbed. The redirect is
+    // added at runtime, so it doesn't need to be pre-placed in the scene.
+    public void RegisterTeleportRedirects()
     {
-        ARTeleportRedirect[] redirects = FindObjectsByType<ARTeleportRedirect>(
-            FindObjectsInactive.Include,
-            FindObjectsSortMode.None
-        );
-
-        foreach (var redirect in redirects)
+        if (!loadedVRScene.IsValid()) return;
+        foreach (var root in loadedVRScene.GetRootGameObjects())
         {
-            redirect.SetBuildingTransitionCues(this);
+            foreach (var ti in root.GetComponentsInChildren<Oculus.Interaction.Locomotion.TeleportInteractor>(true))
+            {
+                var redirect = ti.GetComponent<ARTeleportRedirect>();
+                if (redirect == null) redirect = ti.gameObject.AddComponent<ARTeleportRedirect>();
+                redirect.SetBuildingTransitionCues(this);
+            }
         }
-    }*/
+    }
 
     public void Update()
     {
@@ -406,6 +410,9 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Load the VR room
         yield return StartCoroutine(LoadVRRoom());
+
+        // Wire teleport in the loaded VR scene to move the room (not the rig)
+        RegisterTeleportRedirects();
 
         // Fade out
         yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(3f, vrRoom));
