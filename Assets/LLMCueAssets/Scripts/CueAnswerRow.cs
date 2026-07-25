@@ -114,12 +114,12 @@ public class CueAnswerRow : MonoBehaviour
         }
         else if (def.kind == CueCardKind.Reality)
         {
-            // a "window to reality": surface-projected passthrough fills the media area,
-            // so the user sees the real world through the panel even while inside VR.
-            var win = new GameObject("RealityWindow",
-                typeof(RectTransform), typeof(MeshFilter), typeof(MeshRenderer), typeof(CuePassthroughWindow));
-            win.transform.SetParent(media.rectTransform, false);
-            Stretch((RectTransform)win.transform);
+            // a "window to reality": force the framebuffer alpha to 0 here so the passthrough
+            // UNDERLAY shows through the panel, even while the user is inside an opaque VR room.
+            var hole = MakeRaw(media.rectTransform, "RealityHole", null, Color.white);
+            Stretch(hole.rectTransform);
+            var sh = Shader.Find("EntryCue/PassthroughHole");
+            if (sh != null) hole.material = new Material(sh);
         }
         else
         {

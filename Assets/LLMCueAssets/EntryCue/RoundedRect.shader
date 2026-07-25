@@ -20,7 +20,10 @@ Shader "EntryCue/RoundedRect"
         Cull Off
         ZWrite Off
         ZTest [unity_GUIZTestMode]
-        Blend SrcAlpha OneMinusSrcAlpha
+        // RGB blends translucent as usual; ALPHA channel accumulates toward the destination
+        // (One, OneMinusSrcAlpha) so a translucent panel keeps dest alpha = 1 over opaque VR
+        // content (no passthrough bleed) but still reveals passthrough over an alpha-0 buffer (AR).
+        Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
 
         Pass
         {
