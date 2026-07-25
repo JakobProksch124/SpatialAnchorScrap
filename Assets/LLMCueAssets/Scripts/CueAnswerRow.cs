@@ -112,6 +112,15 @@ public class CueAnswerRow : MonoBehaviour
             var raw = MakeRaw(media.rectTransform, "Video", rt, Color.white);
             Stretch(raw.rectTransform);
         }
+        else if (def.kind == CueCardKind.Reality)
+        {
+            // a "window to reality": surface-projected passthrough fills the media area,
+            // so the user sees the real world through the panel even while inside VR.
+            var win = new GameObject("RealityWindow",
+                typeof(RectTransform), typeof(MeshFilter), typeof(MeshRenderer), typeof(CuePassthroughWindow));
+            win.transform.SetParent(media.rectTransform, false);
+            Stretch((RectTransform)win.transform);
+        }
         else
         {
             // striped placeholder + accent wash (no asset assigned yet)

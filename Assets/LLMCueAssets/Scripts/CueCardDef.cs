@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Video;
 
-public enum CueCardKind { Image, Video, Text }
+public enum CueCardKind { Image, Video, Text, Reality }
 
 /// <summary>
 /// One user-defined answer card (a "blank" you fill in per cue). The assistant
