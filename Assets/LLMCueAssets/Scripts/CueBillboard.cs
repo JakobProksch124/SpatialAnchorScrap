@@ -1,27 +1,37 @@
 using UnityEngine;
 
 /// <summary>
-/// Turns a world-space UI element toward the user, but only within a small cone so a cue
-/// mounted near a wall follows the user a little without swinging its panel into the wall.
-/// Yaw only (stays upright).
+/// Controls how a world-space cue faces the user. Yaw only (stays upright).
 ///
-/// The cone is measured from the FIRST toward-the-user facing captured at runtime — NOT the
-/// prefab's forward — so the cue can never end up facing backwards regardless of how the
-/// prefab or anchor happens to be oriented.
+/// - TrackThenLock (default): turns to face the user as they approach, then FREEZES once the
+///   user is within lockDistance — so it's readable on arrival and then stays put (no swinging
+///   into walls, no re-orienting while you read).
+/// - FaceUser: keeps following the user, but only within a ±maxYawFromBase cone of the first
+///   toward-user facing.
+/// - Fixed: never rotates — keeps its placed orientation (orient the anchor deliberately).
 /// </summary>
 public class CueBillboard : MonoBehaviour
 {
+    public enum FacingMode { TrackThenLock, FaceUser, Fixed }
+
+    [SerializeField] private FacingMode mode = FacingMode.TrackThenLock;
     [Tooltip("How quickly the cue turns to face you (higher = snappier, 0 = instant).")]
     [SerializeField] private float turnSpeed = 6f;
-    [Tooltip("Max degrees the cue may rotate from its initial toward-user facing (each side).")]
+    [Tooltip("TrackThenLock: freeze the facing once the user is this close (metres).")]
+    [SerializeField] private float lockDistance = 1.5f;
+    [Tooltip("FaceUser: max degrees from the first toward-user facing (each side).")]
     [SerializeField] private float maxYawFromBase = 10f;
 
     private Transform _head;
     private Quaternion _baseRot;
     private bool _hasBase;
+    private bool _locked;
 
     private void LateUpdate()
     {
+        if (mode == FacingMode.Fixed) return;
+        if (mode == FacingMode.TrackThenLock && _locked) return;
+
         if (_head == null)
         {
             var cam = Camera.main;
@@ -31,16 +41,29 @@ public class CueBillboard : MonoBehaviour
 
         var dir = transform.position - _head.position;
         dir.y = 0f; // yaw only
-        if (dir.sqrMagnitude < 1e-4f) return;
+        var flatDist = dir.magnitude;
+        if (flatDist < 1e-2f) return;
 
         var faceUser = Quaternion.LookRotation(dir);
-        // base = the first time we actually face the user, so the cone is always centred
-        // on a correct (forward-facing) orientation, never the prefab's arbitrary forward.
-        if (!_hasBase) { _baseRot = faceUser; _hasBase = true; }
+        Quaternion target;
 
-        var clamped = Quaternion.RotateTowards(_baseRot, faceUser, maxYawFromBase);
+        if (mode == FacingMode.FaceUser)
+        {
+            // cone centred on the first correct toward-user facing (never the prefab forward)
+            if (!_hasBase) { _baseRot = faceUser; _hasBase = true; }
+            target = Quaternion.RotateTowards(_baseRot, faceUser, maxYawFromBase);
+        }
+        else // TrackThenLock
+        {
+            target = faceUser;
+        }
+
         transform.rotation = turnSpeed <= 0f
-            ? clamped
-            : Quaternion.Slerp(transform.rotation, clamped, 1f - Mathf.Exp(-turnSpeed * Time.deltaTime));
+            ? target
+            : Quaternion.Slerp(transform.rotation, target, 1f - Mathf.Exp(-turnSpeed * Time.deltaTime));
+
+        // lock once the user is close enough to read it
+        if (mode == FacingMode.TrackThenLock && flatDist <= lockDistance)
+            _locked = true;
     }
 }
