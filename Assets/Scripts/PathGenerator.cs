@@ -55,11 +55,22 @@ public class PathGenerator : MonoBehaviour
         }
     }
 
+    [Tooltip("How often to recompute the nav path + rebuild the arrows (seconds). " +
+             "Doing this every frame destroyed+re-instantiated all arrows 72x/s — a big GPU/CPU sink.")]
+    [SerializeField] private float pathUpdateInterval = 0.3f;
+    private float _pathTimer;
+
     void Update()
     {
         start = Camera.main.transform;
         if (!_pathing || start == null || target == null)
             return;
+
+        // throttle: recompute the path + rebuild arrows a few times a second, not every frame
+        _pathTimer += Time.deltaTime;
+        if (_pathTimer < pathUpdateInterval)
+            return;
+        _pathTimer = 0f;
 
         GetPath();
     }
