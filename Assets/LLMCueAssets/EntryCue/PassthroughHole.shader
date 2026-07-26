@@ -11,8 +11,10 @@ Shader "EntryCue/PassthroughHole"
         Cull Off
         ZWrite Off
         ZTest [unity_GUIZTestMode]
-        ColorMask A
-        Blend Zero Zero   // dst.a = src.a*0 + dst.a*0 = 0
+        // Clear BOTH rgb and alpha of the destination to 0 (Blend Zero Zero on all channels).
+        // Alpha 0 reveals the underlay passthrough; rgb 0 avoids the leftover grey/white RGB
+        // adding a haze under Meta's premultiplied underlay compositing.
+        Blend Zero Zero
 
         Pass
         {
