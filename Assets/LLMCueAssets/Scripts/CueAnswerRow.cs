@@ -71,8 +71,9 @@ public class CueAnswerRow : MonoBehaviour
     private void Build(CueCardDef def)
     {
         var card = MakePanel(row, $"Card_{def.id}", 25f);
+        var cardWidth = Px(224) * Mathf.Max(0.25f, def.widthScale);
         var le = card.gameObject.AddComponent<LayoutElement>();
-        le.preferredWidth = Px(224);
+        le.preferredWidth = cardWidth;
         var group = card.gameObject.AddComponent<CanvasGroup>();
         var v = card.gameObject.AddComponent<VerticalLayoutGroup>();
         v.padding = new RectOffset((int)Px(13), (int)Px(13), (int)Px(13), (int)Px(13));
@@ -85,7 +86,7 @@ public class CueAnswerRow : MonoBehaviour
         else BuildMedia(card, def);
 
         var comp = card.gameObject.AddComponent<CueAnswerCard>();
-        comp.Init(def.id, card, group, le, Px(224), cardGrow);
+        comp.Init(def.id, card, group, le, cardWidth, cardGrow);
         _shown.Add(comp);
     }
 

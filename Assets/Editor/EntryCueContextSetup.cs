@@ -22,8 +22,8 @@ public static class EntryCueContextSetup
         public List<CueCardDef> cards;
     }
 
-    static CueCardDef Card(string id, CueCardKind kind, string title, string when, string body = "")
-        => new CueCardDef { id = id, kind = kind, title = title, whenToShow = when, bodyText = body };
+    static CueCardDef Card(string id, CueCardKind kind, string title, string when, string body = "", float widthScale = 1f)
+        => new CueCardDef { id = id, kind = kind, title = title, whenToShow = when, bodyText = body, widthScale = widthScale };
 
     [MenuItem("EntryCue/Apply Lecture-Navigation Context (T1-T4)")]
     public static void Apply()
@@ -103,7 +103,7 @@ public static class EntryCueContextSetup
             enter = "Verlassen", dismiss = "Jetzt nicht", target = "AR (die reale Umgebung mit Navigation)",
             note = "Du bist der ENTRY Cue im Labor für die Rückkehr nach AR. Du zeigst ein Live-Fenster in die Realität.",
             cards = new List<CueCardDef> {
-                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen aussieht."),
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen aussieht.", "", 3f),
             }
         },
         new Spec {
