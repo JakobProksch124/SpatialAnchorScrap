@@ -43,7 +43,6 @@ public static class EntryCueContextSetup
 
             cfg.cueName = s.prefab;
             cfg.mode = s.mode;
-            cfg.transitionTargetName = s.target ?? "";
             if (!string.IsNullOrEmpty(s.note)) cfg.assistantNote = s.note;
 
             if (s.mode == CueConfig.Mode.Entry)
