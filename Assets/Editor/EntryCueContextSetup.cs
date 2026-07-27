@@ -126,5 +126,16 @@ public static class EntryCueContextSetup
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Animation zum Absetzen der Brille, wenn der Nutzer fragt, wie er wechselt."),
             }
         },
+        new Spec {
+            prefab = "TutorialCue", ctx = "TutorialCue", mode = CueConfig.Mode.Arrival,
+            title = "Probier mich aus", close = "Schließen",
+            note = "Du bist ein Tutorial-Cue zum Ausprobieren. Keine echte Aufgabe und keine Transition. Ermutige den Nutzer, zu sprechen und die Karten/Knöpfe auszuprobieren.",
+            cards = new List<CueCardDef> {
+                Card("text", CueCardKind.Text, "INFO", "Zeige ein kurzes Info-Textpanel, wenn der Nutzer ein Textpanel sehen will.", "Das ist ein Text-Panel – so sehen zusätzliche Infos aus."),
+                Card("bild", CueCardKind.Image, "BILD", "Zeige ein Bild-Panel, wenn der Nutzer ein Bild sehen will."),
+                Card("video", CueCardKind.Video, "VIDEO", "Zeige ein Video-Panel, wenn der Nutzer ein Video sehen will."),
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige ein Live-Fenster in die Realität, wenn der Nutzer es sehen will.", "", 3f),
+            }
+        },
     };
 }
