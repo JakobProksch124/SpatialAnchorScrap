@@ -103,7 +103,7 @@ public class Lecture_TransitionCues : MonoBehaviour
             onInteract: () =>
             {
                 startTransitionCue.SetActive(false);
-                StartCoroutine(FadeInAll(fadeDuration*2));
+                StartCoroutine(FadeInAll(fadeDuration*1.5f));
             },
             onClose: () =>
             {

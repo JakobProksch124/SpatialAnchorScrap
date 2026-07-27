@@ -319,7 +319,7 @@ public class Building_TransitionCues : MonoBehaviour
             entryCueConfig.primaryColor = entryPrimaryColor;
             entryCueConfig.expandedDescription = entryDescription;
             entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
-            entryCueConfig.rightController = rightController;
+            //entryCueConfig.rightController = rightController;
         
 
         entryCueConfig.buttonText = entryButtonText;
@@ -382,7 +382,7 @@ public class Building_TransitionCues : MonoBehaviour
         yield return StartCoroutine(LoadVRRoom());
         
         // Fade out
-        yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(6f, vrRoom));
+        yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(4.5f, vrRoom));
         yield return null;
         var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
 
@@ -910,6 +910,7 @@ public class Building_TransitionCues : MonoBehaviour
                     }
                 }
             }
+            pathGenerator.GetPath();
 
             StartCoroutine(UINotificationSystem.Instance.ShowTextInUI(
                 textToShow: "Continuing navigation to the "+navigationDestination+" ",

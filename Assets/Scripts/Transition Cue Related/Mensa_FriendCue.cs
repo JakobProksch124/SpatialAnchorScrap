@@ -344,7 +344,7 @@ public class Mensa_FriendCue : MonoBehaviour
 
     public void StartNavigationToFriends()
     {
-        UINotificationSystem.Instance.HidePersistentMessage();
+        //UINotificationSystem.Instance.HidePersistentMessage();
         // Hide entry cue
         if (entryCue != null)
             entryCue.SetActive(false);
@@ -392,6 +392,7 @@ public class Mensa_FriendCue : MonoBehaviour
                     }
                 }
             }
+            pathGenerator.GetPath();
             if (UINotificationSystem.Instance != null)
             {
                 StartCoroutine(UINotificationSystem.Instance.ShowTextInUI(

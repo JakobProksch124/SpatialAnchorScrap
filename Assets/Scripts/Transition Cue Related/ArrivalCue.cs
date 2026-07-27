@@ -90,7 +90,7 @@ public class ArrivalCue : MonoBehaviour
     private Material checkmarkMaterialRef;
 
     // --- PathGenerator references ---
-    private MonoBehaviour pathGenerator;
+    private PathGenerator pathGenerator;
     private LineRenderer[] pathLineRenderers;
 
     private static readonly Color DefaultColor = new Color(0.78f, 0.78f, 0.78f); // light grey
@@ -107,7 +107,7 @@ public class ArrivalCue : MonoBehaviour
             Debug.LogWarning("[ArrivalCue] No main camera found!");
 
         // Find PathGenerator component on this GameObject (same pattern as Building_TransitionCues)
-        foreach (var component in GetComponents<MonoBehaviour>())
+        foreach (var component in GetComponents<PathGenerator>())
         {
             if (component.GetType().Name == "PathGenerator")
             {
@@ -533,8 +533,8 @@ public class ArrivalCue : MonoBehaviour
     {
         if (pathGenerator != null)
         {
+            pathGenerator.ClearArrows();
             pathGenerator.enabled = false;
-
             pathLineRenderers = pathGenerator.GetComponentsInChildren<LineRenderer>();
             foreach (var lineRenderer in pathLineRenderers)
             {
