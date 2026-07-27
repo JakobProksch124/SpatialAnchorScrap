@@ -23,6 +23,7 @@ public static class CueInteractionFix
         "Assets/Scenes/Bridge.unity",
         "Assets/Scenes/Lecture.unity",
         "Assets/Scenes/TCTestScene.unity",
+        "Assets/Scenes/PrettyTutorial.unity",
     };
 
     [MenuItem("EntryCue/Fix Duplicate PointableCanvasModules")]
