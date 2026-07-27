@@ -58,12 +58,18 @@ public class CueBillboard : MonoBehaviour
             target = faceUser;
         }
 
+        // lock once the user is close enough to read it — SNAP to fully face the user first,
+        // so a cue that spawns while you're already close (e.g. an arrival cue right after you
+        // enter/teleport) ends up facing you instead of freezing mid-turn.
+        if (mode == FacingMode.TrackThenLock && flatDist <= lockDistance)
+        {
+            transform.rotation = faceUser;
+            _locked = true;
+            return;
+        }
+
         transform.rotation = turnSpeed <= 0f
             ? target
             : Quaternion.Slerp(transform.rotation, target, 1f - Mathf.Exp(-turnSpeed * Time.deltaTime));
-
-        // lock once the user is close enough to read it
-        if (mode == FacingMode.TrackThenLock && flatDist <= lockDistance)
-            _locked = true;
     }
 }

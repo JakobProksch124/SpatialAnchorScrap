@@ -129,6 +129,10 @@ public class Building_TransitionCues : MonoBehaviour
     private Scene loadedVRScene;
     private VRRoomTeleport _teleporter;
 
+    [Tooltip("Max distance (m) the user may teleport from the VR room's UserSpawnPoint, so they " +
+             "can't teleport outside the room. Set to the room's walkable radius; 0 = unbounded.")]
+    [SerializeField] private float teleportWalkableRadius = 4f;
+
     // True while the user is inside any VR room. Positioner reads this to suppress its
     // dev-mode calibration (which shares the thumbstick with teleport) so teleporting
     // can't drag the anchored AR building off the anchor.
@@ -926,6 +930,24 @@ public class Building_TransitionCues : MonoBehaviour
     public void MoveVRRoomToHit(Vector3 hitPoint)
     {
         if (vrRoom == null) return;
+
+        // Clamp the target to the room's walkable area (in room-local space) so the user can't
+        // teleport outside the room. After the move, the user stands at the room-local point that
+        // was under the aim; keep that within teleportWalkableRadius of the UserSpawnPoint.
+        var spawn = vrRoom.transform.Find("UserSpawnPoint");
+        if (spawn != null && teleportWalkableRadius > 0f)
+        {
+            var local = vrRoom.transform.InverseTransformPoint(hitPoint);
+            var localSpawn = vrRoom.transform.InverseTransformPoint(spawn.position);
+            var d = new Vector2(local.x - localSpawn.x, local.z - localSpawn.z);
+            if (d.magnitude > teleportWalkableRadius)
+            {
+                d = d.normalized * teleportWalkableRadius;
+                local.x = localSpawn.x + d.x;
+                local.z = localSpawn.z + d.y;
+                hitPoint = vrRoom.transform.TransformPoint(local);
+            }
+        }
 
         // Player feet position (OVRCameraRig root position)
         Vector3 playerFeet = Camera.main.transform.parent.position;
