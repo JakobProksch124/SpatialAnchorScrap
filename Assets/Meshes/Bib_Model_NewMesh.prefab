@@ -3345,6 +3345,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6565597839903489772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 781420158255233685}
+  m_Layer: 0
+  m_Name: alternateRouteAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &781420158255233685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565597839903489772}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
+  m_LocalPosition: {x: 32.87, y: 2.5, z: -21.254}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3103572488037237033}
+  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
 --- !u!1 &6642978776293179250
 GameObject:
   m_ObjectHideFlags: 0
@@ -3467,6 +3498,7 @@ Transform:
   m_Children:
   - {fileID: 8399379732825461140}
   - {fileID: 2770275863037366065}
+  - {fileID: 781420158255233685}
   - {fileID: 4394912394980126459}
   - {fileID: 6005192364133629521}
   - {fileID: 3533729435843602263}
@@ -3726,6 +3758,23 @@ MonoBehaviour:
   exitArrivalDescription: Follow the arrows to the cafeteria
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 1
+  alternateRouteAnchorName: alternateRouteAnchor
+  alternateRoutePrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  alternateRouteLabel: Alternate Route
+  alternateRouteScreenshotDisplayed: {fileID: 0}
+  alternateRouteDescription: There are a lot of people ahead. Would you like to leave
+    this building already to avoid running into them?
+  alternateRouteButtonText: Yes
+  alternateRouteAlwaysExpand: 0
+  spawnAlternateRouteCue: 1
+  leaveHMDAnchorName: leaveHMDAnchor
+  leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
+  leaveHMDLabel: R
+  leaveHMDScreenshotDisplayed: {fileID: 0}
+  leaveHMDDescription: Take off the headmounted display and look at your phone
+  leaveHMDButtonText: 
+  leaveHMDAlwaysExpand: 1
+  leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4

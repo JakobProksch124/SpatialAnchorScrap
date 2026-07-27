@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.Video;
 
 // Place script directly on the Building Prefab Root
 //transition cues for G64 and Bib
@@ -80,6 +81,35 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string exitArrivalButtonText = "X";
     [SerializeField] private bool exitArrivalAlwaysExpand = false;
 
+
+
+    [Header("Alternate Route Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string alternateRouteAnchorName = "alternateRouteAnchor";
+    [SerializeField] private Color alternateRoutePrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string alternateRouteLabel = "VR";
+    [SerializeField] private Texture2D alternateRouteScreenshotDisplayed;
+    [SerializeField] private string alternateRouteDescription = "Welcome to VR!";
+    [SerializeField] private string alternateRouteButtonText = "X";
+    [SerializeField] private bool alternateRouteAlwaysExpand = false;
+    [SerializeField] private bool spawnAlternateRouteCue = false;
+
+    
+    
+
+    [Header("Leave HMD Cue Infos")]
+    [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
+    [SerializeField] private string leaveHMDAnchorName = "leaveHMDAnchor";
+    [SerializeField] private Color leaveHMDPrimaryColor = new Color(0.8f, 0.4f, 0f);
+    [SerializeField] private string leaveHMDLabel = "R";
+    [SerializeField] private Texture2D leaveHMDScreenshotDisplayed;
+    [SerializeField] private string leaveHMDDescription = "Take off the headmounted display";
+    [SerializeField] private string leaveHMDButtonText = "";
+    [SerializeField] private bool leaveHMDAlwaysExpand = false;
+    [SerializeField] private VideoClip leaveHMDvideoClip;
+
+    private GameObject leaveHMDCue;
+
     [Header("Transition Particles")]
     [SerializeField] private Color enterVRParticleColor = new Color(0.3f, 0.4f, 0.8f);
     [SerializeField] private Color exitVRParticleColor = new Color(0.8f, 0.4f, 0f);
@@ -94,12 +124,16 @@ public class Building_TransitionCues : MonoBehaviour
     private Transform exitArrivalAnchor;
     private Transform startArrivalAnchor;
     private Transform exitCueAnchor;
+    private Transform alternateRouteAnchor;
+
     private GameObject vrRoom;
     private GameObject entryCue;
     private GameObject exitCue;
     private GameObject entryArrivalCue;
     private GameObject exitArrivalCue;
     private GameObject startArrivalCue;
+    private GameObject alternateRouteCue;
+    
 
     private Camera mainCamera;
     private PathGenerator pathGenerator;
@@ -163,6 +197,14 @@ public class Building_TransitionCues : MonoBehaviour
             exitArrivalAnchor = transform;
         }
 
+        // Find alternate route anchor point in this building
+        alternateRouteAnchor = transform.Find(alternateRouteAnchorName);
+        if (alternateRouteAnchor == null)
+        {
+            Debug.LogWarning($"[Building_TransitionCues] Anchor '{alternateRouteAnchor}' not found. Using this transform.");
+            alternateRouteAnchor = transform;
+        }
+
         Debug.Log("creating start arrival cue");
         //Create start arrival cue
         CreateStartArrivalCue(startArrivalAnchor);
@@ -179,6 +221,16 @@ public class Building_TransitionCues : MonoBehaviour
         {
             Debug.Log("spawning arrival cue");
             LeaveHMDCue.SpawnArrivalCue();
+        }
+
+        if (spawnAlternateRouteCue)
+        {
+            Debug.Log("spawning alternate route cue");
+            CreateAlternateRouteCue(alternateRouteAnchor);
+        }
+        else
+        {
+            Debug.Log("not spawning alternate route cue");
         }
     }
 
@@ -782,6 +834,75 @@ public class Building_TransitionCues : MonoBehaviour
             StartArrivalCueConfig.buttonText = startArrivalButtonText;
 
             startArrivalCue = TransitionCueFactory.CreateCue(StartArrivalCueConfig);
+        
+    }
+
+    void CreateAlternateRouteCue(Transform alternateRouteAnchor)
+    {
+
+        // Base
+        TransitionCueConfig alternateRouteConfig = TransitionCueConfig.CreateVRConfig(
+           parent: alternateRouteAnchor,
+           onInteract: () => {alternateRouteCue.SetActive(false);
+           DisablePathGenerator();
+           CreateLeaveCue(alternateRouteAnchor);},
+            onClose: () =>
+            {alternateRouteCue.SetActive(false);
+            },
+            isStandardClose: false
+        );
+
+
+    
+            // Details
+            alternateRouteConfig.alwaysExpanded = alternateRouteAlwaysExpand;
+            alternateRouteConfig.primaryColor = alternateRoutePrimaryColor;
+            alternateRouteConfig.expandedDescription = alternateRouteDescription;
+            alternateRouteConfig.screenshotTexture = alternateRouteScreenshotDisplayed;
+            //alternateRouteConfig.isAnimated = true;
+            //alternateRouteConfig.isMultiStep = true;
+            //alternateRouteConfig.currentStep = 1;
+            //alternateRouteConfig.totalSteps = 2;
+            //entryCueConfig.rightController = rightController;
+        
+
+        alternateRouteConfig.buttonText = alternateRouteButtonText;
+        alternateRouteConfig.label = alternateRouteLabel;
+        alternateRouteCue = TransitionCueFactory.CreateCue(alternateRouteConfig);
+    }
+
+    void CreateLeaveCue(Transform leaveCueAnchor)
+    {
+        // Base (Same basic configuration for enhanced as well as minimal cues
+        TransitionCueConfig leaveHMDCueConfig = TransitionCueConfig.CreateARConfig(
+            parent: leaveCueAnchor,
+            onInteract: () =>
+            {
+            },
+            onClose: () =>
+            {
+            },
+            isStandardClose: true
+        );
+
+
+        // Details for enhanced cues
+        leaveHMDCueConfig.alwaysExpanded = leaveHMDAlwaysExpand;
+        leaveHMDCueConfig.primaryColor = leaveHMDPrimaryColor;
+        leaveHMDCueConfig.expandedDescription = leaveHMDDescription;
+        leaveHMDCueConfig.screenshotTexture = leaveHMDScreenshotDisplayed;
+        leaveHMDCueConfig.videoClip = leaveHMDvideoClip;
+
+        
+        leaveHMDCueConfig.isExpandedPanelInteractable = false;
+        leaveHMDCueConfig.hasButton = false;
+        leaveHMDCueConfig.isTransparent = false;
+        leaveHMDCueConfig.isWhite = true;
+        leaveHMDCueConfig.isBlackText = true;
+        // (Effectively not used if alwaysExpanded)
+        leaveHMDCueConfig.label = leaveHMDLabel;
+        leaveHMDCueConfig.buttonText = leaveHMDButtonText;
+        leaveHMDCue = TransitionCueFactory.CreateCue(leaveHMDCueConfig);
         
     }
 

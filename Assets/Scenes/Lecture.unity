@@ -5212,11 +5212,11 @@ MonoBehaviour:
   leaveHMDAnchorName: leaveHMDAnchor
   leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
   leaveHMDLabel: Leave AR
-  leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 0aab4fdb54e046d4e8d2ea3b6ea0ce05, type: 3}
-  leaveHMDDescription: Take off your headset and look at your phone.
+  leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
+  leaveHMDDescription: Take off your headset and talk to Peter!
   leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
-  leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
+  leaveHMDvideoClip: {fileID: 0}
   startArrivalAnchor: {fileID: 971701140}
   videoPlane: {fileID: 1836749801}
 --- !u!1 &1319152206

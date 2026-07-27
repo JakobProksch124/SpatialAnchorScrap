@@ -1255,7 +1255,7 @@ MonoBehaviour:
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 2800000, guid: deac05cc1d11eb544b5030183d005fdd, type: 3}
-  startArrivalDescription: Follow the arrows to the lecture hall.
+  startArrivalDescription: Follow the arrows to the lecture hall
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 0
   vrRoomTitle: The Laboratory
@@ -1272,7 +1272,7 @@ MonoBehaviour:
   entryArrivalLabel: 
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
   entryArrivalDescription: Welcome to the chemistry lab. Teleport using the controller
-    and count the amount of available work places!.
+    and count the amount of available work places!
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 0
   exitAnchorName: exitAnchor
@@ -1288,7 +1288,7 @@ MonoBehaviour:
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: 
   exitArrivalScreenshotDisplayed: {fileID: 0}
-  exitArrivalDescription: Follow the arrows to the lecture hall.
+  exitArrivalDescription: Follow the arrows to the lecture hall
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
