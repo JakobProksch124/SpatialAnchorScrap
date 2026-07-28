@@ -75,6 +75,15 @@ public class CueInvitationCard : MonoBehaviour
             pad.padding = new RectOffset((int)(res * h), (int)(res * h), (int)(res * v), (int)(res * v));
         }
 
-        if (accentDot) accentDot.gameObject.SetActive(_small);
+        if (accentDot)
+        {
+            accentDot.gameObject.SetActive(_small);
+            // match the theme accent (green on arrival cues) — the prefab bakes entry blue
+            if (accentDot.TryGetComponent<Image>(out var dotImg))
+            {
+                var accent = theme ? theme.Accent : CueTheme.EntryAccent;
+                dotImg.color = new Color(accent.r, accent.g, accent.b, dotImg.color.a);
+            }
+        }
     }
 }
