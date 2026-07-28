@@ -267,7 +267,7 @@ public class CueLLMClient : MonoBehaviour
             _history.Add(new JObject
             {
                 ["role"] = "assistant",
-                ["content"] = roundContent.Length > 0 ? (object)roundContent.ToString() : null,
+                ["content"] = roundContent.Length > 0 ? (JToken)roundContent.ToString() : JValue.CreateNull(),
                 ["tool_calls"] = tcArray
             });
             foreach (var b in toolCalls.Values)
