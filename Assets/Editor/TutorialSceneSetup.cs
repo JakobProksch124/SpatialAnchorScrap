@@ -31,6 +31,7 @@ public static class TutorialSceneSetup
     const string SourceHost = "Assets/Scenes/TeleportationScene.unity";
     const string MatDir = "Assets/LLMCueAssets/Tutorial";
     const string MatPath = MatDir + "/TutorialWhite.mat";
+    const string FloorMatPath = MatDir + "/TutorialFloor.mat";
 
     [MenuItem("EntryCue/Build Tutorial (Host + White Room)")]
     public static void Build()
@@ -59,9 +60,18 @@ public static class TutorialSceneSetup
         var mat = AssetDatabase.LoadAssetAtPath<Material>(MatPath);
         if (mat == null)
         {
-            mat = new Material(Shader.Find("Universal Render Pipeline/Lit")) { color = Color.white };
+            mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             AssetDatabase.CreateAsset(mat, MatPath);
         }
+        mat.color = new Color(0.92f, 0.92f, 0.94f); // off-white walls
+
+        var floorMat = AssetDatabase.LoadAssetAtPath<Material>(FloorMatPath);
+        if (floorMat == null)
+        {
+            floorMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            AssetDatabase.CreateAsset(floorMat, FloorMatPath);
+        }
+        floorMat.color = new Color(0.55f, 0.57f, 0.60f); // grey floor — contrast so the room reads as a room
 
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
@@ -78,7 +88,7 @@ public static class TutorialSceneSetup
         area.AddComponent<TeleportArea>();
 
         // white box room: 8x8 m floor, 3 m walls, closed ceiling (passthrough must not leak in)
-        Cube(root, mat, "Floor",   new Vector3(0, -0.05f, 0),  new Vector3(8, 0.1f, 8));
+        Cube(root, floorMat, "Floor", new Vector3(0, -0.05f, 0), new Vector3(8, 0.1f, 8));
         Cube(root, mat, "Ceiling", new Vector3(0, 3.05f, 0),   new Vector3(8, 0.1f, 8));
         Cube(root, mat, "Wall_N",  new Vector3(0, 1.5f, 4.05f), new Vector3(8, 3, 0.1f));
         Cube(root, mat, "Wall_S",  new Vector3(0, 1.5f, -4.05f), new Vector3(8, 3, 0.1f));
@@ -90,7 +100,7 @@ public static class TutorialSceneSetup
         var light = sun.AddComponent<Light>();
         light.type = LightType.Directional;
         light.intensity = 1.1f;
-        light.shadows = LightShadows.None;
+        light.shadows = LightShadows.Soft;
         sun.transform.rotation = Quaternion.Euler(60f, -35f, 0);
         RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
         RenderSettings.ambientLight = new Color(0.55f, 0.55f, 0.58f);
