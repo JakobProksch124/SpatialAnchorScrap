@@ -33,7 +33,7 @@ public static class EntryCueContextSetup
     const string PrevImis  = MediaDir + "/Screnshots/screenshotEntryBridge 1.png";
     const string VidTele   = MediaDir + "/Videos/Teleportation_4zu3.mp4";
     const string VidAbset  = MediaDir + "/Videos/HMD_Absetzen-4zu3.mp4";
-    const string VidPfeil  = MediaDir + "/Videos/pfeil video .mp4";
+    const string VidPfeil  = MediaDir + "/Videos/pfeil video.mp4";
     const string ImgBus    = MediaDir + "/Immages/Busfahrt.png";
 
     // standard arrival header (README convention)
