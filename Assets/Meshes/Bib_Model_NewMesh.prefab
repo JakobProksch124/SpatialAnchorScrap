@@ -2266,10 +2266,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iMessageAnchorName: iMessageAnchor
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  iMessageLabel: You have received a message from Peter!
-  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 78f9724f03980c344a0accc2632f258e, type: 3}
-  iMessageDescription: Would you like me to show you where the posters are? 1/2
-  iMessageButtonText: Show me
+  iMessageLabel: Du hast eine Nachricht von Peter erhalten!
+  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 160e3026c10ee4aeb9515f9a37b58033, type: 3}
+  iMessageDescription: Soll ich dir zeigen, wo die Poster sind? 1/2
+  iMessageButtonText: Zeig mir
   iMessageAnchor: {fileID: 6005192364133629521}
   notificationSoundPlayer: {fileID: 8292972302890120562}
   readNotificationPlayer: {fileID: 2452056357855687167}
@@ -2277,10 +2277,10 @@ MonoBehaviour:
   readNotificationDelay: 15
   visualVoiceAnchorName: visualVoiceAnchor
   visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  visualVoiceLabel: 'The Poster is in 5m on the left. '
-  visualVoiceDescription: The Poster is in 5m on the left. Would you like me to add
-    it to the navigation? 2/2
-  visualVoiceButtonText: Add as next goal
+  visualVoiceLabel: Die Poster sind in 5 m auf der linken Seite.
+  visualVoiceDescription: Die Poster sind in 5 m auf der linken Seite. Soll ich sie zur
+    Navigation hinzufügen? 2/2
+  visualVoiceButtonText: Als Ziel setzen
   visualVoiceAnchor: {fileID: 3533729435843602263}
   pathGenerator: {fileID: 593722303556831063}
   entryAnchor: {fileID: 4394912394980126459}
@@ -3747,15 +3747,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveHMDAnchorName: LeaveHMDAnchor
   leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
-  leaveHMDLabel: Leave AR
+  leaveHMDLabel: Realität
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 0aab4fdb54e046d4e8d2ea3b6ea0ce05, type: 3}
-  leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
-  leaveHMDButtonText: Leave AR
+  leaveHMDDescription: Ziel erreicht. Setz die Brille ab und schau auf dein Handy.
+  leaveHMDButtonText: Absetzen
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   leaveHMDCuePath: LLMCues/T8_Entry
   targetName: BibTarget
-  locationName: Destination
+  locationName: Ziel
   arrivalDistance: 5
   gazeThreshold: 0.7
   despawnAfter: 3.5
@@ -3769,7 +3769,7 @@ MonoBehaviour:
   turnMaxAngle: 12.5
   turnRotationSpeed: 2
   turnTriggerDistance: 6
-  message: Check your phone!
+  message: Schau auf dein Handy!
 --- !u!1 &7463347187346498711
 GameObject:
   m_ObjectHideFlags: 0

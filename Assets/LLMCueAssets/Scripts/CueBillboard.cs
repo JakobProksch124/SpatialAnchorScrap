@@ -3,9 +3,8 @@ using UnityEngine;
 /// <summary>
 /// Controls how a world-space cue faces the user. Yaw only (stays upright).
 ///
-/// - TrackThenLock (default): turns to face the user as they approach, then FREEZES once the
-///   user is within lockDistance — so it's readable on arrival and then stays put (no swinging
-///   into walls, no re-orienting while you read).
+/// - TrackThenLock (default): continuously turns (yaw only, smoothed by turnSpeed) to keep facing
+///   the user as they move around the room, so the cue stays readable from wherever they stand.
 /// - FaceUser: keeps following the user, but only within a ±maxYawFromBase cone of the first
 ///   toward-user facing.
 /// - Fixed: never rotates — keeps its placed orientation (orient the anchor deliberately).
@@ -25,12 +24,10 @@ public class CueBillboard : MonoBehaviour
     private Transform _head;
     private Quaternion _baseRot;
     private bool _hasBase;
-    private bool _locked;
 
     private void LateUpdate()
     {
         if (mode == FacingMode.Fixed) return;
-        if (mode == FacingMode.TrackThenLock && _locked) return;
 
         if (_head == null)
         {
@@ -56,16 +53,6 @@ public class CueBillboard : MonoBehaviour
         else // TrackThenLock
         {
             target = faceUser;
-        }
-
-        // lock once the user is close enough to read it — SNAP to fully face the user first,
-        // so a cue that spawns while you're already close (e.g. an arrival cue right after you
-        // enter/teleport) ends up facing you instead of freezing mid-turn.
-        if (mode == FacingMode.TrackThenLock && flatDist <= lockDistance)
-        {
-            transform.rotation = faceUser;
-            _locked = true;
-            return;
         }
 
         transform.rotation = turnSpeed <= 0f

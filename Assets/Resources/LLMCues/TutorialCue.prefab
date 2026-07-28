@@ -3495,7 +3495,7 @@ GameObject:
   - component: {fileID: 7248982388044874743}
   - component: {fileID: 2182446209608913315}
   m_Layer: 0
-  m_Name: T1_Arrival
+  m_Name: TutorialCue
   m_TagString: TransitionCue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3750,68 +3750,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd0f65fa6943480dbe17682591d3d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cueName: T1_Arrival
+  cueName: TutorialCue
   mode: 1
   entryTitle: 
   entryHighlight: 
   entryReason: 
-  arrivalTitle: 'Wie kann ich dir helfen? '
+  arrivalTitle: Probier mich aus
   arrivalHighlight: 
-  arrivalReason: 'Hast du Fragen zum Kontext, in dem du dich gerade befindest? '
+  arrivalReason: Sprich mit mir oder klicke, und teste die Karten.
   waitingText: Ich warte auf deine Frage
   listeningText: "Ich h\xF6re zu\u2026"
   thinkingText: Sammle Antworten
   enterLabel: Enter VR
   dismissLabel: Jetzt nicht
   closeLabel: "Schlie\xDFen"
-  assistantNote: "Du bist der ARRIVAL Cue der AR-Navigation. Sprich nur \xFCber die
-    aktuelle AR-Navigation, nicht \xFCber die abgeschlossene Transition."
-  contextText: "# T1 Arrival Cue: Ankunft in AR (Navigation)\n\n## Deine Rolle\nDu
-    bist der Assistent dieses Arrival Cues. Der Nutzer hat gerade die Brille aufgesetzt
-    und ist in AR angekommen. Er sieht bereits den schwebenden Pfeil und muss ihm
-    nur folgen. Sprich **nicht** \xFCber die gerade erfolgte Transition (die ist
-    abgeschlossen), sondern nur \xFCber den aktuellen Kontext: die AR-Navigation
-    und was der Nutzer hier tun kann. Der Cue ist per Sprache und Klick bedienbar.\n\n##
-    Szenario-Hintergrund\n- Ziel: Vorlesung **User Experience Design**, 10:00 Uhr,
-    Geb\xE4ude 64, Raum 0105, Erdgeschoss.\n- Der Weg dauert insgesamt **etwa 3 Minuten**,
-    es ist **mehr als genug Zeit**, kein Grund zur Eile.\n\n## Wo du bist und was
-    du tust\nDu bist jetzt in AR unterwegs. Folge einfach dem **schwebenden Pfeil**,
-    er bringt dich direkt zum Vorlesungsraum. Mehr musst du gerade nicht tun.\n\n##
-    Wie die Navigation funktioniert\n- Dem Pfeil folgen, er **passt sich automatisch**
-    an, w\xE4hrend du gehst.\n- Auf Wunsch gibt es ein kurzes **Video**, das zeigt,
-    wie diese Pfeile entstehen und wie man ihnen folgt.\n\n## Was du dir anzeigen
-    lassen kannst (ausklappbar)\n- Eine **Karte / Minimap** der Strecke, wie der
-    Weg aussieht.\n- Die **verbleibende Dauer**: nur noch wenige Minuten.\n\n## Was
-    unterwegs noch passieren kann\n- Fragt der Nutzer danach: deute an, dass es unterwegs
-    manchmal **Optionen gibt, kurz nach VR zu wechseln**, um sich zus\xE4tzliche
-    Informationen anzuschauen. Erkl\xE4re das hier aber **noch nicht im Detail**.\n\n##
-    Antwortstil und Einschr\xE4nkungen\n- Antworte **kurz** (etwa ein Satz), nur
-    auf Basis der Informationen hier. Beruhigend bei Zeitfragen.\n- Gib **keine**
-    Informationen mehr \xFCber die gerade erfolgte Transition.\n- Erw\xE4hne **keine**
-    Nachrichten von Peter und keine sp\xE4teren Aufgaben, auch wenn danach gefragt
-    wird. Bleib bei der Navigation.\n- Sprich den Nutzer **nicht mit Namen** an.
-    Erfinde nichts, was hier nicht steht.\n"
+  assistantNote: "Du bist ein Tutorial-Cue zum Ausprobieren. Keine echte Aufgabe
+    und keine Transition. Ermutige den Nutzer, zu sprechen und die Karten/Kn\xF6pfe
+    auszuprobieren."
+  contextText: "# Tutorial Cue\n\n## Deine Rolle\nDu bist ein Tutorial-Cue. Der Nutzer
+    lernt gerade, wie er mit den Cues interagiert. Hier gibt es keine echte Aufgabe
+    und keine Transition, es geht nur ums Ausprobieren. Ermutige den Nutzer freundlich,
+    mit dir zu sprechen und die Funktionen auszuprobieren.\n\n## Wie man mit dir
+    interagiert\n- Per Sprache: Knopf dr\xFCcken, sprechen, wieder loslassen. Der
+    Cue h\xF6rt zu und antwortet.\n- Per Klick: die Kn\xF6pfe und Karten am Cue lassen
+    sich anklicken.\n- Du kannst kleine Zusatz-Panels (Karten) einblenden, wenn der
+    Nutzer danach fragt (z. B. ein Bild, ein Video, ein Live-Fenster in die Realit\xE4t,
+    oder einen Text).\n\n## Was du sagen kannst\n- Erkl\xE4re kurz, dass der Nutzer
+    hier alles gefahrlos ausprobieren darf.\n- Wenn er fragt, was er tun kann: reden,
+    Fragen stellen, die Karten anzeigen lassen, den Cue wegklicken.\n- Wenn er fertig
+    ist, kann er den Cue einfach schlie\xDFen.\n\n## Antwortstil\n- Kurz (etwa ein
+    Satz), freundlich, ermutigend. Erfinde keine Aufgaben. Sprich den Nutzer nicht
+    mit Namen an.\n"
   cards:
-  - id: karte
+  - id: text
+    kind: 2
+    widthScale: 1
+    title: INFO
+    caption: 
+    image: {fileID: 0}
+    video: {fileID: 0}
+    bodyText: "Das ist ein Text-Panel \u2013 so sehen zus\xE4tzliche Infos aus."
+    whenToShow: Zeige ein kurzes Info-Textpanel, wenn der Nutzer ein Textpanel sehen
+      will.
+  - id: bild
     kind: 0
     widthScale: 1
-    title: KARTE
-    caption: 
+    title: BILD
+    caption: So sieht ein Bild-Panel aus.
+    image: {fileID: 2800000, guid: e32a53d44366b4c20b1136c36fb7c266, type: 3}
+    video: {fileID: 0}
+    bodyText: 
+    whenToShow: Zeige ein Bild-Panel, wenn der Nutzer ein Bild sehen will.
+  - id: video
+    kind: 1
+    widthScale: 1
+    title: VIDEO
+    caption: So sieht ein Video-Panel aus.
+    image: {fileID: 0}
+    video: {fileID: 32900000, guid: d5e3cdddb8528460ba0b7bfebf3d998b, type: 3}
+    bodyText: 
+    whenToShow: Zeige ein Video-Panel, wenn der Nutzer ein Video sehen will.
+  - id: live
+    kind: 3
+    widthScale: 3
+    title: LIVE
+    caption: Live-Blick in die echte Welt.
     image: {fileID: 0}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Karte/Minimap der Strecke, wenn der Nutzer nach dem Weg
-      oder einer Karte fragt.
-  - id: 'Pfeile '
-    kind: 1
-    widthScale: 1
-    title: Pfeile
-    caption: 
-    image: {fileID: 0}
-    video: {fileID: 0}
-    bodyText: Nur noch wenige Minuten bis zur Vorlesung.
-    whenToShow: 'Ich zeige ein Bild/Animation von den Pfeilen, um zu verdeutlichen,
-      dass man diesen folgen muss, um zur Vorlesung zu kommen '
+    whenToShow: "Zeige ein Live-Fenster in die Realit\xE4t, wenn der Nutzer es sehen
+      will."
 --- !u!114 &3977509939972816125
 MonoBehaviour:
   m_ObjectHideFlags: 0

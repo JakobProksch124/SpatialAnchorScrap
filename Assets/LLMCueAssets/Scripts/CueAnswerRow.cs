@@ -106,12 +106,38 @@ public class CueAnswerRow : MonoBehaviour
         }
         else if (def.kind == CueCardKind.Video && def.video != null)
         {
-            var rt = new RenderTexture(512, 288, 0);
-            var vp = media.gameObject.AddComponent<VideoPlayer>();
-            vp.clip = def.video; vp.isLooping = true; vp.renderMode = VideoRenderMode.RenderTexture;
-            vp.targetTexture = rt; vp.playOnAwake = true; vp.waitForFirstFrame = true;
-            var raw = MakeRaw(media.rectTransform, "Video", rt, Color.white);
+            // Quest / Android robust playback: a runtime-added VideoPlayer must PREPARE first.
+            // Setting playOnAwake + targetTexture without Prepare() leaves the RawImage showing an
+            // empty (black) RenderTexture because the clip loads asynchronously. We prepare, then
+            // size the RenderTexture to the clip, bind it and Play() from prepareCompleted. Audio is
+            // disabled (these are short GIF-like loops) so the hardware decoder never stalls on a
+            // missing AudioSource.
+            var raw = MakeRaw(media.rectTransform, "Video", null, Color.black);
             Stretch(raw.rectTransform);
+
+            var vp = media.gameObject.AddComponent<VideoPlayer>();
+            vp.source = VideoSource.VideoClip;
+            vp.clip = def.video;
+            vp.isLooping = true;
+            vp.renderMode = VideoRenderMode.RenderTexture;
+            vp.audioOutputMode = VideoAudioOutputMode.None;
+            vp.playOnAwake = false;
+            vp.waitForFirstFrame = true;
+            vp.skipOnDrop = true;
+            vp.prepareCompleted += src =>
+            {
+                if (raw == null) return;                     // card was closed before prepare finished
+                int w = (int)src.width, h = (int)src.height;
+                if (w <= 0) w = 512; if (h <= 0) h = 288;
+                var rt = new RenderTexture(w, h, 0, RenderTextureFormat.ARGB32) { name = "CueVideoRT" };
+                rt.Create();
+                src.targetTexture = rt;
+                raw.texture = rt;
+                raw.color = Color.white;
+                media.gameObject.AddComponent<CueVideoRTReleaser>().rt = rt; // free the RT when the card is destroyed
+                src.Play();
+            };
+            vp.Prepare();
         }
         else if (def.kind == CueCardKind.Reality)
         {
@@ -143,14 +169,8 @@ public class CueAnswerRow : MonoBehaviour
         var tagTxt = MakeText(tag, "Label", monoFont, Px(8), TextAlignmentOptions.Center, Color.white);
         Stretch(tagTxt.rectTransform); tagTxt.text = def.title; tagTxt.characterSpacing = 5f;
 
-        if (def.kind == CueCardKind.Video)
-        {
-            var play = MakeImage(media.rectTransform, "Play", circleSprite, new Color(1, 1, 1, 0.16f));
-            play.rectTransform.anchorMin = play.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            play.rectTransform.sizeDelta = new Vector2(Px(42), Px(42));
-            var glyph = MakeText(play.rectTransform, "Glyph", uiFont, Px(15), TextAlignmentOptions.Center, Color.white);
-            Stretch(glyph.rectTransform); glyph.text = "▶";
-        }
+        // No play/pause glyph overlay: the video auto-plays and loops like a GIF, so a play button
+        // would be misleading.
 
         var cap = MakeText(card, "Caption", monoFont, Px(9), TextAlignmentOptions.Left, CueTheme.TextSecondary);
         cap.text = def.caption ?? "";
@@ -216,5 +236,18 @@ public class CueAnswerRow : MonoBehaviour
     {
         rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
         rt.offsetMin = rt.offsetMax = Vector2.zero;
+    }
+}
+
+/// <summary>Releases a runtime video RenderTexture when its host card is destroyed (no GPU leak).</summary>
+public class CueVideoRTReleaser : MonoBehaviour
+{
+    public RenderTexture rt;
+    private void OnDestroy()
+    {
+        if (rt == null) return;
+        rt.Release();
+        Destroy(rt);
+        rt = null;
     }
 }

@@ -236,7 +236,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f4e61db57faef1e4d996125006c70f63, type: 2}
+  - {fileID: 2100000, guid: e1a7113405dd94c4093feabbc81cdc02, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1255,7 +1255,7 @@ MonoBehaviour:
   startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 2800000, guid: deac05cc1d11eb544b5030183d005fdd, type: 3}
-  startArrivalDescription: Follow the arrows to the lecture hall.
+  startArrivalDescription: Folge den Pfeilen zum Hörsaal.
   startArrivalButtonText: Close
   startArrivalAlwaysExpand: 0
   startArrivalCuePath: LLMCues/T1_Arrival
@@ -1290,7 +1290,7 @@ MonoBehaviour:
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: 
   exitArrivalScreenshotDisplayed: {fileID: 0}
-  exitArrivalDescription: Follow the arrows to the lecture hall.
+  exitArrivalDescription: Folge den Pfeilen zum Hörsaal.
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
   exitArrivalCuePath: LLMCues/T3_Arrival
@@ -1312,15 +1312,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveHMDAnchorName: LeaveHMDAnchor
   leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
-  leaveHMDLabel: Leave AR
+  leaveHMDLabel: Realität
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
-  leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
-  leaveHMDButtonText: Leave AR
+  leaveHMDDescription: Ziel erreicht. Setz die Brille ab und schau auf dein Handy.
+  leaveHMDButtonText: Absetzen
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   leaveHMDCuePath: LLMCues/T4_Entry
   targetName: G64Target
-  locationName: Lecture Hall
+  locationName: Hörsaal
   arrivalDistance: 5
   gazeThreshold: 0.7
   despawnAfter: 3.5
@@ -1334,7 +1334,7 @@ MonoBehaviour:
   turnMaxAngle: 12.5
   turnRotationSpeed: 2
   turnTriggerDistance: 6
-  message: Attend the lecture!
+  message: Geh zur Vorlesung!
 --- !u!1 &3468695192290503011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,10 +1469,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iMessageAnchorName: iMessageAnchor
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  iMessageLabel: You have received a message from Peter!
-  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 1331fc9fb5b921243b0c6c23e4f02ebc, type: 3}
-  iMessageDescription: Would you like me to show you where the lab is? 1/2
-  iMessageButtonText: Show me
+  iMessageLabel: Du hast eine Nachricht von Peter erhalten!
+  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 4f34acb42c35442e092ca932285682a1, type: 3}
+  iMessageDescription: Soll ich dir zeigen, wo das Labor ist? 1/2
+  iMessageButtonText: Zeig mir
   iMessageAnchor: {fileID: 2534005402456416928}
   notificationSoundPlayer: {fileID: 6803258545756935040}
   readNotificationPlayer: {fileID: 4967578937458614097}
@@ -1480,10 +1480,10 @@ MonoBehaviour:
   readNotificationDelay: 15
   visualVoiceAnchorName: visualVoiceAnchor
   visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  visualVoiceLabel: The Lab is in 15m on the right.
-  visualVoiceDescription: The Lab is in 15m on the right. Would you like me to add
-    it to the navigation? 2/2
-  visualVoiceButtonText: Add as next goal
+  visualVoiceLabel: Das Labor ist in 15 m auf der rechten Seite.
+  visualVoiceDescription: Das Labor ist in 15 m auf der rechten Seite. Soll ich es zur
+    Navigation hinzufügen? 2/2
+  visualVoiceButtonText: Als Ziel setzen
   visualVoiceAnchor: {fileID: 3910752443247973441}
   pathGenerator: {fileID: 7507650633028084256}
   entryAnchor: {fileID: 4993667396061305196}

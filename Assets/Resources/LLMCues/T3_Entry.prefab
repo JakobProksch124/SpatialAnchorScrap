@@ -3531,7 +3531,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828036464588146c486a5578071f8a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   turnSpeed: 6
+  lockDistance: 1.5
+  maxYawFromBase: 10
 --- !u!114 &2852179229888140200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3749,67 +3752,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cueName: T3_Entry
   mode: 0
-  entryTitle: Wechsel zu AR
+  entryTitle: Wechseln zu AR
   entryHighlight: AR
-  entryReason: Um dir das Chemielabor anzuschauen
+  entryReason: 'Dein Ziel wartet: Die Navigation bringt dich die letzten Meter zur
+    Vorlesung.'
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 
   waitingText: Ich warte auf deine Frage
   listeningText: "Ich h\xF6re zu\u2026"
   thinkingText: Sammle Antworten
-  enterLabel: Exit VR
+  enterLabel: Verlassen
   dismissLabel: Jetzt nicht
   closeLabel: "Schlie\xDFen"
-  assistantNote: You are an ENTRY cue shown before the user enters the target context.
-  contextText: "Target Context: Returning from the VR Clone of the Chemistry Lab
-    to AR\nThe situation\n\nThe user is inside the virtual clone of the chemistry
-    lab, which they entered earlier via the entry cue in front of the real lab. They've
-    had a brief look around (at most two to five minutes) and now want to return
-    to the real environment to continue on their way to the lecture room. An exit
-    cue is available for this.\n\nWhat the transition does\n\nThe transition brings
-    the person back into AR, at the exact spot in building 64, ground floor, where
-    they entered the virtual lab \u2014 directly in front of the real, physical chemistry
-    lab. This isn't a new location; it's a return to the starting point.\n\nHow the
-    transition works\nTriggering it: Via the exit cue, visible/accessible at any
-    point during the virtual visit. No extra step, no confirmation required.\nThe
-    transition itself: Leaving is quick \u2014 about a second, with a short transition
-    animation as the person glides out of the virtual scene and into the real AR
-    view.\nNo interruption: The navigation task toward the lecture room, which was
-    running before entering the lab, resumes seamlessly \u2014 nothing is lost, no
-    task needs to be restarted.\nWhat holds true after returning\nThe person is back
-    in front of the real lab, where people are actually working right now \u2014
-    without having entered the room or disturbed anyone.\nPeter's message asking
-    about the number of working stations can now be answered, since the person counted
-    the stations themselves during the virtual walkthrough.\nThere are no further
-    steps or tasks when exiting \u2014 the cue leads directly back into AR mode."
+  assistantNote: "Du bist der ENTRY Cue, gezeigt VOR der Transition. Sprich \xFCber
+    die Transition und den Zielkontext."
+  contextText: "# T3 Entry Cue: VR (Chemielabor) zu AR\n\n## Deine Rolle\nDu bist
+    der Assistent dieses Entry Cues. Der Cue erscheint im virtuellen Chemielabor,
+    sobald der Nutzer den Arrival Cue weggeklickt hat. Er zeigt ein **Fenster mit
+    einer Live-Preview der echten Welt**: durch dieses Fenster sieht der Nutzer live,
+    was sich dahinter in der Realit\xE4t befindet, kein Standbild. Der Cue ist per
+    Sprache und Klick bedienbar.\n\n## Szenario-Hintergrund\n- Der Nutzer war im
+    Labor, um f\xFCr Peter die **verf\xFCgbaren St\xFChle zu z\xE4hlen**.\n- Eigentliches
+    Ziel: die Vorlesung **User Experience Design**, 10:00 Uhr, Geb\xE4ude 64, Raum
+    0105.\n- Es sind noch **etwa 10 Minuten** bis zur Vorlesung, also gen\xFCgend
+    Zeit und kein Grund zur Eile.\n\n## Wohin du wechseln kannst\nZur\xFCck nach
+    **AR**, also in die reale Umgebung mit Navigations-Overlay. Das Live-Fenster
+    zeigt schon jetzt, wie es drau\xDFen aussieht.\n\n## Was du dir vorab anzeigen
+    lassen kannst\n- Das **Live-Fenster in die Realit\xE4t** direkt am Cue.\n- Fragt
+    der Nutzer, was nochmal das Ziel war: **zur Vorlesung kommen**. Nach der R\xFCckkehr
+    geht es die letzten Meter zum Vorlesungsraum.\n\n## Wie du dich nach der R\xFCckkehr
+    bewegst\n- **Keine Vorschau-Bilder n\xF6tig:** drau\xDFen l\xE4uft der Nutzer
+    einfach normal zu Fu\xDF weiter, wie vor dem Laborbesuch.\n- Die AR-Navigation
+    (Pfeil) f\xFChrt ihn weiter zum Vorlesungsraum.\n\n## Der \xDCbergang selbst\n-
+    Ausl\xF6sen per **Klick oder per Sprache**.\n- Der Wechsel ist derselbe **kurze,
+    z\xFCgige Fade wie beim Hineingehen**.\n- **Nichts geht verloren:** die Navigation
+    zur Vorlesung wird nahtlos fortgesetzt.\n- Wichtig: einmal drau\xDFen, geht es
+    **nicht zur\xFCck ins Labor**. Der Laborbesuch ist dann erledigt.\n\n## Peters
+    Auftrag (nur auf Nachfrage)\n- Fragt der Nutzer, was er mit der gez\xE4hlten
+    Stuhl-Zahl machen soll: die kann er **Peter nachher beim gemeinsamen Mittagessen
+    in der Mensa pr\xE4sentieren**.\n- Nenne selbst KEINE Zahl, du kennst sie nicht.\n\n##
+    Antwortstil und Einschr\xE4nkungen\n- Antworte **kurz** (etwa ein Satz), nur
+    auf Basis der Informationen hier. Beruhigend bei Zeitfragen: es ist gen\xFCgend
+    Zeit.\n- Sprich den Nutzer **nicht mit Namen** an. Erfinde nichts, was hier nicht
+    steht.\n"
   cards:
-  - id: preview
-    kind: 0
-    title: PREVIEW
-    caption: Das Chemielabor, das du betrittst
+  - id: live
+    kind: 3
+    widthScale: 3
+    title: LIVE
+    caption: Live-Ansicht der echten Welt vor dir, kein Standbild.
     image: {fileID: 0}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Show when the user asks what the lab looks like or to see/preview
-      it.
-  - id: interact
-    kind: 1
-    title: VIDEO
-    caption: "Bewegung \xB7 Teleport"
-    image: {fileID: 0}
-    video: {fileID: 0}
-    bodyText: 
-    whenToShow: Show when the user asks how to move or interact (teleport, controllers).
-  - id: navigate
-    kind: 2
-    title: Orientierung
-    caption: 
-    image: {fileID: 0}
-    video: {fileID: 0}
-    bodyText: "1. Ziel anschauen, zum Teleportieren greifen.\n2. Rechten Stick tippen
-      zum Drehen.\n3. Umschauen, um die Arbeitspl\xE4tze zu finden."
-    whenToShow: Show when the user asks how to get around or orient inside.
+    whenToShow: "Zeige das Live-Fenster in die Realit\xE4t, wenn der Nutzer sehen
+      will, wie es drau\xDFen gerade aussieht."
 --- !u!114 &3977509939972816125
 MonoBehaviour:
   m_ObjectHideFlags: 0

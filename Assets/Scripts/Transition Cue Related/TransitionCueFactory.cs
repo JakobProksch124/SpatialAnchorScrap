@@ -497,16 +497,24 @@ public static class TransitionCueFactory
 
         Renderer renderer = videoQuad.GetComponent<Renderer>();
 
-        // Create render texture for video output
-        RenderTexture renderTexture = new RenderTexture(1024, 1024, 0);
+        // Create render texture for video output. MUST be Create()d before the hardware decoder
+        // writes into it, or the quad stays black on Quest/Android.
+        RenderTexture renderTexture = new RenderTexture(1024, 1024, 0, RenderTextureFormat.ARGB32);
+        renderTexture.Create();
+
+        Material videoMat = new Material(Shader.Find("Unlit/Texture"));
+        videoMat.mainTexture = renderTexture;
+        videoMat.renderQueue = 3100;
+        renderer.material = videoMat;
 
         // Setup video player
         VideoPlayer videoPlayer = videoQuad.AddComponent<VideoPlayer>();
-        videoPlayer.playOnAwake = true;
+        videoPlayer.playOnAwake = false;              // never auto-play a runtime-added player
+        videoPlayer.waitForFirstFrame = true;
         videoPlayer.isLooping = true;
         videoPlayer.renderMode = VideoRenderMode.RenderTexture;
         videoPlayer.targetTexture = renderTexture;
-        videoPlayer.source = VideoSource.VideoClip; // or VideoSource.VideoClip
+        videoPlayer.source = VideoSource.VideoClip;
         if (config.isVoiceCue)
         {
             videoPlayer.loopPointReached += (vp) =>
@@ -520,14 +528,10 @@ public static class TransitionCueFactory
             videoPlayer.clip = config.videoClip;
         }
 
-        Material videoMat = new Material(Shader.Find("Unlit/Texture"));
-        videoMat.mainTexture = renderTexture;
-        videoMat.renderQueue = 3100;
-
-        renderer.material = videoMat;
-
+        // On Android the clip loads asynchronously — Play() only after prepareCompleted, otherwise
+        // the first frames render black and playback can silently fail to start.
+        videoPlayer.prepareCompleted += vp => vp.Play();
         videoPlayer.Prepare();
-        videoPlayer.Play();
 
         return videoCenterY - (videoHeight / 2);
     }
