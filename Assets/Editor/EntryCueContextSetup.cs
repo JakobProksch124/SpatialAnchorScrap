@@ -280,14 +280,35 @@ public static class EntryCueContextSetup
         // ---------------- Tutorial (Ausprobieren) ----------------
         new Spec {
             prefab = "TutorialCue", ctx = "TutorialCue", mode = CueConfig.Mode.Arrival,
-            title = "Probier mich aus", reason = "Sprich mit mir oder klicke, und teste die Karten.",
+            title = "Probier mich aus", reason = "Stell mir Fragen, teste die Panels und übe das Teleportieren.",
             close = "Schließen",
-            note = "Du bist ein Tutorial-Cue zum Ausprobieren. Keine echte Aufgabe und keine Transition. Ermutige den Nutzer, zu sprechen und die Karten/Knöpfe auszuprobieren.",
+            note = "Du bist ein Übungs-Arrival-Cue. Keine echte Aufgabe. Ermutige den Nutzer, zu sprechen, die Panels und die Teleportation auszuprobieren.",
             cards = new List<CueCardDef> {
                 Card("text", CueCardKind.Text, "INFO", "Zeige ein kurzes Info-Textpanel, wenn der Nutzer ein Textpanel sehen will.", "", "Das ist ein Text-Panel – so sehen zusätzliche Infos aus."),
                 Card("bild", CueCardKind.Image, "BILD", "Zeige ein Bild-Panel, wenn der Nutzer ein Bild sehen will.", "So sieht ein Bild-Panel aus.", asset: PrevLab),
                 Card("video", CueCardKind.Video, "VIDEO", "Zeige ein Video-Panel, wenn der Nutzer ein Video sehen will.", "So sieht ein Video-Panel aus.", asset: VidTele),
                 Card("live", CueCardKind.Reality, "LIVE", "Zeige ein Live-Fenster in die Realität, wenn der Nutzer es sehen will.", "Live-Blick in die echte Welt.", "", 3f),
+            }
+        },
+        new Spec {
+            prefab = "TutorialCue_Entry", ctx = "TutorialCue_Entry", mode = CueConfig.Mode.Entry,
+            title = "Wechseln zu VR", highlight = "VR",
+            reason = "Übung: Sprich mit mir oder nutz die Knöpfe, um den Wechsel auszuprobieren.",
+            enter = "Betreten", dismiss = "Jetzt nicht",
+            note = "Du bist ein Übungs-Entry-Cue. Keine echte Aufgabe. Erkläre geduldig, wie man mit Cues spricht, klickt und den Wechsel startet.",
+            cards = new List<CueCardDef> {
+                Card("anleitung", CueCardKind.Text, "SO GEHT'S", "Zeige das Anleitungs-Panel, wenn der Nutzer wissen will, wie man mit dem Cue spricht oder klickt.", "", "Nah herangehen und einfach losreden – oder A drücken. Die Knöpfe unten kannst du mit dem Strahl anklicken."),
+                Card("teleport", CueCardKind.Video, "TELEPORT", "Zeige die Teleport-Animation, wenn der Nutzer wissen will, wie man sich in VR bewegt.", "So bewegst du dich gleich in VR: rechter Stick, zielen, loslassen.", asset: VidTele),
+            }
+        },
+        new Spec {
+            prefab = "TutorialCue_Exit", ctx = "TutorialCue_Exit", mode = CueConfig.Mode.Entry,
+            title = "Wechseln zu AR", highlight = "AR",
+            reason = "Zurück in die echte Welt – probier vorher das Live-Fenster aus.",
+            enter = "Verlassen", dismiss = "Jetzt nicht",
+            note = "Du bist ein Übungs-Entry-Cue für den Rückweg nach AR. Lade zum Live-Fenster ein; der Wechsel passiert erst auf klaren Wunsch.",
+            cards = new List<CueCardDef> {
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 3f),
             }
         },
     };
