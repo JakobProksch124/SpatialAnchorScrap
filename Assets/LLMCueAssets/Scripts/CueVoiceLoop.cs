@@ -223,7 +223,7 @@ public class CueVoiceLoop : MonoBehaviour
                 CloseCueRoot();
                 return "cue closed";
             }
-            CueLogger.Event("dismiss_requested_ignored");
+            CueLogger.Event("dismiss_requested_ignored", "voice");
             return "closing is not available on this cue";
         }
 

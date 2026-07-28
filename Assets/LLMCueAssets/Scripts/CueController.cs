@@ -58,7 +58,13 @@ public class CueController : MonoBehaviour
     void SetButtonMode(bool arrival, string enter, string dismiss, string close)
     {
         if (enterButton) enterButton.SetActive(!arrival);
-        if (dismissButton) dismissButton.SetActive(!arrival);
+        if (dismissButton)
+        {
+            dismissButton.SetActive(!arrival);
+            // "Jetzt nicht" never closes the cue, but the ATTEMPT must be logged (study data).
+            if (!arrival && dismissButton.GetComponent<DismissButtonFunctionality>() == null)
+                dismissButton.AddComponent<DismissButtonFunctionality>();
+        }
         if (closeButton) closeButton.SetActive(arrival);
         if (enterLabel) enterLabel.text = enter;
         if (dismissLabel) dismissLabel.text = dismiss;
