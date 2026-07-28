@@ -273,6 +273,7 @@ public static class EntryCueContextSetup
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("busplan", CueCardKind.Image, "FAHRPLAN", "Zeige den Busfahrplan, wenn der Nutzer nach dem Bus, der Abfahrt oder dem Fahrplan fragt.", "Die nächsten Abfahrten ab Haltestelle Technische Hochschule.", asset: ImgBus),
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 3f),
             }
         },
 

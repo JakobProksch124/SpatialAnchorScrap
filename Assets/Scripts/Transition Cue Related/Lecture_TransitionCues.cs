@@ -109,6 +109,13 @@ public class Lecture_TransitionCues : MonoBehaviour
                      FindObjectsInactive.Include, FindObjectsSortMode.None))
             ti.gameObject.SetActive(false);
 
+        // The A->Jump (and left-stick slide) input lives in "ControllerLocomotionSlideActions"
+        // objects, NOT in the TeleportInteractor — disable those too. The Locomotor stays on for
+        // gravity/grounding (seats the user), it just never receives movement input anymore.
+        foreach (var t in FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            if (t.name.Contains("LocomotionSlideActions"))
+                t.gameObject.SetActive(false);
+
         HideAllChildren();
 
         // Start the sequence
