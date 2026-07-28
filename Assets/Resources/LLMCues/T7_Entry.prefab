@@ -3754,7 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Wechseln zu AR
   entryHighlight: AR
-  entryReason: 'Weiter zur Mensa: Peter wartet schon auf dich.'
+  entryReason: Weiter geht es zur Mensa.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 

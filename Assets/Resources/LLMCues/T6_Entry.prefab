@@ -3754,7 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Wechseln zu VR
   entryHighlight: VR
-  entryReason: 'Open Lab Day: Sieh dir das IMIS-Labor von Prof. Jetter virtuell an.'
+  entryReason: Open Lab Day – wirf einen Blick ins IMIS-Labor.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 

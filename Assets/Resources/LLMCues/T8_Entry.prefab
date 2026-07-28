@@ -3754,8 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Wechseln zum Smartphone
   entryHighlight: Smartphone
-  entryReason: "Bibliothek geschafft: Setz die Brille ab, drau\xDFen sind es nur
-    noch 100 Meter zur Mensa."
+  entryReason: Du kannst die Brille jetzt absetzen.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 

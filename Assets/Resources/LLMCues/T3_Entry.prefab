@@ -3754,8 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Wechseln zu AR
   entryHighlight: AR
-  entryReason: 'Dein Ziel wartet: Die Navigation bringt dich die letzten Meter zur
-    Vorlesung.'
+  entryReason: Draußen geht es weiter zur Vorlesung.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 

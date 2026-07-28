@@ -3754,8 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Wechseln zu VR
   entryHighlight: VR
-  entryReason: "Erledige Peters Auftrag: Sieh dir das Chemielabor virtuell an und
-    z\xE4hle die freien St\xFChle."
+  entryReason: Peters Auftrag wartet im virtuellen Chemielabor.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 

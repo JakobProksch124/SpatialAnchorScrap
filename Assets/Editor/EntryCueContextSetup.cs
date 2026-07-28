@@ -132,7 +132,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T2_Entry", ctx = "T2_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zu VR", highlight = "VR",
-            reason = "Erledige Peters Auftrag: Sieh dir das Chemielabor virtuell an und zähle die freien Stühle.",
+            reason = "Peters Auftrag wartet im virtuellen Chemielabor.",
             enter = "Betreten", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("vorschau", CueCardKind.Image, "VORSCHAU", "Zeige die Vorschau des Labors, wenn der Nutzer sehen will, wie das Labor oder die Tische aussehen.", "So sieht das virtuelle Labor mit Tischen und Stühlen aus.", asset: PrevLab),
@@ -149,7 +149,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T3_Entry", ctx = "T3_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zu AR", highlight = "AR",
-            reason = "Dein Ziel wartet: Die Navigation bringt dich die letzten Meter zur Vorlesung.",
+            reason = "Draußen geht es weiter zur Vorlesung.",
             enter = "Verlassen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 3f),
@@ -167,7 +167,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T4_Entry", ctx = "T4_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
-            reason = "Ziel erreicht: Du kannst die Brille jetzt absetzen.",
+            reason = "Ziel erreicht – du kannst die Brille absetzen.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er wechselt oder die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
@@ -186,7 +186,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T6_Entry", ctx = "T6_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zu VR", highlight = "VR",
-            reason = "Open Lab Day: Sieh dir das IMIS-Labor von Prof. Jetter virtuell an.",
+            reason = "Open Lab Day – wirf einen Blick ins IMIS-Labor.",
             enter = "Betreten", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("vorschau", CueCardKind.Image, "VORSCHAU", "Zeige die Vorschau des IMIS-Labors, wenn der Nutzer sehen will, wie es drinnen aussieht.", "So sieht das Labor der AG Jetter von innen aus.", asset: PrevImis),
@@ -203,7 +203,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T7_Entry", ctx = "T7_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zu AR", highlight = "AR",
-            reason = "Weiter zur Mensa: Peter wartet schon auf dich.",
+            reason = "Weiter geht es zur Mensa.",
             enter = "Verlassen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Bibliothek, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 3f),
@@ -220,7 +220,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T8_Entry", ctx = "T8_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
-            reason = "Bibliothek geschafft: Setz die Brille ab, draußen sind es nur noch 100 Meter zur Mensa.",
+            reason = "Du kannst die Brille jetzt absetzen.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
@@ -236,7 +236,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T10_Entry", ctx = "T10_Entry", mode = CueConfig.Mode.Entry,
             title = "Navigation starten", highlight = "",
-            reason = "Bestellung bestätigt: Lass dich nach oben zu Peter führen.",
+            reason = "Bestellung bestätigt – lass dich zu Peter führen.",
             enter = "Starten", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("wegkarte", CueCardKind.Image, "KARTE", "Zeige die Karte des Weges nach oben, wenn der Nutzer nach dem Weg oder einer Karte fragt.", "Über die Treppe nach oben zu Peter, etwa 2 Minuten.", asset: MiniMensa),
@@ -252,7 +252,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T11_Entry", ctx = "T11_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
-            reason = "Angekommen: Peter sitzt vor dir, du kannst die Brille absetzen.",
+            reason = "Angekommen – du kannst die Brille absetzen.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
@@ -268,7 +268,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T13_Entry", ctx = "T13_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
-            reason = "Dein Bus kommt bald: Setz die Brille ab und mach dich zur Haltestelle auf.",
+            reason = "Dein Bus kommt bald.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("busplan", CueCardKind.Image, "FAHRPLAN", "Zeige den Busfahrplan, wenn der Nutzer nach dem Bus, der Abfahrt oder dem Fahrplan fragt.", "Die nächsten Abfahrten ab Haltestelle Technische Hochschule.", asset: ImgBus),

@@ -3754,7 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Wechseln zum Smartphone
   entryHighlight: Smartphone
-  entryReason: 'Angekommen: Peter sitzt vor dir, du kannst die Brille absetzen.'
+  entryReason: Angekommen – du kannst die Brille absetzen.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 

@@ -3754,7 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Navigation starten
   entryHighlight: 
-  entryReason: "Bestellung best\xE4tigt: Lass dich nach oben zu Peter f\xFChren."
+  entryReason: Bestellung bestätigt – lass dich zu Peter führen.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 
