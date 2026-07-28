@@ -377,7 +377,7 @@ public class Mensa_FriendCue : MonoBehaviour
             if (UINotificationSystem.Instance != null)
             {
                 StartCoroutine(UINotificationSystem.Instance.ShowTextInUI(
-                    textToShow: navigationDestination,
+                    textToShow: "Navigation zu " + navigationDestination,
                     swipeSpeed: 2.0f,
                     displayDuration: 3.0f,
                     yOffset: -50f

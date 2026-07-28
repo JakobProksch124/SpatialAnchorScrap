@@ -1248,7 +1248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Laboratory
-  navigationDestination: Lecture
+  navigationDestination: Hörsaal
   ExtraARContent: {fileID: 0}
   IMessageCueScript: {fileID: 2521268298649085863}
   startArrivalAnchorName: startArrivalAnchor
@@ -1256,32 +1256,32 @@ MonoBehaviour:
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 2800000, guid: deac05cc1d11eb544b5030183d005fdd, type: 3}
   startArrivalDescription: Folge den Pfeilen zum Hörsaal.
-  startArrivalButtonText: Close
+  startArrivalButtonText: Schließen
   startArrivalAlwaysExpand: 0
   startArrivalCuePath: LLMCues/T1_Arrival
-  vrRoomTitle: The Laboratory
+  vrRoomTitle: Chemielabor
   entryCuePath: LLMCues/T2_Entry
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  entryLabel: VR - Chemistry Lab
+  entryLabel: VR – Chemielabor
   entryScreenshotDisplayed: {fileID: 2800000, guid: 2648a0f314811a949ba9cf297b5f9bdb, type: 3}
-  entryDescription: Curious what the chemistry lab looks like? Explore it in VR.
-  entryButtonText: Switch to VR
+  entryDescription: Neugierig, wie das Chemielabor aussieht? Erkunde es in VR.
+  entryButtonText: Zu VR wechseln
   entryAlwaysExpand: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: 
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
-  entryArrivalDescription: Welcome to the chemistry lab. Teleport to explore.
-  entryArrivalButtonText: Close
+  entryArrivalDescription: Willkommen im Chemielabor. Teleportiere dich, um dich umzusehen.
+  entryArrivalButtonText: Schließen
   entryArrivalAlwaysExpand: 0
   entryArrivalCuePath: LLMCues/T2_Arrival
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  exitLabel: Switch to AR
+  exitLabel: AR
   exitScreenshotDisplayed: {fileID: 0}
   exitDescription: Your lecture is starting soon. Return to AR-Navigation.
-  exitButtonText: Switch to AR
+  exitButtonText: Zu AR wechseln
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitCueDelay: 20
@@ -1291,7 +1291,7 @@ MonoBehaviour:
   exitArrivalLabel: 
   exitArrivalScreenshotDisplayed: {fileID: 0}
   exitArrivalDescription: Folge den Pfeilen zum Hörsaal.
-  exitArrivalButtonText: Close
+  exitArrivalButtonText: Schließen
   exitArrivalAlwaysExpand: 0
   exitArrivalCuePath: LLMCues/T3_Arrival
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}

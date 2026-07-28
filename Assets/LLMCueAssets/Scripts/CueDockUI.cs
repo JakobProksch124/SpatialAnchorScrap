@@ -38,9 +38,9 @@ public class CueDockUI : MonoBehaviour
     private static readonly Color AnswerText = new(226/255f, 232/255f, 255/255f, 0.92f);
 
     private CueVisualState _state = CueVisualState.Idle;
-    private string _waiting = "Waiting for your question";
-    private string _listening = "Listening…";
-    private string _thinking = "Gathering answers";
+    private string _waiting = "Ich warte auf deine Frage";
+    private string _listening = "Ich höre zu…";
+    private string _thinking = "Sammle Antworten";
     private Coroutine _typing;
 
     /// <summary>Set the status-box strings from CueConfig.</summary>
