@@ -23,4 +23,6 @@ MonoBehaviour:
     voiceId: utkd5fchbspYG3Ld0zt0
   - name: Rachel (premade)
     voiceId: 21m00Tcm4TlvDq8ikWAM
-  active: 2
+  - name: Studienstimme
+    voiceId: 3qNCGzcEfpoyUq5CLxZA
+  active: 5
