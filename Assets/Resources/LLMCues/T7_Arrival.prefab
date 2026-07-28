@@ -3766,19 +3766,22 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ARRIVAL Cue im Zielkontext. Sprich NUR \xFCber den
     aktuellen Kontext, nicht \xFCber die abgeschlossene Transition."
-  contextText: "# T7 Arrival Cue: Zur\xFCck in AR, zum Hauptausgang der Bibliothek\n\n##
-    Deine Rolle\nDu bist der Assistent dieses Arrival Cues. Der Nutzer ist aus dem
-    virtuellen IMIS-Labor zur\xFCck in AR in der Bibliothek. Sprich nicht \xFCber
-    die gerade erfolgte Transition, nur \xFCber den aktuellen Kontext. Halte dich
-    offen und neutral. Der Cue ist per Sprache und Klick bedienbar.\n\n## Wo du bist
-    und was du tust\nWieder in AR in der Bibliothek. Einfach weiter den Pfeilen folgen:
-    bis zum Hauptausgang der Bibliothek sind es noch etwa 2 Minuten. Danach sind
-    es nur ein paar Meter bis zur Mensa, wo Peter wartet.\n\n## Zur\xFCck ins Labor?\n-
-    Nein, der Besuch beim Open Lab Day ist erledigt. Es geht jetzt weiter zur Mensa.\n\n##
-    Antwortstil und Einschr\xE4nkungen\n- Antworte kurz (etwa ein Satz), nur auf
-    Basis dieser Informationen. Beruhigend bei Zeitfragen: Peter wartet ohne festen
-    Termin.\n- Gib keine Informationen \xFCber die gerade erfolgte Transition.\n-
-    Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.\n"
+  contextText: "# T7 Arrival Cue: Zurück in AR, zum Hauptausgang der Bibliothek
+
+## Deine Rolle
+Du bist der Assistent dieses Arrival Cues. Der Nutzer ist aus dem virtuellen BRIDGE Lab zurück in AR in der Bibliothek. Sprich nicht über die gerade erfolgte Transition, nur über den aktuellen Kontext. Halte dich offen und neutral. Der Cue ist per Sprache und Klick bedienbar.
+
+## Wo du bist und was du tust
+Wieder in AR in der Bibliothek. Einfach weiter den Pfeilen folgen: bis zum Hauptausgang der Bibliothek sind es noch etwa 2 Minuten. Danach sind es nur ein paar Meter bis zur Mensa, wo Peter wartet.
+
+## Zurück ins Labor?
+- Nein, der Besuch beim Open Lab Day ist erledigt. Es geht jetzt weiter zur Mensa.
+
+## Antwortstil und Einschränkungen
+- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen. Beruhigend bei Zeitfragen: Peter wartet ohne festen Termin.
+- Gib keine Informationen über die gerade erfolgte Transition.
+- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
+"
   cards:
   - id: standort
     kind: 0

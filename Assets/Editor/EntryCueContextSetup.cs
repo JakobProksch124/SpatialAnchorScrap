@@ -174,7 +174,7 @@ public static class EntryCueContextSetup
             }
         },
 
-        // ---------------- Bib / Bridge (IMIS Open Lab) ----------------
+        // ---------------- Bib / Bridge (BRIDGE Lab Open Day) ----------------
         new Spec {
             prefab = "T5_Arrival", ctx = "T5_Arrival", mode = CueConfig.Mode.Arrival,
             title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
@@ -186,10 +186,10 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T6_Entry", ctx = "T6_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zu VR", highlight = "VR",
-            reason = "Open Lab Day – wirf einen Blick ins IMIS-Labor.",
+            reason = "Open Lab Day – wirf einen Blick ins BRIDGE Lab.",
             enter = "Betreten", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
-                Card("vorschau", CueCardKind.Image, "VORSCHAU", "Zeige die Vorschau des IMIS-Labors, wenn der Nutzer sehen will, wie es drinnen aussieht.", "So sieht das Labor der AG Jetter von innen aus.", asset: PrevImis),
+                Card("vorschau", CueCardKind.Image, "VORSCHAU", "Zeige die Vorschau des BRIDGE Labs, wenn der Nutzer sehen will, wie es drinnen aussieht.", "So sieht das Labor der AG Jetter von innen aus.", asset: PrevImis),
                 Card("teleport", CueCardKind.Video, "TELEPORT", "Zeige die Teleport-Animation, wenn der Nutzer fragt, wie man sich bewegt.", "Mit dem rechten Controller auf eine Stelle zeigen und dich dorthin teleportieren.", asset: VidTele),
             }
         },
