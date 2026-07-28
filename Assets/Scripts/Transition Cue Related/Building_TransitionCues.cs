@@ -129,9 +129,12 @@ public class Building_TransitionCues : MonoBehaviour
     private Scene loadedVRScene;
     private VRRoomTeleport _teleporter;
 
-    [Tooltip("Max distance (m) the user may teleport from the VR room's UserSpawnPoint, so they " +
-             "can't teleport outside the room. Set to the room's walkable radius; 0 = unbounded.")]
-    [SerializeField] private float teleportWalkableRadius = 4f;
+    [Tooltip("Walkable half-extent (m) along the room's local X axis, centred on UserSpawnPoint. " +
+             "Teleport targets outside are REJECTED (red beam). 0 = unbounded.")]
+    [SerializeField] private float teleportWalkableHalfX = 3f;
+
+    [Tooltip("Walkable half-extent (m) along the room's local Z axis, centred on UserSpawnPoint.")]
+    [SerializeField] private float teleportWalkableHalfZ = 3f;
 
     // True while the user is inside any VR room. Positioner reads this to suppress its
     // dev-mode calibration (which shares the thumbstick with teleport) so teleporting
@@ -927,27 +930,45 @@ public class Building_TransitionCues : MonoBehaviour
         return null;
     }
 
+    /// <summary>True if the world point lies inside the room's walkable rectangle —
+    /// half-extents along the ROOM's local axes, centred on UserSpawnPoint (so it matches the
+    /// walls regardless of how the room was rotated to align with the user).</summary>
+    public bool IsWithinWalkable(Vector3 worldPoint)
+    {
+        if (vrRoom == null) return false;
+        var spawn = vrRoom.transform.Find("UserSpawnPoint");
+        if (spawn == null || (teleportWalkableHalfX <= 0f && teleportWalkableHalfZ <= 0f)) return true;
+
+        var local = vrRoom.transform.InverseTransformPoint(worldPoint);
+        var localSpawn = vrRoom.transform.InverseTransformPoint(spawn.position);
+        var dx = Mathf.Abs(local.x - localSpawn.x);
+        var dz = Mathf.Abs(local.z - localSpawn.z);
+        return (teleportWalkableHalfX <= 0f || dx <= teleportWalkableHalfX)
+            && (teleportWalkableHalfZ <= 0f || dz <= teleportWalkableHalfZ);
+    }
+
+    /// <summary>Recovery: slide the room so the user stands back at UserSpawnPoint (e.g. after
+    /// getting lost outside the room). Triggered by holding B on the right controller.</summary>
+    public void ResetToSpawn()
+    {
+        if (vrRoom == null || Camera.main == null) return;
+        var spawn = vrRoom.transform.Find("UserSpawnPoint");
+        if (spawn == null) return;
+
+        Vector3 playerFeet = Camera.main.transform.parent.position;
+        Vector3 offset = playerFeet - spawn.position;
+        offset.y = 0f;
+        vrRoom.transform.position += offset;
+        Debug.Log("[Building_TransitionCues] ResetToSpawn: room re-centred on the user.");
+    }
+
     public void MoveVRRoomToHit(Vector3 hitPoint)
     {
         if (vrRoom == null) return;
 
-        // Clamp the target to the room's walkable area (in room-local space) so the user can't
-        // teleport outside the room. After the move, the user stands at the room-local point that
-        // was under the aim; keep that within teleportWalkableRadius of the UserSpawnPoint.
-        var spawn = vrRoom.transform.Find("UserSpawnPoint");
-        if (spawn != null && teleportWalkableRadius > 0f)
-        {
-            var local = vrRoom.transform.InverseTransformPoint(hitPoint);
-            var localSpawn = vrRoom.transform.InverseTransformPoint(spawn.position);
-            var d = new Vector2(local.x - localSpawn.x, local.z - localSpawn.z);
-            if (d.magnitude > teleportWalkableRadius)
-            {
-                d = d.normalized * teleportWalkableRadius;
-                local.x = localSpawn.x + d.x;
-                local.z = localSpawn.z + d.y;
-                hitPoint = vrRoom.transform.TransformPoint(local);
-            }
-        }
+        // Final safety net: never accept a target outside the room's walkable rectangle.
+        // (VRRoomTeleport already rejects these with a red beam before calling us.)
+        if (!IsWithinWalkable(hitPoint)) return;
 
         // Player feet position (OVRCameraRig root position)
         Vector3 playerFeet = Camera.main.transform.parent.position;

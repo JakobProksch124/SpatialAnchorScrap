@@ -7,8 +7,11 @@ using UnityEngine;
 ///
 /// Does NOT depend on the Interaction SDK teleport building block, and is collider-independent:
 /// it intersects the aim ray with the horizontal plane at the player's foot height, so it works
-/// even if the VR environment has no floor colliders. Created/destroyed by Building_TransitionCues
-/// on VR enter/exit.
+/// even if the VR environment has no floor colliders. Targets outside the room's walkable
+/// rectangle (Building_TransitionCues.IsWithinWalkable) are REJECTED — red beam, no teleport —
+/// so the user can never end up outside the room. Holding B (right controller) slides the room
+/// back so the user stands at UserSpawnPoint again (recovery). Created/destroyed by
+/// Building_TransitionCues on VR enter/exit.
 /// </summary>
 public class VRRoomTeleport : MonoBehaviour
 {
@@ -27,6 +30,7 @@ public class VRRoomTeleport : MonoBehaviour
     private bool _aiming;
     private bool _hasTarget;
     private Vector3 _target;
+    private float _resetHold;
 
     public void Init(Building_TransitionCues building) => _building = building;
 
@@ -64,6 +68,18 @@ public class VRRoomTeleport : MonoBehaviour
     {
         if (_controller == null) return;
 
+        // Recovery: hold B (right controller) ~1s to slide the room back under your feet.
+        if (OVRInput.Get(OVRInput.Button.Two))
+        {
+            _resetHold += Time.deltaTime;
+            if (_resetHold >= 1f && _building != null)
+            {
+                _resetHold = float.NegativeInfinity; // fire once per hold
+                _building.ResetToSpawn();
+            }
+        }
+        else _resetHold = 0f;
+
         var stickY = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y; // right thumbstick forward
         if (stickY > aimThreshold)
         {
@@ -95,8 +111,14 @@ public class VRRoomTeleport : MonoBehaviour
             var t = (floorY - origin.y) / dir.y;
             if (t > 0f && t <= maxDistance)
             {
-                _target = origin + dir * t;
-                _hasTarget = true;
+                var candidate = origin + dir * t;
+                // only accept spots inside the room's walkable rectangle — otherwise the beam
+                // stays red and releasing the stick does nothing (no accidental exits).
+                if (_building == null || _building.IsWithinWalkable(candidate))
+                {
+                    _target = candidate;
+                    _hasTarget = true;
+                }
             }
         }
 
