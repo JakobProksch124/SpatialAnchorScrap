@@ -5281,7 +5281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1836749807}
   startVideoDelay: 3
-  exitCueDelay: 3
+  exitCueDelay: 30
   objectsToSpawn: {fileID: 1274896211}
   delayBetweenPhases: 2
   fadeDuration: 3

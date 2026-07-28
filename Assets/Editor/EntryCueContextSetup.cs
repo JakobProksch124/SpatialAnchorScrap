@@ -262,7 +262,8 @@ public static class EntryCueContextSetup
         // ---------------- Lecture ----------------
         new Spec {
             prefab = "T12_Arrival", ctx = "T12_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = ArrTitle, reason = "Hast du noch Fragen, bevor die Vorlesung startet?",
+            close = "Start", note = NoteArr,
             cards = new List<CueCardDef>()  // bewusst keine Karten (nur Start-Button im Hörsaal)
         },
         new Spec {
