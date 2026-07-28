@@ -128,6 +128,7 @@ public class Building_TransitionCues : MonoBehaviour
     private LineRenderer[] pathLineRenderers;
     private Scene loadedVRScene;
     private VRRoomTeleport _teleporter;
+    private TeleportArea[] _teleportAreas; // authored walkable boxes in the loaded VR room
 
     [Tooltip("Walkable half-extent (m) along the room's local X axis, centred on UserSpawnPoint. " +
              "Teleport targets outside are REJECTED (red beam). 0 = unbounded.")]
@@ -435,6 +436,11 @@ public class Building_TransitionCues : MonoBehaviour
             _teleporter = new GameObject("VRRoomTeleporter").AddComponent<VRRoomTeleport>();
             _teleporter.Init(this);
         }
+
+        // collect the room's authored walkable boxes (green gizmo boxes in the room scene)
+        _teleportAreas = FindObjectsByType<TeleportArea>(FindObjectsSortMode.None);
+        if (_teleportAreas.Length == 0)
+            Debug.LogWarning("[Building_TransitionCues] no TeleportArea in this room — teleport falls back to the spawn rectangle.");
 
         // Fade out
         yield return StartCoroutine(TransitionEffects.Instance.FadeToVR(3f, vrRoom));
@@ -771,6 +777,7 @@ public class Building_TransitionCues : MonoBehaviour
 
             // Remove the room-move teleporter (only valid while in VR)
             if (_teleporter != null) { Destroy(_teleporter.gameObject); _teleporter = null; }
+            _teleportAreas = null;
 
             TransitionParticleEffect.Spawn(mainCamera, exitVRParticleColor, particleDuration);
 
@@ -936,6 +943,16 @@ public class Building_TransitionCues : MonoBehaviour
     public bool IsWithinWalkable(Vector3 worldPoint)
     {
         if (vrRoom == null) return false;
+
+        // Preferred: authored TeleportArea boxes in the room scene (visible green gizmos in the
+        // editor — stretch them over the walkable floor). ANY box containing the point accepts it.
+        if (_teleportAreas != null && _teleportAreas.Length > 0)
+        {
+            foreach (var a in _teleportAreas)
+                if (a != null && a.Contains(worldPoint)) return true;
+            return false;
+        }
+
         var spawn = vrRoom.transform.Find("UserSpawnPoint");
         if (spawn == null || (teleportWalkableHalfX <= 0f && teleportWalkableHalfZ <= 0f)) return true;
 
