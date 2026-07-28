@@ -3791,12 +3791,12 @@ In AR an der Bibliothek. Einfach den Pfeilen folgen: sie führen dich durch den 
   - id: standort
     kind: 0
     widthScale: 1
-    title: MINIMAP
+    title: KARTE
     caption: Deine Strecke durch die Bibliothek mit Highlight, wo du gerade bist.
     image: {fileID: 2800000, guid: 77fc5f055423346c4a2dab3ad0af68a8, type: 3}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Minimap mit Standort, wenn der Nutzer nach dem Weg oder
+    whenToShow: Zeige die Karte mit Standort, wenn der Nutzer nach dem Weg oder
       wo er ist fragt.
   - id: pfeilvideo
     kind: 1

@@ -125,7 +125,7 @@ public static class EntryCueContextSetup
             prefab = "T1_Arrival", ctx = "T1_Arrival", mode = CueConfig.Mode.Arrival,
             title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
-                Card("minimap", CueCardKind.Image, "MINIMAP", "Zeige die Minimap/Karte der Strecke, wenn der Nutzer nach dem Weg, der Strecke oder einer Karte fragt.", "Deine Strecke im Überblick.", asset: MiniG64),
+                Card("karte", CueCardKind.Image, "KARTE", "Zeige die Karte der Strecke, wenn der Nutzer nach dem Weg, der Strecke oder einer Karte fragt.", "Deine Strecke im Überblick.", asset: MiniG64),
                 Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren oder wie man ihnen folgt.", "So entstehen die Pfeile und so folgst du ihnen.", asset: VidPfeil),
             }
         },
@@ -160,7 +160,7 @@ public static class EntryCueContextSetup
             title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("strecke", CueCardKind.Image, "STRECKE", "Zeige die Vorschau der Reststrecke, wenn der Nutzer fragt, wie der restliche Weg aussieht.", "So sieht der restliche Weg aus.", asset: MiniG64),
-                Card("standort", CueCardKind.Image, "MINIMAP", "Zeige die Minimap mit Standort-Highlight, wenn der Nutzer fragt, wo er gerade ist.", "Deine Strecke mit Highlight, wo du dich gerade befindest.", asset: MiniG64),
+                Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort-Highlight, wenn der Nutzer fragt, wo er gerade ist.", "Deine Strecke mit Highlight, wo du dich gerade befindest.", asset: MiniG64),
                 Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Erklärvideo, wenn der Nutzer wissen will, wie man dem Pfeil folgt.", "Kurze Animation, wie die Pfeile funktionieren und wie du ihnen folgst.", asset: VidPfeil),
             }
         },
@@ -179,7 +179,7 @@ public static class EntryCueContextSetup
             prefab = "T5_Arrival", ctx = "T5_Arrival", mode = CueConfig.Mode.Arrival,
             title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
-                Card("standort", CueCardKind.Image, "MINIMAP", "Zeige die Minimap mit Standort, wenn der Nutzer nach dem Weg oder wo er ist fragt.", "Deine Strecke durch die Bibliothek mit Highlight, wo du gerade bist.", asset: MiniBib),
+                Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort, wenn der Nutzer nach dem Weg oder wo er ist fragt.", "Deine Strecke durch die Bibliothek mit Highlight, wo du gerade bist.", asset: MiniBib),
                 Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren.", "Kurze Animation, wie die Pfeile funktionieren.", asset: VidPfeil),
             }
         },
@@ -213,7 +213,7 @@ public static class EntryCueContextSetup
             prefab = "T7_Arrival", ctx = "T7_Arrival", mode = CueConfig.Mode.Arrival,
             title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
-                Card("standort", CueCardKind.Image, "MINIMAP", "Zeige die Minimap mit Standort, wenn der Nutzer nach dem Weg oder wo er ist fragt.", "Der restliche Weg zum Hauptausgang mit Highlight, wo du gerade bist.", asset: MiniBib),
+                Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort, wenn der Nutzer nach dem Weg oder wo er ist fragt.", "Der restliche Weg zum Hauptausgang mit Highlight, wo du gerade bist.", asset: MiniBib),
                 Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren.", "Kurze Animation, wie die Pfeile funktionieren.", asset: VidPfeil),
             }
         },

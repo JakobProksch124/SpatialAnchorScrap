@@ -15,7 +15,7 @@ Du bist jetzt in AR unterwegs. Folge einfach dem **schwebenden Pfeil**, er bring
 - Auf Wunsch gibt es ein kurzes **Video**, das zeigt, wie diese Pfeile entstehen und wie man ihnen folgt.
 
 ## Was du dir anzeigen lassen kannst (ausklappbar)
-- Eine **Karte / Minimap** der Strecke, wie der Weg aussieht.
+- Eine **Karte / Karte** der Strecke, wie der Weg aussieht.
 - Die **verbleibende Dauer**: nur noch wenige Minuten.
 
 ## Was unterwegs noch passieren kann

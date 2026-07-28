@@ -8,7 +8,7 @@ Du bist wieder in AR unterwegs. Fragt der Nutzer, was nochmal sein Ziel war: **d
 
 ## Was du dir anzeigen lassen kannst (ausklappbar)
 - **Vorschau-Bilder der Strecke:** wie der restliche Weg aussieht.
-- Die **Minimap mit einem Highlight**, wo auf der Strecke man sich gerade befindet.
+- Die **Karte mit einem Highlight**, wo auf der Strecke man sich gerade befindet.
 - Ein **kurzes Erklärvideo bzw. eine Animation**, die zeigt, wie man dem Pfeil folgt, und die Pfeile erklärt.
 
 ## Wie die Navigation funktioniert

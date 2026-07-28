@@ -3776,7 +3776,7 @@ MonoBehaviour:
     Design, 10:00 Uhr, Geb\xE4ude 64, Raum 0105), das dauert nur noch **etwa 1 Minute**.
     Die Vorlesung hat **noch nicht begonnen**, es ist gen\xFCgend Zeit.\n\n## Was
     du dir anzeigen lassen kannst (ausklappbar)\n- **Vorschau-Bilder der Strecke:**
-    wie der restliche Weg aussieht.\n- Die **Minimap mit einem Highlight**, wo auf
+    wie der restliche Weg aussieht.\n- Die **Karte mit einem Highlight**, wo auf
     der Strecke man sich gerade befindet.\n- Ein **kurzes Erkl\xE4rvideo bzw. eine
     Animation**, die zeigt, wie man dem Pfeil folgt, und die Pfeile erkl\xE4rt.\n\n##
     Wie die Navigation funktioniert\n- Fragt der Nutzer, wie das nochmal funktioniert:
@@ -3804,12 +3804,12 @@ MonoBehaviour:
   - id: standort
     kind: 0
     widthScale: 1
-    title: MINIMAP
+    title: KARTE
     caption: Deine Strecke mit Highlight, wo du dich gerade befindest.
     image: {fileID: 2800000, guid: 81340aeed4e2144f4927ac54bef385b9, type: 3}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Minimap mit Standort-Highlight, wenn der Nutzer fragt,
+    whenToShow: Zeige die Karte mit Standort-Highlight, wenn der Nutzer fragt,
       wo er gerade ist.
   - id: pfeilvideo
     kind: 1

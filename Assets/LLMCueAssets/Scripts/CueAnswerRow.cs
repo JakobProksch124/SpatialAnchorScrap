@@ -43,10 +43,23 @@ public class CueAnswerRow : MonoBehaviour
     public string ShowCard(string id)
     {
         id = (id ?? "").Trim();
-        if (!_defs.TryGetValue(id, out var def)) return $"no card '{id}' is defined for this cue";
-        if (_shown.Exists(c => c && c.Id == id)) return $"card '{id}' already shown";
+
+        // tolerant lookup: exact id -> case-insensitive id -> title match -> single-card fallback
+        if (!_defs.TryGetValue(id, out var def))
+        {
+            foreach (var kv in _defs)
+                if (string.Equals(kv.Key, id, System.StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(kv.Value.title, id, System.StringComparison.OrdinalIgnoreCase))
+                { def = kv.Value; break; }
+            if (def == null && _defs.Count == 1)
+                foreach (var kv in _defs) def = kv.Value;
+            if (def == null)
+                return $"no card '{id}' is defined for this cue — available ids: {string.Join(", ", _defs.Keys)}";
+        }
+
+        if (_shown.Exists(c => c && c.Id == def.id)) return $"card '{def.id}' already shown";
         Build(def);
-        return $"card '{id}' added";
+        return $"card '{def.id}' added";
     }
 
     /// <summary>Hide a shown card by id (assistant hide_card / user dismiss).</summary>

@@ -3780,7 +3780,7 @@ MonoBehaviour:
     Wie die Navigation funktioniert\n- Dem Pfeil folgen, er **passt sich automatisch**
     an, w\xE4hrend du gehst.\n- Auf Wunsch gibt es ein kurzes **Video**, das zeigt,
     wie diese Pfeile entstehen und wie man ihnen folgt.\n\n## Was du dir anzeigen
-    lassen kannst (ausklappbar)\n- Eine **Karte / Minimap** der Strecke, wie der
+    lassen kannst (ausklappbar)\n- Eine **Karte / Karte** der Strecke, wie der
     Weg aussieht.\n- Die **verbleibende Dauer**: nur noch wenige Minuten.\n\n## Was
     unterwegs noch passieren kann\n- Fragt der Nutzer danach: deute an, dass es unterwegs
     manchmal **Optionen gibt, kurz nach VR zu wechseln**, um sich zus\xE4tzliche
@@ -3792,15 +3792,15 @@ MonoBehaviour:
     wird. Bleib bei der Navigation.\n- Sprich den Nutzer **nicht mit Namen** an.
     Erfinde nichts, was hier nicht steht.\n"
   cards:
-  - id: minimap
+  - id: karte
     kind: 0
     widthScale: 1
-    title: MINIMAP
+    title: KARTE
     caption: "Deine Strecke im \xDCberblick."
     image: {fileID: 2800000, guid: 81340aeed4e2144f4927ac54bef385b9, type: 3}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Minimap/Karte der Strecke, wenn der Nutzer nach dem Weg,
+    whenToShow: Zeige die Karte der Strecke, wenn der Nutzer nach dem Weg,
       der Strecke oder einer Karte fragt.
   - id: pfeilvideo
     kind: 1

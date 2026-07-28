@@ -71,7 +71,7 @@ public class CueLLMClient : MonoBehaviour
                 new JObject { ["card"] = EnumParam(ids) }, "card"));
         }
         
-        tools.Add(Fn("start_transition",
+        if (OffersTransition) tools.Add(Fn("start_transition",
             "Proceed with the transition THIS cue offers — whatever its direction or kind: entering VR or AR, " +
             "leaving VR or AR back to reality, taking off the headset, or finishing/ending. This cue's specific " +
             "transition is described under '# This cue'. Call it ONLY on a clear, explicit intent to proceed, e.g. " +
@@ -125,6 +125,10 @@ public class CueLLMClient : MonoBehaviour
 
     /// <summary>Extra per-cue instruction (e.g. entry vs arrival role), set from CueConfig.</summary>
     public string ExtraInstruction { get; set; } = "";
+
+    /// <summary>False on arrival cues: they offer no transition, so the start_transition tool is
+    /// not exposed at all (otherwise the model calls it, nobody listens, and "nothing happens").</summary>
+    public bool OffersTransition { get; set; } = true;
 
     private string BuildSystemPrompt()
     {
@@ -222,6 +226,7 @@ public class CueLLMClient : MonoBehaviour
         if (toolCalls.Count > 0)
         {
             // Execute the tools locally (UI updates now).
+            var anyToolFailed = false;
             foreach (var b in toolCalls.Values)
             {
                 JObject args;
@@ -234,11 +239,16 @@ public class CueLLMClient : MonoBehaviour
                 catch (Exception e) { result = "error: " + e.Message; }
                 Debug.Log($"[CueLLMClient] tool {b.Name}({raw}) -> {result}");
                 _lastToolResult = result;
+                if (!(result.StartsWith("card") || result.StartsWith("starting")
+                      || result.StartsWith("cue closed") || result == "ok"))
+                    anyToolFailed = true;
             }
 
             // FAST PATH: the model already spoke alongside the tool call -> use that answer
-            // directly, no second round-trip. Store it as a plain assistant turn so history stays valid.
-            if (roundContent.Length > 0)
+            // directly, no second round-trip. ONLY when every tool succeeded — if one failed, the
+            // narration ("Ich zeige dir…") would be a lie, so fall through to the tool round and
+            // let the model correct itself with the error in hand.
+            if (roundContent.Length > 0 && !anyToolFailed)
             {
                 _history.Add(new JObject { ["role"] = "assistant", ["content"] = _answerSoFar });
                 IsBusy = false;
@@ -254,7 +264,12 @@ public class CueLLMClient : MonoBehaviour
                     ["id"] = b.Id, ["type"] = "function",
                     ["function"] = new JObject { ["name"] = b.Name, ["arguments"] = b.Args.ToString() }
                 });
-            _history.Add(new JObject { ["role"] = "assistant", ["content"] = null, ["tool_calls"] = tcArray });
+            _history.Add(new JObject
+            {
+                ["role"] = "assistant",
+                ["content"] = roundContent.Length > 0 ? (object)roundContent.ToString() : null,
+                ["tool_calls"] = tcArray
+            });
             foreach (var b in toolCalls.Values)
                 _history.Add(new JObject { ["role"] = "tool", ["tool_call_id"] = b.Id, ["content"] = _lastToolResult });
 
