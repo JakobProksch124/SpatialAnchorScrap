@@ -101,11 +101,10 @@ public class Lecture_TransitionCues : MonoBehaviour
 
     void Start()
     {
-        // The interaction rig ships with locomotion (teleport "jump"). The lecture is a seated
-        // experience — no movement wanted — so switch the whole Locomotor off, including the
-        // teleport interactors (A would otherwise blink-jump the user around the hall).
-        var locomotor = GameObject.Find("Locomotor");
-        if (locomotor != null) locomotor.SetActive(false);
+        // The interaction rig ships with teleport locomotion ("jump" on A). The lecture is a
+        // seated experience, so disable ONLY the teleport interactors (the input). The Locomotor
+        // itself must STAY active: it also applies gravity/grounding, which is what places the
+        // user down onto the seat — disabling it left the user floating at the rig's raw height.
         foreach (var ti in FindObjectsByType<Oculus.Interaction.Locomotion.TeleportInteractor>(
                      FindObjectsInactive.Include, FindObjectsSortMode.None))
             ti.gameObject.SetActive(false);
