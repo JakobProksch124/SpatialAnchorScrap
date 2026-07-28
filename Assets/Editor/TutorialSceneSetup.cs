@@ -36,18 +36,37 @@ public static class TutorialSceneSetup
     [MenuItem("EntryCue/Build Tutorial (Host + White Room)")]
     public static void Build()
     {
-        var prev = EditorSceneManager.GetActiveScene().path;
-
         BuildWhiteRoom();
         BuildHost();
         EnsureBuildSettings(HostPath, RoomPath);
-
-        if (!string.IsNullOrEmpty(prev) && prev != RoomPath && prev != HostPath)
-            EditorSceneManager.OpenScene(prev, OpenSceneMode.Single);
-
         AssetDatabase.SaveAssets();
-        Debug.Log("[TutorialSetup] Done. Now run 'EntryCue > Apply Lecture-Navigation Context (T1-T13)' " +
-                  "once, then build with only TutorialHost + TutorialRoom enabled.");
+
+        // Leave the user LOOKING at the room: open it, select the floor and frame the Scene view
+        // on it — so there is no way to end up staring at a blank Game view (the room has no
+        // camera by design; the camera comes from TutorialHost at runtime).
+        EditorSceneManager.OpenScene(RoomPath, OpenSceneMode.Single);
+        var floor = GameObject.Find("Floor");
+        if (floor != null) Selection.activeGameObject = floor;
+        var sv = SceneView.lastActiveSceneView;
+        if (sv != null)
+        {
+            sv.Focus();
+            sv.in2DMode = false;
+            sv.Frame(new Bounds(new Vector3(0, 1.5f, 0), new Vector3(11, 6, 11)), false);
+        }
+
+        EditorUtility.DisplayDialog("Tutorial bereit",
+            "TutorialRoom und TutorialHost sind erstellt und verkabelt.
+
+" +
+            "Du siehst den Übungsraum jetzt im SCENE-Tab. Der GAME-Tab bleibt hier immer schwarz " +
+            "— der Raum hat absichtlich keine Kamera, sie kommt zur Laufzeit aus TutorialHost.
+
+" +
+            "Testen geht nur per Build & Run auf der Quest (nur TutorialHost + TutorialRoom aktiv). " +
+            "Editor-Play ist bei dieser App nicht aussagekräftig.",
+            "OK");
+        Debug.Log("[TutorialSetup] Done. If not done yet, run 'EntryCue > Apply Lecture-Navigation Context (T1-T13)' once.");
     }
 
     // ---------- the white practice room (regenerated on every run) ----------
