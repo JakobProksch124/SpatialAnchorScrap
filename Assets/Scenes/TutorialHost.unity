@@ -5630,6 +5630,105 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &918380563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 918380565}
+  - component: {fileID: 918380564}
+  m_Layer: 0
+  m_Name: TutorialController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &918380564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918380563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9593bdf5521317545b44bc406d2a6822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vrRoomPrefab: {fileID: 0}
+  vrSceneName: TutorialRoom
+  navigationDestination: Tutorial
+  ExtraARContent: {fileID: 0}
+  IMessageCueScript: {fileID: 0}
+  startArrivalAnchorName: startArrivalAnchor
+  startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  startArrivalLabel: VR
+  startArrivalScreenshotDisplayed: {fileID: 0}
+  startArrivalDescription: Welcome to VR!
+  startArrivalButtonText: X
+  startArrivalAlwaysExpand: 0
+  startArrivalCuePath: 
+  vrRoomTitle: "\xDCbungsraum"
+  entryCuePath: LLMCues/TutorialCue_Entry
+  entryAnchorName: entryAnchor
+  entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  entryLabel: VR
+  entryScreenshotDisplayed: {fileID: 0}
+  entryDescription: Enter this virtual space.
+  entryButtonText: Enter VR
+  entryAlwaysExpand: 0
+  entryArrivalAnchorName: entryArrivalAnchor
+  entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  entryArrivalLabel: VR
+  entryArrivalScreenshotDisplayed: {fileID: 0}
+  entryArrivalDescription: Welcome to VR!
+  entryArrivalButtonText: X
+  entryArrivalAlwaysExpand: 0
+  entryArrivalCuePath: LLMCues/TutorialCue
+  exitAnchorName: exitAnchor
+  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitLabel: AR
+  exitScreenshotDisplayed: {fileID: 0}
+  exitDescription: Return to Augmented Reality mode.
+  exitButtonText: Enter AR
+  exitAlwaysExpand: 0
+  leadsToAR: 0
+  exitCueDelay: 20
+  exitCuePath: LLMCues/TutorialCue_Exit
+  exitArrivalAnchorName: exitArrivalAnchor
+  exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitArrivalLabel: AR
+  exitArrivalScreenshotDisplayed: {fileID: 0}
+  exitArrivalDescription: Welcome back to AR!
+  exitArrivalButtonText: X
+  exitArrivalAlwaysExpand: 0
+  exitArrivalCuePath: 
+  enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
+  exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  particleDuration: 4
+  enableKeyboardShortcuts: 1
+  teleportWalkableHalfX: 3.2
+  teleportWalkableHalfZ: 3.2
+--- !u!4 &918380565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918380563}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1990396005}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &919624181
 GameObject:
   m_ObjectHideFlags: 0
@@ -5782,105 +5881,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &930485250
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 930485252}
-  - component: {fileID: 930485251}
-  m_Layer: 0
-  m_Name: TutorialController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &930485251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 930485250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9593bdf5521317545b44bc406d2a6822, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vrRoomPrefab: {fileID: 0}
-  vrSceneName: TutorialRoom
-  navigationDestination: Tutorial
-  ExtraARContent: {fileID: 0}
-  IMessageCueScript: {fileID: 0}
-  startArrivalAnchorName: startArrivalAnchor
-  startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  startArrivalLabel: VR
-  startArrivalScreenshotDisplayed: {fileID: 0}
-  startArrivalDescription: Welcome to VR!
-  startArrivalButtonText: X
-  startArrivalAlwaysExpand: 0
-  startArrivalCuePath: 
-  vrRoomTitle: "\xDCbungsraum"
-  entryCuePath: LLMCues/TutorialCue_Entry
-  entryAnchorName: entryAnchor
-  entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  entryLabel: VR
-  entryScreenshotDisplayed: {fileID: 0}
-  entryDescription: Enter this virtual space.
-  entryButtonText: Enter VR
-  entryAlwaysExpand: 0
-  entryArrivalAnchorName: entryArrivalAnchor
-  entryArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  entryArrivalLabel: VR
-  entryArrivalScreenshotDisplayed: {fileID: 0}
-  entryArrivalDescription: Welcome to VR!
-  entryArrivalButtonText: X
-  entryArrivalAlwaysExpand: 0
-  entryArrivalCuePath: LLMCues/TutorialCue
-  exitAnchorName: exitAnchor
-  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  exitLabel: AR
-  exitScreenshotDisplayed: {fileID: 0}
-  exitDescription: Return to Augmented Reality mode.
-  exitButtonText: Enter AR
-  exitAlwaysExpand: 0
-  leadsToAR: 0
-  exitCueDelay: 20
-  exitCuePath: LLMCues/TutorialCue_Exit
-  exitArrivalAnchorName: exitArrivalAnchor
-  exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  exitArrivalLabel: AR
-  exitArrivalScreenshotDisplayed: {fileID: 0}
-  exitArrivalDescription: Welcome back to AR!
-  exitArrivalButtonText: X
-  exitArrivalAlwaysExpand: 0
-  exitArrivalCuePath: 
-  enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
-  particleDuration: 4
-  enableKeyboardShortcuts: 1
-  teleportWalkableHalfX: 3.2
-  teleportWalkableHalfZ: 3.2
---- !u!4 &930485252
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 930485250}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1627005114}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &931374064
 GameObject:
   m_ObjectHideFlags: 0
@@ -10210,37 +10210,6 @@ Transform:
   - {fileID: 423176814}
   m_Father: {fileID: 211511184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1627005113
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1627005114}
-  m_Layer: 0
-  m_Name: entryAnchor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1627005114
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627005113}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_LocalPosition: {x: 0, y: 1.2, z: 1.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 930485252}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1643300912
 GameObject:
   m_ObjectHideFlags: 0
@@ -12129,6 +12098,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2115671989}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1990396004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1990396005}
+  m_Layer: 0
+  m_Name: entryAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1990396005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990396004}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  m_LocalPosition: {x: 0, y: 1.2, z: 1.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 918380565}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1991749870
 GameObject:
   m_ObjectHideFlags: 0
@@ -13311,4 +13311,48 @@ SceneRoots:
   - {fileID: 474745957}
   - {fileID: 1351595772}
   - {fileID: 1505967615}
-  - {fileID: 930485252}
+  - {fileID: 918380565}
+--- !u!1 &903305521
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903305522}
+  - component: {fileID: 903305523}
+  m_Layer: 0
+  m_Name: TutorialRigGuard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903305522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903305521}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &903305523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903305521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d08c34bb66451290852e7461dd3791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

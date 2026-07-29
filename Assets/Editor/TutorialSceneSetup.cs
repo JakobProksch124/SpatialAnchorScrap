@@ -160,6 +160,10 @@ public static class TutorialSceneSetup
         var existing = GameObject.Find("TutorialController");
         if (existing != null) Object.DestroyImmediate(existing);
 
+        // runtime belt-and-braces: kills locomotion and hard-locks the rig position
+        if (Object.FindAnyObjectByType<TutorialRigGuard>(FindObjectsInactive.Include) == null)
+            new GameObject("TutorialRigGuard").AddComponent<TutorialRigGuard>();
+
         var go = new GameObject("TutorialController");
         var btc = go.AddComponent<Building_TransitionCues>();
 
