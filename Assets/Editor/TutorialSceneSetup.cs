@@ -140,6 +140,14 @@ public static class TutorialSceneSetup
         foreach (var pos in Object.FindObjectsByType<Positioner>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             if (pos.gameObject.activeSelf) pos.gameObject.SetActive(false);
 
+        // kill the debug overlays ("No Object To Move" offset display, VR console) — they float
+        // in the user's view in the tutorial and read like an error
+        foreach (var n in new[] { "OffsetCanvas", "VRConsoleCanvas", "VRConsole" })
+        {
+            var dbg = GameObject.Find(n);
+            if (dbg != null) dbg.SetActive(false);
+        }
+
         var existing = GameObject.Find("TutorialController");
         if (existing != null) Object.DestroyImmediate(existing);
 
