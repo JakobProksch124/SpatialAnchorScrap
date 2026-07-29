@@ -148,6 +148,15 @@ public static class TutorialSceneSetup
             if (dbg != null) dbg.SetActive(false);
         }
 
+        // CRITICAL: the interaction rig's Locomotor applies GRAVITY to the camera rig. The rig
+        // sinks forever (no ground catches its CharacterController) — invisible in the study
+        // (everything is world-anchored + passthrough), but the tutorial's world-fixed entry cue
+        // then appears to "fly up into the sky". The tutorial rig must never move on its own:
+        // the user walks physically, and the white-room teleport moves the ROOM, not the rig.
+        foreach (var t in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            if (t.name == "Locomotor" || t.name.Contains("LocomotionSlideActions"))
+                t.gameObject.SetActive(false);
+
         var existing = GameObject.Find("TutorialController");
         if (existing != null) Object.DestroyImmediate(existing);
 
