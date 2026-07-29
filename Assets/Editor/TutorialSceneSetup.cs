@@ -56,13 +56,9 @@ public static class TutorialSceneSetup
         }
 
         EditorUtility.DisplayDialog("Tutorial bereit",
-            "TutorialRoom und TutorialHost sind erstellt und verkabelt.
-
-" +
+            "TutorialRoom und TutorialHost sind erstellt und verkabelt.\n\n" +
             "Du siehst den Übungsraum jetzt im SCENE-Tab. Der GAME-Tab bleibt hier immer schwarz " +
-            "— der Raum hat absichtlich keine Kamera, sie kommt zur Laufzeit aus TutorialHost.
-
-" +
+            "— der Raum hat absichtlich keine Kamera, sie kommt zur Laufzeit aus TutorialHost.\n\n" +
             "Testen geht nur per Build & Run auf der Quest (nur TutorialHost + TutorialRoom aktiv). " +
             "Editor-Play ist bei dieser App nicht aussagekräftig.",
             "OK");
