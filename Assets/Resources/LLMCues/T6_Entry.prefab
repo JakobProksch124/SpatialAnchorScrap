@@ -3754,7 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Wechseln zu VR
   entryHighlight: VR
-  entryReason: Open Lab Day – wirf einen Blick ins BRIDGE Lab.
+  entryReason: "Open Lab Day \u2013 wirf einen Blick ins BRIDGE Lab."
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 
@@ -3773,6 +3773,7 @@ Du bist der Assistent dieses Entry Cues. Er erscheint am Rand des Weges in der B
 
 ## Szenario-Hintergrund
 - Der Nutzer ist auf dem Weg durch die Bibliothek zur Mensa, wo Peter wartet (keine feste Uhrzeit, kein Zeitdruck).
+- Peter hat den Nutzer gebeten, kurz einen Blick ins Labor zu werfen und ihm nachher zu sagen, ob sich ein Besuch lohnt.
 
 ## Wohin du wechseln kannst
 Eine virtuelle Version des BRIDGE Labs von Prof. Jetter. Drinnen kann man sich frei umsehen.

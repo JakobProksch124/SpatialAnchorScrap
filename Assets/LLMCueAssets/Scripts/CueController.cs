@@ -51,6 +51,7 @@ public class CueController : MonoBehaviour
             llm.ContextText = config.contextText;
             llm.SetCards(config.cards);
             llm.OffersTransition = !config.IsArrival; // arrival cues have no transition to start
+            if (answerRow) llm.IsCardShown = answerRow.IsShown; // prompt marks already-visible cards
         }
     }
     

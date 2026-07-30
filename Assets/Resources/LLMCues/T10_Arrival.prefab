@@ -3755,9 +3755,9 @@ MonoBehaviour:
   entryTitle: Wechsel zu VR
   entryHighlight: VR
   entryReason: Um dir das Chemielabor anzuschauen
-  arrivalTitle: Wie kann ich dir helfen?
+  arrivalTitle: Auf dem Weg zu Peter!
   arrivalHighlight: 
-  arrivalReason: Hast du Fragen zum Kontext, in dem du dich gerade befindest?
+  arrivalReason: Wie kann ich dir helfen?
   waitingText: Ich warte auf deine Frage
   listeningText: "Ich h\xF6re zu\u2026"
   thinkingText: Sammle Antworten

@@ -3495,7 +3495,7 @@ GameObject:
   - component: {fileID: 7248982388044874743}
   - component: {fileID: 2182446209608913315}
   m_Layer: 0
-  m_Name: T3_Entry
+  m_Name: TutorialCue_Exit
   m_TagString: TransitionCue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3750,11 +3750,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd0f65fa6943480dbe17682591d3d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cueName: T3_Entry
+  cueName: TutorialCue_Exit
   mode: 0
   entryTitle: Wechseln zu AR
   entryHighlight: AR
-  entryReason: Draußen geht es weiter zur Vorlesung.
+  entryReason: "Zur\xFCck in die echte Welt \u2013 probier vorher das Live-Fenster
+    aus."
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 
@@ -3764,37 +3765,24 @@ MonoBehaviour:
   enterLabel: Verlassen
   dismissLabel: Jetzt nicht
   closeLabel: "Schlie\xDFen"
-  assistantNote: "Du bist der ENTRY Cue, gezeigt VOR der Transition. Sprich \xFCber
-    die Transition und den Zielkontext."
-  contextText: "# T3 Entry Cue: VR (Chemielabor) zu AR\n\n## Deine Rolle\nDu bist
-    der Assistent dieses Entry Cues. Der Cue erscheint im virtuellen Chemielabor,
-    sobald der Nutzer den Arrival Cue weggeklickt hat. Er zeigt ein **Fenster mit
-    einer Live-Preview der echten Welt**: durch dieses Fenster sieht der Nutzer live,
-    was sich dahinter in der Realit\xE4t befindet, kein Standbild. Der Cue ist per
-    Sprache und Klick bedienbar.\n\n## Szenario-Hintergrund\n- Der Nutzer war im
-    Labor, um f\xFCr Peter die **verf\xFCgbaren St\xFChle zu z\xE4hlen**.\n- Eigentliches
-    Ziel: die Vorlesung **User Experience Design**, 10:00 Uhr, Geb\xE4ude 64, Raum
-    0105.\n- Es sind noch **etwa 10 Minuten** bis zur Vorlesung, also gen\xFCgend
-    Zeit und kein Grund zur Eile.\n\n## Wohin du wechseln kannst\nZur\xFCck nach
-    **AR**, also in die reale Umgebung mit Navigations-Overlay. Das Live-Fenster
-    zeigt schon jetzt, wie es drau\xDFen aussieht.\n\n## Was du dir vorab anzeigen
-    lassen kannst\n- Das **Live-Fenster in die Realit\xE4t** direkt am Cue.\n- Fragt
-    der Nutzer, was nochmal das Ziel war: **zur Vorlesung kommen**. Nach der R\xFCckkehr
-    geht es die letzten Meter zum Vorlesungsraum.\n\n## Wie du dich nach der R\xFCckkehr
-    bewegst\n- **Keine Vorschau-Bilder n\xF6tig:** drau\xDFen l\xE4uft der Nutzer
-    einfach normal zu Fu\xDF weiter, wie vor dem Laborbesuch.\n- Die AR-Navigation
-    (Pfeil) f\xFChrt ihn weiter zum Vorlesungsraum.\n\n## Der \xDCbergang selbst\n-
-    Ausl\xF6sen per **Klick oder per Sprache**.\n- Der Wechsel ist derselbe **kurze,
-    z\xFCgige Fade wie beim Hineingehen**.\n- **Nichts geht verloren:** die Navigation
-    zur Vorlesung wird nahtlos fortgesetzt.\n- Wichtig: einmal drau\xDFen, geht es
-    **nicht zur\xFCck ins Labor**. Der Laborbesuch ist dann erledigt.\n\n## Peters
-    Auftrag (nur auf Nachfrage)\n- Fragt der Nutzer, was er mit der gez\xE4hlten
-    Stuhl-Zahl machen soll: die kann er **Peter nachher beim gemeinsamen Mittagessen
-    in der Mensa pr\xE4sentieren**.\n- Nenne selbst KEINE Zahl, du kennst sie nicht.\n\n##
-    Antwortstil und Einschr\xE4nkungen\n- Antworte **kurz** (etwa ein Satz), nur
-    auf Basis der Informationen hier. Beruhigend bei Zeitfragen: es ist gen\xFCgend
-    Zeit.\n- Sprich den Nutzer **nicht mit Namen** an. Erfinde nichts, was hier nicht
-    steht.\n"
+  assistantNote: "Du bist ein \xDCbungs-Entry-Cue f\xFCr den R\xFCckweg nach AR.
+    Lade zum Live-Fenster ein; der Wechsel passiert erst auf klaren Wunsch."
+  contextText: "# Tutorial Exit Cue: \xDCbung, VR zur\xFCck zu AR\n\n## Deine Rolle\nDu
+    bist ein \xDCbungs-Cue zum Kennenlernen. Der Nutzer ist im wei\xDFen \xDCbungsraum
+    und lernt hier den Cue-Typ kennen, der aus VR zur\xFCck in die reale Umgebung
+    f\xFChrt. Kein Zeitdruck, keine Aufgabe. Sei geduldig und ermutigend.\n\n## Was
+    du bist\nEin Entry Cue f\xFCr den R\xFCckweg: du bietest den Wechsel zur\xFCck
+    nach AR an (die echte Welt mit Durchsicht).\n\n## Dein Besonderes: das Live-Fenster
+    (lade zum Ausprobieren ein)\n- Du kannst ein Live-Fenster in die Realit\xE4t
+    einblenden: eine Live-Ansicht der echten Welt vor dir, kein Standbild. Der Nutzer
+    kann z.B. sagen: \"Zeig mir, wie es drau\xDFen aussieht.\"\n- Das Fenster ist
+    nur eine Ansicht \u2014 der Wechsel selbst passiert erst \xFCber \"Verlassen\"
+    oder per Sprache (z.B. \"ich will raus\").\n\n## Der \xDCbergang selbst\n- Ein
+    kurzes \xDCberblenden, dann ist der Nutzer zur\xFCck in der realen Umgebung.
+    Damit ist die \xDCbung abgeschlossen.\n\n## Antwortstil und Einschr\xE4nkungen\n-
+    Antworte kurz (etwa ein Satz), freundlich und ermutigend.\n- Sprich den Nutzer
+    nicht mit Namen an. Erfinde nichts, was hier nicht steht.\n- Kein Bezug zu irgendeiner
+    echten Studie oder Aufgabe \u2014 das hier ist reines Ausprobieren.\n"
   cards:
   - id: live
     kind: 3

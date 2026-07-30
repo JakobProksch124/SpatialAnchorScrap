@@ -130,6 +130,10 @@ public class CueLLMClient : MonoBehaviour
     /// not exposed at all (otherwise the model calls it, nobody listens, and "nothing happens").</summary>
     public bool OffersTransition { get; set; } = true;
 
+    /// <summary>Live query: is this card currently displayed? Set by CueController so the prompt
+    /// can mark visible cards each turn (the model must not offer what is already on screen).</summary>
+    public Func<string, bool> IsCardShown { get; set; }
+
     private string BuildSystemPrompt()
     {
         var ctx = !string.IsNullOrWhiteSpace(ContextText)
@@ -140,7 +144,18 @@ public class CueLLMClient : MonoBehaviour
         if (_cards.Count > 0)
         {
             var sb = new System.Text.StringBuilder("\n\n# Cards you can show (use show_card with the id)\n");
-            foreach (var c in _cards) sb.Append($"- {c.id}: {c.title} — {c.when}\n");
+            var allShown = true;
+            foreach (var c in _cards)
+            {
+                var shown = IsCardShown != null && IsCardShown(c.id);
+                allShown &= shown;
+                sb.Append($"- {c.id}: {c.title} — {c.when}{(shown ? "  [WIRD GERADE ANGEZEIGT]" : "")}\n");
+            }
+            sb.Append("Im Zweifel ZEIGE die passende Karte (show_card), statt sie nur zu beschreiben — " +
+                      "lieber eine Karte zu viel als zu wenig. Karten mit [WIRD GERADE ANGEZEIGT] sind " +
+                      "bereits sichtbar: biete sie NICHT erneut an und behaupte nicht, du könntest noch " +
+                      "mehr zeigen, wenn alles sichtbar ist.\n");
+            if (allShown) sb.Append("HINWEIS: Alle Karten werden bereits angezeigt — sage das ehrlich, wenn der Nutzer mehr sehen will.\n");
             cards = sb.ToString();
         }
 

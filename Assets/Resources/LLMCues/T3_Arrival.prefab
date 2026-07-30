@@ -3755,9 +3755,9 @@ MonoBehaviour:
   entryTitle: Wechsel zu VR
   entryHighlight: VR
   entryReason: Wie kann ich dir helfen?
-  arrivalTitle: Wie kann ich dir helfen?
+  arrivalTitle: Willkommen zurück in AR!
   arrivalHighlight: 
-  arrivalReason: Hast du Fragen zum Kontext, in dem du dich gerade befindest?
+  arrivalReason: Wie kann ich dir helfen?
   waitingText: Ich warte auf deine Frage
   listeningText: "Ich h\xF6re zu\u2026"
   thinkingText: Sammle Antworten
@@ -3809,8 +3809,8 @@ MonoBehaviour:
     image: {fileID: 2800000, guid: 81340aeed4e2144f4927ac54bef385b9, type: 3}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Karte mit Standort-Highlight, wenn der Nutzer fragt,
-      wo er gerade ist.
+    whenToShow: Zeige die Karte mit Standort-Highlight, wenn der Nutzer fragt, wo
+      er gerade ist.
   - id: pfeilvideo
     kind: 1
     widthScale: 1

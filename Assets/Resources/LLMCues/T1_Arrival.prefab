@@ -3755,9 +3755,9 @@ MonoBehaviour:
   entryTitle: 
   entryHighlight: 
   entryReason: 
-  arrivalTitle: Wie kann ich dir helfen?
+  arrivalTitle: Willkommen in AR!
   arrivalHighlight: 
-  arrivalReason: Hast du Fragen zum Kontext, in dem du dich gerade befindest?
+  arrivalReason: Wie kann ich dir helfen?
   waitingText: Ich warte auf deine Frage
   listeningText: "Ich h\xF6re zu\u2026"
   thinkingText: Sammle Antworten
@@ -3780,17 +3780,17 @@ MonoBehaviour:
     Wie die Navigation funktioniert\n- Dem Pfeil folgen, er **passt sich automatisch**
     an, w\xE4hrend du gehst.\n- Auf Wunsch gibt es ein kurzes **Video**, das zeigt,
     wie diese Pfeile entstehen und wie man ihnen folgt.\n\n## Was du dir anzeigen
-    lassen kannst (ausklappbar)\n- Eine **Karte / Karte** der Strecke, wie der
-    Weg aussieht.\n- Die **verbleibende Dauer**: nur noch wenige Minuten.\n\n## Was
-    unterwegs noch passieren kann\n- Fragt der Nutzer danach: deute an, dass es unterwegs
-    manchmal **Optionen gibt, kurz nach VR zu wechseln**, um sich zus\xE4tzliche
-    Informationen anzuschauen. Erkl\xE4re das hier aber **noch nicht im Detail**.\n\n##
-    Antwortstil und Einschr\xE4nkungen\n- Antworte **kurz** (etwa ein Satz), nur
-    auf Basis der Informationen hier. Beruhigend bei Zeitfragen.\n- Gib **keine**
-    Informationen mehr \xFCber die gerade erfolgte Transition.\n- Erw\xE4hne **keine**
-    Nachrichten von Peter und keine sp\xE4teren Aufgaben, auch wenn danach gefragt
-    wird. Bleib bei der Navigation.\n- Sprich den Nutzer **nicht mit Namen** an.
-    Erfinde nichts, was hier nicht steht.\n"
+    lassen kannst (ausklappbar)\n- Eine **Karte / Karte** der Strecke, wie der Weg
+    aussieht.\n- Die **verbleibende Dauer**: nur noch wenige Minuten.\n\n## Was unterwegs
+    noch passieren kann\n- Fragt der Nutzer danach: deute an, dass es unterwegs manchmal
+    **Optionen gibt, kurz nach VR zu wechseln**, um sich zus\xE4tzliche Informationen
+    anzuschauen. Erkl\xE4re das hier aber **noch nicht im Detail**.\n\n## Antwortstil
+    und Einschr\xE4nkungen\n- Antworte **kurz** (etwa ein Satz), nur auf Basis der
+    Informationen hier. Beruhigend bei Zeitfragen.\n- Gib **keine** Informationen
+    mehr \xFCber die gerade erfolgte Transition.\n- Erw\xE4hne **keine** Nachrichten
+    von Peter und keine sp\xE4teren Aufgaben, auch wenn danach gefragt wird. Bleib
+    bei der Navigation.\n- Sprich den Nutzer **nicht mit Namen** an. Erfinde nichts,
+    was hier nicht steht.\n"
   cards:
   - id: karte
     kind: 0
@@ -3800,8 +3800,8 @@ MonoBehaviour:
     image: {fileID: 2800000, guid: 81340aeed4e2144f4927ac54bef385b9, type: 3}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Karte der Strecke, wenn der Nutzer nach dem Weg,
-      der Strecke oder einer Karte fragt.
+    whenToShow: Zeige die Karte der Strecke, wenn der Nutzer nach dem Weg, der Strecke
+      oder einer Karte fragt.
   - id: pfeilvideo
     kind: 1
     widthScale: 1

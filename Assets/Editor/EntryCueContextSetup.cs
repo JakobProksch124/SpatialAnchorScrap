@@ -123,7 +123,7 @@ public static class EntryCueContextSetup
         // ---------------- G64 / Laboratory ----------------
         new Spec {
             prefab = "T1_Arrival", ctx = "T1_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = "Willkommen in AR!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("karte", CueCardKind.Image, "KARTE", "Zeige die Karte der Strecke, wenn der Nutzer nach dem Weg, der Strecke oder einer Karte fragt.", "Deine Strecke im Überblick.", asset: MiniG64),
                 Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren oder wie man ihnen folgt.", "So entstehen die Pfeile und so folgst du ihnen.", asset: VidPfeil),
@@ -141,7 +141,7 @@ public static class EntryCueContextSetup
         },
         new Spec {
             prefab = "T2_Arrival", ctx = "T2_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = "Willkommen im Chemielabor!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("teleport", CueCardKind.Video, "TELEPORT", "Zeige die Teleport-Animation, wenn der Nutzer fragt, wie er sich bewegt.", "Mit dem rechten Controller zeigen und teleportieren.", asset: VidTele),
             }
@@ -157,7 +157,7 @@ public static class EntryCueContextSetup
         },
         new Spec {
             prefab = "T3_Arrival", ctx = "T3_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = "Willkommen zurück in AR!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("strecke", CueCardKind.Image, "STRECKE", "Zeige die Vorschau der Reststrecke, wenn der Nutzer fragt, wie der restliche Weg aussieht.", "So sieht der restliche Weg aus.", asset: MiniG64),
                 Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort-Highlight, wenn der Nutzer fragt, wo er gerade ist.", "Deine Strecke mit Highlight, wo du dich gerade befindest.", asset: MiniG64),
@@ -177,7 +177,7 @@ public static class EntryCueContextSetup
         // ---------------- Bib / Bridge (BRIDGE Lab Open Day) ----------------
         new Spec {
             prefab = "T5_Arrival", ctx = "T5_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = "Willkommen in AR!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort, wenn der Nutzer nach dem Weg oder wo er ist fragt.", "Deine Strecke durch die Bibliothek mit Highlight, wo du gerade bist.", asset: MiniBib),
                 Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren.", "Kurze Animation, wie die Pfeile funktionieren.", asset: VidPfeil),
@@ -195,7 +195,7 @@ public static class EntryCueContextSetup
         },
         new Spec {
             prefab = "T6_Arrival", ctx = "T6_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = "Willkommen im BRIDGE Lab!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("teleport", CueCardKind.Video, "TELEPORT", "Zeige die Teleport-Animation, wenn der Nutzer fragt, wie er sich bewegt.", "Mit dem rechten Controller zeigen und teleportieren.", asset: VidTele),
             }
@@ -211,7 +211,7 @@ public static class EntryCueContextSetup
         },
         new Spec {
             prefab = "T7_Arrival", ctx = "T7_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = "Willkommen zurück in AR!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort, wenn der Nutzer nach dem Weg oder wo er ist fragt.", "Der restliche Weg zum Hauptausgang mit Highlight, wo du gerade bist.", asset: MiniBib),
                 Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren.", "Kurze Animation, wie die Pfeile funktionieren.", asset: VidPfeil),
@@ -224,13 +224,14 @@ public static class EntryCueContextSetup
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
+                Card("vorschau", CueCardKind.Image, "VORSCHAU", "Zeige die Vorschau der Mensa, wenn der Nutzer sehen will, wohin es geht oder wie die Mensa aussieht.", "So sieht die Mensa aus – nur noch etwa 100 Meter."),
             }
         },
 
         // ---------------- Mensa ----------------
         new Spec {
             prefab = "T9_Arrival", ctx = "T9_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = "Willkommen in der Mensa!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef>()  // bewusst keine Karten (Gerichte stehen sichtbar in AR)
         },
         new Spec {
@@ -244,7 +245,7 @@ public static class EntryCueContextSetup
         },
         new Spec {
             prefab = "T10_Arrival", ctx = "T10_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = ArrSub, close = "Schließen", note = NoteArr,
+            title = "Auf dem Weg zu Peter!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort, wenn der Nutzer fragt, wo er gerade ist.", "Dein Weg nach oben mit Highlight, wo du gerade bist.", asset: MiniMensa),
             }
@@ -262,7 +263,7 @@ public static class EntryCueContextSetup
         // ---------------- Lecture ----------------
         new Spec {
             prefab = "T12_Arrival", ctx = "T12_Arrival", mode = CueConfig.Mode.Arrival,
-            title = ArrTitle, reason = "Hast du noch Fragen, bevor die Vorlesung startet?",
+            title = "Willkommen im Hörsaal!", reason = "Hast du noch Fragen, bevor die Vorlesung startet?",
             close = "Start", note = NoteArr,
             cards = new List<CueCardDef>()  // bewusst keine Karten (nur Start-Button im Hörsaal)
         },
@@ -280,7 +281,7 @@ public static class EntryCueContextSetup
         // ---------------- Tutorial (Ausprobieren) ----------------
         new Spec {
             prefab = "TutorialCue", ctx = "TutorialCue", mode = CueConfig.Mode.Arrival,
-            title = "Probier mich aus", reason = "Stell mir Fragen, teste die Panels und übe das Teleportieren.",
+            title = "Willkommen! Probier mich aus.", reason = "Stell mir Fragen, teste die Panels und übe das Teleportieren.",
             close = "Schließen",
             note = "Du bist ein Übungs-Arrival-Cue. Keine echte Aufgabe. Ermutige den Nutzer, zu sprechen, die Panels und die Teleportation auszuprobieren.",
             cards = new List<CueCardDef> {

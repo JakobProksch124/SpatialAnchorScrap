@@ -29,6 +29,9 @@ public class CueAnswerRow : MonoBehaviour
     public int Count => _shown.Count;
     public bool IsEmpty => _shown.Count == 0;
 
+    /// <summary>True if the card with this id is currently displayed (assistant prompt state).</summary>
+    public bool IsShown(string id) => _shown.Exists(c => c && c.Id == (id ?? "").Trim());
+
     /// <summary>Supply the card catalog defined on CueConfig for this cue.</summary>
     public void SetCards(List<CueCardDef> defs)
     {

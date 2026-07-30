@@ -822,9 +822,15 @@ public static class TransitionCueFactory
     {
         Material mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
 
-        // Set base color with specified alpha for semi-transparency
-        Color transparentColor = new Color(color.r, color.g, color.b, alpha);
-        mat.SetColor("_BaseColor", transparentColor);
+        // Cue-UI style: dark glassy panel like the RoundedRect cue panels, with only a hint of
+        // the accent colour (was a bright transparent primary colour that stuck out next to the
+        // new cue design). The accent stays visible via the glowing border effect.
+        Color dark = new Color(
+            Mathf.Lerp(color.r, 0.09f, 0.85f),
+            Mathf.Lerp(color.g, 0.10f, 0.85f),
+            Mathf.Lerp(color.b, 0.12f, 0.85f),
+            Mathf.Max(alpha, 0.88f));
+        mat.SetColor("_BaseColor", dark);
 
         // Set Surface Type to transparent
         mat.SetFloat("_Surface", 1); // 1 = transparent

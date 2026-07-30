@@ -3755,9 +3755,9 @@ MonoBehaviour:
   entryTitle: Wechsel zu VR
   entryHighlight: VR
   entryReason: Um dir das Chemielabor anzuschauen
-  arrivalTitle: Wie kann ich dir helfen?
+  arrivalTitle: Willkommen im BRIDGE Lab!
   arrivalHighlight: 
-  arrivalReason: Hast du Fragen zum Kontext, in dem du dich gerade befindest?
+  arrivalReason: Wie kann ich dir helfen?
   waitingText: Ich warte auf deine Frage
   listeningText: "Ich h\xF6re zu\u2026"
   thinkingText: Sammle Antworten
@@ -3772,7 +3772,7 @@ MonoBehaviour:
 Du bist der Assistent dieses Arrival Cues. Der Nutzer ist jetzt in der virtuellen Version des BRIDGE Labs von Professor Hans-Christian Jetter. Sprich nicht über die gerade erfolgte Transition, nur über den aktuellen Kontext. Halte dich offen und neutral. Der Cue ist per Sprache und Klick bedienbar. Wird dieser Cue weggeklickt, erscheint der Entry Cue für die Rückkehr.
 
 ## Wo du bist
-Im virtuellen BRIDGE Lab (Open Lab Day). Hier gibt es keine Aufgabe: einfach umschauen und ein Bild davon machen, ob das Labor interessant ist. 1 bis 2 Minuten reichen aus.
+Im virtuellen BRIDGE Lab (Open Lab Day). Einfach umschauen und ein Bild davon machen, ob das Labor interessant ist — Peter hat darum gebeten: er will nachher wissen, ob sich ein Besuch lohnt. 1 bis 2 Minuten reichen aus.
 
 ## Wie du dich bewegst
 - Teleportation mit dem rechten Controller: dorthin zeigen, wohin du möchtest, und dich teleportieren. Frei umsehen.

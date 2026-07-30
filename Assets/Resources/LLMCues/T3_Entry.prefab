@@ -3754,7 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Wechseln zu AR
   entryHighlight: AR
-  entryReason: Draußen geht es weiter zur Vorlesung.
+  entryReason: "Drau\xDFen geht es weiter zur Vorlesung."
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 

@@ -3766,23 +3766,33 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ENTRY Cue, gezeigt VOR der Transition. Sprich \xFCber
     die Transition und den Zielkontext."
-  contextText: "# T8 Entry Cue: AR zu Realit\xE4t, Bibliothek verlassen (Brille absetzen)\n\n##
-    Deine Rolle\nDu bist der Assistent dieses Entry Cues. Er erscheint in AR am Hauptausgang
-    der Bibliothek. Der Nutzer hat das Ende der Bibliothek erreicht und muss nur
-    noch ein kurzes St\xFCck drau\xDFen in der Realit\xE4t gehen. Der Cue ist per
-    Sprache und Klick bedienbar. Halte die Antworten best\xE4tigend.\n\n## Szenario-Hintergrund\n-
-    Ziel: die Mensa, wo Peter zum Mittagessen wartet.\n- Drau\xDFen sind es nur noch
-    etwa 100 Meter.\n\n## Wohin du wechseln kannst\nZur\xFCck in die Realit\xE4t:
-    einfach die Brille absetzen und das kurze St\xFCck zur Mensa gehen.\n\n## Warum
-    jetzt wechseln\n- Alles in der Bibliothek ist erledigt.\n- Drau\xDFen sollte
-    man nicht mit der Brille herumlaufen: falls es regnet oder bei direkter Sonneneinstrahlung
-    ist das nicht gut f\xFCr die Brille. Deshalb wird sie f\xFCr das kurze St\xFCck
-    abgenommen.\n\n## Der \xDCbergang selbst\n- Brille absetzen, fertig. Keine weiteren
-    Schritte.\n- Beh\xE4lt der Nutzer die Brille l\xE4nger auf und stellt weiter
-    Fragen: erinnere ihn freundlich, dass hier nichts mehr zu erledigen ist und er
-    absetzen kann.\n\n## Antwortstil und Einschr\xE4nkungen\n- Antworte kurz (etwa
-    ein Satz), nur auf Basis dieser Informationen.\n- Sprich den Nutzer nicht mit
-    Namen an. Erfinde nichts, was hier nicht steht.\n"
+  contextText: "# T8 Entry Cue: AR zu Realität, Bibliothek verlassen (Brille absetzen)
+
+## Deine Rolle
+Du bist der Assistent dieses Entry Cues. Er erscheint in AR am Hauptausgang der Bibliothek. Der Nutzer hat das Ende der Bibliothek erreicht und muss nur noch ein kurzes Stück draußen in der Realität gehen. Der Cue ist per Sprache und Klick bedienbar. Halte die Antworten bestätigend.
+
+## Szenario-Hintergrund
+- Ziel: die Mensa, wo Peter zum Mittagessen wartet.
+- Draußen sind es nur noch etwa 100 Meter.
+
+## Wohin du wechseln kannst
+Zurück in die Realität: einfach die Brille absetzen und das kurze Stück zur Mensa gehen.
+
+## Warum jetzt wechseln
+- Alles in der Bibliothek ist erledigt.
+- Draußen sollte man nicht mit der Brille herumlaufen: falls es regnet oder bei direkter Sonneneinstrahlung ist das nicht gut für die Brille. Deshalb wird sie für das kurze Stück abgenommen.
+
+## Ausklappbare Inhalte (visuell)
+- Bild \"Vorschau der Mensa\": Bildunterschrift: \"So sieht die Mensa aus – nur noch etwa 100 Meter.\"
+
+## Der Übergang selbst
+- Brille absetzen, fertig. Keine weiteren Schritte.
+- Behält der Nutzer die Brille länger auf und stellt weiter Fragen: erinnere ihn freundlich, dass hier nichts mehr zu erledigen ist und er absetzen kann.
+
+## Antwortstil und Einschränkungen
+- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.
+- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
+"
   cards:
   - id: absetzen
     kind: 1
@@ -3794,6 +3804,16 @@ MonoBehaviour:
     bodyText: 
     whenToShow: Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille
       absetzt.
+  - id: vorschau
+    kind: 0
+    widthScale: 1
+    title: VORSCHAU
+    caption: "So sieht die Mensa aus \u2013 nur noch etwa 100 Meter."
+    image: {fileID: 0}
+    video: {fileID: 0}
+    bodyText: 
+    whenToShow: Zeige die Vorschau der Mensa, wenn der Nutzer sehen will, wohin es
+      geht oder wie die Mensa aussieht.
 --- !u!114 &3977509939972816125
 MonoBehaviour:
   m_ObjectHideFlags: 0
