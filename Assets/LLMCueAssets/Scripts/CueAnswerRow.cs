@@ -112,7 +112,8 @@ public class CueAnswerRow : MonoBehaviour
         var media = MakeImage(card, "Media", panelSprite, new Color(0.5f, 0.5f, 0.5f, 1f));
         media.type = Image.Type.Sliced;
         media.pixelsPerUnitMultiplier = 81f / Px(13f);
-        media.gameObject.AddComponent<LayoutElement>().preferredHeight = Px(150);
+        media.gameObject.AddComponent<LayoutElement>().preferredHeight =
+            Px(150) * Mathf.Max(0.25f, def.heightScale);
         media.gameObject.AddComponent<Mask>().showMaskGraphic = true;
 
         if (def.kind == CueCardKind.Image && def.image != null)

@@ -24,22 +24,32 @@ public static class ArrowChevron
         return go;
     }
 
+    /// <summary>Glossy blue plastic with a soft glow — like the reference render. Deliberately
+    /// LIT (so the extrusion catches highlights and reads as a solid arrow) with only mild
+    /// emission; an unlit HDR material blooms into a shapeless blob.</summary>
     private static Material MakeMaterial(Color tint, float glow)
     {
-        var sh = Shader.Find("Universal Render Pipeline/Unlit") ?? Shader.Find("Unlit/Color");
+        var sh = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
         var m = new Material(sh);
-        var hdr = new Color(tint.r * glow, tint.g * glow, tint.b * glow, 1f); // >1 => bloom
-        if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", hdr);
-        m.color = hdr;
+        if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", tint);
+        m.color = tint;
+        if (m.HasProperty("_Smoothness")) m.SetFloat("_Smoothness", 0.85f); // glassy sheen
+        if (m.HasProperty("_Metallic")) m.SetFloat("_Metallic", 0f);
+        if (m.HasProperty("_EmissionColor"))
+        {
+            m.EnableKeyword("_EMISSION");
+            m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+            m.SetColor("_EmissionColor", tint * Mathf.Max(0f, glow)); // subtle self-glow
+        }
         return m;
     }
 
     // ---- geometry ----
 
-    private const float ArmSpan = 0.42f;   // half width of the chevron (m)
-    private const float ArmDepth = 0.34f;  // how far the arms trail behind the nose (m)
-    private const float HalfWidth = 0.085f; // stroke half-thickness (m)
-    private const float Height = 0.045f;   // extrusion (m)
+    private const float ArmSpan = 0.23f;   // half width of the chevron (m) -> ~0.46 m span
+    private const float ArmDepth = 0.20f;  // how far the arms trail behind the nose (m)
+    private const float HalfWidth = 0.055f; // stroke half-thickness (m) -> chunky like the render
+    private const float Height = 0.05f;    // extrusion (m) — catches a highlight on top
     private const int Samples = 26;        // centreline resolution
     private const int CapSegments = 8;     // rounded end caps
 

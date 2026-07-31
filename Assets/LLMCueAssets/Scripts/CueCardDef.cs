@@ -17,9 +17,12 @@ public class CueCardDef
 
     public CueCardKind kind = CueCardKind.Image;
 
-    [Tooltip("Width multiplier for this card (1 = normal, 3 = three times as wide). Useful for a " +
-             "wide 'window to reality' preview.")]
+    [Tooltip("Width multiplier for this card (1 = normal, 3 = three times as wide).")]
     public float widthScale = 1f;
+
+    [Tooltip("Height multiplier for the media area (1 = normal, 2 = twice as tall). The card grows " +
+             "symmetrically: content above moves up, content below moves down.")]
+    public float heightScale = 1f;
 
     [Tooltip("Tag shown top-left on media cards / heading on text cards.")]
     public string title = "PREVIEW";

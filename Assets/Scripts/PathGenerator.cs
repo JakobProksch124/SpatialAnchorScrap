@@ -19,19 +19,20 @@ public class PathGenerator : MonoBehaviour
 
     [Header("Arrow Settings")]
     [SerializeField] GameObject arrowHeadPrefab;
-    private float arrowSpacing = 6f; // distance between arrows in meters
+    [Tooltip("Distance between chevrons along the path (m).")]
+    [SerializeField] private float arrowSpacing = 3.5f;
     float arrowYOffset = 0.02f;      // lift arrows slightly above ground
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
     [Header("Arrow Look")]
-    [Tooltip("EXPERIMENTAL procedural chevron look. OFF = original arrow prefab + original line rendering.")]
-    [SerializeField] bool useProceduralChevrons = false;
+    [Tooltip("Glowing blue chevrons on the path (reference look). OFF = the old arrow prefab.")]
+    [SerializeField] bool useProceduralChevrons = true;
     [Tooltip("Glowing blue of the chevrons.")]
-    [SerializeField] Color arrowTint = new Color(0.20f, 0.48f, 1f, 1f);
-    [Tooltip("HDR multiplier — >1 makes URP bloom glow (reference look).")]
-    [SerializeField] float arrowGlow = 2.4f;
+    [SerializeField] Color arrowTint = new Color(0.13f, 0.42f, 1f, 1f);
+    [Tooltip("Emission strength of the chevrons: subtle glow, NOT a bloom bomb.")]
+    [SerializeField] float arrowGlow = 0.35f;
     [Tooltip("Lighter blue of the path ribbon.")]
-    [SerializeField] Color pathTint = new Color(0.52f, 0.68f, 1f, 1f);
+    [SerializeField] Color pathTint = new Color(0.45f, 0.66f, 1f, 1f);
     [Tooltip("Width of the glowing path ribbon (m).")]
     [SerializeField] float pathWidth = 0.30f;
 
@@ -68,6 +69,10 @@ public class PathGenerator : MonoBehaviour
             _lineRenderer.material = lineMaterial;
         }
 
+        // reference look: light glowing blue ribbon. Only the COLOUR changes — width, material and
+        // alignment stay exactly as authored (touching alignment once made the line invisible).
+        if (useProceduralChevrons) lineColor = pathTint;
+
         // Apply color via gradient (more reliable than startColor/endColor)
         Gradient gradient = new Gradient();
         gradient.SetKeys(
@@ -100,8 +105,6 @@ public class PathGenerator : MonoBehaviour
         start = Camera.main.transform;
         if (!_pathing || start == null || target == null)
             return;
-
-        AnimateArrows(); // flow + hover every frame — cheap transform updates on pooled arrows
 
         // smooth without the cost: rebuild 10x/s while walking, not at all while standing still
         _pathTimer += Time.deltaTime;
@@ -338,14 +341,15 @@ public class PathGenerator : MonoBehaviour
         AnimateArrows();
     }
 
-    /// <summary>Organic motion: the whole chain drifts forward along the path (slower than
-    /// walking, wraps at the target) and hovers with per-arrow phase offsets.</summary>
+    /// <summary>Places the chevrons flat on the line. STATIC on purpose: distances are measured
+    /// from the TARGET (which never moves), so a chevron keeps its world position while the user
+    /// walks up to and through it. No drift, no hover — that read as "floating" and cheap.</summary>
     void AnimateArrows()
     {
         if (_spawnedArrows.Count == 0 || _flowTotal <= 0f)
             return;
 
-        var flow = (Time.time * arrowFlowSpeed) % arrowSpacing;
+        const float flow = 0f;
         var fade = Mathf.Max(0.01f, arrowFadeDistance);
         for (int i = 0; i < _spawnedArrows.Count; i++)
         {
@@ -361,10 +365,7 @@ public class PathGenerator : MonoBehaviour
 
             SamplePath(d, out var pos, out var dir);
 
-            // hover: strictly vertical, per-arrow phase so the chain breathes
-            var bob = arrowBobAmplitude *
-                      Mathf.Sin(Time.time / arrowBobPeriod * 2f * Mathf.PI + i * 1.3f);
-            pos.y += arrowYOffset + arrowBobAmplitude + bob;
+            pos.y += arrowYOffset; // resting ON the line, not floating above it
 
             // scale-fade near both ends: a chevron shrinks away at the target and grows back in
             // near the user, so the forward flow never shows a backward jump

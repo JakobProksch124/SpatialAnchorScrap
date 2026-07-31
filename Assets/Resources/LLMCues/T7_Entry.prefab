@@ -3785,7 +3785,8 @@ MonoBehaviour:
   cards:
   - id: live
     kind: 3
-    widthScale: 3
+    widthScale: 1
+    heightScale: 2
     title: LIVE
     caption: Live-Ansicht der echten Welt vor dir, kein Standbild.
     image: {fileID: 0}
