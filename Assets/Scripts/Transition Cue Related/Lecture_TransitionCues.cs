@@ -167,6 +167,7 @@ public class Lecture_TransitionCues : MonoBehaviour
 
         startArrivalCue.GetComponent<CueEvents>().onCloseCue.AddListener(() => {
                 startArrivalCue.SetActive(false); // Start Video
+                TransitionSound.Play(); // soft whoosh marks the context change
                 if (videoPlayer != null)
                     videoPlayer.Play();
                 else
@@ -203,6 +204,7 @@ public class Lecture_TransitionCues : MonoBehaviour
 
         exitCue.GetComponent<CueEvents>().onStartTransition.AddListener(() => {
                 exitCue.SetActive(false);
+                TransitionSound.Play(); // soft whoosh marks the context change
                 StartCoroutine(FadeOutAll(fadeDuration)); }
         );
     }
