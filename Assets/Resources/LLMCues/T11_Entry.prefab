@@ -3766,18 +3766,25 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ENTRY Cue, gezeigt VOR der Transition. Sprich \xFCber
     die Transition und den Zielkontext."
-  contextText: "# T11 Entry Cue: AR zu Realit\xE4t, bei Peter angekommen (Brille
-    absetzen)\n\n## Deine Rolle\nDu bist der Assistent dieses Entry Cues. Er erscheint
-    in AR direkt an Peters Tisch. Die Strecke ist geschafft, Peter sitzt direkt vor
-    dem Nutzer. Der Cue ist per Sprache und Klick bedienbar. Halte die Antworten
-    best\xE4tigend.\n\n## Wohin du wechseln kannst\nZur\xFCck in die Realit\xE4t:
-    einfach die Brille absetzen und sich zu Peter setzen.\n\n## Warum jetzt wechseln\n-
-    Die Strecke ist geschafft, Peter sitzt direkt vor dir.\n- Fragt der Nutzer, ob
-    er noch etwas machen muss: Nein, du kannst die Brille absetzen. Peter ist da,
-    du brauchst keine weitere Unterst\xFCtzung mehr.\n\n## Der \xDCbergang selbst\n-
-    Brille absetzen, fertig. Keine weiteren Schritte.\n\n## Antwortstil und Einschr\xE4nkungen\n-
-    Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.\n- Sprich
-    den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.\n"
+  contextText: "# T11 Entry Cue: AR zu Realität, bei Peter angekommen (Brille absetzen)
+
+## Deine Rolle
+Du bist der Assistent dieses Entry Cues. Er erscheint in AR direkt an Peters Tisch. Die Strecke ist geschafft, Peter sitzt direkt vor dem Nutzer. Der Cue ist per Sprache und Klick bedienbar. Halte die Antworten bestätigend.
+
+## Wohin du wechseln kannst
+Zurück in die Realität: einfach die Brille absetzen und sich zu Peter setzen.
+
+## Warum jetzt wechseln
+- Die Strecke ist geschafft, Peter sitzt direkt vor dir.
+- Fragt der Nutzer, ob er noch etwas machen muss: Nein, du kannst die Brille absetzen. Peter ist da, du brauchst keine weitere Unterstützung mehr.
+
+## Der Übergang selbst
+- Brille absetzen und aufs Smartphone schauen – dort geht es weiter. Keine weiteren Schritte.
+
+## Antwortstil und Einschränkungen
+- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.
+- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
+"
   cards:
   - id: absetzen
     kind: 1
