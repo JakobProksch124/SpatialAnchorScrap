@@ -53,6 +53,19 @@ public class CueController : MonoBehaviour
             llm.OffersTransition = !config.IsArrival; // arrival cues have no transition to start
             if (answerRow) llm.IsCardShown = answerRow.IsShown; // prompt marks already-visible cards
         }
+
+        // EXPERIMENT (panels-through-button): small icon buttons that toggle the answer panels
+        // without the voice interface. Fully data-driven from config.cards; global on/off and
+        // tuning via the single asset Resources/CuePanelButtonsSettings. Runtime only, so the
+        // edit-time "Apply Config" context menu never bakes them into a prefab.
+        if (Application.isPlaying && answerRow != null && invitation != null &&
+            config.cards != null && config.cards.Count > 0)
+        {
+            var pbs = CuePanelButtonsSettings.Load();
+            if (pbs != null && pbs.featureEnabled)
+                CuePanelButtonRow.Attach((RectTransform)invitation.transform.parent, answerRow,
+                    invitation, theme, config.cards, pbs);
+        }
     }
     
     

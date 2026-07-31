@@ -27,6 +27,10 @@ public class CueCardDef
     [Tooltip("Caption under an image/video card.")]
     public string caption = "";
 
+    [Tooltip("Optional small icon for this card's panel-toggle button (CuePanelButtonRow). " +
+             "Empty = a placeholder glyph based on the card kind.")]
+    public Texture icon;
+
     [Header("Content (by kind)")]
     public Texture image;          // Image kind
     public VideoClip video;        // Video kind
