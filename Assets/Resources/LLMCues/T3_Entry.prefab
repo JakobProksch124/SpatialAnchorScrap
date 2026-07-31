@@ -3531,7 +3531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828036464588146c486a5578071f8a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 1
+  mode: 2
   turnSpeed: 6
   lockDistance: 1.5
   maxYawFromBase: 0

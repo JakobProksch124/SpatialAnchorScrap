@@ -23,16 +23,28 @@ public class PathGenerator : MonoBehaviour
     float arrowYOffset = 0.02f;      // lift arrows slightly above ground
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
+    [Header("Arrow Look")]
+    [Tooltip("Build the glowing chevron procedurally (reference look) instead of using the prefab above.")]
+    [SerializeField] bool useProceduralChevrons = true;
+    [Tooltip("Glowing blue of the chevrons.")]
+    [SerializeField] Color arrowTint = new Color(0.20f, 0.48f, 1f, 1f);
+    [Tooltip("HDR multiplier — >1 makes URP bloom glow (reference look).")]
+    [SerializeField] float arrowGlow = 2.4f;
+    [Tooltip("Lighter blue of the path ribbon.")]
+    [SerializeField] Color pathTint = new Color(0.52f, 0.68f, 1f, 1f);
+    [Tooltip("Width of the glowing path ribbon (m).")]
+    [SerializeField] float pathWidth = 0.30f;
+
     [Header("Arrow Flow (organic motion)")]
-    [Tooltip("Arrows drift forward along the path at this speed (m/s) — slower than walking, " +
+    [Tooltip("Chevrons drift FORWARD along the path at this speed (m/s) — slower than walking, " +
              "so a walking user slowly catches up to them.")]
-    [SerializeField] float arrowFlowSpeed = 0.45f;
-    [Tooltip("Gentle vertical hover amplitude (m).")]
-    [SerializeField] float arrowBobAmplitude = 0.04f;
+    [SerializeField] float arrowFlowSpeed = 0.4f;
+    [Tooltip("Hover amplitude (m) — purely UP AND DOWN, never along the path.")]
+    [SerializeField] float arrowBobAmplitude = 0.045f;
     [Tooltip("Hover period (s) — slow and calm.")]
-    [SerializeField] float arrowBobPeriod = 3.2f;
-    [Tooltip("Glowing tint applied to the arrows (base + emission).")]
-    [SerializeField] Color arrowTint = new Color(0.30f, 0.55f, 1f, 1f);
+    [SerializeField] float arrowBobPeriod = 3.4f;
+    [Tooltip("Fade distance (m) at the path ends so the flow wrap is invisible (no backward jump).")]
+    [SerializeField] float arrowFadeDistance = 1.6f;
 
     // the smoothed path the arrows flow along (world positions + cumulative length)
     private readonly List<Vector3> _flowPath = new List<Vector3>();
@@ -54,6 +66,25 @@ public class PathGenerator : MonoBehaviour
         if (lineMaterial != null)
         {
             _lineRenderer.material = lineMaterial;
+        }
+
+        // glowing blue ribbon on the floor (reference look): HDR-bright unlit so bloom picks it up
+        if (useProceduralChevrons)
+        {
+            var sh = Shader.Find("Universal Render Pipeline/Unlit");
+            if (sh != null)
+            {
+                var lm = new Material(sh);
+                var hdr = new Color(pathTint.r * 1.7f, pathTint.g * 1.7f, pathTint.b * 1.7f, 1f);
+                if (lm.HasProperty("_BaseColor")) lm.SetColor("_BaseColor", hdr);
+                lm.color = hdr;
+                _lineRenderer.material = lm;
+            }
+            _lineRenderer.widthMultiplier = pathWidth;
+            _lineRenderer.numCapVertices = 6;
+            _lineRenderer.alignment = LineAlignment.TransformZ; // lie flat on the floor
+            _lineRenderer.textureMode = LineTextureMode.Stretch;
+            lineColor = pathTint;
         }
 
         // Apply color via gradient (more reliable than startColor/endColor)
@@ -279,7 +310,7 @@ public class PathGenerator : MonoBehaviour
 
     void PlaceArrowsAlongPath(List<Vector3> pathPoints)
     {
-        if (arrowHeadPrefab == null || pathPoints.Count < 2)
+        if ((arrowHeadPrefab == null && !useProceduralChevrons) || pathPoints.Count < 2)
         {
             ClearArrows();
             _flowTotal = 0f;
@@ -310,8 +341,16 @@ public class PathGenerator : MonoBehaviour
         }
         while (_spawnedArrows.Count < n)
         {
-            var arrow = Instantiate(arrowHeadPrefab);
-            TintArrow(arrow);
+            GameObject arrow;
+            if (useProceduralChevrons)
+            {
+                arrow = ArrowChevron.Create(arrowTint, arrowGlow);
+            }
+            else
+            {
+                arrow = Instantiate(arrowHeadPrefab);
+                TintArrow(arrow);
+            }
             _spawnedArrows.Add(arrow);
         }
 
@@ -326,21 +365,32 @@ public class PathGenerator : MonoBehaviour
             return;
 
         var flow = (Time.time * arrowFlowSpeed) % arrowSpacing;
+        var fade = Mathf.Max(0.01f, arrowFadeDistance);
         for (int i = 0; i < _spawnedArrows.Count; i++)
         {
             var arrow = _spawnedArrows[i];
             if (arrow == null) continue;
 
             var d = arrowSpacing * (i + 0.5f) + flow;
-            if (d > _flowTotal) d -= _flowTotal; // wrap: past the target -> back near the user
+            if (d > _flowTotal) d -= _flowTotal; // wrap happens INSIDE the fade, so it's unseen
 
             SamplePath(d, out var pos, out var dir);
+
+            // hover: strictly vertical, per-arrow phase so the chain breathes
             var bob = arrowBobAmplitude *
                       Mathf.Sin(Time.time / arrowBobPeriod * 2f * Mathf.PI + i * 1.3f);
             pos.y += arrowYOffset + arrowBobAmplitude + bob;
 
-            arrow.transform.SetPositionAndRotation(
-                pos, Quaternion.LookRotation(dir) * Quaternion.Euler(-90f, -90f, 0));
+            // scale-fade near both ends: a chevron shrinks away at the target and grows back in
+            // near the user, so the forward flow never shows a backward jump
+            var edge = Mathf.Min(d, _flowTotal - d);
+            var k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(edge / fade));
+
+            var tr = arrow.transform;
+            tr.SetPositionAndRotation(pos, useProceduralChevrons
+                ? Quaternion.LookRotation(dir)                                  // mesh points +Z
+                : Quaternion.LookRotation(dir) * Quaternion.Euler(-90f, -90f, 0));
+            tr.localScale = Vector3.one * k;
         }
     }
 

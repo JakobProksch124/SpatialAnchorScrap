@@ -691,6 +691,7 @@ public class Building_TransitionCues : MonoBehaviour
         }
 
         exitCue = Instantiate(prefab, exitAnchor);
+        FaceRoomCentre(exitCue.transform); // deterministic: back to wall, facing into the room
         FixUpCanvasRayButtons(exitCue);
 
         exitCue.GetComponent<CueEvents>().onStartTransition.AddListener(() => { StartCoroutine(ExitVR()); }
@@ -699,6 +700,21 @@ public class Building_TransitionCues : MonoBehaviour
 
     // CUE INFO:
     // This cue spawns in front of the user when he freshly entered a vr room and gives him some info or instructions about what he can explore
+    /// <summary>Yaw a VR-room cue so it looks at the room's UserSpawnPoint — i.e. back to the wall
+    /// it hangs on, content facing into the room. Deterministic: unlike facing the user at spawn
+    /// time, this does not depend on where the user happens to stand (that made cues face walls).</summary>
+    private void FaceRoomCentre(Transform cue)
+    {
+        if (vrRoom == null) return;
+        var spawn = vrRoom.transform.Find("UserSpawnPoint");
+        if (spawn == null) return;
+
+        var dir = spawn.position - cue.position;
+        dir.y = 0f;
+        if (dir.sqrMagnitude < 1e-4f) return;
+        cue.rotation = Quaternion.LookRotation(dir.normalized);
+    }
+
     void CreateEntryArrivalCue(Transform entryArrivalAnchor)
     {
         var prefab = Resources.Load<GameObject>(entryArrivalCuePath);
