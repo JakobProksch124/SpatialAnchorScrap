@@ -87,7 +87,8 @@ public static class ArrowChevron
 
         // rounded caps at both ends
         AddCap(verts, tris, line[0], (line[0] - line[1]).normalized);
-        AddCap(verts, tris, line[^1], (line[^1] - line[^2]).normalized);
+        int last = line.Count - 1;
+        AddCap(verts, tris, line[last], (line[last] - line[last - 1]).normalized);
 
         var mesh = new Mesh { name = "PathChevron" };
         mesh.SetVertices(verts);
@@ -112,7 +113,8 @@ public static class ArrowChevron
         }
         for (var i = 0; i < CapSegments; i++)
         {
-            var t0 = top + 2 + i * 2, t1 = t0 + 2;
+            int t0 = top + 2 + i * 2;
+            int t1 = t0 + 2;
             tris.Add(top); tris.Add(t0); tris.Add(t1);                    // top fan
             tris.Add(top + 1); tris.Add(t1 + 1); tris.Add(t0 + 1);        // bottom fan
             AddQuad(tris, t0 + 1, t0, t1, t1 + 1);                        // rim
