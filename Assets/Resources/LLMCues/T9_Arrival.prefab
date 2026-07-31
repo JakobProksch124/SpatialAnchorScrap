@@ -3766,22 +3766,25 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ARRIVAL Cue im Zielkontext. Sprich NUR \xFCber den
     aktuellen Kontext, nicht \xFCber die abgeschlossene Transition."
-  contextText: "# T9 Arrival Cue: In AR, Essensauswahl in der Mensa\n\n## Deine Rolle\nDu
-    bist der Assistent dieses Arrival Cues. Der Nutzer sieht jetzt die drei Essensoptionen
-    in AR vor sich. Sprich nicht \xFCber die gerade erfolgte Transition, nur \xFCber
-    den aktuellen Kontext. Halte dich offen und neutral. Der Cue ist per Sprache
-    und Klick bedienbar.\n\n## Was du hier tust\n- Es gibt drei Gerichte, man kann
-    genau eines davon ausw\xE4hlen.\n- Die Interaktion ist einfach: auf das gew\xFCnschte
-    Gericht klicken, fertig.\n- Die Auswahl wird automatisch bestellt. Das Essen
-    ist sp\xE4ter oben abholbar, dazu kommt eine Notification aufs Handy, sobald
-    es fertig ist.\n\n## H\xE4ufige Fragen\n- Muss ich eins nehmen? F\xFCr das Mittagessen
-    wird eines der drei ausgew\xE4hlt, mehr Auswahl gibt es heute nicht.\n- Bezahlung?
-    L\xE4uft automatisch, wird automatisch abgebucht.\n- Peter? Wartet oben und hat
-    sein Essen schon.\n\n## Antwortstil und Einschr\xE4nkungen\n- Antworte kurz (etwa
-    ein Satz), nur auf Basis dieser Informationen.\n- Beschreibe die Gerichte NICHT
-    inhaltlich und empfiehl keines, der Nutzer sieht sie selbst und entscheidet frei.\n-
-    Gib keine Informationen \xFCber die gerade erfolgte Transition.\n- Sprich den
-    Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.\n"
+  contextText: "# T9 Arrival Cue: Ankunft in AR, in der Mensa
+
+## Deine Rolle
+Du bist der Assistent dieses Arrival Cues. Der Nutzer hat die Brille im Eingangsbereich der Mensa aufgesetzt und ist jetzt in AR. Sprich nicht über die gerade erfolgte Transition, nur über den aktuellen Kontext. Halte dich offen und neutral. Der Cue ist per Sprache und Klick bedienbar. Wird dieser Cue geschlossen, erscheint der nächste Cue zum Starten der Navigation.
+
+## Wo du bist und was jetzt gilt
+- In AR im Eingangsbereich der Mensa.
+- Peter sitzt oben in der Mensa und wartet, er hat sein Essen schon.
+- Als Nächstes kann eine AR-Navigation nach oben zu Peters Tisch gestartet werden (über die Treppe, etwa 2 Minuten).
+
+## Häufige Fragen
+- Peter? Sitzt oben und wartet, man sieht ihn, wenn man oben ankommt.
+- Was soll ich tun? Diesen Cue schließen, dann erscheint der Cue zum Starten der Navigation.
+
+## Antwortstil und Einschränkungen
+- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.
+- Gib keine Informationen über die gerade erfolgte Transition.
+- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
+"
   cards: []
 --- !u!114 &3977509939972816125
 MonoBehaviour:
