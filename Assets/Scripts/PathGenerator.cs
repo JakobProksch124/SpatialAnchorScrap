@@ -23,6 +23,22 @@ public class PathGenerator : MonoBehaviour
     float arrowYOffset = 0.02f;      // lift arrows slightly above ground
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
+    [Header("Arrow Flow (organic motion)")]
+    [Tooltip("Arrows drift forward along the path at this speed (m/s) — slower than walking, " +
+             "so a walking user slowly catches up to them.")]
+    [SerializeField] float arrowFlowSpeed = 0.45f;
+    [Tooltip("Gentle vertical hover amplitude (m).")]
+    [SerializeField] float arrowBobAmplitude = 0.04f;
+    [Tooltip("Hover period (s) — slow and calm.")]
+    [SerializeField] float arrowBobPeriod = 3.2f;
+    [Tooltip("Glowing tint applied to the arrows (base + emission).")]
+    [SerializeField] Color arrowTint = new Color(0.30f, 0.55f, 1f, 1f);
+
+    // the smoothed path the arrows flow along (world positions + cumulative length)
+    private readonly List<Vector3> _flowPath = new List<Vector3>();
+    private readonly List<float> _flowCum = new List<float>();
+    private float _flowTotal;
+
     float updateThreshold = 1f; // only recalc if moved more than 1m
     public bool firstDraw = true; // true until the line has been drawn once
     bool isDrawingFirstTime = false;
@@ -72,6 +88,8 @@ public class PathGenerator : MonoBehaviour
         start = Camera.main.transform;
         if (!_pathing || start == null || target == null)
             return;
+
+        AnimateArrows(); // flow + hover every frame — cheap transform updates on pooled arrows
 
         // smooth without the cost: rebuild 10x/s while walking, not at all while standing still
         _pathTimer += Time.deltaTime;
@@ -215,9 +233,6 @@ public class PathGenerator : MonoBehaviour
 
         ClearArrows(); // remove any previous arrows
 
-        float accumulatedDistance = 0f;
-        float nextArrowDistance = arrowSpacing;
-
         for (int i = 0; i < controlPoints.Length - 1; i++)
         {
             Vector3 p0 = i == 0 ? controlPoints[i] : controlPoints[i - 1];
@@ -245,36 +260,11 @@ public class PathGenerator : MonoBehaviour
                 _lineRenderer.positionCount = smoothPoints.Count;
                 _lineRenderer.SetPositions(smoothPoints.ToArray());
 
-                // Arrow placement
-                if (arrowHeadPrefab != null && smoothPoints.Count > 1)
-                {
-                    Vector3 prev = smoothPoints[smoothPoints.Count - 2];
-                    Vector3 current = smoothPoints[smoothPoints.Count - 1];
-                    float segmentDistance = Vector3.Distance(prev, current);
-
-                    while (accumulatedDistance + segmentDistance >= nextArrowDistance)
-                    {
-                        float remaining = nextArrowDistance - accumulatedDistance;
-                        float tArrow = remaining / segmentDistance;
-                        Vector3 pos = Vector3.Lerp(prev, current, tArrow);
-                        Vector3 dir = (current - prev).normalized;
-                        pos.y += arrowYOffset;
-
-                        GameObject arrow = Instantiate(
-                            arrowHeadPrefab,
-                            pos,
-                            Quaternion.LookRotation(dir) * Quaternion.Euler(-90f, -90f, 0)
-                        );
-                        _spawnedArrows.Add(arrow);
-                        nextArrowDistance += arrowSpacing;
-                    }
-
-                    accumulatedDistance += segmentDistance;
-                }
-
                 yield return new WaitForSeconds(0.05f); // wait a frame to animate drawing
             }
         }
+
+        PlaceArrowsAlongPath(smoothPoints); // arrows join once the line has finished drawing
         isDrawingFirstTime = false;
         firstDraw = false;
     }
@@ -290,43 +280,100 @@ public class PathGenerator : MonoBehaviour
     void PlaceArrowsAlongPath(List<Vector3> pathPoints)
     {
         if (arrowHeadPrefab == null || pathPoints.Count < 2)
+        {
+            ClearArrows();
+            _flowTotal = 0f;
             return;
+        }
 
-        ClearArrows();
-
-        float accumulatedDistance = 0f;
-        float nextArrowDistance = arrowSpacing;
-
+        // store the smoothed path (positions + cumulative length) — AnimateArrows samples it
+        _flowPath.Clear();
+        _flowCum.Clear();
+        var cum = 0f;
+        _flowPath.Add(pathPoints[0]);
+        _flowCum.Add(0f);
         for (int i = 1; i < pathPoints.Count; i++)
         {
-            Vector3 prev = pathPoints[i - 1];
-            Vector3 current = pathPoints[i];
-
-            float segmentDistance = Vector3.Distance(prev, current);
-
-            while (accumulatedDistance + segmentDistance >= nextArrowDistance)
-            {
-                float remaining = nextArrowDistance - accumulatedDistance;
-                float t = remaining / segmentDistance;
-
-                Vector3 position = Vector3.Lerp(prev, current, t);
-                Vector3 direction = (current - prev).normalized;
-
-                position.y += arrowYOffset;
-
-                GameObject arrow = Instantiate(
-                    arrowHeadPrefab,
-                    position,
-                    Quaternion.LookRotation(direction) * Quaternion.Euler(-90f, -90f, 0)
-                );
-
-                _spawnedArrows.Add(arrow);
-
-                nextArrowDistance += arrowSpacing;
-            }
-
-            accumulatedDistance += segmentDistance;
+            cum += Vector3.Distance(pathPoints[i - 1], pathPoints[i]);
+            _flowPath.Add(pathPoints[i]);
+            _flowCum.Add(cum);
         }
+        _flowTotal = cum;
+
+        // pool to the needed count instead of destroy+respawn (cheaper, no flicker)
+        var n = Mathf.Max(0, Mathf.FloorToInt(_flowTotal / arrowSpacing));
+        while (_spawnedArrows.Count > n)
+        {
+            var last = _spawnedArrows[_spawnedArrows.Count - 1];
+            _spawnedArrows.RemoveAt(_spawnedArrows.Count - 1);
+            if (last != null) Destroy(last);
+        }
+        while (_spawnedArrows.Count < n)
+        {
+            var arrow = Instantiate(arrowHeadPrefab);
+            TintArrow(arrow);
+            _spawnedArrows.Add(arrow);
+        }
+
+        AnimateArrows();
+    }
+
+    /// <summary>Organic motion: the whole chain drifts forward along the path (slower than
+    /// walking, wraps at the target) and hovers with per-arrow phase offsets.</summary>
+    void AnimateArrows()
+    {
+        if (_spawnedArrows.Count == 0 || _flowTotal <= 0f)
+            return;
+
+        var flow = (Time.time * arrowFlowSpeed) % arrowSpacing;
+        for (int i = 0; i < _spawnedArrows.Count; i++)
+        {
+            var arrow = _spawnedArrows[i];
+            if (arrow == null) continue;
+
+            var d = arrowSpacing * (i + 0.5f) + flow;
+            if (d > _flowTotal) d -= _flowTotal; // wrap: past the target -> back near the user
+
+            SamplePath(d, out var pos, out var dir);
+            var bob = arrowBobAmplitude *
+                      Mathf.Sin(Time.time / arrowBobPeriod * 2f * Mathf.PI + i * 1.3f);
+            pos.y += arrowYOffset + arrowBobAmplitude + bob;
+
+            arrow.transform.SetPositionAndRotation(
+                pos, Quaternion.LookRotation(dir) * Quaternion.Euler(-90f, -90f, 0));
+        }
+    }
+
+    void SamplePath(float d, out Vector3 pos, out Vector3 dir)
+    {
+        for (int i = 1; i < _flowCum.Count; i++)
+        {
+            if (_flowCum[i] >= d)
+            {
+                var seg = _flowCum[i] - _flowCum[i - 1];
+                var t = seg > 1e-5f ? (d - _flowCum[i - 1]) / seg : 0f;
+                pos = Vector3.Lerp(_flowPath[i - 1], _flowPath[i], t);
+                dir = (_flowPath[i] - _flowPath[i - 1]).normalized;
+                return;
+            }
+        }
+        pos = _flowPath[_flowPath.Count - 1];
+        dir = (_flowPath[_flowPath.Count - 1] - _flowPath[_flowPath.Count - 2]).normalized;
+    }
+
+    /// <summary>Glowing tint (base + emission) so the arrows read like the design reference.</summary>
+    void TintArrow(GameObject arrow)
+    {
+        foreach (var r in arrow.GetComponentsInChildren<Renderer>())
+            foreach (var m in r.materials)
+            {
+                m.color = arrowTint;
+                if (m.HasProperty("_EmissionColor"))
+                {
+                    m.EnableKeyword("_EMISSION");
+                    m.SetColor("_EmissionColor", arrowTint * 1.6f);
+                }
+            }
     }
 
     public void ClearArrows()

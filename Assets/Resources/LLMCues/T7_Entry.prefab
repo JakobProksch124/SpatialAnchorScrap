@@ -3531,10 +3531,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 828036464588146c486a5578071f8a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
+  mode: 1
   turnSpeed: 6
   lockDistance: 1.5
-  maxYawFromBase: 10
+  maxYawFromBase: 0
 --- !u!114 &2852179229888140200
 MonoBehaviour:
   m_ObjectHideFlags: 0

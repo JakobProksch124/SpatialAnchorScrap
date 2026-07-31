@@ -167,7 +167,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T4_Entry", ctx = "T4_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
-            reason = "Ziel erreicht – setz die Brille ab und schau auf dein Smartphone.",
+            reason = "Du hast den Vorlesungsraum erreicht – setz die Brille ab und schau auf dein Smartphone.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er wechselt oder die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
@@ -220,7 +220,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T8_Entry", ctx = "T8_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
-            reason = "Setz die Brille ab und schau auf dein Smartphone.",
+            reason = "Bibliothek geschafft – setz die Brille ab und schau auf dein Smartphone.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
@@ -253,7 +253,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T11_Entry", ctx = "T11_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
-            reason = "Angekommen – setz die Brille ab und schau auf dein Smartphone.",
+            reason = "Du hast Peter erreicht – setz die Brille ab und schau auf dein Smartphone.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
