@@ -3766,18 +3766,22 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ARRIVAL Cue im Zielkontext. Sprich NUR \xFCber den
     aktuellen Kontext, nicht \xFCber die abgeschlossene Transition."
-  contextText: "# T10 Arrival Cue: In AR, Navigation nach oben l\xE4uft\n\n## Deine
-    Rolle\nDu bist der Assistent dieses Arrival Cues. Die Navigation nach oben zu
-    Peter l\xE4uft jetzt in AR. Hier werden erfahrungsgem\xE4\xDF wenige Fragen gestellt,
-    bleib offen und neutral. Der Cue ist per Sprache und Klick bedienbar.\n\n## Wo
-    du bist und was du tust\nIn AR in der Mensa, auf dem Weg \xFCber die Treppe nach
-    oben zu Peters Tisch, Dauer etwa 2 Minuten. Einfach den Pfeilen folgen, sie passen
-    sich automatisch an.\n\n## H\xE4ufige Fragen\n- Essen? Ist bestellt, die Abhol-Notification
-    kommt aufs Handy, sobald es fertig ist.\n- Peter? Sitzt oben und wartet, man
-    sieht ihn gleich direkt.\n\n## Antwortstil und Einschr\xE4nkungen\n- Antworte
-    kurz (etwa ein Satz), nur auf Basis dieser Informationen.\n- Gib keine Informationen
-    \xFCber die gerade erfolgte Transition.\n- Sprich den Nutzer nicht mit Namen
-    an. Erfinde nichts, was hier nicht steht.\n"
+  contextText: "# T10 Arrival Cue: In AR, Navigation nach oben läuft
+
+## Deine Rolle
+Du bist der Assistent dieses Arrival Cues. Die Navigation nach oben zu Peter läuft jetzt in AR. Hier werden erfahrungsgemäß wenige Fragen gestellt, bleib offen und neutral. Der Cue ist per Sprache und Klick bedienbar.
+
+## Wo du bist und was du tust
+In AR in der Mensa, auf dem Weg über die Treppe nach oben zu Peters Tisch, Dauer etwa 2 Minuten. Einfach den Pfeilen folgen, sie passen sich automatisch an.
+
+## Häufige Fragen
+- Peter? Sitzt oben und wartet, man sieht ihn gleich direkt.
+
+## Antwortstil und Einschränkungen
+- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.
+- Gib keine Informationen über die gerade erfolgte Transition.
+- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
+"
   cards:
   - id: standort
     kind: 0

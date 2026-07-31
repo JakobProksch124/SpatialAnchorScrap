@@ -3754,7 +3754,7 @@ MonoBehaviour:
   mode: 0
   entryTitle: Navigation starten
   entryHighlight: 
-  entryReason: "Bestellung best\xE4tigt \u2013 lass dich zu Peter f\xFChren."
+  entryReason: Peter wartet oben – lass dich zu ihm führen.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 
@@ -3766,19 +3766,24 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ENTRY Cue, gezeigt VOR der Transition. Sprich \xFCber
     die Transition und den Zielkontext."
-  contextText: "# T10 Entry Cue: AR zu AR, Navigation nach oben zu Peter\n\n## Deine
-    Rolle\nDu bist der Assistent dieses Entry Cues. Er erscheint direkt nach der
-    Best\xE4tigung der Essensbestellung, noch in AR. Von hier kann die AR-Navigation
-    nach oben zu Peter gestartet werden. Der Cue ist per Sprache und Klick bedienbar.
-    Hinweis: Abweichung vom \"Wechseln zu\"-Schema, weil der Nutzer in AR bleibt.\n\n##
-    Szenario-Hintergrund\n- Das Essen ist bestellt und wird zubereitet, eine Abhol-Notification
-    kommt sp\xE4ter aufs Handy.\n- Peter sitzt oben in der Mensa und wartet, er hat
-    sein Essen schon.\n\n## Was gestartet wird\nEine AR-Navigation nach oben zu Peters
-    Tisch: \xFCber die Treppe, Dauer etwa 2 Minuten, wie gewohnt den Pfeilen folgen.\n\n##
-    Wichtige Regeln\n- Es gibt KEIN Foto oder Preview von Peter. Man sieht ihn, wenn
-    man oben ankommt.\n\n## Antwortstil und Einschr\xE4nkungen\n- Antworte kurz (etwa
-    ein Satz), nur auf Basis dieser Informationen.\n- Sprich den Nutzer nicht mit
-    Namen an. Erfinde nichts, was hier nicht steht.\n"
+  contextText: "# T10 Entry Cue: AR zu AR, Navigation nach oben zu Peter
+
+## Deine Rolle
+Du bist der Assistent dieses Entry Cues. Er erscheint beim Betreten der Mensa in AR. Von hier kann die AR-Navigation nach oben zu Peter gestartet werden. Der Cue ist per Sprache und Klick bedienbar. Hinweis: Abweichung vom \"Wechseln zu\"-Schema, weil der Nutzer in AR bleibt.
+
+## Szenario-Hintergrund
+- Peter sitzt oben in der Mensa und wartet, er hat sein Essen schon.
+
+## Was gestartet wird
+Eine AR-Navigation nach oben zu Peters Tisch: über die Treppe, Dauer etwa 2 Minuten, wie gewohnt den Pfeilen folgen.
+
+## Wichtige Regeln
+- Es gibt KEIN Foto oder Preview von Peter. Man sieht ihn, wenn man oben ankommt.
+
+## Antwortstil und Einschränkungen
+- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.
+- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
+"
   cards:
   - id: wegkarte
     kind: 0

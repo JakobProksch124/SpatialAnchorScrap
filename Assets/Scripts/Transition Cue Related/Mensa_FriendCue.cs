@@ -138,7 +138,11 @@ public class Mensa_FriendCue : MonoBehaviour
             UnityEngine.Debug.Log("entry arrival anchor set!");
         }
 
-        CreateStartArrivalCue(startArrivalAnchor);
+        // Food selection removed from the study flow: the scene starts directly with the
+        // entry cue for the navigation to Peter. showEntryCue() already hides all food
+        // elements, creates the T10 entry cue and spawns the goal marker at Peter's table —
+        // the food code below stays intact in case the selection ever comes back.
+        showEntryCue();
     }
 
     void ShowFood()

@@ -237,7 +237,7 @@ public static class EntryCueContextSetup
         new Spec {
             prefab = "T10_Entry", ctx = "T10_Entry", mode = CueConfig.Mode.Entry,
             title = "Navigation starten", highlight = "",
-            reason = "Bestellung bestätigt – lass dich zu Peter führen.",
+            reason = "Peter wartet oben – lass dich zu ihm führen.",
             enter = "Starten", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("wegkarte", CueCardKind.Image, "KARTE", "Zeige die Karte des Weges nach oben, wenn der Nutzer nach dem Weg oder einer Karte fragt.", "Über die Treppe nach oben zu Peter, etwa 2 Minuten.", asset: MiniMensa),
