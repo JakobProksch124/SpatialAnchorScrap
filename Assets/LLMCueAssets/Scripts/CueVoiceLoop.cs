@@ -136,11 +136,16 @@ public class CueVoiceLoop : MonoBehaviour
         StartListening();
     }
 
+    /// <summary>True once the user has actually engaged this cue (spoken to it / pressed A).
+    /// Building_TransitionCues uses it to auto-retire an ignored arrival cue.</summary>
+    public bool HasEngaged { get; private set; }
+
     private void StartListening()
     {
         // engagement lock: if another cue is already listening/answering, ignore
         if (_activeLoop != null && _activeLoop != this) return;
         _activeLoop = this;
+        HasEngaged = true;
         if (_earcons) _earcons.PlayListen();
         stt.StartListening();
         ToState(CueVisualState.Listening);

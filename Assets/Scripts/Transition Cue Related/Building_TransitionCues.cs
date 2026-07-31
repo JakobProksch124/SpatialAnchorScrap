@@ -86,6 +86,16 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private bool exitAlwaysExpand = false;
     [SerializeField] private bool leadsToAR = false;
     [SerializeField] private float exitCueDelay = 20f;
+
+    [Header("VR room cue timing")]
+    [Tooltip("Seconds between the user closing the arrival cue and the entry (exit) cue appearing.")]
+    [SerializeField] private float arrivalClosedToEntryDelay = 20f;
+
+    [Tooltip("If the user never engages the arrival cue, it retires by itself after this long (s).")]
+    [SerializeField] private float arrivalIdleTimeout = 30f;
+
+    [Tooltip("Seconds after an IGNORED arrival cue retires until the entry (exit) cue appears.")]
+    [SerializeField] private float idleRetiredToEntryDelay = 10f;
     [SerializeField] private string exitCuePath;
 
     [Header("VRExit Arrival Cue Infos")]
@@ -152,6 +162,7 @@ public class Building_TransitionCues : MonoBehaviour
     private const float AlignInterval = 0.001f; // 0.1 Hz
     private float targetFloorDeltaY;
     private bool exitingVR = false;
+    private bool _exitCueScheduled = false; // stops the close path and the idle path from doubling up
 
 
     void Start()
@@ -730,23 +741,51 @@ public class Building_TransitionCues : MonoBehaviour
         FixUpCanvasRayButtons(entryArrivalCue);
 
         entryArrivalCue.GetComponent<CueEvents>().onCloseCue.AddListener(() =>
-        {
-            var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
+            ScheduleExitCue(arrivalClosedToEntryDelay, "arrival closed"));
 
-            if (exitTargets.Count > 0)
-            {
-                foreach (var go in exitTargets)
-                {
-                    exitCueAnchor = go.transform;
-                    SpawnExitCue();
-                }
-            }
-            else
-            {
-                Debug.LogWarning(
-                    $"[BUILDING_TRANSITIONCUE] {exitAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
-            }
-        });
+        // ...and if the user never engages it, the arrival cue retires by itself and the entry cue
+        // follows a little later, so the flow never stalls on an ignored cue.
+        StartCoroutine(RetireIgnoredArrivalCue(entryArrivalCue));
+    }
+
+    /// <summary>Resolve the exit anchor in the loaded VR room and spawn the entry (exit) cue after
+    /// a delay. Guarded so the close path and the idle path can never both spawn it.</summary>
+    private void ScheduleExitCue(float delay, string reason)
+    {
+        if (_exitCueScheduled) return;
+
+        var exitTargets = FindDeepChildrenInScene(loadedVRScene, exitAnchorName);
+        if (exitTargets.Count == 0)
+        {
+            Debug.LogWarning(
+                $"[BUILDING_TRANSITIONCUE] {exitAnchorName} Objekt wurde in der Szene {vrSceneName} nicht gefunden!");
+            return;
+        }
+
+        _exitCueScheduled = true;
+        exitCueAnchor = exitTargets[0].transform;
+        Debug.Log($"[Building_TransitionCues] entry cue in {delay:0.#}s ({reason}).");
+        Invoke(nameof(SpawnExitCue), Mathf.Max(0f, delay));
+    }
+
+    private IEnumerator RetireIgnoredArrivalCue(GameObject cue)
+    {
+        var loop = cue != null ? cue.GetComponent<CueVoiceLoop>() : null;
+        var deadline = Time.time + arrivalIdleTimeout;
+
+        // the timeout only counts while the cue is being ignored; engaging it cancels the retirement
+        while (Time.time < deadline)
+        {
+            if (cue == null || !cue.activeInHierarchy) yield break; // closed by the user
+            if (loop != null && loop.HasEngaged) yield break;       // user talked to it
+            yield return null;
+        }
+
+        if (cue == null || !cue.activeInHierarchy) yield break;
+        Debug.Log("[Building_TransitionCues] arrival cue ignored — retiring it.");
+        CueLogger.Event("closed", "idle_timeout");
+        cue.SetActive(false);
+        ScheduleExitCue(idleRetiredToEntryDelay, "arrival cue ignored");
     }
 
     // CUE INFO:
@@ -797,6 +836,7 @@ public class Building_TransitionCues : MonoBehaviour
 
             // Remove the room-move teleporter (only valid while in VR)
             if (_teleporter != null) { Destroy(_teleporter.gameObject); _teleporter = null; }
+            _exitCueScheduled = false;
             _teleportAreas = null;
 
             TransitionParticleEffect.Spawn(mainCamera, exitVRParticleColor, particleDuration);

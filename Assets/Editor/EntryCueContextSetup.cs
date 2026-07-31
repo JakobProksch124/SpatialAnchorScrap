@@ -153,7 +153,7 @@ public static class EntryCueContextSetup
             reason = "Draußen geht es weiter zur Vorlesung.",
             enter = "Verlassen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
-                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1f, heightScale: 2f),
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1.3f, heightScale: 1.6f),
             }
         },
         new Spec {
@@ -207,7 +207,7 @@ public static class EntryCueContextSetup
             reason = "Weiter geht es zur Mensa.",
             enter = "Verlassen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
-                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Bibliothek, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1f, heightScale: 2f),
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Bibliothek, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1.3f, heightScale: 1.6f),
             }
         },
         new Spec {
@@ -275,7 +275,7 @@ public static class EntryCueContextSetup
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("busplan", CueCardKind.Image, "FAHRPLAN", "Zeige den Busfahrplan, wenn der Nutzer nach dem Bus, der Abfahrt oder dem Fahrplan fragt.", "Die nächsten Abfahrten ab Haltestelle Technische Hochschule.", asset: ImgBus),
-                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1f, heightScale: 2f),
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1.3f, heightScale: 1.6f),
             }
         },
 
@@ -289,7 +289,7 @@ public static class EntryCueContextSetup
                 Card("text", CueCardKind.Text, "INFO", "Zeige ein kurzes Info-Textpanel, wenn der Nutzer ein Textpanel sehen will.", "", "Das ist ein Text-Panel – so sehen zusätzliche Infos aus."),
                 Card("bild", CueCardKind.Image, "BILD", "Zeige ein Bild-Panel, wenn der Nutzer ein Bild sehen will.", "So sieht ein Bild-Panel aus.", asset: PrevLab),
                 Card("video", CueCardKind.Video, "VIDEO", "Zeige ein Video-Panel, wenn der Nutzer ein Video sehen will.", "So sieht ein Video-Panel aus.", asset: VidTele),
-                Card("live", CueCardKind.Reality, "LIVE", "Zeige ein Live-Fenster in die Realität, wenn der Nutzer es sehen will.", "Live-Blick in die echte Welt.", "", 1f, heightScale: 2f),
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige ein Live-Fenster in die Realität, wenn der Nutzer es sehen will.", "Live-Blick in die echte Welt.", "", 1.3f, heightScale: 1.6f),
             }
         },
         new Spec {
@@ -310,7 +310,7 @@ public static class EntryCueContextSetup
             enter = "Verlassen", dismiss = "Jetzt nicht",
             note = "Du bist ein Übungs-Entry-Cue für den Rückweg nach AR. Lade zum Live-Fenster ein; der Wechsel passiert erst auf klaren Wunsch.",
             cards = new List<CueCardDef> {
-                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1f, heightScale: 2f),
+                Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1.3f, heightScale: 1.6f),
             }
         },
     };
