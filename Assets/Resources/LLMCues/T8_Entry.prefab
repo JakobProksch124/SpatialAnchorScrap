@@ -3783,7 +3783,7 @@ Zurück in die Realität: einfach die Brille absetzen und das kurze Stück zur M
 - Draußen sollte man nicht mit der Brille herumlaufen: falls es regnet oder bei direkter Sonneneinstrahlung ist das nicht gut für die Brille. Deshalb wird sie für das kurze Stück abgenommen.
 
 ## Ausklappbare Inhalte (visuell)
-- Bild \"Vorschau der Mensa\": Bildunterschrift: \"So sieht die Mensa aus – nur noch etwa 100 Meter.\"
+- Bild \"Karte\": Bildunterschrift: \"Dein Weg von der Bibliothek zur Mensa – nur noch etwa 100 Meter.\"
 
 ## Der Übergang selbst
 - Brille absetzen, fertig. Keine weiteren Schritte.
@@ -3804,16 +3804,16 @@ Zurück in die Realität: einfach die Brille absetzen und das kurze Stück zur M
     bodyText: 
     whenToShow: Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille
       absetzt.
-  - id: vorschau
+  - id: karte
     kind: 0
     widthScale: 1
-    title: VORSCHAU
-    caption: "So sieht die Mensa aus \u2013 nur noch etwa 100 Meter."
+    title: KARTE
+    caption: "Dein Weg von der Bibliothek zur Mensa \u2013 nur noch etwa 100 Meter."
     image: {fileID: 0}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Vorschau der Mensa, wenn der Nutzer sehen will, wohin es
-      geht oder wie die Mensa aussieht.
+    whenToShow: Zeige die Karte, wenn der Nutzer wissen will, wohin es geht oder wie
+      er von hier zur Mensa kommt.
 --- !u!114 &3977509939972816125
 MonoBehaviour:
   m_ObjectHideFlags: 0

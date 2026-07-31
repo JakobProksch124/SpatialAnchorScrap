@@ -224,7 +224,7 @@ public static class EntryCueContextSetup
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
-                Card("vorschau", CueCardKind.Image, "VORSCHAU", "Zeige die Vorschau der Mensa, wenn der Nutzer sehen will, wohin es geht oder wie die Mensa aussieht.", "So sieht die Mensa aus – nur noch etwa 100 Meter."),
+                Card("karte", CueCardKind.Image, "KARTE", "Zeige die Karte, wenn der Nutzer wissen will, wohin es geht oder wie er von hier zur Mensa kommt.", "Dein Weg von der Bibliothek zur Mensa – nur noch etwa 100 Meter.", asset: MediaDir + "/Immages/WegBibMensa.png"),
             }
         },
 
