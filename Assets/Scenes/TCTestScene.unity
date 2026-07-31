@@ -904,7 +904,7 @@ MonoBehaviour:
   lineColor: {r: 0, g: 1, b: 1, a: 1}
   arrowHeadPrefab: {fileID: 5401700411737038029, guid: 23a808a3f9f6d4e3aa0035f3ed5a0a7e, type: 3}
   firstDraw: 1
-  pathUpdateInterval: 0.3
+  pathUpdateInterval: 0.1
 --- !u!114 &1589841420
 MonoBehaviour:
   m_ObjectHideFlags: 0
