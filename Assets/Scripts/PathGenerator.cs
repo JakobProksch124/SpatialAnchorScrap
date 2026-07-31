@@ -24,8 +24,7 @@ public class PathGenerator : MonoBehaviour
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
     [Header("Arrow Look")]
-    [Tooltip("EXPERIMENTAL procedural chevron look. OFF = the original arrow prefab and the "
-             "original line rendering (known-good). The chevron attempt looked worse on device.")]
+    [Tooltip("EXPERIMENTAL procedural chevron look. OFF = original arrow prefab + original line rendering.")]
     [SerializeField] bool useProceduralChevrons = false;
     [Tooltip("Glowing blue of the chevrons.")]
     [SerializeField] Color arrowTint = new Color(0.20f, 0.48f, 1f, 1f);
