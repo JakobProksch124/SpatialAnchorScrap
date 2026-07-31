@@ -177,7 +177,7 @@ public static class TutorialSceneSetup
         Set(so, "vrSceneName", "TutorialRoom");
         Set(so, "entryCuePath", "LLMCues/TutorialCue_Entry");
         Set(so, "entryArrivalCuePath", "LLMCues/TutorialCue");
-        Set(so, "exitCuePath", "LLMCues/TutorialCue_Exit");
+        Set(so, "exitCuePath", "");  // tutorial ends after the arrival cue — no exit cue
         Set(so, "startArrivalCuePath", "");
         Set(so, "exitArrivalCuePath", "");
         Set(so, "navigationDestination", "Tutorial");

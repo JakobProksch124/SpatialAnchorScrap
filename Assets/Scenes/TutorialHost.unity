@@ -5698,7 +5698,7 @@ MonoBehaviour:
   exitAlwaysExpand: 0
   leadsToAR: 0
   exitCueDelay: 20
-  exitCuePath: LLMCues/TutorialCue_Exit
+  exitCuePath: 
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   exitArrivalLabel: AR
