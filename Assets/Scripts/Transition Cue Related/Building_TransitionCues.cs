@@ -709,7 +709,9 @@ public class Building_TransitionCues : MonoBehaviour
         var spawn = vrRoom.transform.Find("UserSpawnPoint");
         if (spawn == null) return;
 
-        var dir = spawn.position - cue.position;
+        // NOTE the convention: a cue's readable side faces -Z (CueBillboard aims +Z AWAY from the
+        // viewer), so +Z must point at the WALL for the content to face into the room.
+        var dir = cue.position - spawn.position;
         dir.y = 0f;
         if (dir.sqrMagnitude < 1e-4f) return;
         cue.rotation = Quaternion.LookRotation(dir.normalized);

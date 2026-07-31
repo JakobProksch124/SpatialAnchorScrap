@@ -24,8 +24,9 @@ public class PathGenerator : MonoBehaviour
     private List<GameObject> _spawnedArrows = new List<GameObject>();
 
     [Header("Arrow Look")]
-    [Tooltip("Build the glowing chevron procedurally (reference look) instead of using the prefab above.")]
-    [SerializeField] bool useProceduralChevrons = true;
+    [Tooltip("EXPERIMENTAL procedural chevron look. OFF = the original arrow prefab and the "
+             "original line rendering (known-good). The chevron attempt looked worse on device.")]
+    [SerializeField] bool useProceduralChevrons = false;
     [Tooltip("Glowing blue of the chevrons.")]
     [SerializeField] Color arrowTint = new Color(0.20f, 0.48f, 1f, 1f);
     [Tooltip("HDR multiplier — >1 makes URP bloom glow (reference look).")]
@@ -66,25 +67,6 @@ public class PathGenerator : MonoBehaviour
         if (lineMaterial != null)
         {
             _lineRenderer.material = lineMaterial;
-        }
-
-        // glowing blue ribbon on the floor (reference look): HDR-bright unlit so bloom picks it up
-        if (useProceduralChevrons)
-        {
-            var sh = Shader.Find("Universal Render Pipeline/Unlit");
-            if (sh != null)
-            {
-                var lm = new Material(sh);
-                var hdr = new Color(pathTint.r * 1.7f, pathTint.g * 1.7f, pathTint.b * 1.7f, 1f);
-                if (lm.HasProperty("_BaseColor")) lm.SetColor("_BaseColor", hdr);
-                lm.color = hdr;
-                _lineRenderer.material = lm;
-            }
-            _lineRenderer.widthMultiplier = pathWidth;
-            _lineRenderer.numCapVertices = 6;
-            _lineRenderer.alignment = LineAlignment.TransformZ; // lie flat on the floor
-            _lineRenderer.textureMode = LineTextureMode.Stretch;
-            lineColor = pathTint;
         }
 
         // Apply color via gradient (more reliable than startColor/endColor)
@@ -371,8 +353,12 @@ public class PathGenerator : MonoBehaviour
             var arrow = _spawnedArrows[i];
             if (arrow == null) continue;
 
-            var d = arrowSpacing * (i + 0.5f) + flow;
-            if (d > _flowTotal) d -= _flowTotal; // wrap happens INSIDE the fade, so it's unseen
+            // Distances are measured from the TARGET (which never moves), not from the user.
+            // Measuring from the user made every arrow sit at a fixed distance ahead of them, so
+            // the whole chain travelled at exactly walking speed — impossible to catch up with.
+            var fromTarget = arrowSpacing * (i + 0.5f) - flow;
+            var d = _flowTotal - fromTarget;   // distance along the path from the user
+            if (d < 0f || d > _flowTotal) { arrow.transform.localScale = Vector3.zero; continue; }
 
             SamplePath(d, out var pos, out var dir);
 
