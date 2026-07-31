@@ -376,6 +376,7 @@ public class Building_TransitionCues : MonoBehaviour
     IEnumerator EnterVR()
     {
         Debug.Log($"[Building_TransitionCues] Entering VR: {vrRoomTitle}");
+        TransitionSound.Play(); // soft whoosh marks the context change
         UserInAnyVRRoom = true; // suppress Positioner calibration while in VR (shares the teleport stick)
 
         // Disable the entry cue while in VR
@@ -766,6 +767,7 @@ public class Building_TransitionCues : MonoBehaviour
         if (!exitingVR)
         {
             exitingVR = true;
+            TransitionSound.Play(); // soft whoosh marks the context change
 
 
             Debug.Log($"[Building_TransitionCues] Exiting VR, returning to AR");
@@ -972,11 +974,20 @@ public class Building_TransitionCues : MonoBehaviour
         var spawn = vrRoom.transform.Find("UserSpawnPoint");
         if (spawn == null) return;
 
-        Vector3 playerFeet = Camera.main.transform.parent.position;
+        Vector3 playerFeet = CurrentFeet();
         Vector3 offset = playerFeet - spawn.position;
         offset.y = 0f;
         vrRoom.transform.position += offset;
         Debug.Log("[Building_TransitionCues] ResetToSpawn: room re-centred on the user.");
+    }
+
+    /// <summary>The user's actual standing point: camera XZ at the rig's floor height.
+    /// (The rig root itself never follows physical walking — do not use it as "feet".)</summary>
+    private static Vector3 CurrentFeet()
+    {
+        var cam = Camera.main.transform;
+        var floorY = cam.parent != null ? cam.parent.position.y : cam.position.y - 1.6f;
+        return new Vector3(cam.position.x, floorY, cam.position.z);
     }
 
     public void MoveVRRoomToHit(Vector3 hitPoint)
@@ -987,8 +998,10 @@ public class Building_TransitionCues : MonoBehaviour
         // (VRRoomTeleport already rejects these with a red beam before calling us.)
         if (!IsWithinWalkable(hitPoint)) return;
 
-        // Player feet position (OVRCameraRig root position)
-        Vector3 playerFeet = Camera.main.transform.parent.position;
+        // Player feet = the CAMERA's XZ at floor height. NOT the rig origin: the rig root stays
+        // where the app booted, so after physically walking through the real world the old code
+        // aligned the room to the user's STARTING point — the room ended up metres away.
+        Vector3 playerFeet = CurrentFeet();
 
         // Calculate horizontal offset
         Vector3 offset = playerFeet - hitPoint;
