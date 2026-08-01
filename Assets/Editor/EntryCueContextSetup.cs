@@ -286,8 +286,7 @@ public static class EntryCueContextSetup
             close = "Schließen",
             note = "Du bist ein Übungs-Arrival-Cue. Keine echte Aufgabe. Ermutige den Nutzer, zu sprechen, die Panels und die Teleportation auszuprobieren.",
             cards = new List<CueCardDef> {
-                Card("text", CueCardKind.Text, "INFO", "Zeige ein kurzes Info-Textpanel, wenn der Nutzer ein Textpanel sehen will.", "", "Das ist ein Text-Panel – so sehen zusätzliche Infos aus."),
-                Card("bild", CueCardKind.Image, "BILD", "Zeige ein Bild-Panel, wenn der Nutzer ein Bild sehen will.", "So sieht ein Bild-Panel aus.", asset: PrevLab),
+                Card("bild", CueCardKind.Image, "BILD", "Zeige ein Bild-Panel, wenn der Nutzer ein Bild sehen will.", "So sieht ein Bild-Panel aus."),
                 Card("video", CueCardKind.Video, "VIDEO", "Zeige ein Video-Panel, wenn der Nutzer ein Video sehen will.", "So sieht ein Video-Panel aus.", asset: VidTele),
                 Card("live", CueCardKind.Reality, "LIVE", "Zeige ein Live-Fenster in die Realität, wenn der Nutzer es sehen will.", "Live-Blick in die echte Welt.", "", 1.3f, heightScale: 1.6f),
             }
@@ -299,7 +298,6 @@ public static class EntryCueContextSetup
             enter = "Betreten", dismiss = "Jetzt nicht",
             note = "Du bist ein Übungs-Entry-Cue. Keine echte Aufgabe. Erkläre geduldig, wie man mit Cues spricht, klickt und den Wechsel startet.",
             cards = new List<CueCardDef> {
-                Card("anleitung", CueCardKind.Text, "SO GEHT'S", "Zeige das Anleitungs-Panel, wenn der Nutzer wissen will, wie man mit dem Cue spricht oder klickt.", "", "Nah herangehen und einfach losreden – oder A drücken. Die Knöpfe unten kannst du mit dem Strahl anklicken."),
                 Card("teleport", CueCardKind.Video, "TELEPORT", "Zeige die Teleport-Animation, wenn der Nutzer wissen will, wie man sich in VR bewegt.", "So bewegst du dich gleich in VR: rechter Stick, zielen, loslassen.", asset: VidTele),
             }
         },

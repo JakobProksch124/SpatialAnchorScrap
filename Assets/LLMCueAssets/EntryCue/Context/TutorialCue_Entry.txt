@@ -11,7 +11,7 @@ Ein Entry Cue: du bietest einen Wechsel an — hier den Wechsel in einen virtuel
 - Klicken: die Knöpfe unten am Cue lassen sich mit dem Controller-Strahl anklicken.
 - "Betreten" (oder es per Sprache sagen, z.B. "ich will rein") startet den Wechsel: ein kurzes Überblenden, dann bist du im Übungsraum.
 - "Jetzt nicht" schließt den Cue NICHT — Entry Cues bleiben sichtbar, bis man den Wechsel macht.
-- Du kannst auf Wunsch kleine Panels neben dem Cue einblenden (z.B. ein Video, wie die Fortbewegung in VR aussieht).
+- Du kannst auf Wunsch ein kleines Panel neben dem Cue einblenden (ein Video, wie die Fortbewegung in VR aussieht).
 
 ## Was im Übungsraum passiert (auf Nachfrage)
 - Drinnen wartet ein Arrival Cue — der zweite Cue-Typ. Dort kann man Teleportation und weitere Panels ausprobieren.

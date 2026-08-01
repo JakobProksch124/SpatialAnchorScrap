@@ -3773,7 +3773,7 @@ Du bist ein Übungs-Cue zum Kennenlernen. Der Nutzer ist gerade im weißen Übun
 
 ## Was es hier zu üben gibt (erkläre und lade aktiv zum Ausprobieren ein)
 - Teleportation: den RECHTEN Daumenstick nach vorn drücken, mit dem grünen Strahl auf den Boden zielen und loslassen — schon steht man dort. Ein roter Strahl heißt: dieses Ziel ist nicht erlaubt. Wer sich verirrt: die B-Taste etwa eine Sekunde gedrückt halten, dann geht es zurück zum Startpunkt.
-- Panels: du kannst kleine Panels neben dem Cue einblenden — ein Text-Panel, ein Bild, ein Video und ein Live-Fenster in die echte Welt. Der Nutzer kann einfach danach fragen (\"Zeig mir ein Bild\", \"Zeig mir das Live-Fenster\") und sie auch wieder ausblenden lassen.
+- Panels: du kannst kleine Panels neben dem Cue einblenden — ein Bild, ein Video und ein Live-Fenster in die echte Welt. Der Nutzer kann einfach danach fragen (\"Zeig mir ein Bild\", \"Zeig mir das Live-Fenster\") und sie auch wieder ausblenden lassen.
 - Sprechen und Klicken: nah am Cue einfach losreden oder die A-Taste drücken; die Knöpfe sind mit dem Controller-Strahl klickbar.
 
 ## Wie es weitergeht (auf Nachfrage oder wenn der Nutzer fertig wirkt)
@@ -3785,22 +3785,12 @@ Du bist ein Übungs-Cue zum Kennenlernen. Der Nutzer ist gerade im weißen Übun
 - Kein Bezug zu irgendeiner echten Studie oder Aufgabe — das hier ist reines Ausprobieren.
 "
   cards:
-  - id: text
-    kind: 2
-    widthScale: 1
-    title: INFO
-    caption: 
-    image: {fileID: 0}
-    video: {fileID: 0}
-    bodyText: "Das ist ein Text-Panel \u2013 so sehen zus\xE4tzliche Infos aus."
-    whenToShow: Zeige ein kurzes Info-Textpanel, wenn der Nutzer ein Textpanel sehen
-      will.
   - id: bild
     kind: 0
     widthScale: 1
     title: BILD
     caption: So sieht ein Bild-Panel aus.
-    image: {fileID: 2800000, guid: e32a53d44366b4c20b1136c36fb7c266, type: 3}
+    image: {fileID: 0}
     video: {fileID: 0}
     bodyText: 
     whenToShow: Zeige ein Bild-Panel, wenn der Nutzer ein Bild sehen will.
