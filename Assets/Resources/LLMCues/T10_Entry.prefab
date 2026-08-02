@@ -3752,49 +3752,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cueName: T10_Entry
   mode: 0
-  entryTitle: Navigation starten
-  entryHighlight: 
-  entryReason: Peter wartet oben – lass dich zu ihm führen.
+  entryTitle: Wechseln zum Smartphone
+  entryHighlight: Smartphone
+  entryReason: Du hast Peter erreicht – setz die Brille ab und schau auf dein Smartphone.
   arrivalTitle: "Hast du Fragen \xFCber den Kontext, in dem du dich gerade befindest?"
   arrivalHighlight: 
   arrivalReason: 
   waitingText: Ich warte auf deine Frage
   listeningText: "Ich h\xF6re zu\u2026"
   thinkingText: Sammle Antworten
-  enterLabel: Starten
+  enterLabel: Absetzen
   dismissLabel: Jetzt nicht
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ENTRY Cue, gezeigt VOR der Transition. Sprich \xFCber
     die Transition und den Zielkontext."
-  contextText: "# T10 Entry Cue: AR zu AR, Navigation nach oben zu Peter
+  contextText: "# T11 Entry Cue: AR zu Realität, bei Peter angekommen (Brille absetzen)
 
 ## Deine Rolle
-Du bist der Assistent dieses Entry Cues. Er erscheint beim Betreten der Mensa in AR. Von hier kann die AR-Navigation nach oben zu Peter gestartet werden. Der Cue ist per Sprache und Klick bedienbar. Hinweis: Abweichung vom \"Wechseln zu\"-Schema, weil der Nutzer in AR bleibt.
+Du bist der Assistent dieses Entry Cues. Er erscheint in AR direkt an Peters Tisch. Die Strecke ist geschafft, Peter sitzt direkt vor dem Nutzer. Der Cue ist per Sprache und Klick bedienbar. Halte die Antworten bestätigend.
 
-## Szenario-Hintergrund
-- Peter sitzt oben in der Mensa und wartet, er hat sein Essen schon.
+## Wohin du wechseln kannst
+Zurück in die Realität: einfach die Brille absetzen und sich zu Peter setzen.
 
-## Was gestartet wird
-Eine AR-Navigation nach oben zu Peters Tisch: über die Treppe, Dauer etwa 2 Minuten, wie gewohnt den Pfeilen folgen.
+## Warum jetzt wechseln
+- Die Strecke ist geschafft, Peter sitzt direkt vor dir.
+- Fragt der Nutzer, ob er noch etwas machen muss: Nein, du kannst die Brille absetzen. Peter ist da, du brauchst keine weitere Unterstützung mehr.
 
-## Wichtige Regeln
-- Es gibt KEIN Foto oder Preview von Peter. Man sieht ihn, wenn man oben ankommt.
+## Der Übergang selbst
+- Brille absetzen – danach geht es auf dem Smartphone weiter. Erwähne das Smartphone, wenn der Nutzer fragt, was als Nächstes zu tun ist – dränge es aber nicht auf.
 
 ## Antwortstil und Einschränkungen
 - Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.
 - Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
 "
   cards:
-  - id: wegkarte
-    kind: 0
+  - id: absetzen
+    kind: 1
     widthScale: 1
-    title: KARTE
-    caption: "\xDCber die Treppe nach oben zu Peter, etwa 2 Minuten."
-    image: {fileID: 2800000, guid: edd763676ea4b46208b556673dd0224a, type: 3}
-    video: {fileID: 0}
+    title: ABSETZEN
+    caption: Einfach das Headset absetzen, mehr ist nicht zu tun.
+    image: {fileID: 0}
+    video: {fileID: 32900000, guid: 618fc646c45c14722876d3f3ef272449, type: 3}
     bodyText: 
-    whenToShow: Zeige die Karte des Weges nach oben, wenn der Nutzer nach dem Weg
-      oder einer Karte fragt.
+    whenToShow: Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille
+      absetzt.
 --- !u!114 &3977509939972816125
 MonoBehaviour:
   m_ObjectHideFlags: 0

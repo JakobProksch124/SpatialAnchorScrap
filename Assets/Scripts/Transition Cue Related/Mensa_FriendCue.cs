@@ -138,10 +138,12 @@ public class Mensa_FriendCue : MonoBehaviour
             UnityEngine.Debug.Log("entry arrival anchor set!");
         }
 
-        // Entry happens on the smartphone, so AR starts with the ARRIVAL cue (T9);
-        // closing it leads straight to the Peter-navigation entry cue — the food
-        // selection stays skipped (code kept intact in case it ever comes back).
+        // T9 (Smartphone -> AR): the entry cue happened on the phone, so AR opens with the
+        // ARRIVAL cue and the navigation to Peter is already running. There is no
+        // "Navigation starten" cue any more (that transition was dropped with the food
+        // selection); the next cue is T10 at Peter's table.
         CreateStartArrivalCue(startArrivalAnchor);
+        StartNavigationToFriends();
     }
 
     void ShowFood()
@@ -183,11 +185,7 @@ public class Mensa_FriendCue : MonoBehaviour
         FixUpCanvasRayButtons(startArrivalCue);
         
         startArrivalCue.GetComponent<CueEvents>().onCloseCue.AddListener(() =>
-            {
-                startArrivalCue.SetActive(false);
-                showEntryCue(); // food selection removed: straight to the Peter navigation
-            }
-        );
+            startArrivalCue.SetActive(false)); // navigation already runs; T10 waits at Peter's table
     }
 
     // The TransitionCue prefab's Canvas buttons (EnterVR, NotNow, ...) ship with a
@@ -330,13 +328,14 @@ public class Mensa_FriendCue : MonoBehaviour
     public void StartNavigationToFriends()
     {
         UINotificationSystem.Instance.HidePersistentMessage();
-        // Hide entry cue
         if (entryCue != null)
             entryCue.SetActive(false);
 
-        // Create entry arrival cue
-        CreateEntryArrivalCue(entryArrivalAnchor);
         EnablePathGenerator();
+
+        // goal marker at Peter's table; reaching it shows T10 ("Brille absetzen")
+        arrivalCue = GetComponent<ArrivalCue>();
+        if (arrivalCue != null) arrivalCue.SpawnArrivalCue();
     }
 
     void DisablePathGenerator()

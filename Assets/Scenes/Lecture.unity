@@ -5299,7 +5299,7 @@ MonoBehaviour:
   startArrivalDescription: Drücke Start, um das Video zu starten.
   startArrivalButtonText: Start
   startArrivalAlwaysExpand: 1
-  startArrivalCuePath: LLMCues/T12_Arrival
+  startArrivalCuePath: LLMCues/T11_Arrival
   videoStartDelay: 3
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
@@ -5308,7 +5308,7 @@ MonoBehaviour:
   exitDescription: Peter möchte mit dir sprechen. Möchtest du mit ihm reden?
   exitButtonText: Vorlesung pausieren
   exitAlwaysExpand: 1
-  exitCuePath: LLMCues/T13_Entry
+  exitCuePath: LLMCues/T12_Entry
   exitTransitionAnchorName: exitAnchor
   exitTransitionPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
   exitTransitionLabel: Realität

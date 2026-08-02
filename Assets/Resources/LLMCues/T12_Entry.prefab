@@ -3495,7 +3495,7 @@ GameObject:
   - component: {fileID: 7248982388044874743}
   - component: {fileID: 2182446209608913315}
   m_Layer: 0
-  m_Name: T13_Entry
+  m_Name: T12_Entry
   m_TagString: TransitionCue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3750,7 +3750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd0f65fa6943480dbe17682591d3d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cueName: T13_Entry
+  cueName: T12_Entry
   mode: 0
   entryTitle: Wechseln zum Smartphone
   entryHighlight: Smartphone

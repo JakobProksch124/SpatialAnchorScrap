@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.Video;
 
 /// <summary>
-/// One-shot: applies the full lecture-day scenario (T1–T13) context + visible texts + answer
+/// One-shot: applies the full lecture-day scenario (T1–T12) context + visible texts + answer
 /// cards (incl. their media) to every in-headset cue prefab. Run: EntryCue > Apply Lecture-Navigation Context.
 ///
-/// Scope: this fills the 18 AR/VR cues that exist as prefabs in Assets/Resources/LLMCues, plus
-/// TutorialCue. The 8 smartphone/Reality cues from the context files (T1/T5/T9/T12 Entry and
-/// T4/T8/T11/T13 Arrival) have NO prefab — they run on the phone, not the headset — so they are
-/// intentionally not touched here.
+/// Scope: this fills the 16 AR/VR cues that exist as prefabs in Assets/Resources/LLMCues, plus
+/// the tutorial cues. The 8 smartphone-side cues (Entry of T1/T5/T9/T11 and Arrival of
+/// T4/T8/T10/T12) have NO prefab — they run on the phone, not the headset.
+/// NOTE: the old T9 (Essensauswahl in AR) and its AR→AR follow-up were dropped; everything
+/// after them moved down by one, so the scenario now runs T1–T12.
 ///
 /// The long German context comes from Assets/LLMCueAssets/EntryCue/Context/*.txt; the short
 /// visible texts and the card definitions (kind, tag title, caption, when-to-show) are set here.
@@ -72,7 +73,7 @@ public static class EntryCueContextSetup
         return def;
     }
 
-    [MenuItem("EntryCue/Apply Lecture-Navigation Context (T1-T13)")]
+    [MenuItem("EntryCue/Apply Lecture-Navigation Context (T1-T12)")]
     public static void Apply()
     {
         int done = 0, missing = 0;
@@ -112,7 +113,7 @@ public static class EntryCueContextSetup
         AssetDatabase.SaveAssets();
         Debug.Log($"[CueContext] Applied scenario context + media to {done} cues ({missing} prefabs missing). " +
                   "Cards with no matching media (route preview, door photo) stay as placeholders; " +
-                  "the smartphone cues (T1/T5/T9/T12 Entry, T4/T8/T11/T13 Arrival) have no prefab and are not set.");
+                  "the smartphone-side cues (Entry T1/T5/T9/T11, Arrival T4/T8/T10/T12) have no prefab.");
     }
 
     // German assistant notes (short, appended to the system prompt)
@@ -229,30 +230,16 @@ public static class EntryCueContextSetup
             }
         },
 
-        // ---------------- Mensa ----------------
+        // ---------------- Mensa (T9 arrival + T10 leave-HMD; the food selection was removed) ----------------
         new Spec {
             prefab = "T9_Arrival", ctx = "T9_Arrival", mode = CueConfig.Mode.Arrival,
             title = "Willkommen in der Mensa!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
-            cards = new List<CueCardDef>()  // bewusst keine Karten (Gerichte stehen sichtbar in AR)
+            cards = new List<CueCardDef> {
+                Card("karte", CueCardKind.Image, "KARTE", "Zeige die Karte, wenn der Nutzer nach dem Weg, der Strecke oder einer Karte fragt.", "Dein Weg nach oben zu Peter, etwa 2 Minuten.", asset: MiniMensa),
+            }
         },
         new Spec {
             prefab = "T10_Entry", ctx = "T10_Entry", mode = CueConfig.Mode.Entry,
-            title = "Navigation starten", highlight = "",
-            reason = "Peter wartet oben – lass dich zu ihm führen.",
-            enter = "Starten", dismiss = "Jetzt nicht", note = NoteEntry,
-            cards = new List<CueCardDef> {
-                Card("wegkarte", CueCardKind.Image, "KARTE", "Zeige die Karte des Weges nach oben, wenn der Nutzer nach dem Weg oder einer Karte fragt.", "Über die Treppe nach oben zu Peter, etwa 2 Minuten.", asset: MiniMensa),
-            }
-        },
-        new Spec {
-            prefab = "T10_Arrival", ctx = "T10_Arrival", mode = CueConfig.Mode.Arrival,
-            title = "Auf dem Weg zu Peter!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
-            cards = new List<CueCardDef> {
-                Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort, wenn der Nutzer fragt, wo er gerade ist.", "Dein Weg nach oben mit Highlight, wo du gerade bist.", asset: MiniMensa),
-            }
-        },
-        new Spec {
-            prefab = "T11_Entry", ctx = "T11_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
             reason = "Du hast Peter erreicht – setz die Brille ab und schau auf dein Smartphone.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
@@ -263,13 +250,13 @@ public static class EntryCueContextSetup
 
         // ---------------- Lecture ----------------
         new Spec {
-            prefab = "T12_Arrival", ctx = "T12_Arrival", mode = CueConfig.Mode.Arrival,
+            prefab = "T11_Arrival", ctx = "T11_Arrival", mode = CueConfig.Mode.Arrival,
             title = "Willkommen im Hörsaal!", reason = "Hast du noch Fragen, bevor die Vorlesung startet?",
             close = "Start", note = NoteArr,
             cards = new List<CueCardDef>()  // bewusst keine Karten (nur Start-Button im Hörsaal)
         },
         new Spec {
-            prefab = "T13_Entry", ctx = "T13_Entry", mode = CueConfig.Mode.Entry,
+            prefab = "T12_Entry", ctx = "T12_Entry", mode = CueConfig.Mode.Entry,
             title = "Wechseln zum Smartphone", highlight = "Smartphone",
             reason = "Dein Bus kommt bald – setz die Brille ab und schau auf dein Smartphone.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
