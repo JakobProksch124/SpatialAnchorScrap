@@ -744,8 +744,13 @@ public class Building_TransitionCues : MonoBehaviour
             ScheduleExitCue(arrivalClosedToEntryDelay, "arrival closed"));
 
         // ...and if the user never engages it, the arrival cue retires by itself and the entry cue
-        // follows a little later, so the flow never stalls on an ignored cue.
-        StartCoroutine(RetireIgnoredArrivalCue(entryArrivalCue));
+        // follows a little later, so the flow never stalls on an ignored cue. NOT in the tutorial:
+        // without an exit cue there is nothing to move on to, and retiring the practice cue after
+        // 30 s would strand the participant in an empty room.
+        if (!string.IsNullOrWhiteSpace(exitCuePath))
+            StartCoroutine(RetireIgnoredArrivalCue(entryArrivalCue));
+        else
+            Debug.Log("[Building_TransitionCues] no exit cue configured — arrival cue stays until closed.");
     }
 
     /// <summary>Resolve the exit anchor in the loaded VR room and spawn the entry (exit) cue after
