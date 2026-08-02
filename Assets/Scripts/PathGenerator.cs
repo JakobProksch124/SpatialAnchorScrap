@@ -55,33 +55,11 @@ public class PathGenerator : MonoBehaviour
         }
     }
 
-    [Tooltip("How often to recompute the nav path + rebuild the arrows while the user is MOVING " +
-             "(seconds). 0.1 = 10x/s reads as smooth; every frame was a big GPU/CPU sink, and " +
-             "0.3 looked laggy while walking.")]
-    [SerializeField] private float pathUpdateInterval = 0.1f;
-
-    [Tooltip("Skip the rebuild entirely while the user has moved less than this since the last " +
-             "rebuild (metres) — standing still costs nothing.")]
-    [SerializeField] private float minMoveForUpdate = 0.15f;
-
-    private float _pathTimer;
-    private Vector3 _lastPathOrigin = Vector3.positiveInfinity;
-
     void Update()
     {
         start = Camera.main.transform;
         if (!_pathing || start == null || target == null)
             return;
-
-        // smooth without the cost: rebuild 10x/s while walking, not at all while standing still
-        _pathTimer += Time.deltaTime;
-        if (_pathTimer < pathUpdateInterval)
-            return;
-        _pathTimer = 0f;
-
-        if ((start.position - _lastPathOrigin).sqrMagnitude < minMoveForUpdate * minMoveForUpdate)
-            return;
-        _lastPathOrigin = start.position;
 
         GetPath();
     }

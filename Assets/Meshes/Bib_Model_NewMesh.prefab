@@ -3721,6 +3721,9 @@ MonoBehaviour:
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitCueDelay: 20
+  arrivalClosedToEntryDelay: 10
+  arrivalIdleTimeout: 30
+  idleRetiredToEntryDelay: 10
   exitCuePath: LLMCues/T7_Entry
   exitArrivalAnchorName: exitArrivalAnchor
   exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
