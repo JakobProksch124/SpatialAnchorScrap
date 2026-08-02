@@ -35,7 +35,7 @@ public static class EntryCueContextSetup
     const string VidTele   = MediaDir + "/Videos/Teleportation_4zu3.mp4";
     const string VidAbset  = MediaDir + "/Videos/HMD_Absetzen-4zu3.mp4";
     const string VidPfeil  = MediaDir + "/Videos/pfeil video.mp4";
-    const string ImgBus    = MediaDir + "/Immages/Busfahrt.png";
+    const string ImgHandy  = MediaDir + "/Immages/HandyAbfahrt.png"; // T12: phone departure board
 
     // standard arrival header (README convention)
     const string ArrTitle = "Wie kann ich dir helfen?";
@@ -261,7 +261,7 @@ public static class EntryCueContextSetup
             reason = "Dein Bus kommt bald – setz die Brille ab und schau auf dein Smartphone.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
-                Card("busplan", CueCardKind.Image, "FAHRPLAN", "Zeige den Busfahrplan, wenn der Nutzer nach dem Bus, der Abfahrt oder dem Fahrplan fragt.", "Die nächsten Abfahrten ab Haltestelle Technische Hochschule.", asset: ImgBus),
+                Card("handy", CueCardKind.Image, "HANDY", "Zeige das Handy-Bild, wenn der Nutzer wissen will, was ihn auf dem Smartphone erwartet, was er dort tun kann oder warum er wechseln soll.", "So sieht die Abfahrtsanzeige auf deinem Handy aus.", asset: ImgHandy),
                 Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1.3f, heightScale: 1.6f),
             }
         },
