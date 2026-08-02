@@ -101,7 +101,9 @@ public class CueVoiceLoop : MonoBehaviour
         });
         // Latch: once activated the cue never deactivates on walking away (study behaviour).
         // (No onExitOuter reset — it stays available until the transition is entered.)
-        proximity.onEnterInner.AddListener(TryAutoListen);
+        // NO proximity auto-listen: the mic only opens when the user presses A. Walking up to
+        // a cue and having it silently listen was confusing (you could not tell whether it was
+        // on). Proximity still drives the visual state (Idle -> Available) and the log encounter.
 
         ToState(CueVisualState.Idle);
     }
@@ -127,13 +129,6 @@ public class CueVoiceLoop : MonoBehaviour
                 StartListening();
                 break;
         }
-    }
-
-    private void TryAutoListen()
-    {
-        if (_state is not (CueVisualState.Available or CueVisualState.Idle)) return;
-        if (llm.IsBusy || Time.time - _lastAnswerEnd < relistenCooldown) return;
-        StartListening();
     }
 
     /// <summary>True once the user has actually engaged this cue (spoken to it / pressed A).
