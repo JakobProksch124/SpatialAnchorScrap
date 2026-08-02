@@ -32,7 +32,6 @@ public class CueVoiceLoop : MonoBehaviour
     [SerializeField] private CueEvents events;
 
     [Tooltip("Seconds after an answer before proximity may auto-trigger listening again.")]
-    [SerializeField] private float relistenCooldown = 2.5f;
     [SerializeField] private CueLanguage language = CueLanguage.English;
     [Tooltip("Soft chime on wake + blip when listening starts.")]
     [SerializeField] private bool earcons = true;
@@ -50,7 +49,6 @@ public class CueVoiceLoop : MonoBehaviour
     private bool _firstSentenceSent;
     private bool _cardAddedThisTurn;
     private float _tTranscript;
-    private float _lastAnswerEnd = -99f;
 
     private void Start()
     {
@@ -86,7 +84,6 @@ public class CueVoiceLoop : MonoBehaviour
         });
         speaker.onAllFinished.AddListener(() =>
         {
-            _lastAnswerEnd = Time.time;
             ToState(RestState());
         });
 
