@@ -1054,7 +1054,12 @@ public class Building_TransitionCues : MonoBehaviour
 
         // Final safety net: never accept a target outside the room's walkable rectangle.
         // (VRRoomTeleport already rejects these with a red beam before calling us.)
-        if (!IsWithinWalkable(hitPoint)) return;
+        if (!IsWithinWalkable(hitPoint))
+        {
+            Debug.Log($"[Building_TransitionCues] teleport target {hitPoint} rejected — outside the " +
+                      $"walkable area (areas={(_teleportAreas != null ? _teleportAreas.Length : 0)}).");
+            return;
+        }
 
         // Player feet = the CAMERA's XZ at floor height. NOT the rig origin: the rig root stays
         // where the app booted, so after physically walking through the real world the old code

@@ -42,6 +42,9 @@ public class VRRoomTeleport : MonoBehaviour
         _cam = Camera.main != null ? Camera.main.transform : null;
         if (_controller == null) _controller = _cam;
 
+        Debug.Log($"[VRRoomTeleport] ready — controller={(_controller ? _controller.name : "NULL")}, " +
+                  $"cam={(_cam ? _cam.name : "NULL")}");
+
         var mat = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
 
         var beamGo = new GameObject("Beam");
@@ -83,6 +86,7 @@ public class VRRoomTeleport : MonoBehaviour
         var stickY = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y; // right thumbstick forward
         if (stickY > aimThreshold)
         {
+            if (!_aiming) Debug.Log($"[VRRoomTeleport] aiming started (stickY={stickY:0.00})");
             _aiming = true;
             Aim();
         }
@@ -91,7 +95,16 @@ public class VRRoomTeleport : MonoBehaviour
             _aiming = false;
             _beam.enabled = false;
             if (_marker) _marker.gameObject.SetActive(false);
-            if (_hasTarget && _building != null) _building.MoveVRRoomToHit(_target);
+            if (_hasTarget && _building != null)
+            {
+                Debug.Log($"[VRRoomTeleport] teleport to {_target}");
+                _building.MoveVRRoomToHit(_target);
+            }
+            else
+            {
+                Debug.Log($"[VRRoomTeleport] release without a valid target (hasTarget={_hasTarget}, " +
+                          $"building={(_building != null)}) — aim was outside the walkable area or not at the floor.");
+            }
             _hasTarget = false;
         }
     }
