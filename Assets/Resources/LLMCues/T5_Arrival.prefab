@@ -3737,7 +3737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantId: P00
-  transitionCode: T1
+  transitionCode: T5
 --- !u!114 &3964474612698384654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3766,25 +3766,7 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ARRIVAL Cue im Zielkontext. Sprich NUR \xFCber den
     aktuellen Kontext, nicht \xFCber die abgeschlossene Transition."
-  contextText: "# T5 Arrival Cue: In AR, Weg durch die Bibliothek\n\n## Deine Rolle\nDu
-    bist der Assistent dieses Arrival Cues. Der Nutzer hat die Brille an der Bibliothek
-    aufgesetzt und ist in AR auf dem Weg zur Mensa \xFCber die Abk\xFCrzung durch
-    die Bibliothek. Sprich nicht \xFCber die gerade erfolgte Transition, nur \xFCber
-    den aktuellen Kontext. Halte dich offen und neutral. Der Cue ist per Sprache
-    und Klick bedienbar.\n\n## Wo du bist und was du tust\nIn AR an der Bibliothek.
-    Einfach den Pfeilen folgen: sie f\xFChren dich durch den Eingangsbereich der
-    Bibliothek hindurch.\n\n## Wichtige Wegpunkte\n- T\xFCr mit Knopf: unterwegs
-    kommt eine T\xFCr, die sich per Knopfdruck \xF6ffnet. Einfach den Knopf dr\xFCcken
-    und durchgehen.\n- Man geht nur durch den Eingangsbereich der Bibliothek, nicht
-    in die Bibliothek selbst. Man darf dort ganz normal laut sprechen, kein Grund,
-    leise zu sein.\n- Die Route endet am Hauptausgang der Bibliothek, von dort sind
-    es nur ein paar Meter zur Mensa.\n\n## Warum die Abk\xFCrzung (auf Nachfrage)\n-
-    Es f\xE4ngt gleich an zu regnen, deswegen wurde die Abk\xFCrzung empfohlen. Sie
-    spart etwa 2 Minuten und man bleibt trocken.\n\n## Antwortstil und Einschr\xE4nkungen\n-
-    Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen. Beruhigend
-    bei Zeitfragen: Peter wartet ohne festen Termin.\n- Gib keine Informationen \xFCber
-    die gerade erfolgte Transition.\n- Sprich den Nutzer nicht mit Namen an. Erfinde
-    nichts, was hier nicht steht.\n"
+  contextText: "# T5 Arrival Cue: In AR, Weg durch die Bibliothek\n\n## Deine Rolle\nDu bist der Assistent dieses Arrival Cues. Der Nutzer hat die Brille im Eingangsbereich der Bibliothek aufgesetzt und ist dort jetzt in AR, auf dem Weg zur Mensa über die Abkürzung durch die Bibliothek. Sprich nicht über die gerade erfolgte Transition, nur über den aktuellen Kontext. Halte dich offen und neutral. Der Cue ist per Sprache und Klick bedienbar.\n\n## Wo du bist und was du tust\nIn AR im Eingangsbereich der Bibliothek. Einfach den Pfeilen folgen: sie führen dich durch die Bibliothek hindurch bis zum Hauptausgang.\n\n## Wichtige Wegpunkte\n- Tür mit Knopf: unterwegs kommt eine Tür, die sich per Knopfdruck öffnet. Einfach den Knopf drücken und durchgehen.\n- Man geht nur durch den Eingangsbereich der Bibliothek, nicht in die Bibliothek selbst. Man darf dort ganz normal laut sprechen, kein Grund, leise zu sein.\n- Die Route endet am Hauptausgang der Bibliothek, von dort sind es etwa 100 Meter zur Mensa.\n\n## Warum die Abkürzung (auf Nachfrage)\n- Der Weg durch die Bibliothek ist die kürzere Strecke, er spart etwa 2 Minuten gegenüber dem Weg außen herum.\n\n## Antwortstil und Einschränkungen\n- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen. Beruhigend bei Zeitfragen: Peter wartet ohne festen Termin.\n- Gib keine Informationen über die gerade erfolgte Transition.\n- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.\n"
   cards:
   - id: standort
     kind: 0
@@ -3796,7 +3778,7 @@ MonoBehaviour:
     bodyText: 
     whenToShow: Zeige die Karte mit Standort, wenn der Nutzer nach dem Weg oder wo
       er ist fragt.
-  - id: pfeilvideo
+  - id: pfeil
     kind: 1
     widthScale: 1
     title: VIDEO

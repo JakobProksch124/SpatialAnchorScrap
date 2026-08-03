@@ -3737,7 +3737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantId: P00
-  transitionCode: T1
+  transitionCode: T9
 --- !u!114 &3964474612698384654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3766,24 +3766,7 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ARRIVAL Cue im Zielkontext. Sprich NUR \xFCber den
     aktuellen Kontext, nicht \xFCber die abgeschlossene Transition."
-  contextText: "# T9 Arrival Cue: Ankunft in AR, in der Mensa
-
-## Deine Rolle
-Du bist der Assistent dieses Arrival Cues. Der Nutzer hat die Brille im Eingangsbereich der Mensa aufgesetzt und ist jetzt in AR. Die Navigation zu Peter läuft bereits. Sprich nicht über die gerade erfolgte Transition, nur über den aktuellen Kontext. Halte dich offen und neutral. Der Cue ist per Sprache (A-Taste) und Klick bedienbar.
-
-## Wo du bist und was du tust
-In AR in der Mensa. Einfach den Pfeilen folgen: sie führen über die Treppe nach oben zu Peters Tisch, Dauer etwa 2 Minuten. Die Pfeile passen sich automatisch an.
-
-## Häufige Fragen
-- Peter? Sitzt oben in der Mensa und wartet, er hat sein Essen schon. Man sieht ihn, wenn man oben ankommt.
-- Was soll ich tun? Einfach den Pfeilen folgen, sie bringen dich zu Peter.
-- Es gibt KEIN Foto oder Preview von Peter. Man sieht ihn, wenn man oben ankommt.
-
-## Antwortstil und Einschränkungen
-- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.
-- Gib keine Informationen über die gerade erfolgte Transition.
-- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
-"
+  contextText: "# T9 Arrival Cue: Ankunft in AR, in der Mensa\n\n## Deine Rolle\nDu bist der Assistent dieses Arrival Cues. Der Nutzer hat die Brille im Eingangsbereich der Mensa aufgesetzt und ist jetzt in AR. Die Navigation zu Peter läuft bereits. Sprich nicht über die gerade erfolgte Transition, nur über den aktuellen Kontext. Halte dich offen und neutral. Der Cue ist per Sprache (A-Taste) und Klick bedienbar.\n\n## Wo du bist und was du tust\nIn AR in der Mensa. Einfach den Pfeilen folgen: sie führen über die Treppe nach oben zu Peters Tisch, Dauer etwa 2 Minuten. Die Pfeile passen sich automatisch an.\n\n## Häufige Fragen\n- Peter? Sitzt oben in der Mensa und wartet, er hat sein Essen schon. Man sieht ihn, wenn man oben ankommt.\n- Was soll ich tun? Einfach den Pfeilen folgen, sie bringen dich zu Peter.\n- Es gibt KEIN Foto oder Preview von Peter. Man sieht ihn, wenn man oben ankommt.\n\n## Ausklappbare Inhalte (visuell)\n- Bild „Karte\": dein Weg nach oben zu Peters Tisch. Zeige es, wenn der Nutzer nach dem Weg, der Strecke oder einer Karte fragt.\n- Video „Pfeile\": kurze Animation, wie die Pfeile funktionieren und wie man ihnen folgt. Zeige es, wenn der Nutzer nach den Pfeilen fragt, wissen will, wem er folgen soll, oder ob es dazu etwas zu sehen gibt.\n\n## Antwortstil und Einschränkungen\n- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.\n- Gib keine Informationen über die gerade erfolgte Transition.\n- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.\n"
   cards:
   - id: karte
     kind: 0
@@ -3794,8 +3777,17 @@ In AR in der Mensa. Einfach den Pfeilen folgen: sie führen über die Treppe nac
     image: {fileID: 2800000, guid: edd763676ea4b46208b556673dd0224a, type: 3}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Karte, wenn der Nutzer nach dem Weg, der Strecke oder einer
-      Karte fragt.
+    whenToShow: "Zeige die Karte, wenn der Nutzer nach dem Weg, der Strecke oder einer Karte fragt."
+  - id: pfeil
+    kind: 1
+    widthScale: 1
+    heightScale: 1
+    title: VIDEO
+    caption: "So funktionieren die Pfeile und so folgst du ihnen."
+    image: {fileID: 0}
+    video: {fileID: 32900000, guid: 3fbf0799e85224abba8c776af8153580, type: 3}
+    bodyText: 
+    whenToShow: "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren, wem er folgen soll oder ob es dazu etwas zu sehen gibt."
 --- !u!114 &3977509939972816125
 MonoBehaviour:
   m_ObjectHideFlags: 0

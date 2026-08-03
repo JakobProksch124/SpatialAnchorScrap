@@ -788,7 +788,8 @@ public class Building_TransitionCues : MonoBehaviour
 
         if (cue == null || !cue.activeInHierarchy) yield break;
         Debug.Log("[Building_TransitionCues] arrival cue ignored — retiring it.");
-        CueLogger.Event("closed", "idle_timeout");
+        var log = CueLogger.For(cue.transform);   // THIS cue's logger, not a shared static
+        log?.End("walked_away", "idle_timeout");
         cue.SetActive(false);
         ScheduleExitCue(idleRetiredToEntryDelay, "arrival cue ignored");
     }

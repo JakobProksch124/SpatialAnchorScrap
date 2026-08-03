@@ -118,8 +118,19 @@ public class CueAnswerRow : MonoBehaviour
 
         if (def.kind == CueCardKind.Image && def.image != null)
         {
+            // Aspect-FIT, never stretch: portrait phone screenshots (1179x2556) would otherwise be
+            // squashed into the landscape media box. The image scales down until it fits completely,
+            // so nothing is clipped and nothing is distorted.
             var img = MakeRaw(media.rectTransform, "Image", def.image, Color.white);
-            Stretch(img.rectTransform);
+            var irt = img.rectTransform;
+            irt.anchorMin = irt.anchorMax = new Vector2(0.5f, 0.5f);
+            irt.pivot = new Vector2(0.5f, 0.5f);
+            irt.offsetMin = irt.offsetMax = Vector2.zero;
+            var fitter = img.gameObject.AddComponent<AspectRatioFitter>();
+            fitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+            fitter.aspectRatio = def.image.height > 0
+                ? (float)def.image.width / def.image.height
+                : 1f;
         }
         else if (def.kind == CueCardKind.Video && def.video != null)
         {

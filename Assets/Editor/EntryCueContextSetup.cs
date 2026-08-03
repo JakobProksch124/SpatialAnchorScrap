@@ -35,7 +35,15 @@ public static class EntryCueContextSetup
     const string VidTele   = MediaDir + "/Videos/Teleportation_4zu3.mp4";
     const string VidAbset  = MediaDir + "/Videos/HMD_Absetzen-4zu3.mp4";
     const string VidPfeil  = MediaDir + "/Videos/pfeil video.mp4";
-    const string ImgHandy  = MediaDir + "/Immages/HandyAbfahrt.png"; // T12: phone departure board
+    const string MapBibMensa = MediaDir + "/Minimaps/Bib ZU Mensa 2.png";
+
+    // Real phone-side screenshots, shown so the cue can preview what waits on the smartphone.
+    // All four are portrait 1179x2556; CueAnswerRow aspect-FITS them, so the panel keeps its
+    // normal size and the screenshot is scaled down inside it instead of being cropped.
+    const string PhoneFokus = MediaDir + "/Smartphone Screenshots/Fokusfür die Vorlesung.png";
+    const string PhoneMensa = MediaDir + "/Smartphone Screenshots/WegZurMensa.png";
+    const string PhoneEssen = MediaDir + "/Smartphone Screenshots/Interface Food Selection.png";
+    const string PhoneBus   = MediaDir + "/Smartphone Screenshots/Interface Bus selection .png";
 
     // standard arrival header (README convention)
     const string ArrTitle = "Wie kann ich dir helfen?";
@@ -128,7 +136,7 @@ public static class EntryCueContextSetup
             title = "Willkommen in AR!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("karte", CueCardKind.Image, "KARTE", "Zeige die Karte der Strecke, wenn der Nutzer nach dem Weg, der Strecke oder einer Karte fragt.", "Deine Strecke im Überblick.", asset: MiniG64),
-                Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren oder wie man ihnen folgt.", "So entstehen die Pfeile und so folgst du ihnen.", asset: VidPfeil),
+                Card("pfeil", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren oder wie man ihnen folgt.", "So entstehen die Pfeile und so folgst du ihnen.", asset: VidPfeil),
             }
         },
         new Spec {
@@ -163,7 +171,7 @@ public static class EntryCueContextSetup
             cards = new List<CueCardDef> {
                 Card("strecke", CueCardKind.Image, "STRECKE", "Zeige die Vorschau der Reststrecke, wenn der Nutzer fragt, wie der restliche Weg aussieht.", "So sieht der restliche Weg aus.", asset: MiniG64),
                 Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort-Highlight, wenn der Nutzer fragt, wo er gerade ist.", "Deine Strecke mit Highlight, wo du dich gerade befindest.", asset: MiniG64),
-                Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Erklärvideo, wenn der Nutzer wissen will, wie man dem Pfeil folgt.", "Kurze Animation, wie die Pfeile funktionieren und wie du ihnen folgst.", asset: VidPfeil),
+                Card("pfeil", CueCardKind.Video, "VIDEO", "Zeige das Erklärvideo, wenn der Nutzer wissen will, wie man dem Pfeil folgt.", "Kurze Animation, wie die Pfeile funktionieren und wie du ihnen folgst.", asset: VidPfeil),
             }
         },
         new Spec {
@@ -173,6 +181,7 @@ public static class EntryCueContextSetup
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er wechselt oder die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
+                Card("handy", CueCardKind.Image, "HANDY", "Zeige den Handy-Screenshot, wenn der Nutzer wissen will, was ihn auf dem Smartphone erwartet, was er dort einstellen kann oder warum er wechseln soll.", "Auf dem Handy stellst du deinen Fokus für die Vorlesung ein.", asset: PhoneFokus),
             }
         },
 
@@ -182,7 +191,7 @@ public static class EntryCueContextSetup
             title = "Willkommen in AR!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort, wenn der Nutzer nach dem Weg oder wo er ist fragt.", "Deine Strecke durch die Bibliothek mit Highlight, wo du gerade bist.", asset: MiniBib),
-                Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren.", "Kurze Animation, wie die Pfeile funktionieren.", asset: VidPfeil),
+                Card("pfeil", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren.", "Kurze Animation, wie die Pfeile funktionieren.", asset: VidPfeil),
             }
         },
         new Spec {
@@ -216,7 +225,7 @@ public static class EntryCueContextSetup
             title = "Willkommen zurück in AR!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("standort", CueCardKind.Image, "KARTE", "Zeige die Karte mit Standort, wenn der Nutzer nach dem Weg oder wo er ist fragt.", "Der restliche Weg zum Hauptausgang mit Highlight, wo du gerade bist.", asset: MiniBib),
-                Card("pfeilvideo", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren.", "Kurze Animation, wie die Pfeile funktionieren.", asset: VidPfeil),
+                Card("pfeil", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren.", "Kurze Animation, wie die Pfeile funktionieren.", asset: VidPfeil),
             }
         },
         new Spec {
@@ -226,7 +235,8 @@ public static class EntryCueContextSetup
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
-                Card("karte", CueCardKind.Image, "KARTE", "Zeige die Karte, wenn der Nutzer wissen will, wohin es geht oder wie er von hier zur Mensa kommt.", "Dein Weg von der Bibliothek zur Mensa – nur noch etwa 100 Meter.", asset: MediaDir + "/Immages/WegBibMensa.png"),
+                Card("karte", CueCardKind.Image, "KARTE", "Zeige die Karte, wenn der Nutzer wissen will, wohin es geht oder wie er von hier zur Mensa kommt.", "Dein Weg von der Bibliothek zur Mensa – etwa 100 Meter, rund 2 Minuten.", asset: MapBibMensa),
+                Card("handy", CueCardKind.Image, "HANDY", "Zeige den Handy-Screenshot, wenn der Nutzer wissen will, was ihn auf dem Smartphone erwartet oder warum er wechseln soll.", "So sieht der Weg drüben auf deinem Handy aus.", asset: PhoneMensa),
             }
         },
 
@@ -236,6 +246,7 @@ public static class EntryCueContextSetup
             title = "Willkommen in der Mensa!", reason = "Wie kann ich dir helfen?", close = "Schließen", note = NoteArr,
             cards = new List<CueCardDef> {
                 Card("karte", CueCardKind.Image, "KARTE", "Zeige die Karte, wenn der Nutzer nach dem Weg, der Strecke oder einer Karte fragt.", "Dein Weg nach oben zu Peter, etwa 2 Minuten.", asset: MiniMensa),
+                Card("pfeil", CueCardKind.Video, "VIDEO", "Zeige das Video, wenn der Nutzer wissen will, wie die Pfeile funktionieren, wem er folgen soll oder ob es dazu etwas zu sehen gibt.", "So funktionieren die Pfeile und so folgst du ihnen.", asset: VidPfeil),
             }
         },
         new Spec {
@@ -245,13 +256,14 @@ public static class EntryCueContextSetup
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
                 Card("absetzen", CueCardKind.Video, "ABSETZEN", "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt.", "Einfach das Headset absetzen, mehr ist nicht zu tun.", asset: VidAbset),
+                Card("essen", CueCardKind.Image, "ESSEN", "Zeige den Handy-Screenshot, wenn der Nutzer wissen will, was ihn auf dem Smartphone erwartet, was es zu essen gibt oder warum er wechseln soll.", "Auf dem Handy wählst du dein Mittagessen – es wird direkt bestellt.", asset: PhoneEssen),
             }
         },
 
         // ---------------- Lecture ----------------
         new Spec {
             prefab = "T11_Arrival", ctx = "T11_Arrival", mode = CueConfig.Mode.Arrival,
-            title = "Willkommen im Hörsaal!", reason = "Hast du noch Fragen, bevor die Vorlesung startet?",
+            title = "Willkommen im Hörsaal!", reason = "Hast du noch Fragen, bevor die Übung startet?",
             close = "Start", note = NoteArr,
             cards = new List<CueCardDef>()  // bewusst keine Karten (nur Start-Button im Hörsaal)
         },
@@ -261,7 +273,7 @@ public static class EntryCueContextSetup
             reason = "Dein Bus kommt bald – setz die Brille ab und schau auf dein Smartphone.",
             enter = "Absetzen", dismiss = "Jetzt nicht", note = NoteEntry,
             cards = new List<CueCardDef> {
-                Card("handy", CueCardKind.Image, "HANDY", "Zeige das Handy-Bild, wenn der Nutzer wissen will, was ihn auf dem Smartphone erwartet, was er dort tun kann oder warum er wechseln soll.", "So sieht die Abfahrtsanzeige auf deinem Handy aus.", asset: ImgHandy),
+                Card("handy", CueCardKind.Image, "HANDY", "Zeige den Handy-Screenshot bei ALLEM rund um die Fahrt nach Hause: welcher Bus, welche Linie, wann faehrt er, wie lange noch, wo ist die Haltestelle, was ihn auf dem Smartphone erwartet oder warum er wechseln soll. Im Zweifel zeigen.", "So sieht die Abfahrtsanzeige auf deinem Handy aus.", asset: PhoneBus),
                 Card("live", CueCardKind.Reality, "LIVE", "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht.", "Live-Ansicht der echten Welt vor dir, kein Standbild.", "", 1.3f, heightScale: 1.6f),
             }
         },

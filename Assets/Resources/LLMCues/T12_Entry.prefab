@@ -3737,7 +3737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantId: P00
-  transitionCode: T1
+  transitionCode: T12
 --- !u!114 &3964474612698384654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3766,46 +3766,7 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ENTRY Cue, gezeigt VOR der Transition. Sprich \xFCber
     die Transition und den Zielkontext."
-  contextText: "# T12 Entry Cue: VR (Vorlesung) zu Realität, Heimweg
-
-## Deine Rolle
-Du bist der Assistent dieses Entry Cues, der letzten Transition der Anwendung. Er erscheint am Ende der nachgeholten UX-Vorlesung im virtuellen Hörsaal. Der Cue ist per Sprache (A-Taste) und Klick bedienbar. Halte die Antworten kurz und beruhigend: es ist genug Zeit.
-
-## Szenario-Hintergrund
-- Die Vorlesung ist durch. Der Fortschritt wurde automatisch gespeichert und ist jederzeit fortsetzbar — es gibt keinen Grund mehr, in VR zu bleiben.
-- Der Nutzer sitzt in der Mensa an Peters Tisch. Nach dem Absetzen der Brille hat er sein Handy in der Hand.
-
-## Wohin du wechseln kannst
-Zurück in die Realität ans Smartphone: dort geht sofort die Abfahrtsanzeige auf, mit zwei Busverbindungen nach Hause zur Auswahl.
-
-## Was drüben wartet
-- Zwei Linien ab der Haltestelle Technische Hochschule; der Fußweg dorthin dauert etwa 10 Minuten.
-- Die nächste Verbindung fährt in etwa 15 Minuten: Linie 17 Richtung Uni Lübeck, der Favorit des Nutzers.
-- Die Alternative fährt in etwa 25 Minuten: Linie 2 Richtung Lübeck ZOB.
-- Drüben steht also eine Entscheidung an, welche der beiden Linien er nimmt. Die Abwägung zwischen den beiden bespricht er dort am Handy — nimm sie hier nicht vorweg.
-- Das Semesterticket gilt für beide Linien, es muss kein Ticket gekauft werden.
-
-## Warum jetzt wechseln
-- Wer die schnelle Verbindung nehmen will, sollte nicht mehr lange warten: etwa 15 Minuten bis zur Abfahrt, dazu etwa 10 Minuten Fußweg.
-- In VR gibt es nichts mehr zu erledigen.
-
-## Ausklappbare Inhalte (visuell)
-- Bild \"Handy\": Bildunterschrift: \"So sieht die Abfahrtsanzeige auf deinem Handy aus.\" Zeige es, wenn der Nutzer wissen will, was ihn auf dem Handy erwartet, was er dort tun kann oder warum er überhaupt wechseln soll.
-- Live-Fenster \"Blick in die Realität\": Live-Ansicht der echten Welt vor dir, kein Standbild.
-
-## Der Übergang selbst
-- Brille absetzen – danach geht es auf dem Smartphone weiter, die Abfahrten sind sofort zu sehen. Erwähne das Smartphone, wenn der Nutzer fragt, was als Nächstes zu tun ist – dränge es aber nicht auf.
-- Der Fortschritt der Vorlesung geht dabei nicht verloren.
-
-## Wichtig
-- Erwähne NICHT: eine mögliche Verspätung, das Wetter, und dass Peter selbst mit einer der Linien fährt. Diese Details gehören dem Cue auf dem Handy, damit es dort noch etwas zu fragen gibt.
-- Erfinde keine weiteren Linien, Zeiten oder Preise. Nur die beiden genannten Verbindungen existieren.
-- Entscheide nicht für den Nutzer, welche Linie er nehmen soll; die Wahl trifft er drüben am Handy.
-
-## Antwortstil und Einschränkungen
-- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen. Beruhigend: genug Zeit, kein Stress.
-- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
-"
+  contextText: "# T12 Entry Cue: VR (MMP-Übung) zu Realität, Heimweg\n\n## Deine Rolle\nDu bist der Assistent dieses Entry Cues, der letzten Transition der Anwendung. Er erscheint am Ende der nachgeholten MMP-Übung 1 im virtuellen Hörsaal. Der Cue ist per Sprache (A-Taste) und Klick bedienbar. Halte die Antworten kurz und beruhigend: es ist genug Zeit.\n\n## Szenario-Hintergrund\n- Die Übung ist durch. Der Fortschritt wurde automatisch gespeichert und ist jederzeit fortsetzbar — es gibt keinen Grund mehr, in VR zu bleiben.\n- Der Nutzer sitzt in der Mensa an Peters Tisch. Nach dem Absetzen der Brille hat er sein Handy in der Hand.\n\n## Wohin du wechseln kannst\nZurück in die Realität ans Smartphone: dort geht sofort die Abfahrtsanzeige auf, mit zwei Busverbindungen nach Hause zur Auswahl.\n\n## Was drüben wartet\n- Zwei Linien ab der Haltestelle Technische Hochschule; der Fußweg dorthin dauert etwa 10 Minuten.\n- Die nächste Verbindung fährt in etwa 15 Minuten: Linie 17 Richtung Uni Lübeck, der Favorit des Nutzers.\n- Die Alternative fährt in etwa 25 Minuten: Linie 2 Richtung Lübeck ZOB.\n- Drüben steht also eine Entscheidung an, welche der beiden Linien er nimmt. Die Abwägung zwischen den beiden bespricht er dort am Handy — nimm sie hier nicht vorweg.\n- Das Semesterticket gilt für beide Linien, es muss kein Ticket gekauft werden.\n\n## Warum jetzt wechseln\n- Wer die schnelle Verbindung nehmen will, sollte nicht mehr lange warten: etwa 15 Minuten bis zur Abfahrt, dazu etwa 10 Minuten Fußweg.\n- In VR gibt es nichts mehr zu erledigen.\n\n## Ausklappbare Inhalte (visuell)\n- Bild „Handy\": die Abfahrtsanzeige mit den beiden Linien, so wie sie drüben auf dem Handy aussieht. Zeige es bei allem rund um die Fahrt nach Hause — welcher Bus, welche Linie, wann er fährt, wie lange noch, wo die Haltestelle ist — und auch, wenn der Nutzer wissen will, was ihn auf dem Handy erwartet oder warum er wechseln soll. Im Zweifel zeigen; die Entscheidung, welche Linie er nimmt, triffst du trotzdem nicht.\n- Live-Fenster „Blick in die Realität\": Live-Ansicht der echten Welt vor dir, kein Standbild.\n\n## Der Übergang selbst\n- Brille absetzen – danach geht es auf dem Smartphone weiter, die Abfahrten sind sofort zu sehen. Erwähne das Smartphone, wenn der Nutzer fragt, was als Nächstes zu tun ist – dränge es aber nicht auf.\n- Der Fortschritt der Übung geht dabei nicht verloren.\n\n## Wichtig\n- Erwähne NICHT: eine mögliche Verspätung und dass Peter selbst mit einer der Linien fährt. Diese Details gehören dem Cue auf dem Handy, damit es dort noch etwas zu fragen gibt.\n- Erfinde keine weiteren Linien, Zeiten oder Preise. Nur die beiden genannten Verbindungen existieren.\n- Entscheide nicht für den Nutzer, welche Linie er nehmen soll; die Wahl trifft er drüben am Handy.\n\n## Antwortstil und Einschränkungen\n- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen. Beruhigend: genug Zeit, kein Stress.\n- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.\n"
   cards:
   - id: handy
     kind: 0
@@ -3813,22 +3774,20 @@ Zurück in die Realität ans Smartphone: dort geht sofort die Abfahrtsanzeige au
     heightScale: 1
     title: HANDY
     caption: "So sieht die Abfahrtsanzeige auf deinem Handy aus."
-    image: {fileID: 0}
+    image: {fileID: 2800000, guid: d27e6af32aebd415e8a97cf4e70c198a, type: 3}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: "Zeige das Handy-Bild, wenn der Nutzer wissen will, was ihn auf dem
-      Smartphone erwartet, was er dort tun kann oder warum er wechseln soll."
+    whenToShow: "Zeige den Handy-Screenshot bei ALLEM rund um die Fahrt nach Hause: welcher Bus, welche Linie, wann faehrt er, wie lange noch, wo ist die Haltestelle, was ihn auf dem Smartphone erwartet oder warum er wechseln soll. Im Zweifel zeigen."
   - id: live
     kind: 3
     widthScale: 1.3
     heightScale: 1.6
     title: LIVE
-    caption: Live-Ansicht der echten Welt vor dir, kein Standbild.
+    caption: "Live-Ansicht der echten Welt vor dir, kein Standbild."
     image: {fileID: 0}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: "Zeige das Live-Fenster in die Realit\xE4t, wenn der Nutzer sehen
-      will, wie es drau\xDFen gerade aussieht."
+    whenToShow: "Zeige das Live-Fenster in die Realität, wenn der Nutzer sehen will, wie es draußen gerade aussieht."
 --- !u!114 &3977509939972816125
 MonoBehaviour:
   m_ObjectHideFlags: 0

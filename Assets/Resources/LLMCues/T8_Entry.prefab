@@ -3737,7 +3737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   participantId: P00
-  transitionCode: T1
+  transitionCode: T8
 --- !u!114 &3964474612698384654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3766,54 +3766,38 @@ MonoBehaviour:
   closeLabel: "Schlie\xDFen"
   assistantNote: "Du bist der ENTRY Cue, gezeigt VOR der Transition. Sprich \xFCber
     die Transition und den Zielkontext."
-  contextText: "# T8 Entry Cue: AR zu Realität, Bibliothek verlassen (Brille absetzen)
-
-## Deine Rolle
-Du bist der Assistent dieses Entry Cues. Er erscheint in AR am Hauptausgang der Bibliothek. Der Nutzer hat das Ende der Bibliothek erreicht und muss nur noch ein kurzes Stück draußen in der Realität gehen. Der Cue ist per Sprache und Klick bedienbar. Halte die Antworten bestätigend.
-
-## Szenario-Hintergrund
-- Ziel: die Mensa, wo Peter zum Mittagessen wartet.
-- Draußen sind es nur noch etwa 100 Meter.
-
-## Wohin du wechseln kannst
-Zurück in die Realität: einfach die Brille absetzen und das kurze Stück zur Mensa gehen.
-
-## Warum jetzt wechseln
-- Alles in der Bibliothek ist erledigt.
-- Draußen sollte man nicht mit der Brille herumlaufen: falls es regnet oder bei direkter Sonneneinstrahlung ist das nicht gut für die Brille. Deshalb wird sie für das kurze Stück abgenommen.
-
-## Ausklappbare Inhalte (visuell)
-- Bild \"Karte\": Bildunterschrift: \"Dein Weg von der Bibliothek zur Mensa – nur noch etwa 100 Meter.\"
-
-## Der Übergang selbst
-- Brille absetzen – danach geht es auf dem Smartphone weiter. Erwähne das Smartphone, wenn der Nutzer fragt, was als Nächstes zu tun ist – dränge es aber nicht auf.
-- Behält der Nutzer die Brille länger auf und stellt weiter Fragen: erinnere ihn freundlich, dass hier nichts mehr zu erledigen ist: Brille absetzen und aufs Smartphone schauen.
-
-## Antwortstil und Einschränkungen
-- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.
-- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.
-"
+  contextText: "# T8 Entry Cue: AR zu Realität, Bibliothek verlassen (Brille absetzen)\n\n## Deine Rolle\nDu bist der Assistent dieses Entry Cues. Er erscheint in AR am Hauptausgang der Bibliothek. Der Nutzer hat das Ende der Bibliothek erreicht und geht das letzte kurze Stück draußen in der Realität. Der Cue ist per Sprache (A-Taste) und Klick bedienbar. Halte die Antworten kurz und bestätigend.\n\n## Szenario-Hintergrund\n- Ziel: die Mensa, wo Peter zum Mittagessen wartet.\n- Draußen sind es nur noch etwa 100 Meter, rund 2 Minuten zu Fuß.\n\n## Wohin du wechseln kannst\nZurück in die Realität: einfach die Brille absetzen und das kurze Stück zur Mensa gehen. **An der Mensa kann sie wieder aufgesetzt werden.**\n\n## Warum jetzt wechseln\n- Alles in der Bibliothek ist erledigt.\n- Draußen bleibt die Brille aus: die wechselnden Lichtverhältnisse im Freien sind nichts für das Headset, und für ein so kurzes Stück lohnt es sich ohnehin nicht.\n- Für draußen übernimmt das Handy: es zeigt den Weg, damit man ihn ohne Brille findet.\n\n## Ausklappbare Inhalte (visuell)\n- Video „Absetzen\": kurze Animation – einfach nur das Headset absetzen, mehr ist nicht zu tun.\n- Bild „Karte\": die Strecke von der Bibliothek zur Mensa. Zeige es, wenn der Nutzer fragt, wohin es geht oder wie er von hier zur Mensa kommt.\n- Bild „Handy\": derselbe Weg, so wie er drüben auf dem Handy aussieht. Zeige es, wenn der Nutzer wissen will, was ihn auf dem Smartphone erwartet oder warum er überhaupt wechseln soll.\n\n## Der Übergang selbst\n- Brille absetzen – danach geht es auf dem Smartphone weiter, der Weg ist dort sofort zu sehen. Erwähne das Smartphone, wenn der Nutzer fragt, was als Nächstes zu tun ist – dränge es aber nicht auf.\n- Behält der Nutzer die Brille länger auf und stellt weiter Fragen: erinnere ihn freundlich, dass hier nichts mehr zu erledigen ist: Brille absetzen und aufs Smartphone schauen.\n\n## Antwortstil und Einschränkungen\n- Antworte kurz (etwa ein Satz), nur auf Basis dieser Informationen.\n- Sprich den Nutzer nicht mit Namen an. Erfinde nichts, was hier nicht steht.\n"
   cards:
   - id: absetzen
     kind: 1
     widthScale: 1
+    heightScale: 1
     title: ABSETZEN
-    caption: Einfach das Headset absetzen, mehr ist nicht zu tun.
+    caption: "Einfach das Headset absetzen, mehr ist nicht zu tun."
     image: {fileID: 0}
     video: {fileID: 32900000, guid: 618fc646c45c14722876d3f3ef272449, type: 3}
     bodyText: 
-    whenToShow: Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille
-      absetzt.
+    whenToShow: "Zeige die Absetzen-Animation, wenn der Nutzer fragt, wie er die Brille absetzt."
   - id: karte
     kind: 0
     widthScale: 1
+    heightScale: 1
     title: KARTE
-    caption: "Dein Weg von der Bibliothek zur Mensa \u2013 nur noch etwa 100 Meter."
-    image: {fileID: 0}
+    caption: "Dein Weg von der Bibliothek zur Mensa – etwa 100 Meter, rund 2 Minuten."
+    image: {fileID: 2800000, guid: 2d80ccf11b0154a09966baefd96d3ff0, type: 3}
     video: {fileID: 0}
     bodyText: 
-    whenToShow: Zeige die Karte, wenn der Nutzer wissen will, wohin es geht oder wie
-      er von hier zur Mensa kommt.
+    whenToShow: "Zeige die Karte, wenn der Nutzer wissen will, wohin es geht oder wie er von hier zur Mensa kommt."
+  - id: handy
+    kind: 0
+    widthScale: 1
+    heightScale: 1
+    title: HANDY
+    caption: "So sieht der Weg drüben auf deinem Handy aus."
+    image: {fileID: 2800000, guid: 4e471e361165447e983ab718300db1d5, type: 3}
+    video: {fileID: 0}
+    bodyText: 
+    whenToShow: "Zeige den Handy-Screenshot, wenn der Nutzer wissen will, was ihn auf dem Smartphone erwartet oder warum er wechseln soll."
 --- !u!114 &3977509939972816125
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ public class DismissButtonFunctionality : MonoBehaviour
 {
     void Start()
     {
+        var log = CueLogger.For(this);
         var ray = GetComponent<RayInteractable>();
         if (ray == null) ray = GetComponentInChildren<RayInteractable>();
         if (ray == null)
@@ -22,7 +23,7 @@ public class DismissButtonFunctionality : MonoBehaviour
         ray.WhenStateChanged += state =>
         {
             if (state.NewState == InteractableState.Select)
-                CueLogger.Event("dismiss_requested_ignored", "button:jetzt_nicht");
+                log?.Event("dismiss_requested_ignored", source: "button");
         };
     }
 }

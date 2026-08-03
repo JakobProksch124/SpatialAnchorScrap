@@ -13,6 +13,7 @@ public class AnchorPositionerBinder : MonoBehaviour
     [SerializeField] public SpatialAnchorLoaderBuildingBlock SpatialAnchorLoadBuildingBlock;
     public SpatialAnchorSpawnerBuildingBlock SpatialAnchorSpawner;
     public bool firstAnchorFound = false;
+    private bool _bound = false;   // a building is placed exactly once per session
 
     public GameObject joystickController;
     private float _loadInterval = 5f;
@@ -103,6 +104,22 @@ public class AnchorPositionerBinder : MonoBehaviour
     {
         if (anchor == null)
             return;
+
+        // Update() re-issues LoadAnchorsFromDefaultLocalStorage() every 5 s until an anchor turns
+        // up, and the load is ASYNC. firstAnchorFound stops further requests, but a request that
+        // was already in flight still delivers its callback — so two loads could each Bind, giving
+        // TWO buildings, each with its own Building_TransitionCues, each spawning its own set of
+        // cues. That is the duplicate T5_Arrival pair 15 ms apart in library session 12.
+        // Nothing re-binds on purpose (createFirstAnchor is itself gated on firstAnchorFound),
+        // so placing exactly once is the correct behaviour.
+        if (_bound)
+        {
+            Debug.LogWarning("[AnchorPositionerBinder] building already placed — ignoring duplicate bind " +
+                             $"for anchor {anchor.Uuid}");
+            return;
+        }
+        _bound = true;
+
         Transform buildingTransform = anchor.transform;
         UINotificationSystem.Instance.HidePersistentMessage();
 

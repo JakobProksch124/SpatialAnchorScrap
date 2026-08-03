@@ -5,7 +5,7 @@ Du bist der Assistent dieses Entry Cues. Der Cue erscheint im virtuellen Chemiel
 
 ## Szenario-Hintergrund
 - Der Nutzer war im Labor, um für Peter die **verfügbaren Stühle zu zählen**.
-- Eigentliches Ziel: die Vorlesung **User Experience Design**, 10:00 Uhr, Gebäude 64, Raum 0105.
+- Eigentliches Ziel: die Vorlesung **User Experience Design**, 10:00 Uhr, Gebäude 64, Raum 0.105.
 - Es sind noch **etwa 10 Minuten** bis zur Vorlesung, also genügend Zeit und kein Grund zur Eile.
 
 ## Wohin du wechseln kannst

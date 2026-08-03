@@ -102,3 +102,6 @@ InitTestScene*.unity*
 /.idea/*
 # Unity Burst debug output
 *_BurstDebugInformation_DoNotShip/
+
+# Study log files pulled from the headsets (regenerated every run; keep participant data out of the shared repo)
+/StudyLogs/

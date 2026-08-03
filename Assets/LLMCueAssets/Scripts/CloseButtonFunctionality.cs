@@ -7,6 +7,7 @@ public class CloseButtonFunctionality : MonoBehaviour
     {
         var ray = GetComponent<RayInteractable>();
         var cueEvents = GetComponentInParent<CueEvents>();
+        var log = CueLogger.For(this);
 
         var curr = transform.parent;
         GameObject foundParent = null;
@@ -25,8 +26,11 @@ public class CloseButtonFunctionality : MonoBehaviour
         {
             if (state.NewState == InteractableState.Select)
             {
+                // closing IS the end of the encounter — without End() the file stayed open
+                // until the object was destroyed and every arrival cue ended as app_quit.
+                // Logged before the event is raised, for the same reason as the enter button.
+                log?.End("closed", "button", openIfNeeded: true);
                 cueEvents.RaiseCloseCue();
-                CueLogger.Event("closed");
                 if (foundParent != null)
                     foundParent.SetActive(false);
             }

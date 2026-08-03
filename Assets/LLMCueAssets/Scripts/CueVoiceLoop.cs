@@ -44,6 +44,7 @@ public class CueVoiceLoop : MonoBehaviour
     // producing two overlapping voices and competing dock text.
     private static CueVoiceLoop _activeLoop;
 
+    private CueLogger _log;          // THIS cue's logger — never a shared static
     private CueVisualState _state = CueVisualState.Idle;
     private int _consumed;
     private bool _firstSentenceSent;
@@ -58,8 +59,9 @@ public class CueVoiceLoop : MonoBehaviour
 #endif
         // arrival cues appear already inside the context -> the encounter starts now;
         // entry cues start their encounter when the user comes near (below).
+        _log = CueLogger.For(this);
         var cfg = GetComponent<CueConfig>();
-        if (cfg != null && cfg.IsArrival) CueLogger.Begin("cue_created");
+        if (cfg != null && cfg.IsArrival) _log?.Begin("cue_created");
 
         if (earcons)
         {
@@ -94,7 +96,7 @@ public class CueVoiceLoop : MonoBehaviour
                 ToState(CueVisualState.Available);
                 if (_earcons) _earcons.PlayWake(); // chime only on the actual wake
             }
-            CueLogger.Begin("cue_shown"); // entry encounter opens when the user is near
+            _log?.Begin("cue_shown"); // entry encounter opens when the user is near
         });
         // Latch: once activated the cue never deactivates on walking away (study behaviour).
         // (No onExitOuter reset — it stays available until the transition is entered.)
@@ -148,12 +150,14 @@ public class CueVoiceLoop : MonoBehaviour
     {
         _tTranscript = Time.realtimeSinceStartup;
         Debug.Log($"[CueVoiceLoop] Transcript: '{text}'");
-        CueLogger.Event("text_input", text);
         if (string.IsNullOrWhiteSpace(text))
         {
+            _log?.Event("speech_empty");
             ToState(RestState());
             return;
         }
+        text = text.Trim();          // STT appends "\n"; the phone-side log has none
+        _log?.Event("text_input", text);
 
         _consumed = 0;
         _firstSentenceSent = false;
@@ -177,7 +181,7 @@ public class CueVoiceLoop : MonoBehaviour
     {
         Debug.Log($"[CueVoiceLoop] TIMING llm-complete: {Time.realtimeSinceStartup - _tTranscript:F2}s after transcript");
         Debug.Log($"[CueVoiceLoop] LLM response: '{full}'");
-        CueLogger.Event("text_output", full);
+        _log?.Event("text_output", full);
         dock.ShowAnswer(full);
         if (full.Length > _consumed) EnqueueSpan(full, full.Length);
         speaker.EndOfInput();
@@ -205,6 +209,7 @@ public class CueVoiceLoop : MonoBehaviour
         // voice intents (shared with the buttons)
         if (name == "start_transition")
         {
+            _log?.End("transition_entered", "voice", openIfNeeded: true);   // before raising: the listener hides the cue
             if (events) events.RaiseStartTransition();
             return "starting transition";
         }
@@ -215,12 +220,12 @@ public class CueVoiceLoop : MonoBehaviour
             var cfg = GetComponent<CueConfig>();
             if (cfg != null && cfg.IsArrival)
             {
+                _log?.End("closed", "voice", openIfNeeded: true);   // same as the Close button: closing ends the encounter
                 if (events) events.RaiseCloseCue();
-                CueLogger.Event("closed");
                 CloseCueRoot();
                 return "cue closed";
             }
-            CueLogger.Event("dismiss_requested_ignored", "voice");
+            _log?.Event("dismiss_requested_ignored", source: "voice");
             return "closing is not available on this cue";
         }
 
@@ -229,7 +234,7 @@ public class CueVoiceLoop : MonoBehaviour
         {
             var id = (string)args["card"] ?? "";
             var r = answerRow.Remove(id);
-            CueLogger.Event("panel_hidden", panel: id);
+            _log?.Event("panel_hidden", panel: id);
             if (answerRow.IsEmpty && invitation) invitation.SetSmall(false);
             return r;
         }
@@ -242,7 +247,7 @@ public class CueVoiceLoop : MonoBehaviour
 
         var result = answerRow.ShowCard((string)args["card"] ?? "");
         _cardAddedThisTurn = true;
-        if (result.StartsWith("card")) CueLogger.Event("panel_shown", panel: (string)args["card"] ?? "");
+        if (result.StartsWith("card")) _log?.Event("panel_shown", panel: (string)args["card"] ?? "");
         if (invitation) invitation.SetSmall(true); // any card => shrink invitation
         return result;
     }
