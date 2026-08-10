@@ -92,7 +92,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string alternateRouteDescription = "Welcome to VR!";
     [SerializeField] private string alternateRouteButtonText = "X";
     [SerializeField] private bool alternateRouteAlwaysExpand = false;
-    [SerializeField] private bool spawnAlternateRouteCue = false;
+    [SerializeField] private bool isBib = false;
 
     
     
@@ -206,8 +206,6 @@ public class Building_TransitionCues : MonoBehaviour
         }
 
         Debug.Log("creating start arrival cue");
-        //Create start arrival cue
-        CreateStartArrivalCue(startArrivalAnchor);
 
         Debug.Log("creating entry cue");
         // Create entry cue
@@ -223,14 +221,16 @@ public class Building_TransitionCues : MonoBehaviour
             LeaveHMDCue.SpawnArrivalCue();
         }
 
-        if (spawnAlternateRouteCue)
+        if (isBib)
         {
             Debug.Log("spawning alternate route cue");
             CreateAlternateRouteCue(alternateRouteAnchor);
         }
         else
         {
-            Debug.Log("not spawning alternate route cue");
+        //Create start arrival cue
+        CreateStartArrivalCue(startArrivalAnchor);
+            Debug.Log("not spawning alternate route cue but spawning start arrival cue");
         }
     }
 
@@ -1002,6 +1002,7 @@ public class Building_TransitionCues : MonoBehaviour
         if (pathGenerator != null)
         {
             pathGenerator.ClearArrows();
+            pathGenerator.ClearInbetweenTarget();
             pathGenerator.enabled = false;
 
             pathLineRenderers = pathGenerator.GetComponentsInChildren<LineRenderer>();

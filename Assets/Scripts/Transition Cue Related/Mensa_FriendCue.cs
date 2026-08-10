@@ -255,12 +255,12 @@ public class Mensa_FriendCue : MonoBehaviour
 
         CreateEntryCue(entryAnchor);
         //Spawn arrival cue (Premise: ArrivalCue component is present on this GameObject)
-        arrivalCue = GetComponent<ArrivalCue>();
-        if (arrivalCue != null)
-        {
-            arrivalCue.SpawnArrivalCue();
-            UnityEngine.Debug.Log("Spawned LeaveHMD cue!");
-        }
+        //arrivalCue = GetComponent<ArrivalCue>();
+        //if (arrivalCue != null)
+        //{
+         //   arrivalCue.SpawnArrivalCue();
+          //  UnityEngine.Debug.Log("Spawned LeaveHMD cue!");
+        //}
     }
 
     // Helper function for creating a button below the mensa meal
@@ -350,7 +350,7 @@ public class Mensa_FriendCue : MonoBehaviour
             entryCue.SetActive(false);
 
         // Create entry arrival cue
-        CreateEntryArrivalCue(entryArrivalAnchor);
+        //CreateEntryArrivalCue(entryArrivalAnchor);
         EnablePathGenerator();
     }
 

@@ -86,9 +86,18 @@ public class IMessageTransitionCue : MonoBehaviour
             parent: iMessageAnchor,
             onInteract: () =>
             {
-                iMessageCue.SetActive(false);
                 //readNotification();
-                CreateVisualVoiceCue(visualVoiceAnchor);
+                //CreateVisualVoiceCue(visualVoiceAnchor);
+            Debug.Log("Adding InBetween Target");
+            if (pathGenerator != null)
+            {
+                pathGenerator.AddInbetweenTarget(entryAnchor);
+            }
+            else
+            {
+                Debug.Log("path generator reference in IMessage is null");
+            }
+                iMessageCue.SetActive(false);
             },
             onClose: () =>
             {
@@ -97,9 +106,9 @@ public class IMessageTransitionCue : MonoBehaviour
         );
 
         iMessageCueConfig.alwaysExpanded = true;
-        iMessageCueConfig.isMultiStep = true;
-        iMessageCueConfig.currentStep = 1;
-        iMessageCueConfig.totalSteps = 2;
+        //iMessageCueConfig.isMultiStep = true;
+        //iMessageCueConfig.currentStep = 1;
+        //iMessageCueConfig.totalSteps = 2;
         iMessageCueConfig.hasCloseButton = true;
         iMessageCueConfig.isAnimated = true;
         iMessageCueConfig.primaryColor = iMessagePrimaryColor;

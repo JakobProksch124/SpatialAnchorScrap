@@ -1291,6 +1291,22 @@ MonoBehaviour:
   exitArrivalDescription: Follow the arrows to the lecture hall
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 0
+  alternateRouteAnchorName: alternateRouteAnchor
+  alternateRoutePrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  alternateRouteLabel: VR
+  alternateRouteScreenshotDisplayed: {fileID: 0}
+  alternateRouteDescription: Welcome to VR!
+  alternateRouteButtonText: X
+  alternateRouteAlwaysExpand: 0
+  isBib: 0
+  leaveHMDAnchorName: leaveHMDAnchor
+  leaveHMDPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  leaveHMDLabel: R
+  leaveHMDScreenshotDisplayed: {fileID: 0}
+  leaveHMDDescription: Take off the headmounted display
+  leaveHMDButtonText: 
+  leaveHMDAlwaysExpand: 0
+  leaveHMDvideoClip: {fileID: 0}
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
   particleDuration: 4
@@ -1467,8 +1483,9 @@ MonoBehaviour:
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   iMessageLabel: You have received a message from Peter!
   iMessageScreenshotDisplayed: {fileID: 2800000, guid: 1331fc9fb5b921243b0c6c23e4f02ebc, type: 3}
-  iMessageDescription: Would you like me to show you where the lab is?
-  iMessageButtonText: Show me
+  iMessageDescription: The Lab is in 15m on the right. Would you like me to add it
+    to the navigation?
+  iMessageButtonText: Add as next goal
   iMessageAnchor: {fileID: 2534005402456416928}
   notificationSoundPlayer: {fileID: 6803258545756935040}
   readNotificationPlayer: {fileID: 4967578937458614097}

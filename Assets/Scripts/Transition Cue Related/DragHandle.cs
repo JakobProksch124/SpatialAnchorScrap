@@ -96,7 +96,7 @@ public class DragHandle : MonoBehaviour
 
     private void EndDrag()
     {
-        //_turnTowardsUser.UpdateOriginalRotation();
+        _turnTowardsUser.UpdateOriginalRotation();
         _dragging = false;
     }
 

@@ -58,7 +58,7 @@ public class PathGenerator : MonoBehaviour
     void Update()
     {
         start = Camera.main.transform;
-        if (!_pathing || start == null || target == null || !firstDraw)
+        if (!_pathing || start == null || target == null)
             return;
 
         GetPath();
@@ -93,9 +93,6 @@ public class PathGenerator : MonoBehaviour
 
     public void GetPath()
     {
-        if (start == null)
-            return;
-
         List<Vector3> corners = new List<Vector3>();
 
         if (inBetweenTarget != null)
@@ -131,11 +128,15 @@ public class PathGenerator : MonoBehaviour
             corners.AddRange(path.corners);
         }
 
-        DrawCentripetalCurveInstant(corners.ToArray());
-        firstDraw=false;
-            //if (!isDrawingFirstTime)
-            //   StartCoroutine(DrawCentripetalCurveCoroutine(corners.ToArray()));
-        
+        if (firstDraw)
+        {
+            if (!isDrawingFirstTime)
+                StartCoroutine(DrawCentripetalCurveCoroutine(corners.ToArray()));
+        }
+        else
+        {
+            DrawCentripetalCurveInstant(corners.ToArray());
+        }
     }
 
     void DrawCentripetalCurveInstant(Vector3[] controlPoints)
@@ -330,7 +331,6 @@ public class PathGenerator : MonoBehaviour
         {
             Debug.Log("Inbetween Target is null");
         }
-        GetPath();
     }
 
     public void ClearInbetweenTarget()
