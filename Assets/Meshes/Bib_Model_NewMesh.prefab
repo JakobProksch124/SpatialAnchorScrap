@@ -1846,7 +1846,7 @@ Transform:
   m_GameObject: {fileID: 4591330178760192977}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.749, y: 2.5, z: -51.572}
+  m_LocalPosition: {x: 45.851, y: 2.5, z: -52.698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3050,7 +3050,7 @@ Transform:
   m_GameObject: {fileID: 5786398210772707861}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.28680015, z: -0, w: -0.95799047}
-  m_LocalPosition: {x: 6.845, y: 1.5, z: 6.515}
+  m_LocalPosition: {x: 6.021, y: 1.5, z: 6.707}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3081,7 +3081,7 @@ Transform:
   m_GameObject: {fileID: 5842855415925930109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.96440643, z: -0, w: 0.26442447}
-  m_LocalPosition: {x: 6.335, y: 1.5, z: 10.366}
+  m_LocalPosition: {x: 4.72, y: 1.5, z: 9.405}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3719,7 +3719,7 @@ MonoBehaviour:
   ExtraARContent: {fileID: 7689347614445365849}
   IMessageCueScript: {fileID: 7182538367590812793}
   startArrivalAnchorName: startArrivalAnchor
-  startArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  startArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 2800000, guid: 2bc04f2592dd931408b32e4a500abdae, type: 3}
   startArrivalDescription: Follow the arrows through the building to the cafeteria.
@@ -3743,7 +3743,7 @@ MonoBehaviour:
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
   exitAnchorName: exitAnchor
-  exitPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitLabel: AR
   exitScreenshotDisplayed: {fileID: 0}
   exitDescription: Would you like to return to your AR-navigation to the cafeteria?
@@ -3752,23 +3752,23 @@ MonoBehaviour:
   leadsToAR: 1
   exitCueDelay: 1
   exitArrivalAnchorName: exitArrivalAnchor
-  exitArrivalPrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitArrivalLabel: AR
   exitArrivalScreenshotDisplayed: {fileID: 0}
   exitArrivalDescription: Follow the arrows to the cafeteria
   exitArrivalButtonText: Close
   exitArrivalAlwaysExpand: 1
   alternateRouteAnchorName: alternateRouteAnchor
-  alternateRoutePrimaryColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  alternateRoutePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   alternateRouteLabel: Alternate Route
   alternateRouteScreenshotDisplayed: {fileID: 0}
   alternateRouteDescription: There are a lot of people ahead. Would you like to leave
     this building already to avoid running into them?
   alternateRouteButtonText: Yes
   alternateRouteAlwaysExpand: 0
-  spawnAlternateRouteCue: 1
+  isBib: 1
   leaveHMDAnchorName: leaveHMDAnchor
-  leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
+  leaveHMDPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   leaveHMDLabel: R
   leaveHMDScreenshotDisplayed: {fileID: 0}
   leaveHMDDescription: Take off the headmounted display and look at your phone
@@ -3776,7 +3776,7 @@ MonoBehaviour:
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
   enterVRParticleColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  exitVRParticleColor: {r: 0.8, g: 0.4, b: 0, a: 1}
+  exitVRParticleColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   particleDuration: 4
   enableKeyboardShortcuts: 1
 --- !u!114 &3805502901795510387
@@ -3792,10 +3792,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leaveHMDAnchorName: LeaveHMDAnchor
-  leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
+  leaveHMDPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   leaveHMDLabel: Leave AR
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 0aab4fdb54e046d4e8d2ea3b6ea0ce05, type: 3}
-  leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
+  leaveHMDDescription: Goal reached. Take off your headset and proceed to the cafeteria.
   leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
@@ -3919,7 +3919,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5766467032572312129
 RectTransform:
   m_ObjectHideFlags: 0

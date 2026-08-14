@@ -223,14 +223,14 @@ public class Building_TransitionCues : MonoBehaviour
 
         if (isBib)
         {
-            Debug.Log("spawning alternate route cue");
-            CreateAlternateRouteCue(alternateRouteAnchor);
+            Debug.Log("not spawning startArrivalCue route cue");
+            //CreateAlternateRouteCue(alternateRouteAnchor);
         }
         else
         {
-        //Create start arrival cue
-        CreateStartArrivalCue(startArrivalAnchor);
-            Debug.Log("not spawning alternate route cue but spawning start arrival cue");
+            //Create start arrival cue
+            CreateStartArrivalCue(startArrivalAnchor);
+            Debug.Log("spawning start arrival cue");
         }
     }
 

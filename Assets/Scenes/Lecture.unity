@@ -5196,21 +5196,21 @@ MonoBehaviour:
   startArrivalAlwaysExpand: 1
   videoStartDelay: 3
   exitAnchorName: exitAnchor
-  exitPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
+  exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitLabel: 
   exitScreenshotDisplayed: {fileID: 0}
   exitDescription: Peter wants to talk to you. Would you like to talk to him?
   exitButtonText: Fade out lecture
   exitAlwaysExpand: 1
   exitTransitionAnchorName: exitAnchor
-  exitTransitionPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
+  exitTransitionPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitTransitionLabel: Reality
   exitTransitionScreenshotDisplayed: {fileID: 0}
   exitTransitionDescription: Would you like to leave with Peter or resume your lecture?
   exitTransitionButtonText: Leave with Peter
   exitTransitionAlwaysExpand: 0
   leaveHMDAnchorName: leaveHMDAnchor
-  leaveHMDPrimaryColor: {r: 0.14509805, g: 0.68235296, b: 0.30980393, a: 1}
+  leaveHMDPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   leaveHMDLabel: Leave AR
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
   leaveHMDDescription: Take off your headset and talk to Peter!
