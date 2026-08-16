@@ -1267,6 +1267,7 @@ MonoBehaviour:
     count the number of available work spaces for Peter?
   entryButtonText: Switch to VR
   entryAlwaysExpand: 0
+  entryVideoClip: {fileID: 32900000, guid: c8389a95fa769df4d914bc76b05c5779, type: 3}
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: 
@@ -1330,7 +1331,7 @@ MonoBehaviour:
   leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
   leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
-  leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
+  leaveHMDvideoClip: {fileID: 32900000, guid: eb69a6afbeea2f64a9a844dd30d85f57, type: 3}
   targetName: G64Target
   locationName: Lecture Hall
   arrivalDistance: 5

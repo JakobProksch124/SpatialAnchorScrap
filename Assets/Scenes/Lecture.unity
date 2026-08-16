@@ -5216,7 +5216,7 @@ MonoBehaviour:
   leaveHMDDescription: Take off your headset and talk to Peter!
   leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
-  leaveHMDvideoClip: {fileID: 0}
+  leaveHMDvideoClip: {fileID: 32900000, guid: eb69a6afbeea2f64a9a844dd30d85f57, type: 3}
   startArrivalAnchor: {fileID: 971701140}
   videoPlane: {fileID: 1836749801}
 --- !u!1 &1319152206

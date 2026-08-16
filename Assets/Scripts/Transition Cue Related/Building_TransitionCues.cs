@@ -48,6 +48,7 @@ public class Building_TransitionCues : MonoBehaviour
     [SerializeField] private string entryDescription = "Enter this virtual space.";
     [SerializeField] private string entryButtonText = "Enter VR";
     [SerializeField] private bool entryAlwaysExpand = false;
+    [SerializeField] private VideoClip entryVideoClip;
 
     [Header("VREntry Arrival Cue Infos")]
     [Tooltip("Name of the child transform in the FBX model where the cue should appear")]
@@ -365,14 +366,15 @@ public class Building_TransitionCues : MonoBehaviour
         );
 
 
-    
-            // Details
-            entryCueConfig.alwaysExpanded = entryAlwaysExpand;
+
+        // Details
+        entryCueConfig.alwaysExpanded = entryAlwaysExpand;
             entryCueConfig.primaryColor = entryPrimaryColor;
             entryCueConfig.expandedDescription = entryDescription;
             entryCueConfig.screenshotTexture = entryScreenshotDisplayed;
             //entryCueConfig.rightController = rightController;
-        
+            entryCueConfig.videoClip = entryVideoClip;
+
 
         entryCueConfig.buttonText = entryButtonText;
         entryCueConfig.label = entryLabel;

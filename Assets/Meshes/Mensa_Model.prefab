@@ -1166,7 +1166,7 @@ MonoBehaviour:
   leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
   leaveHMDButtonText: Leave AR
   leaveHMDAlwaysExpand: 1
-  leaveHMDvideoClip: {fileID: 32900000, guid: 50ca91764ef551643bb6b2fe629c50df, type: 3}
+  leaveHMDvideoClip: {fileID: 32900000, guid: eb69a6afbeea2f64a9a844dd30d85f57, type: 3}
   targetName: MensaTarget
   locationName: Peter
   arrivalDistance: 5
