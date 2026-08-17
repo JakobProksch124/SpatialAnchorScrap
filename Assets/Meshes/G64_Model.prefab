@@ -1248,40 +1248,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vrRoomPrefab: {fileID: 0}
   vrSceneName: Laboratory
-  navigationDestination: Lecture
+  navigationDestination: Vorlesung
   ExtraARContent: {fileID: 0}
   IMessageCueScript: {fileID: 2521268298649085863}
   startArrivalAnchorName: startArrivalAnchor
   startArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 2800000, guid: deac05cc1d11eb544b5030183d005fdd, type: 3}
-  startArrivalDescription: Follow the arrows to the lecture hall
-  startArrivalButtonText: Close
+  startArrivalDescription: Folge den Pfeilen zum Vorlesungsraum
+  startArrivalButtonText: "Schlie\xDFen"
   startArrivalAlwaysExpand: 0
-  vrRoomTitle: The Laboratory
+  vrRoomTitle: Das Chemielabor
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  entryLabel: Reached chemistry lab
+  entryLabel: Chemielabor
   entryScreenshotDisplayed: {fileID: 2800000, guid: 2648a0f314811a949ba9cf297b5f9bdb, type: 3}
-  entryDescription: Would you like to enter a VR-version of the Chemistry Lab to
-    count the number of available work spaces for Peter?
-  entryButtonText: Switch to VR
+  entryDescription: "M\xF6chtest du dir eine VR-Preview des Chemielabors ansehen,
+    um f\xFCr Peter die Menge an verf\xFCgbaren Arbeitspl\xE4tzen zu z\xE4hlen?"
+  entryButtonText: Wechsel zu VR
   entryAlwaysExpand: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: 
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
-  entryArrivalDescription: Welcome to the chemistry lab. Teleport using the controller
-    and count the amount of available work places!
-  entryArrivalButtonText: Close
+  entryArrivalDescription: "Willkommen im Chemielabor. Teleportiere dich mit dem
+    Controller und z\xE4hle die Arbeitspl\xE4tze."
+  entryArrivalButtonText: "Schlie\xDFen"
   entryArrivalAlwaysExpand: 0
   entryArrivalVideoClip: {fileID: 32900000, guid: c8389a95fa769df4d914bc76b05c5779, type: 3}
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  exitLabel: Switch to AR
+  exitLabel: Wechsel zu AR
   exitScreenshotDisplayed: {fileID: 0}
-  exitDescription: Would you like to return to your AR-navigation to the lecture?
-  exitButtonText: Switch to AR
+  exitDescription: "M\xF6chtest du zur AR-Navigation zur Vorlesung zur\xFCckkehren?"
+  exitButtonText: Wechsel zu AR
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitCueDelay: 1
@@ -1289,8 +1289,8 @@ MonoBehaviour:
   exitArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitArrivalLabel: 
   exitArrivalScreenshotDisplayed: {fileID: 0}
-  exitArrivalDescription: Follow the arrows to the lecture hall
-  exitArrivalButtonText: Close
+  exitArrivalDescription: Folge den Pfeile zum Vorlesungsraum
+  exitArrivalButtonText: "Schlie\xDFen"
   exitArrivalAlwaysExpand: 0
   alternateRouteAnchorName: alternateRouteAnchor
   alternateRoutePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
@@ -1326,14 +1326,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaveHMDAnchorName: LeaveHMDAnchor
   leaveHMDPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  leaveHMDLabel: Leave AR
+  leaveHMDLabel: Verlasse AR
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 2f013a337440ec842ad0c230bab24a2c, type: 3}
-  leaveHMDDescription: Goal reached. Take off your headset and look at your phone.
-  leaveHMDButtonText: Leave AR
+  leaveHMDDescription: Ziel erreicht. Nimm die VR-Brille ab und schau aufs Handy.
+  leaveHMDButtonText: Verlasse AR
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: eb69a6afbeea2f64a9a844dd30d85f57, type: 3}
   targetName: G64Target
-  locationName: Lecture Hall
+  locationName: Vorlesungsraum
   arrivalDistance: 5
   gazeThreshold: 0.7
   despawnAfter: 3.5
@@ -1347,7 +1347,7 @@ MonoBehaviour:
   turnMaxAngle: 12.5
   turnRotationSpeed: 2
   turnTriggerDistance: 6
-  message: Attend the lecture!
+  message: "Vorlesung anh\xF6ren!"
 --- !u!1 &3468695192290503011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,11 +1482,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iMessageAnchorName: iMessageAnchor
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  iMessageLabel: You have received a message from Peter!
-  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 1331fc9fb5b921243b0c6c23e4f02ebc, type: 3}
-  iMessageDescription: The Lab is in 15m on the right. Would you like me to add it
-    to the navigation?
-  iMessageButtonText: Add as next goal
+  iMessageLabel: Du hast eine Nachricht von Peter erhalten
+  iMessageScreenshotDisplayed: {fileID: 2800000, guid: e2af2ae3bbe525440bd782d74f4bd604, type: 3}
+  iMessageDescription: "Das Labor ist in 15m rechts. Soll ich es als Zwischenziel
+    der Navigation hinzuf\xFCgen?"
+  iMessageButtonText: "Hinzuf\xFCgen"
   iMessageAnchor: {fileID: 2534005402456416928}
   notificationSoundPlayer: {fileID: 6803258545756935040}
   readNotificationPlayer: {fileID: 4967578937458614097}

@@ -2266,10 +2266,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iMessageAnchorName: iMessageAnchor
   iMessagePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  iMessageLabel: You have received a message from Peter!
-  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 78f9724f03980c344a0accc2632f258e, type: 3}
-  iMessageDescription: Would you like me to show you where the posters are?
-  iMessageButtonText: Show me
+  iMessageLabel: Du hast eine Nachricht von Peter erhalten.
+  iMessageScreenshotDisplayed: {fileID: 2800000, guid: 7b0c07643e86fa54281f13386e55ad93, type: 3}
+  iMessageDescription: "Die Plakate sind in 5m links. Soll ich sie der Navigation
+    als Zwischenziel hinzuf\xFCgen?"
+  iMessageButtonText: "Hinzuf\xFCgen"
   iMessageAnchor: {fileID: 6005192364133629521}
   notificationSoundPlayer: {fileID: 8292972302890120562}
   readNotificationPlayer: {fileID: 2452056357855687167}
@@ -2277,10 +2278,10 @@ MonoBehaviour:
   readNotificationDelay: 15
   visualVoiceAnchorName: visualVoiceAnchor
   visualVoicePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
-  visualVoiceLabel: 'The Poster is in 5m on the left. '
-  visualVoiceDescription: The Poster is in 5m on the left. Would you like me to add
-    it to the navigation?
-  visualVoiceButtonText: Add as next goal
+  visualVoiceLabel: Das Poster ist in 5m links.
+  visualVoiceDescription: "Das Poster ist in 5m links. Soll ich es als Zwischenziel
+    hinzuf\xFCgen?"
+  visualVoiceButtonText: "Hinzuf\xFCgen"
   visualVoiceAnchor: {fileID: 3533729435843602263}
   pathGenerator: {fileID: 593722303556831063}
   entryAnchor: {fileID: 4394912394980126459}
@@ -3722,33 +3723,34 @@ MonoBehaviour:
   startArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   startArrivalLabel: 
   startArrivalScreenshotDisplayed: {fileID: 2800000, guid: 2bc04f2592dd931408b32e4a500abdae, type: 3}
-  startArrivalDescription: Follow the arrows through the building to the cafeteria.
-  startArrivalButtonText: Close
+  startArrivalDescription: "Folge den Pfeilen durch das Geb\xE4ude zur Cafeteria."
+  startArrivalButtonText: "Schlie\xDFen"
   startArrivalAlwaysExpand: 1
   vrRoomTitle: 'Open Lab: BRiDGE'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
   entryLabel: Open Lab
   entryScreenshotDisplayed: {fileID: 2800000, guid: 28dbfffbf5dce51408ebbe435af27513, type: 3}
-  entryDescription: Peter asked you to check out the Open Lab Posters. Do you want
-    to look at a VR-Preview, to give him a better assessment?
-  entryButtonText: Switch to VR
+  entryDescription: "Peter hat dich gebeten, dir die Open Lab Poster anzuschauen.
+    M\xF6chtest du dir eine VR-Preview anschauen, um ihm eine bessere Einsch\xE4tzung
+    zu geben?"
+  entryButtonText: Wechsel zu VR
   entryAlwaysExpand: 0
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: VR - Open Lab
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
-  entryArrivalDescription: Welcome to the Open Lab. Teleport using the controller
-    to look around.
-  entryArrivalButtonText: Close
+  entryArrivalDescription: Willkommen im Open Lab. Teleportiere dich mit dem Controller,
+    um dich umzusehen.
+  entryArrivalButtonText: "Schlie\xDFen"
   entryArrivalAlwaysExpand: 1
   entryArrivalVideoClip: {fileID: 32900000, guid: c8389a95fa769df4d914bc76b05c5779, type: 3}
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitLabel: AR
   exitScreenshotDisplayed: {fileID: 0}
-  exitDescription: Would you like to return to your AR-navigation to the cafeteria?
-  exitButtonText: Switch to AR
+  exitDescription: "W\xFCrdest du gerne zur AR-Navigation zur Cafeteria zur\xFCckkehren?"
+  exitButtonText: Wechsel zu AR
   exitAlwaysExpand: 1
   leadsToAR: 1
   exitCueDelay: 1
@@ -3756,8 +3758,8 @@ MonoBehaviour:
   exitArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitArrivalLabel: AR
   exitArrivalScreenshotDisplayed: {fileID: 0}
-  exitArrivalDescription: Follow the arrows to the cafeteria
-  exitArrivalButtonText: Close
+  exitArrivalDescription: Folge den Pfeilen zur Cafeteria
+  exitArrivalButtonText: "Schlie\xDFen"
   exitArrivalAlwaysExpand: 1
   alternateRouteAnchorName: alternateRouteAnchor
   alternateRoutePrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
@@ -3796,12 +3798,12 @@ MonoBehaviour:
   leaveHMDPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   leaveHMDLabel: Leave AR
   leaveHMDScreenshotDisplayed: {fileID: 2800000, guid: 0aab4fdb54e046d4e8d2ea3b6ea0ce05, type: 3}
-  leaveHMDDescription: Goal reached. Take off your headset and proceed to the cafeteria.
-  leaveHMDButtonText: Leave AR
+  leaveHMDDescription: Ziel erreicht. Nimm die VR-Brille ab und gehe weiter zur Cafeteria.
+  leaveHMDButtonText: Verlasse AR
   leaveHMDAlwaysExpand: 1
   leaveHMDvideoClip: {fileID: 32900000, guid: eb69a6afbeea2f64a9a844dd30d85f57, type: 3}
   targetName: BibTarget
-  locationName: Destination
+  locationName: Bibliotheksausgang
   arrivalDistance: 5
   gazeThreshold: 0.7
   despawnAfter: 3.5
@@ -3815,7 +3817,7 @@ MonoBehaviour:
   turnMaxAngle: 12.5
   turnRotationSpeed: 2
   turnTriggerDistance: 6
-  message: Check your phone!
+  message: Gehe zur Cafeteria!
 --- !u!1 &7463347187346498711
 GameObject:
   m_ObjectHideFlags: 0
