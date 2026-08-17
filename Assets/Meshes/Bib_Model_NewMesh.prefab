@@ -1471,7 +1471,7 @@ Transform:
   m_GameObject: {fileID: 3641902640010914150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 47.749, y: 1.5, z: -51.572}
+  m_LocalPosition: {x: 47.429, y: 1.5, z: -52.698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1846,7 +1846,7 @@ Transform:
   m_GameObject: {fileID: 4591330178760192977}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.851, y: 2.5, z: -52.698}
+  m_LocalPosition: {x: 47.429, y: 2.5, z: -52.698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3728,13 +3728,12 @@ MonoBehaviour:
   vrRoomTitle: 'Open Lab: BRiDGE'
   entryAnchorName: entryAnchor
   entryPrimaryColor: {r: 0.3, g: 0.4, b: 0.8, a: 1}
-  entryLabel: Reached Open Lab
+  entryLabel: Open Lab
   entryScreenshotDisplayed: {fileID: 2800000, guid: 28dbfffbf5dce51408ebbe435af27513, type: 3}
   entryDescription: Peter asked you to check out the Open Lab Posters. Do you want
     to look at a VR-Preview, to give him a better assessment?
   entryButtonText: Switch to VR
   entryAlwaysExpand: 0
-  entryVideoClip: {fileID: 32900000, guid: c8389a95fa769df4d914bc76b05c5779, type: 3}
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: VR - Open Lab
@@ -3743,6 +3742,7 @@ MonoBehaviour:
     to look around.
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 1
+  entryArrivalVideoClip: {fileID: 32900000, guid: c8389a95fa769df4d914bc76b05c5779, type: 3}
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitLabel: AR

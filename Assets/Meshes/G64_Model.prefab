@@ -1267,7 +1267,6 @@ MonoBehaviour:
     count the number of available work spaces for Peter?
   entryButtonText: Switch to VR
   entryAlwaysExpand: 0
-  entryVideoClip: {fileID: 32900000, guid: c8389a95fa769df4d914bc76b05c5779, type: 3}
   entryArrivalAnchorName: entryArrivalAnchor
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: 
@@ -1276,6 +1275,7 @@ MonoBehaviour:
     and count the amount of available work places!
   entryArrivalButtonText: Close
   entryArrivalAlwaysExpand: 0
+  entryArrivalVideoClip: {fileID: 32900000, guid: c8389a95fa769df4d914bc76b05c5779, type: 3}
   exitAnchorName: exitAnchor
   exitPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   exitLabel: Switch to AR
