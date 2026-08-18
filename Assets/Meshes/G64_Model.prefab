@@ -1271,8 +1271,8 @@ MonoBehaviour:
   entryArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   entryArrivalLabel: 
   entryArrivalScreenshotDisplayed: {fileID: 2800000, guid: 46fa9dec891dfe246a6d87809cc4c44f, type: 3}
-  entryArrivalDescription: "Willkommen im Chemielabor. Teleportiere dich mit dem
-    Controller und z\xE4hle die Arbeitspl\xE4tze."
+  entryArrivalDescription: "Teleportiere dich mit dem Controller, um die Arbeitspl\xE4tze
+    zu z\xE4hlen."
   entryArrivalButtonText: "Schlie\xDFen"
   entryArrivalAlwaysExpand: 0
   entryArrivalVideoClip: {fileID: 32900000, guid: c8389a95fa769df4d914bc76b05c5779, type: 3}

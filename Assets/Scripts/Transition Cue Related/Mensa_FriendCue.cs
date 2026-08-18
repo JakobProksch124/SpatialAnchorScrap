@@ -296,10 +296,10 @@ public class Mensa_FriendCue : MonoBehaviour
 
        
             // Details
-            UnityEngine.Debug.Log("setting cue details");
+            UnityEngine.Debug.Log("setting cue details");/*
             entryCueConfig.isMultiStep = true;
             entryCueConfig.currentStep = 1;
-            entryCueConfig.totalSteps = 2;
+            entryCueConfig.totalSteps = 2;*/
             entryCueConfig.primaryColor = entryPrimaryColor;
             entryCueConfig.expandedDescription = entryDescription;
             entryCueConfig.screenshotTexture = entryScreenshotDisplayed;

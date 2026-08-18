@@ -5191,7 +5191,7 @@ MonoBehaviour:
   startArrivalPrimaryColor: {r: 0.29803923, g: 0.4, b: 0.8, a: 1}
   startArrivalLabel: Start
   startArrivalScreenshotDisplayed: {fileID: 0}
-  startArrivalDescription: Soll ich das Video starten?
+  startArrivalDescription: Soll ich das Vorlesungsvideo starten?
   startArrivalButtonText: Starten
   startArrivalAlwaysExpand: 1
   videoStartDelay: 3
